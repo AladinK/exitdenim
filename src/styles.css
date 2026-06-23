@@ -5,10 +5,10 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-sm: 0px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --radius-xl: 4px;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -28,63 +28,66 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-denim: var(--denim);
-  --color-steel: var(--steel);
   --color-ink: var(--ink);
-  --color-bone: var(--bone);
-  --color-olive: var(--olive);
-  --font-display: "Inter Tight", "Inter", system-ui, sans-serif;
+  --color-denim: var(--denim);
+  --color-ivory: var(--ivory);
+  --color-warmgrey: var(--warmgrey);
+  --color-steel: var(--steel);
+  --color-champagne: var(--champagne);
+  --font-display: "Cormorant Garamond", "Times New Roman", serif;
   --font-sans: "Inter", system-ui, sans-serif;
 }
 
 :root {
-  --radius: 0.25rem;
-  /* Brand palette: ink navy/black, bone off-white, steel grey, denim blue, olive accent from logo */
-  --ink: oklch(0.18 0.02 250);
-  --bone: oklch(0.97 0.005 90);
-  --steel: oklch(0.62 0.012 250);
-  --denim: oklch(0.42 0.07 245);
-  --olive: oklch(0.62 0.13 130);
+  --radius: 0px;
 
-  --background: var(--bone);
+  /* EXIT Denim premium palette — Milan/Paris editorial */
+  --ink: #050505;          /* deep black */
+  --denim: #0B1623;        /* denim navy */
+  --ivory: #F4F1EA;        /* off-white / ivory */
+  --warmgrey: #B8B2A8;     /* warm grey */
+  --steel: #3B3F45;        /* steel grey */
+  --champagne: #C8A96A;    /* champagne accent */
+
+  --background: var(--ivory);
   --foreground: var(--ink);
-  --card: oklch(1 0 0);
+  --card: #FFFFFF;
   --card-foreground: var(--ink);
-  --popover: oklch(1 0 0);
+  --popover: #FFFFFF;
   --popover-foreground: var(--ink);
   --primary: var(--ink);
-  --primary-foreground: var(--bone);
-  --secondary: oklch(0.93 0.008 250);
+  --primary-foreground: var(--ivory);
+  --secondary: #EAE6DC;
   --secondary-foreground: var(--ink);
-  --muted: oklch(0.93 0.008 250);
-  --muted-foreground: oklch(0.45 0.015 250);
-  --accent: var(--olive);
-  --accent-foreground: oklch(0.12 0.01 250);
-  --destructive: oklch(0.55 0.22 27);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.88 0.008 250);
-  --input: oklch(0.88 0.008 250);
+  --muted: #EFEBE2;
+  --muted-foreground: #6B6760;
+  --accent: var(--champagne);
+  --accent-foreground: var(--ink);
+  --destructive: #9B2B1E;
+  --destructive-foreground: #FFFFFF;
+  --border: #DDD7C9;
+  --input: #DDD7C9;
   --ring: var(--ink);
 }
 
 .dark {
   --background: var(--ink);
-  --foreground: var(--bone);
-  --card: oklch(0.22 0.02 250);
-  --card-foreground: var(--bone);
-  --popover: oklch(0.22 0.02 250);
-  --popover-foreground: var(--bone);
-  --primary: var(--bone);
+  --foreground: var(--ivory);
+  --card: #0E0E0E;
+  --card-foreground: var(--ivory);
+  --popover: #0E0E0E;
+  --popover-foreground: var(--ivory);
+  --primary: var(--ivory);
   --primary-foreground: var(--ink);
-  --secondary: oklch(0.28 0.02 250);
-  --secondary-foreground: var(--bone);
-  --muted: oklch(0.28 0.02 250);
-  --muted-foreground: oklch(0.7 0.015 250);
-  --accent: var(--olive);
-  --accent-foreground: oklch(0.12 0.01 250);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: var(--bone);
+  --secondary: #141414;
+  --secondary-foreground: var(--ivory);
+  --muted: #141414;
+  --muted-foreground: #8B867D;
+  --accent: var(--champagne);
+  --accent-foreground: var(--ink);
+  --border: rgba(244, 241, 234, 0.12);
+  --input: rgba(244, 241, 234, 0.15);
+  --ring: var(--ivory);
 }
 
 @layer base {
@@ -100,75 +103,100 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "cv11";
+    font-weight: 400;
+    letter-spacing: 0.005em;
   }
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
-    font-weight: 600;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
   }
-  h1 { font-weight: 700; letter-spacing: -0.035em; }
+  h1 { font-weight: 500; letter-spacing: -0.015em; }
+  ::selection { background: var(--color-foreground); color: var(--color-background); }
 }
 
 @utility container-x {
   width: 100%;
   margin-inline: auto;
   padding-inline: 1.25rem;
-  max-width: 1280px;
-  @media (min-width: 768px) { padding-inline: 2rem; }
+  max-width: 1360px;
+  @media (min-width: 768px) { padding-inline: 2.5rem; }
+  @media (min-width: 1280px) { padding-inline: 3.5rem; }
 }
 
 @utility eyebrow {
   text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-size: 0.72rem;
-  font-weight: 600;
+  letter-spacing: 0.28em;
+  font-size: 0.68rem;
+  font-weight: 500;
   color: var(--color-muted-foreground);
+  font-family: var(--font-sans);
 }
 
 @utility hairline {
   border-top: 1px solid var(--color-border);
 }
 
+@utility rule-x {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 1px;
+    background: var(--color-border);
+  }
+}
+
 @utility btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  font-weight: 600;
-  font-size: 0.875rem;
-  padding: 0.85rem 1.25rem;
-  border-radius: var(--radius-sm);
-  transition: opacity 120ms ease;
+  gap: 0.65rem;
+  font-weight: 500;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 1rem 1.6rem;
+  border-radius: 0;
+  transition: background 200ms ease, color 200ms ease;
   white-space: nowrap;
   background: var(--color-foreground);
   color: var(--color-background);
-  &:hover { opacity: 0.88; }
+  border: 1px solid var(--color-foreground);
+  &:hover { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-foreground); }
 }
 @utility btn-accent {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  font-weight: 600;
-  font-size: 0.875rem;
-  padding: 0.85rem 1.25rem;
-  border-radius: var(--radius-sm);
-  transition: filter 120ms ease;
+  gap: 0.65rem;
+  font-weight: 500;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 1rem 1.6rem;
+  border-radius: 0;
+  transition: filter 200ms ease;
   white-space: nowrap;
   background: var(--color-accent);
-  color: var(--color-accent-foreground);
-  &:hover { filter: brightness(1.06); }
+  color: var(--color-foreground);
+  border: 1px solid var(--color-accent);
+  &:hover { filter: brightness(1.04); }
 }
 @utility btn-outline {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  font-weight: 600;
-  font-size: 0.875rem;
-  padding: 0.85rem 1.25rem;
-  border-radius: var(--radius-sm);
-  transition: background-color 120ms ease, color 120ms ease;
+  gap: 0.65rem;
+  font-weight: 500;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 1rem 1.6rem;
+  border-radius: 0;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
   white-space: nowrap;
   background: transparent;
   color: var(--color-foreground);
@@ -180,6 +208,36 @@
 }
 
 @utility section-pad {
-  padding-block: 4.5rem;
-  @media (min-width: 768px) { padding-block: 6.5rem; }
+  padding-block: 5rem;
+  @media (min-width: 768px) { padding-block: 8rem; }
+}
+
+@utility link-underline {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: -3px;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform 280ms cubic-bezier(.6,.05,.05,1);
+  }
+  &:hover::after, &[data-status="active"]::after {
+    transform-origin: left;
+    transform: scaleX(1);
+  }
+}
+
+@utility serif {
+  font-family: var(--font-display);
+}
+
+@utility editorial-h {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.018em;
+  line-height: 0.98;
 }
