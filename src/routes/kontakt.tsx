@@ -1,11 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
+import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { Layout } from "@/components/Layout";
 
 export const Route = createFileRoute("/kontakt")({
   head: () => ({
     meta: [
-      { title: "Kontakt — EXIT Denim Wholesale" },
+      { title: "Contact — EXIT Denim Wholesale Desk" },
       { name: "description", content: "Kontakt EXIT Denim wholesale tima. Novi Pazar, Srbija. Email, WhatsApp, Viber." },
     ],
   }),
@@ -16,47 +16,58 @@ function Kontakt() {
   return (
     <Layout>
       <section className="bg-foreground text-background">
-        <div className="container-x py-16 md:py-24">
-          <div className="eyebrow text-accent">Kontakt</div>
-          <h1 className="mt-3 text-5xl md:text-7xl">Pričajmo o saradnji</h1>
-          <p className="mt-5 text-background/75 max-w-xl">
-            Najbrži način: pošalji <Link to="/postani-partner" className="text-accent underline">B2B prijavu</Link>.
-            Za sve ostalo — javi se direktno.
+        <div className="container-x py-20 md:py-32">
+          <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Wholesale Desk</div>
+          <h1 className="mt-7 editorial-h text-[clamp(2.75rem,8vw,7rem)] text-background">
+            Let's talk <span className="italic">partnership</span>.
+          </h1>
+          <p className="mt-7 text-background/75 max-w-xl leading-relaxed">
+            Najbrži put: <Link to="/postani-partner" className="text-accent border-b border-accent/60 hover:border-accent transition-colors">B2B prijava</Link>.
+            Za sve ostalo — javi se direktno wholesale timu.
           </p>
         </div>
       </section>
 
       <section className="section-pad">
-        <div className="container-x grid md:grid-cols-2 gap-10">
-          <div className="space-y-5">
+        <div className="container-x grid lg:grid-cols-12 gap-12">
+          <div className="lg:col-span-7 space-y-px">
             {[
-              { icon: Mail, label: "Email", value: "wholesale@exitdenim.rs" },
-              { icon: MessageCircle, label: "WhatsApp / Viber", value: "+381 6X XXX XXXX" },
-              { icon: Phone, label: "Telefon", value: "+381 6X XXX XXXX" },
-              { icon: MapPin, label: "Adresa", value: "Novi Pazar, Srbija" },
+              { icon: Mail, label: "Wholesale Email", value: "wholesale@exitdenim.rs", href: "mailto:wholesale@exitdenim.rs" },
+              { icon: MessageCircle, label: "WhatsApp · Viber", value: "+381 6X XXX XXXX", href: "https://wa.me/3816xxxxxxxx" },
+              { icon: Phone, label: "Office", value: "+381 6X XXX XXXX", href: "tel:+3816xxxxxxxx" },
+              { icon: MapPin, label: "Showroom", value: "Novi Pazar, Srbija", href: "#" },
             ].map((c) => (
-              <div key={c.label} className="flex gap-4 border border-border rounded-sm p-5 bg-card">
-                <c.icon className="w-5 h-5 mt-0.5 text-accent shrink-0" />
-                <div>
-                  <div className="text-xs uppercase tracking-wider text-muted-foreground">{c.label}</div>
-                  <div className="font-semibold mt-1">{c.value}</div>
+              <a key={c.label} href={c.href} className="flex items-center gap-6 border border-border bg-card p-7 hover:bg-secondary transition-colors group">
+                <c.icon className="w-5 h-5 text-accent shrink-0" strokeWidth={1.25} />
+                <div className="flex-1">
+                  <div className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">{c.label}</div>
+                  <div className="serif text-2xl mt-1 group-hover:text-accent transition-colors">{c.value}</div>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
-          <div className="border border-foreground rounded-sm p-8 flex flex-col justify-between">
-            <div>
-              <div className="eyebrow">Radno vrijeme</div>
-              <div className="mt-3 space-y-2 text-sm">
-                <div className="flex justify-between"><span>Pon — Pet</span><span className="font-semibold">09:00 — 18:00</span></div>
-                <div className="flex justify-between"><span>Subota</span><span className="font-semibold">10:00 — 14:00</span></div>
-                <div className="flex justify-between"><span>Nedjelja</span><span className="text-muted-foreground">Zatvoreno</span></div>
+
+          <aside className="lg:col-span-5">
+            <div className="border border-foreground p-10">
+              <div className="eyebrow">Office hours</div>
+              <dl className="mt-6 space-y-4 text-sm">
+                <div className="flex justify-between border-b border-border pb-3">
+                  <dt className="text-muted-foreground">Pon — Pet</dt><dd className="serif text-lg">09:00 — 18:00</dd>
+                </div>
+                <div className="flex justify-between border-b border-border pb-3">
+                  <dt className="text-muted-foreground">Subota</dt><dd className="serif text-lg">10:00 — 14:00</dd>
+                </div>
+                <div className="flex justify-between">
+                  <dt className="text-muted-foreground">Nedjelja</dt><dd className="serif text-lg text-muted-foreground">Zatvoreno</dd>
+                </div>
+              </dl>
+              <div className="mt-10 pt-6 border-t border-border">
+                <div className="eyebrow">Languages</div>
+                <div className="mt-3 text-sm text-foreground/80">BHS · Srpski · English</div>
               </div>
+              <Link to="/postani-partner" className="btn-primary w-full mt-10">Apply for Partnership</Link>
             </div>
-            <div className="mt-8">
-              <Link to="/postani-partner" className="btn-primary w-full">Zatraži B2B pristup</Link>
-            </div>
-          </div>
+          </aside>
         </div>
       </section>
     </Layout>

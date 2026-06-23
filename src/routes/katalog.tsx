@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Lock, Download } from "lucide-react";
+import { Lock } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Layout } from "@/components/Layout";
@@ -11,7 +11,7 @@ import { useAuth } from "@/hooks/useAuth";
 export const Route = createFileRoute("/katalog")({
   head: () => ({
     meta: [
-      { title: "B2B Katalog — EXIT Denim Wholesale" },
+      { title: "B2B Catalogue — EXIT Denim Wholesale" },
       { name: "description", content: "Kompletan veleprodajni katalog EXIT Denim — jeans, chino, cargo. Cijene dostupne odobrenim B2B partnerima." },
     ],
   }),
@@ -41,26 +41,34 @@ function Katalog() {
 
   return (
     <Layout>
-      <section className="border-b border-border bg-secondary">
-        <div className="container-x py-14 md:py-20">
-          <div className="eyebrow">B2B Wholesale Katalog</div>
-          <div className="mt-3 flex items-end justify-between gap-6 flex-wrap">
-            <h1 className="text-4xl md:text-6xl max-w-2xl">
-              Kompletna kolekcija {approved && <span className="text-accent">— pristup aktivan</span>}
-            </h1>
+      <section className="border-b border-border">
+        <div className="container-x py-20 md:py-28">
+          <div className="eyebrow">B2B Wholesale Catalogue · SS / FW</div>
+          <div className="mt-7 grid lg:grid-cols-12 gap-8 items-end">
+            <div className="lg:col-span-8">
+              <h1 className="editorial-h text-[clamp(2.5rem,7vw,6rem)]">
+                The complete <span className="italic">catalogue</span>
+                {approved && <span className="block text-accent mt-2 text-3xl md:text-4xl serif italic">— access granted</span>}
+              </h1>
+            </div>
+            <div className="lg:col-span-4 lg:text-right">
+              <p className="text-sm text-muted-foreground max-w-sm lg:ml-auto leading-relaxed">
+                Jeans, chino i cargo linije. {products.length} aktivnih artikala · veličine 31–40 · MOQ od 10 komada.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {!approved && (
         <section className="bg-foreground text-background">
-          <div className="container-x py-6 flex items-center justify-between flex-wrap gap-4">
-            <div className="flex items-center gap-3 text-sm">
-              <Lock className="w-4 h-4 text-accent" />
-              Veleprodajne cijene i stock vidljivi samo odobrenim B2B partnerima.
+          <div className="container-x py-5 flex items-center justify-between flex-wrap gap-4">
+            <div className="flex items-center gap-3 text-xs uppercase tracking-[0.22em]">
+              <Lock className="w-3.5 h-3.5 text-accent" />
+              Wholesale prices and stock visible to approved B2B partners only
             </div>
-            <Link to="/auth" className="btn-accent text-sm">
-              {user ? "Status naloga" : "Zatraži B2B pristup"}
+            <Link to="/auth" className="btn-accent text-[10px] px-4 py-2.5">
+              {user ? "Account Status" : "Request B2B Access"}
             </Link>
           </div>
         </section>
@@ -68,22 +76,30 @@ function Katalog() {
 
       <section className="section-pad">
         <div className="container-x">
-          <div className="flex flex-wrap gap-2 mb-10">
-            <Chip active={cat === "all"} onClick={() => setCat("all")}>Sve</Chip>
+          <div className="border-b border-border pb-6 mb-12 flex flex-wrap gap-x-1 gap-y-3 items-center">
+            <span className="eyebrow mr-4">Category</span>
+            <Chip active={cat === "all"} onClick={() => setCat("all")}>All</Chip>
             <Chip active={cat === "jeans"} onClick={() => setCat("jeans")}>Jeans</Chip>
             <Chip active={cat === "chino"} onClick={() => setCat("chino")}>Chino</Chip>
             <Chip active={cat === "cargo"} onClick={() => setCat("cargo")}>Cargo</Chip>
-            <span className="w-px bg-border mx-2" />
-            <Chip active={fit === "all"} onClick={() => setFit("all")}>Svi fitovi</Chip>
+            <span className="w-px bg-border h-6 mx-4" />
+            <span className="eyebrow mr-4">Fit</span>
+            <Chip active={fit === "all"} onClick={() => setFit("all")}>All Fits</Chip>
             <Chip active={fit === "Slim"} onClick={() => setFit("Slim")}>Slim</Chip>
             <Chip active={fit === "Regular Slim"} onClick={() => setFit("Regular Slim")}>Regular Slim</Chip>
             <Chip active={fit === "Relaxed"} onClick={() => setFit("Relaxed")}>Relaxed</Chip>
             <Chip active={fit === "Cargo"} onClick={() => setFit("Cargo")}>Cargo</Chip>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-10">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-14">
             {filtered.map((p) => <ProductCard key={p.id} product={p} showPrice={approved} />)}
           </div>
+
+          {filtered.length === 0 && (
+            <div className="text-center py-24 text-muted-foreground">
+              Nema artikala za odabrane filtere.
+            </div>
+          )}
         </div>
       </section>
     </Layout>
@@ -94,9 +110,15 @@ function Chip({ active, children, onClick }: { active?: boolean; children: React
   return (
     <button
       onClick={onClick}
-      className={`px-4 py-2 text-sm rounded-sm border transition-colors ${
-        active ? "bg-foreground text-background border-foreground" : "border-border text-foreground/70 hover:border-foreground"
+      className={`px-4 py-2 text-[11px] uppercase tracking-[0.22em] transition-all ${
+        active
+          ? "text-foreground"
+          : "text-muted-foreground hover:text-foreground"
       }`}
-    >{children}</button>
+    >
+      <span className={active ? "border-b border-foreground pb-1" : ""}>
+        {children}
+      </span>
+    </button>
   );
 }
