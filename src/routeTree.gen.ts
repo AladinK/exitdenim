@@ -25,6 +25,7 @@ import { Route as ProizvodSlugRouteImport } from './routes/proizvod.$slug'
 import { Route as AuthenticatedNarudzbaRouteImport } from './routes/_authenticated/narudzba'
 import { Route as AuthenticatedCekanjeRouteImport } from './routes/_authenticated/cekanje'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as ApiLineSheetSkuDotpdfRouteImport } from './routes/api/line-sheet.$sku[.]pdf'
 
 const ProizvodnjaRoute = ProizvodnjaRouteImport.update({
   id: '/proizvodnja',
@@ -105,6 +106,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiLineSheetSkuDotpdfRoute = ApiLineSheetSkuDotpdfRouteImport.update({
+  id: '/api/line-sheet/$sku.pdf',
+  path: '/api/line-sheet/$sku.pdf',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -122,6 +128,7 @@ export interface FileRoutesByFullPath {
   '/cekanje': typeof AuthenticatedCekanjeRoute
   '/narudzba': typeof AuthenticatedNarudzbaRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
+  '/api/line-sheet/$sku.pdf': typeof ApiLineSheetSkuDotpdfRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -139,6 +146,7 @@ export interface FileRoutesByTo {
   '/cekanje': typeof AuthenticatedCekanjeRoute
   '/narudzba': typeof AuthenticatedNarudzbaRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
+  '/api/line-sheet/$sku.pdf': typeof ApiLineSheetSkuDotpdfRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -158,6 +166,7 @@ export interface FileRoutesById {
   '/_authenticated/cekanje': typeof AuthenticatedCekanjeRoute
   '/_authenticated/narudzba': typeof AuthenticatedNarudzbaRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
+  '/api/line-sheet/$sku.pdf': typeof ApiLineSheetSkuDotpdfRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -177,6 +186,7 @@ export interface FileRouteTypes {
     | '/cekanje'
     | '/narudzba'
     | '/proizvod/$slug'
+    | '/api/line-sheet/$sku.pdf'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -194,6 +204,7 @@ export interface FileRouteTypes {
     | '/cekanje'
     | '/narudzba'
     | '/proizvod/$slug'
+    | '/api/line-sheet/$sku.pdf'
   id:
     | '__root__'
     | '/'
@@ -212,6 +223,7 @@ export interface FileRouteTypes {
     | '/_authenticated/cekanje'
     | '/_authenticated/narudzba'
     | '/proizvod/$slug'
+    | '/api/line-sheet/$sku.pdf'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -228,6 +240,7 @@ export interface RootRouteChildren {
   PostaniPartnerRoute: typeof PostaniPartnerRoute
   ProizvodnjaRoute: typeof ProizvodnjaRoute
   ProizvodSlugRoute: typeof ProizvodSlugRoute
+  ApiLineSheetSkuDotpdfRoute: typeof ApiLineSheetSkuDotpdfRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -344,6 +357,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/line-sheet/$sku.pdf': {
+      id: '/api/line-sheet/$sku.pdf'
+      path: '/api/line-sheet/$sku.pdf'
+      fullPath: '/api/line-sheet/$sku.pdf'
+      preLoaderRoute: typeof ApiLineSheetSkuDotpdfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -376,6 +396,7 @@ const rootRouteChildren: RootRouteChildren = {
   PostaniPartnerRoute: PostaniPartnerRoute,
   ProizvodnjaRoute: ProizvodnjaRoute,
   ProizvodSlugRoute: ProizvodSlugRoute,
+  ApiLineSheetSkuDotpdfRoute: ApiLineSheetSkuDotpdfRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

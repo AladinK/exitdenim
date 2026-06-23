@@ -3,7 +3,7 @@ import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 
-export const Route = createFileRoute("/api/line-sheet/$sku[.]pdf")({
+export const Route = createFileRoute("/api/line-sheet/$sku.pdf")({
   server: {
     handlers: {
       GET: async ({ params }) => {
