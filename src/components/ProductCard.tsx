@@ -1,41 +1,25 @@
 import { Link } from "@tanstack/react-router";
 import { Lock } from "lucide-react";
-import type { Product } from "@/lib/products";
-import { useB2BAccess } from "@/lib/b2b";
+import type { ProductWithStock } from "@/lib/products.functions";
 
-const swatch = (color: string) => {
-  const map: Record<string, string> = {
-    Indigo: "#1f2a44",
-    Black: "#111111",
-    "Stone Blue": "#7891ad",
-    Beige: "#c8b48f",
-    Navy: "#1b2236",
-    Olive: "#6b7a3a",
-    Sand: "#c2a878",
-  };
-  return map[color] || "#888";
-};
-
-export function ProductCard({ product }: { product: Product }) {
-  const { approved } = useB2BAccess();
+export function ProductCard({ product, showPrice }: { product: ProductWithStock; showPrice: boolean }) {
   return (
     <Link
       to="/proizvod/$slug"
       params={{ slug: product.slug }}
       className="group block"
     >
-      <div
-        className="aspect-[3/4] w-full rounded-sm overflow-hidden relative"
-        style={{
-          background: `linear-gradient(160deg, ${swatch(product.color)} 0%, oklch(0.2 0.02 250) 100%)`,
-        }}
-      >
-        <div className="absolute inset-0 flex items-end p-4">
-          <div className="text-background/90">
-            <div className="eyebrow text-background/70">{product.sku}</div>
-            <div className="font-display text-lg leading-tight">{product.color}</div>
-          </div>
-        </div>
+      <div className="aspect-[3/4] w-full rounded-sm overflow-hidden relative bg-secondary">
+        {product.image_url ? (
+          <img
+            src={product.image_url}
+            alt={product.name}
+            loading="lazy"
+            className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+          />
+        ) : (
+          <div className="absolute inset-0 bg-foreground/10" />
+        )}
         <div className="absolute top-3 right-3 px-2 py-1 bg-background/95 rounded-sm eyebrow text-foreground">
           {product.fit}
         </div>
@@ -50,9 +34,9 @@ export function ProductCard({ product }: { product: Product }) {
           </div>
         </div>
         <div className="text-right">
-          {approved ? (
+          {showPrice ? (
             <>
-              <div className="text-sm font-semibold">€{product.wholesale.toFixed(2)}</div>
+              <div className="text-sm font-semibold tabular-nums">€{Number(product.wholesale).toFixed(2)}</div>
               <div className="text-[10px] text-muted-foreground">veleprodaja</div>
             </>
           ) : (
