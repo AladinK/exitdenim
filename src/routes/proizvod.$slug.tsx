@@ -101,7 +101,7 @@ function ProductDetail() {
           </div>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <a href={`/api/line-sheet/${product.sku}.pdf`} target="_blank" rel="noopener" className="btn-outline">
+            <a href={`/api/line-sheet/${product.sku}`} target="_blank" rel="noopener" className="btn-outline">
               <Download className="w-4 h-4" /> Line sheet PDF
             </a>
           </div>

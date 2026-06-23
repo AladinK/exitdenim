@@ -7,7 +7,7 @@ export const Route = createFileRoute("/api/line-sheet/$sku")({
   server: {
     handlers: {
       GET: async ({ params }) => {
-        const sku = params.sku;
+        const sku = params.sku.replace(/\.pdf$/i, "");
         const supabase = createClient<Database>(
           process.env.SUPABASE_URL!,
           process.env.SUPABASE_PUBLISHABLE_KEY!,
