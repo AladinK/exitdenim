@@ -1,10 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Lock, Download } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { Layout } from "@/components/Layout";
 import { ProductCard } from "@/components/ProductCard";
-import { PRODUCTS, type Category, type Fit } from "@/lib/products";
-import { useB2BAccess } from "@/lib/b2b";
+import { listProducts, type ProductWithStock } from "@/lib/products.functions";
+import { getMyProfile } from "@/lib/orders.functions";
+import { useAuth } from "@/hooks/useAuth";
 
 export const Route = createFileRoute("/katalog")({
   head: () => ({
@@ -16,12 +18,24 @@ export const Route = createFileRoute("/katalog")({
   component: Katalog,
 });
 
-function Katalog() {
-  const { approved } = useB2BAccess();
-  const [cat, setCat] = useState<Category | "all">("all");
-  const [fit, setFit] = useState<Fit | "all">("all");
+type Cat = "all" | "jeans" | "chino" | "cargo";
+type FitFilter = "all" | "Slim" | "Regular Slim" | "Relaxed" | "Cargo";
 
-  const filtered = PRODUCTS.filter(
+function Katalog() {
+  const fetchProducts = useServerFn(listProducts);
+  const fetchProfile = useServerFn(getMyProfile);
+  const { user } = useAuth();
+  const [products, setProducts] = useState<ProductWithStock[]>([]);
+  const [approved, setApproved] = useState(false);
+  const [cat, setCat] = useState<Cat>("all");
+  const [fit, setFit] = useState<FitFilter>("all");
+
+  useEffect(() => { fetchProducts({}).then(setProducts); }, []); // eslint-disable-line
+  useEffect(() => {
+    if (user) fetchProfile({}).then((r) => setApproved(r.profile?.status === "approved"));
+  }, [user]); // eslint-disable-line
+
+  const filtered = products.filter(
     (p) => (cat === "all" || p.category === cat) && (fit === "all" || p.fit === fit),
   );
 
@@ -34,9 +48,6 @@ function Katalog() {
             <h1 className="text-4xl md:text-6xl max-w-2xl">
               Kompletna kolekcija {approved && <span className="text-accent">— pristup aktivan</span>}
             </h1>
-            <a href="#" className="btn-outline">
-              <Download className="w-4 h-4" /> Cijeli katalog PDF
-            </a>
           </div>
         </div>
       </section>
@@ -48,8 +59,8 @@ function Katalog() {
               <Lock className="w-4 h-4 text-accent" />
               Veleprodajne cijene i stock vidljivi samo odobrenim B2B partnerima.
             </div>
-            <Link to="/postani-partner" className="btn-accent text-sm">
-              Zatraži B2B pristup
+            <Link to="/auth" className="btn-accent text-sm">
+              {user ? "Status naloga" : "Zatraži B2B pristup"}
             </Link>
           </div>
         </section>
@@ -71,9 +82,7 @@ function Katalog() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-10">
-            {filtered.map((p) => (
-              <ProductCard key={p.slug} product={p} />
-            ))}
+            {filtered.map((p) => <ProductCard key={p.id} product={p} showPrice={approved} />)}
           </div>
         </div>
       </section>
@@ -86,12 +95,8 @@ function Chip({ active, children, onClick }: { active?: boolean; children: React
     <button
       onClick={onClick}
       className={`px-4 py-2 text-sm rounded-sm border transition-colors ${
-        active
-          ? "bg-foreground text-background border-foreground"
-          : "border-border text-foreground/70 hover:border-foreground"
+        active ? "bg-foreground text-background border-foreground" : "border-border text-foreground/70 hover:border-foreground"
       }`}
-    >
-      {children}
-    </button>
+    >{children}</button>
   );
 }

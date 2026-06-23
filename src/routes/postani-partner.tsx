@@ -1,8 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { Check } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
-import { useB2BAccess } from "@/lib/b2b";
+import { Check, ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/postani-partner")({
   head: () => ({
@@ -15,176 +13,62 @@ export const Route = createFileRoute("/postani-partner")({
 });
 
 function Partner() {
-  const { approved, grant } = useB2BAccess();
-  const [submitted, setSubmitted] = useState(false);
-  const [form, setForm] = useState({
-    boutique: "", country: "", city: "", instagram: "", website: "",
-    storeType: "Fizički butik", monthlyQty: "", categories: [] as string[],
-    contact: "", phone: "", email: "", message: "",
-  });
-
-  const toggleCat = (c: string) =>
-    setForm((f) => ({
-      ...f,
-      categories: f.categories.includes(c) ? f.categories.filter((x) => x !== c) : [...f.categories, c],
-    }));
-
-  const submit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    // Demo: simulate approval after 1.2s for preview purposes
-    setTimeout(() => grant(), 1200);
-  };
-
-  if (submitted) {
-    return (
-      <Layout>
-        <section className="section-pad">
-          <div className="container-x max-w-2xl text-center">
-            <div className="w-14 h-14 rounded-full bg-accent text-accent-foreground inline-flex items-center justify-center">
-              <Check className="w-7 h-7" />
-            </div>
-            <h1 className="mt-6 text-4xl md:text-5xl">Prijava je poslata</h1>
-            <p className="mt-4 text-muted-foreground">
-              Hvala. Naš tim će provjeriti profil butika i javiti se na <strong>{form.email || "tvoj email"}</strong> u roku 24h sa
-              veleprodajnim cijenama, line sheets i preporukom starter paketa.
-            </p>
-            {approved && (
-              <div className="mt-8 border border-accent rounded-sm p-5 text-sm bg-accent/10">
-                Demo: B2B pristup je automatski odobren u ovoj sesiji. Sada možeš vidjeti veleprodajne cijene i size matrix u katalogu.
-              </div>
-            )}
-          </div>
-        </section>
-      </Layout>
-    );
-  }
-
   return (
     <Layout>
       <section className="bg-foreground text-background">
-        <div className="container-x py-16 md:py-24 grid lg:grid-cols-2 gap-10">
+        <div className="container-x py-16 md:py-24">
+          <div className="eyebrow text-accent">Postani partner</div>
+          <h1 className="mt-3 text-5xl md:text-6xl max-w-3xl">Pristup B2B portalu u 24h.</h1>
+          <p className="mt-5 text-background/75 max-w-xl leading-relaxed">
+            Otvori nalog, popuni podatke o butiku — naš tim provjerava prijavu i šalje veleprodajne cijene, line sheets i preporuku starter paketa.
+          </p>
+          <div className="mt-8 flex gap-3 flex-wrap">
+            <Link to="/auth" className="btn-accent">Otvori nalog <ArrowRight className="w-4 h-4" /></Link>
+            <Link to="/katalog" className="btn-outline border-background text-background hover:bg-background hover:text-foreground">Pogledaj katalog</Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-pad">
+        <div className="container-x grid md:grid-cols-2 gap-10">
           <div>
-            <div className="eyebrow text-accent">B2B Aplikacija</div>
-            <h1 className="mt-3 text-5xl md:text-6xl">Otvori B2B nalog</h1>
-            <p className="mt-5 text-background/75 max-w-md leading-relaxed">
-              Prijava traje 2 minute. Odgovaramo unutar 24h sa veleprodajnim cijenama, line sheets i preporukom miksa za tvoj butik.
-            </p>
-            <ul className="mt-8 space-y-3 text-sm">
+            <div className="eyebrow">Šta dobijaš</div>
+            <h2 className="mt-3 text-3xl md:text-4xl">Pun B2B paket</h2>
+            <ul className="mt-6 space-y-3 text-sm">
               {[
-                "Pristup veleprodajnim cijenama i stocku",
-                "Size matrix narudžbe po artiklu",
-                "Line sheets i media kit za marketing",
-                "Personalna komunikacija sa wholesale timom",
+                "Pristup veleprodajnim cijenama i stock-u po veličinama",
+                "Size matrix narudžbe direktno iz kataloga",
+                "Line sheet i kompletan katalog u PDF-u",
+                "Media kit: foto, Instagram caption-i, story templates",
+                "Personalni wholesale tim — BHS, srpski, engleski",
+                "Repeat narudžbe na best-sellere",
               ].map((i) => (
-                <li key={i} className="flex gap-2 items-start">
-                  <Check className="w-4 h-4 mt-1 text-accent shrink-0" /> {i}
+                <li key={i} className="flex gap-3 items-start">
+                  <Check className="w-5 h-5 mt-0.5 text-accent shrink-0" /><span>{i}</span>
                 </li>
               ))}
             </ul>
           </div>
-
-          <form onSubmit={submit} className="bg-background text-foreground rounded-sm p-6 md:p-8 space-y-5">
-            <Row>
-              <Field label="Ime butika" required value={form.boutique} onChange={(v) => setForm({ ...form, boutique: v })} />
-              <Field label="Kontakt osoba" required value={form.contact} onChange={(v) => setForm({ ...form, contact: v })} />
-            </Row>
-            <Row>
-              <Field label="Država" required value={form.country} onChange={(v) => setForm({ ...form, country: v })} />
-              <Field label="Grad" required value={form.city} onChange={(v) => setForm({ ...form, city: v })} />
-            </Row>
-            <Row>
-              <Field label="Instagram profil" placeholder="@butik" value={form.instagram} onChange={(v) => setForm({ ...form, instagram: v })} />
-              <Field label="Website" placeholder="butik.com" value={form.website} onChange={(v) => setForm({ ...form, website: v })} />
-            </Row>
-            <Row>
-              <Field label="WhatsApp / Viber" required value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
-              <Field label="Email" type="email" required value={form.email} onChange={(v) => setForm({ ...form, email: v })} />
-            </Row>
-            <div>
-              <Label>Tip prodaje</Label>
-              <div className="mt-2 flex gap-2 flex-wrap">
-                {["Fizički butik", "Online shop", "Oboje"].map((t) => (
-                  <button
-                    key={t}
-                    type="button"
-                    onClick={() => setForm({ ...form, storeType: t })}
-                    className={`px-4 py-2 text-sm border rounded-sm ${
-                      form.storeType === t ? "bg-foreground text-background border-foreground" : "border-border"
-                    }`}
-                  >
-                    {t}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <Field
-              label="Procijenjena mjesečna količina"
-              placeholder="npr. 50–100 kom"
-              value={form.monthlyQty}
-              onChange={(v) => setForm({ ...form, monthlyQty: v })}
-            />
-            <div>
-              <Label>Kategorije od interesa</Label>
-              <div className="mt-2 flex gap-2 flex-wrap">
-                {["Jeans", "Chino", "Cargo"].map((c) => (
-                  <button
-                    key={c}
-                    type="button"
-                    onClick={() => toggleCat(c)}
-                    className={`px-4 py-2 text-sm border rounded-sm ${
-                      form.categories.includes(c) ? "bg-foreground text-background border-foreground" : "border-border"
-                    }`}
-                  >
-                    {c}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div>
-              <Label>Poruka</Label>
-              <textarea
-                value={form.message}
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
-                rows={3}
-                className="mt-2 w-full border border-input bg-background rounded-sm px-3 py-2.5 text-sm focus:outline-none focus:border-foreground"
-                placeholder="Kratko o butiku, koje brendove već prodaješ…"
-              />
-            </div>
-            <button type="submit" className="btn-primary w-full">Pošalji prijavu</button>
-            <p className="text-xs text-muted-foreground text-center">
-              Slanjem prijave saglasan si da te kontaktiramo sa B2B ponudom.
-            </p>
-          </form>
+          <div className="border border-border rounded-sm p-8 bg-card">
+            <div className="eyebrow">Uslovi saradnje</div>
+            <dl className="mt-4 space-y-4 text-sm">
+              {[
+                ["Minimalna prva narudžba", "60 komada (Starter paket)"],
+                ["MOQ po artiklu", "10–12 kom zavisno od modela"],
+                ["Plaćanje", "50% avans, 50% prije slanja"],
+                ["Isporuka regija", "5–10 dana"],
+                ["Sezone", "2 godišnje + repeat tokom cijele godine"],
+              ].map(([l, v]) => (
+                <div key={l} className="flex justify-between gap-4 border-b border-border pb-3">
+                  <dt className="text-muted-foreground">{l}</dt>
+                  <dd className="font-semibold text-right">{v}</dd>
+                </div>
+              ))}
+            </dl>
+            <Link to="/auth" className="btn-primary w-full mt-6">Otvori B2B nalog</Link>
+          </div>
         </div>
       </section>
     </Layout>
-  );
-}
-
-function Row({ children }: { children: React.ReactNode }) {
-  return <div className="grid sm:grid-cols-2 gap-4">{children}</div>;
-}
-function Label({ children }: { children: React.ReactNode }) {
-  return <label className="text-xs uppercase tracking-wider font-semibold text-muted-foreground">{children}</label>;
-}
-function Field({
-  label, value, onChange, type = "text", required, placeholder,
-}: {
-  label: string; value: string; onChange: (v: string) => void;
-  type?: string; required?: boolean; placeholder?: string;
-}) {
-  return (
-    <div>
-      <Label>{label}{required && " *"}</Label>
-      <input
-        type={type}
-        required={required}
-        value={value}
-        placeholder={placeholder}
-        onChange={(e) => onChange(e.target.value)}
-        className="mt-2 w-full border border-input bg-background rounded-sm px-3 py-2.5 text-sm focus:outline-none focus:border-foreground"
-      />
-    </div>
   );
 }

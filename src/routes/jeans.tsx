@@ -1,7 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { Layout } from "@/components/Layout";
 import { ProductCard } from "@/components/ProductCard";
-import { byCategory } from "@/lib/products";
+import { listProducts, type ProductWithStock } from "@/lib/products.functions";
+import { getMyProfile } from "@/lib/orders.functions";
+import { useAuth } from "@/hooks/useAuth";
 
 export const Route = createFileRoute("/jeans")({
   head: () => ({
@@ -14,7 +18,19 @@ export const Route = createFileRoute("/jeans")({
 });
 
 export function CategoryPage({ title, desc, slug }: { title: string; desc: string; slug: "jeans" | "chino" | "cargo" }) {
-  const items = byCategory(slug);
+  const fetchProducts = useServerFn(listProducts);
+  const fetchProfile = useServerFn(getMyProfile);
+  const { user } = useAuth();
+  const [products, setProducts] = useState<ProductWithStock[]>([]);
+  const [approved, setApproved] = useState(false);
+
+  useEffect(() => { fetchProducts({}).then(setProducts); }, []); // eslint-disable-line
+  useEffect(() => {
+    if (user) fetchProfile({}).then((r) => setApproved(r.profile?.status === "approved"));
+  }, [user]); // eslint-disable-line
+
+  const items = products.filter((p) => p.category === slug);
+
   return (
     <Layout>
       <section className="border-b border-border bg-secondary">
@@ -27,9 +43,7 @@ export function CategoryPage({ title, desc, slug }: { title: string; desc: strin
       <section className="section-pad">
         <div className="container-x">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-10">
-            {items.map((p) => (
-              <ProductCard key={p.slug} product={p} />
-            ))}
+            {items.map((p) => <ProductCard key={p.id} product={p} showPrice={approved} />)}
           </div>
         </div>
       </section>
