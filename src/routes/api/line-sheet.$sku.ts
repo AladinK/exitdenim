@@ -3,7 +3,7 @@ import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 
-export const Route = createFileRoute("/api/line-sheet/$sku.pdf")({
+export const Route = createFileRoute("/api/line-sheet/$sku")({
   server: {
     handlers: {
       GET: async ({ params }) => {
@@ -117,7 +117,7 @@ export const Route = createFileRoute("/api/line-sheet/$sku.pdf")({
         page.drawText(new Date().toLocaleDateString("sr-RS"), { x: 510, y: 36, size: 8, font: reg, color: muted });
 
         const bytes = await pdf.save();
-        return new Response(bytes, {
+        return new Response(bytes as BodyInit, {
           headers: {
             "Content-Type": "application/pdf",
             "Content-Disposition": `inline; filename="${sku}-line-sheet.pdf"`,
