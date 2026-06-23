@@ -18,8 +18,14 @@ import { Route as JeansRouteImport } from './routes/jeans'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as ChinoRouteImport } from './routes/chino'
 import { Route as CargoRouteImport } from './routes/cargo'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProizvodSlugRouteImport } from './routes/proizvod.$slug'
+import { Route as AuthenticatedNarudzbaRouteImport } from './routes/_authenticated/narudzba'
+import { Route as AuthenticatedCekanjeRouteImport } from './routes/_authenticated/cekanje'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as ApiLineSheetSkuRouteImport } from './routes/api/line-sheet.$sku'
 
 const ProizvodnjaRoute = ProizvodnjaRouteImport.update({
   id: '/proizvodnja',
@@ -66,6 +72,15 @@ const CargoRoute = CargoRouteImport.update({
   path: '/cargo',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -76,9 +91,30 @@ const ProizvodSlugRoute = ProizvodSlugRouteImport.update({
   path: '/proizvod/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedNarudzbaRoute = AuthenticatedNarudzbaRouteImport.update({
+  id: '/narudzba',
+  path: '/narudzba',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCekanjeRoute = AuthenticatedCekanjeRouteImport.update({
+  id: '/cekanje',
+  path: '/cekanje',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const ApiLineSheetSkuRoute = ApiLineSheetSkuRouteImport.update({
+  id: '/api/line-sheet/$sku',
+  path: '/api/line-sheet/$sku',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/cargo': typeof CargoRoute
   '/chino': typeof ChinoRoute
   '/faq': typeof FaqRoute
@@ -88,10 +124,15 @@ export interface FileRoutesByFullPath {
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/proizvodnja': typeof ProizvodnjaRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/cekanje': typeof AuthenticatedCekanjeRoute
+  '/narudzba': typeof AuthenticatedNarudzbaRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
+  '/api/line-sheet/$sku': typeof ApiLineSheetSkuRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/cargo': typeof CargoRoute
   '/chino': typeof ChinoRoute
   '/faq': typeof FaqRoute
@@ -101,11 +142,17 @@ export interface FileRoutesByTo {
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/proizvodnja': typeof ProizvodnjaRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/cekanje': typeof AuthenticatedCekanjeRoute
+  '/narudzba': typeof AuthenticatedNarudzbaRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
+  '/api/line-sheet/$sku': typeof ApiLineSheetSkuRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/cargo': typeof CargoRoute
   '/chino': typeof ChinoRoute
   '/faq': typeof FaqRoute
@@ -115,12 +162,17 @@ export interface FileRoutesById {
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/proizvodnja': typeof ProizvodnjaRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/cekanje': typeof AuthenticatedCekanjeRoute
+  '/_authenticated/narudzba': typeof AuthenticatedNarudzbaRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
+  '/api/line-sheet/$sku': typeof ApiLineSheetSkuRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/cargo'
     | '/chino'
     | '/faq'
@@ -130,10 +182,15 @@ export interface FileRouteTypes {
     | '/media-kit'
     | '/postani-partner'
     | '/proizvodnja'
+    | '/admin'
+    | '/cekanje'
+    | '/narudzba'
     | '/proizvod/$slug'
+    | '/api/line-sheet/$sku'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/cargo'
     | '/chino'
     | '/faq'
@@ -143,10 +200,16 @@ export interface FileRouteTypes {
     | '/media-kit'
     | '/postani-partner'
     | '/proizvodnja'
+    | '/admin'
+    | '/cekanje'
+    | '/narudzba'
     | '/proizvod/$slug'
+    | '/api/line-sheet/$sku'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
+    | '/auth'
     | '/cargo'
     | '/chino'
     | '/faq'
@@ -156,11 +219,17 @@ export interface FileRouteTypes {
     | '/media-kit'
     | '/postani-partner'
     | '/proizvodnja'
+    | '/_authenticated/admin'
+    | '/_authenticated/cekanje'
+    | '/_authenticated/narudzba'
     | '/proizvod/$slug'
+    | '/api/line-sheet/$sku'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   CargoRoute: typeof CargoRoute
   ChinoRoute: typeof ChinoRoute
   FaqRoute: typeof FaqRoute
@@ -171,6 +240,7 @@ export interface RootRouteChildren {
   PostaniPartnerRoute: typeof PostaniPartnerRoute
   ProizvodnjaRoute: typeof ProizvodnjaRoute
   ProizvodSlugRoute: typeof ProizvodSlugRoute
+  ApiLineSheetSkuRoute: typeof ApiLineSheetSkuRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -238,6 +308,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CargoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -252,11 +336,56 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProizvodSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/narudzba': {
+      id: '/_authenticated/narudzba'
+      path: '/narudzba'
+      fullPath: '/narudzba'
+      preLoaderRoute: typeof AuthenticatedNarudzbaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/cekanje': {
+      id: '/_authenticated/cekanje'
+      path: '/cekanje'
+      fullPath: '/cekanje'
+      preLoaderRoute: typeof AuthenticatedCekanjeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/api/line-sheet/$sku': {
+      id: '/api/line-sheet/$sku'
+      path: '/api/line-sheet/$sku'
+      fullPath: '/api/line-sheet/$sku'
+      preLoaderRoute: typeof ApiLineSheetSkuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedCekanjeRoute: typeof AuthenticatedCekanjeRoute
+  AuthenticatedNarudzbaRoute: typeof AuthenticatedNarudzbaRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedCekanjeRoute: AuthenticatedCekanjeRoute,
+  AuthenticatedNarudzbaRoute: AuthenticatedNarudzbaRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   CargoRoute: CargoRoute,
   ChinoRoute: ChinoRoute,
   FaqRoute: FaqRoute,
@@ -267,6 +396,7 @@ const rootRouteChildren: RootRouteChildren = {
   PostaniPartnerRoute: PostaniPartnerRoute,
   ProizvodnjaRoute: ProizvodnjaRoute,
   ProizvodSlugRoute: ProizvodSlugRoute,
+  ApiLineSheetSkuRoute: ApiLineSheetSkuRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
