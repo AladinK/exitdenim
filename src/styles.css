@@ -129,40 +129,60 @@
   border-top: 1px solid var(--color-border);
 }
 
-@utility btn-base {
+@utility btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   font-weight: 600;
   font-size: 0.875rem;
-  letter-spacing: 0.01em;
   padding: 0.85rem 1.25rem;
   border-radius: var(--radius-sm);
-  transition: transform 120ms ease, background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+  transition: background-color 120ms ease, color 120ms ease, opacity 120ms ease;
   white-space: nowrap;
-}
-@utility btn-primary {
-  @apply btn-base;
   background: var(--color-foreground);
   color: var(--color-background);
 }
-@utility btn-primary:hover { background: oklch(from var(--color-foreground) calc(l + 0.08) c h); }
+@utility btn-primary {
+  &:hover { opacity: 0.88; }
+}
 @utility btn-accent {
-  @apply btn-base;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius-sm);
+  transition: filter 120ms ease;
+  white-space: nowrap;
   background: var(--color-accent);
   color: var(--color-accent-foreground);
 }
-@utility btn-accent:hover { filter: brightness(1.05); }
+@utility btn-accent {
+  &:hover { filter: brightness(1.05); }
+}
 @utility btn-outline {
-  @apply btn-base;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius-sm);
+  transition: background-color 120ms ease, color 120ms ease;
+  white-space: nowrap;
   background: transparent;
   color: var(--color-foreground);
   border: 1px solid var(--color-foreground);
 }
-@utility btn-outline:hover {
-  background: var(--color-foreground);
-  color: var(--color-background);
+@utility btn-outline {
+  &:hover {
+    background: var(--color-foreground);
+    color: var(--color-background);
+  }
 }
 
 @utility section-pad {
