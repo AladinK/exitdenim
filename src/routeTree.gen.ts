@@ -9,38 +9,235 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ProizvodnjaRouteImport } from './routes/proizvodnja'
+import { Route as PostaniPartnerRouteImport } from './routes/postani-partner'
+import { Route as MediaKitRouteImport } from './routes/media-kit'
+import { Route as KontaktRouteImport } from './routes/kontakt'
+import { Route as KatalogRouteImport } from './routes/katalog'
+import { Route as JeansRouteImport } from './routes/jeans'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as ChinoRouteImport } from './routes/chino'
+import { Route as CargoRouteImport } from './routes/cargo'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProizvodSlugRouteImport } from './routes/proizvod.$slug'
 
+const ProizvodnjaRoute = ProizvodnjaRouteImport.update({
+  id: '/proizvodnja',
+  path: '/proizvodnja',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PostaniPartnerRoute = PostaniPartnerRouteImport.update({
+  id: '/postani-partner',
+  path: '/postani-partner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MediaKitRoute = MediaKitRouteImport.update({
+  id: '/media-kit',
+  path: '/media-kit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KontaktRoute = KontaktRouteImport.update({
+  id: '/kontakt',
+  path: '/kontakt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KatalogRoute = KatalogRouteImport.update({
+  id: '/katalog',
+  path: '/katalog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JeansRoute = JeansRouteImport.update({
+  id: '/jeans',
+  path: '/jeans',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChinoRoute = ChinoRouteImport.update({
+  id: '/chino',
+  path: '/chino',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CargoRoute = CargoRouteImport.update({
+  id: '/cargo',
+  path: '/cargo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProizvodSlugRoute = ProizvodSlugRouteImport.update({
+  id: '/proizvod/$slug',
+  path: '/proizvod/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cargo': typeof CargoRoute
+  '/chino': typeof ChinoRoute
+  '/faq': typeof FaqRoute
+  '/jeans': typeof JeansRoute
+  '/katalog': typeof KatalogRoute
+  '/kontakt': typeof KontaktRoute
+  '/media-kit': typeof MediaKitRoute
+  '/postani-partner': typeof PostaniPartnerRoute
+  '/proizvodnja': typeof ProizvodnjaRoute
+  '/proizvod/$slug': typeof ProizvodSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cargo': typeof CargoRoute
+  '/chino': typeof ChinoRoute
+  '/faq': typeof FaqRoute
+  '/jeans': typeof JeansRoute
+  '/katalog': typeof KatalogRoute
+  '/kontakt': typeof KontaktRoute
+  '/media-kit': typeof MediaKitRoute
+  '/postani-partner': typeof PostaniPartnerRoute
+  '/proizvodnja': typeof ProizvodnjaRoute
+  '/proizvod/$slug': typeof ProizvodSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cargo': typeof CargoRoute
+  '/chino': typeof ChinoRoute
+  '/faq': typeof FaqRoute
+  '/jeans': typeof JeansRoute
+  '/katalog': typeof KatalogRoute
+  '/kontakt': typeof KontaktRoute
+  '/media-kit': typeof MediaKitRoute
+  '/postani-partner': typeof PostaniPartnerRoute
+  '/proizvodnja': typeof ProizvodnjaRoute
+  '/proizvod/$slug': typeof ProizvodSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/cargo'
+    | '/chino'
+    | '/faq'
+    | '/jeans'
+    | '/katalog'
+    | '/kontakt'
+    | '/media-kit'
+    | '/postani-partner'
+    | '/proizvodnja'
+    | '/proizvod/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/cargo'
+    | '/chino'
+    | '/faq'
+    | '/jeans'
+    | '/katalog'
+    | '/kontakt'
+    | '/media-kit'
+    | '/postani-partner'
+    | '/proizvodnja'
+    | '/proizvod/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/cargo'
+    | '/chino'
+    | '/faq'
+    | '/jeans'
+    | '/katalog'
+    | '/kontakt'
+    | '/media-kit'
+    | '/postani-partner'
+    | '/proizvodnja'
+    | '/proizvod/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CargoRoute: typeof CargoRoute
+  ChinoRoute: typeof ChinoRoute
+  FaqRoute: typeof FaqRoute
+  JeansRoute: typeof JeansRoute
+  KatalogRoute: typeof KatalogRoute
+  KontaktRoute: typeof KontaktRoute
+  MediaKitRoute: typeof MediaKitRoute
+  PostaniPartnerRoute: typeof PostaniPartnerRoute
+  ProizvodnjaRoute: typeof ProizvodnjaRoute
+  ProizvodSlugRoute: typeof ProizvodSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/proizvodnja': {
+      id: '/proizvodnja'
+      path: '/proizvodnja'
+      fullPath: '/proizvodnja'
+      preLoaderRoute: typeof ProizvodnjaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/postani-partner': {
+      id: '/postani-partner'
+      path: '/postani-partner'
+      fullPath: '/postani-partner'
+      preLoaderRoute: typeof PostaniPartnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/media-kit': {
+      id: '/media-kit'
+      path: '/media-kit'
+      fullPath: '/media-kit'
+      preLoaderRoute: typeof MediaKitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kontakt': {
+      id: '/kontakt'
+      path: '/kontakt'
+      fullPath: '/kontakt'
+      preLoaderRoute: typeof KontaktRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/katalog': {
+      id: '/katalog'
+      path: '/katalog'
+      fullPath: '/katalog'
+      preLoaderRoute: typeof KatalogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/jeans': {
+      id: '/jeans'
+      path: '/jeans'
+      fullPath: '/jeans'
+      preLoaderRoute: typeof JeansRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chino': {
+      id: '/chino'
+      path: '/chino'
+      fullPath: '/chino'
+      preLoaderRoute: typeof ChinoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cargo': {
+      id: '/cargo'
+      path: '/cargo'
+      fullPath: '/cargo'
+      preLoaderRoute: typeof CargoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +245,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/proizvod/$slug': {
+      id: '/proizvod/$slug'
+      path: '/proizvod/$slug'
+      fullPath: '/proizvod/$slug'
+      preLoaderRoute: typeof ProizvodSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CargoRoute: CargoRoute,
+  ChinoRoute: ChinoRoute,
+  FaqRoute: FaqRoute,
+  JeansRoute: JeansRoute,
+  KatalogRoute: KatalogRoute,
+  KontaktRoute: KontaktRoute,
+  MediaKitRoute: MediaKitRoute,
+  PostaniPartnerRoute: PostaniPartnerRoute,
+  ProizvodnjaRoute: ProizvodnjaRoute,
+  ProizvodSlugRoute: ProizvodSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
