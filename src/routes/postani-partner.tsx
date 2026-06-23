@@ -5,8 +5,8 @@ import { Check, ArrowRight } from "lucide-react";
 export const Route = createFileRoute("/postani-partner")({
   head: () => ({
     meta: [
-      { title: "Postani B2B partner — EXIT Denim" },
-      { name: "description", content: "Prijavi butik za EXIT Denim B2B saradnju. Wholesale cijene, brza isporuka u regiji, repeat orders." },
+      { title: "Apply for EXIT Denim B2B Partnership" },
+      { name: "description", content: "Pristup veleprodajnom katalogu odobravamo butik partnerima, online prodavcima i distributerima koji žele stabilnu denim ponudu." },
     ],
   }),
   component: Partner,
@@ -15,26 +15,30 @@ export const Route = createFileRoute("/postani-partner")({
 function Partner() {
   return (
     <Layout>
-      <section className="bg-foreground text-background">
-        <div className="container-x py-16 md:py-24">
-          <div className="eyebrow text-accent">Postani partner</div>
-          <h1 className="mt-3 text-5xl md:text-6xl max-w-3xl">Pristup B2B portalu u 24h.</h1>
-          <p className="mt-5 text-background/75 max-w-xl leading-relaxed">
-            Otvori nalog, popuni podatke o butiku — naš tim provjerava prijavu i šalje veleprodajne cijene, line sheets i preporuku starter paketa.
+      {/* HERO */}
+      <section className="bg-foreground text-background relative overflow-hidden">
+        <div className="container-x py-20 md:py-32 relative">
+          <div className="text-[10px] uppercase tracking-[0.36em] text-accent">By application · Private B2B Showroom</div>
+          <h1 className="mt-7 editorial-h text-[clamp(2.5rem,7vw,6.5rem)] max-w-4xl text-background">
+            Apply for EXIT Denim<br/>
+            <span className="italic font-light text-background/85">B2B Partnership</span>
+          </h1>
+          <p className="mt-8 text-background/75 max-w-xl leading-relaxed">
+            Pristup veleprodajnom katalogu odobravamo butik partnerima, online prodavcima i distributerima koji žele stabilnu denim ponudu.
           </p>
-          <div className="mt-8 flex gap-3 flex-wrap">
-            <Link to="/auth" className="btn-accent">Otvori nalog <ArrowRight className="w-4 h-4" /></Link>
-            <Link to="/katalog" className="btn-outline border-background text-background hover:bg-background hover:text-foreground">Pogledaj katalog</Link>
-          </div>
         </div>
       </section>
 
+      {/* TWO COLUMN */}
       <section className="section-pad">
-        <div className="container-x grid md:grid-cols-2 gap-10">
-          <div>
-            <div className="eyebrow">Šta dobijaš</div>
-            <h2 className="mt-3 text-3xl md:text-4xl">Pun B2B paket</h2>
-            <ul className="mt-6 space-y-3 text-sm">
+        <div className="container-x grid lg:grid-cols-12 gap-12">
+          {/* Left — what you get */}
+          <div className="lg:col-span-5">
+            <div className="eyebrow">What you receive</div>
+            <h2 className="mt-5 editorial-h text-4xl">
+              The complete <span className="italic">partner package</span>.
+            </h2>
+            <ul className="mt-8 space-y-4 text-[15px]">
               {[
                 "Pristup veleprodajnim cijenama i stock-u po veličinama",
                 "Size matrix narudžbe direktno iz kataloga",
@@ -43,29 +47,40 @@ function Partner() {
                 "Personalni wholesale tim — BHS, srpski, engleski",
                 "Repeat narudžbe na best-sellere",
               ].map((i) => (
-                <li key={i} className="flex gap-3 items-start">
-                  <Check className="w-5 h-5 mt-0.5 text-accent shrink-0" /><span>{i}</span>
+                <li key={i} className="flex gap-3 items-start border-b border-border pb-4">
+                  <Check className="w-4 h-4 mt-1.5 text-accent shrink-0" strokeWidth={1.5} />
+                  <span className="text-foreground/85 leading-relaxed">{i}</span>
                 </li>
               ))}
             </ul>
           </div>
-          <div className="border border-border rounded-sm p-8 bg-card">
-            <div className="eyebrow">Uslovi saradnje</div>
-            <dl className="mt-4 space-y-4 text-sm">
-              {[
-                ["Minimalna prva narudžba", "60 komada (Starter paket)"],
-                ["MOQ po artiklu", "10–12 kom zavisno od modela"],
-                ["Plaćanje", "50% avans, 50% prije slanja"],
-                ["Isporuka regija", "5–10 dana"],
-                ["Sezone", "2 godišnje + repeat tokom cijele godine"],
-              ].map(([l, v]) => (
-                <div key={l} className="flex justify-between gap-4 border-b border-border pb-3">
-                  <dt className="text-muted-foreground">{l}</dt>
-                  <dd className="font-semibold text-right">{v}</dd>
-                </div>
-              ))}
-            </dl>
-            <Link to="/auth" className="btn-primary w-full mt-6">Otvori B2B nalog</Link>
+
+          {/* Right — application terms + CTA */}
+          <div className="lg:col-span-7">
+            <div className="border border-foreground p-10">
+              <div className="eyebrow">Cooperation terms</div>
+              <h3 className="mt-4 serif text-3xl">House conditions</h3>
+              <dl className="mt-8 divide-y divide-border">
+                {[
+                  ["First order minimum", "60 pcs (Starter pack)"],
+                  ["MOQ per article", "10–12 pcs"],
+                  ["Payment", "50% advance · 50% before shipping"],
+                  ["Regional delivery", "5 – 10 days"],
+                  ["Seasons", "2/year + continuous repeat"],
+                ].map(([l, v]) => (
+                  <div key={l} className="flex justify-between gap-4 py-4">
+                    <dt className="text-sm text-muted-foreground">{l}</dt>
+                    <dd className="serif text-lg text-right">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+              <Link to="/auth" className="btn-primary w-full mt-8">
+                Open B2B Account <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+              <p className="mt-5 text-[11px] uppercase tracking-[0.22em] text-muted-foreground text-center">
+                Account approval within 24 hours
+              </p>
+            </div>
           </div>
         </div>
       </section>

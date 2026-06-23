@@ -13,13 +13,14 @@ export const Route = createFileRoute("/proizvod/$slug")({
   notFoundComponent: () => (
     <Layout>
       <div className="container-x py-32 text-center">
-        <h1 className="text-4xl">Proizvod nije pronađen</h1>
-        <Link to="/katalog" className="btn-outline mt-6 inline-flex">Nazad na katalog</Link>
+        <div className="eyebrow">404</div>
+        <h1 className="editorial-h text-5xl mt-4">Article not found</h1>
+        <Link to="/katalog" className="btn-outline mt-8 inline-flex">Back to catalogue</Link>
       </div>
     </Layout>
   ),
   errorComponent: () => (
-    <Layout><div className="container-x py-32 text-center">Greška pri učitavanju.</div></Layout>
+    <Layout><div className="container-x py-32 text-center">Error loading article.</div></Layout>
   ),
   component: ProductDetail,
 });
@@ -47,77 +48,90 @@ function ProductDetail() {
     if (user) fetchProfile({}).then((r) => setApproved(r.profile?.status === "approved"));
   }, [user]); // eslint-disable-line
 
-  if (loading) return <Layout><div className="container-x py-32 text-center text-muted-foreground">Učitavanje...</div></Layout>;
+  if (loading) return <Layout><div className="container-x py-32 text-center text-muted-foreground">Loading…</div></Layout>;
   if (!product) throw notFound();
 
   return (
     <Layout>
-      <div className="container-x pt-8">
-        <Link to="/katalog" className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1">
-          <ChevronLeft className="w-4 h-4" /> Nazad na katalog
+      <div className="container-x pt-10">
+        <Link to="/katalog" className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 transition-colors">
+          <ChevronLeft className="w-3.5 h-3.5" /> Back to catalogue
         </Link>
       </div>
 
-      <section className="container-x py-10 grid lg:grid-cols-2 gap-10 lg:gap-16">
-        <div>
-          <div className="aspect-[4/5] rounded-sm overflow-hidden bg-secondary">
+      <section className="container-x py-10 grid lg:grid-cols-12 gap-10 lg:gap-16">
+        {/* Gallery */}
+        <div className="lg:col-span-7">
+          <div className="aspect-[4/5] overflow-hidden bg-secondary">
             {product.image_url && (
               <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" width={1024} height={1280} />
             )}
           </div>
+          <div className="mt-2 grid grid-cols-3 gap-2">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="aspect-[4/5] bg-secondary overflow-hidden opacity-80 hover:opacity-100 transition-opacity">
+                {product.image_url && (
+                  <img src={product.image_url} alt="" className="w-full h-full object-cover" />
+                )}
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div>
-          <div className="eyebrow">{product.category} · {product.fit}</div>
-          <h1 className="mt-3 text-4xl md:text-5xl">{product.name}</h1>
-          <p className="mt-4 text-muted-foreground leading-relaxed">{product.description}</p>
+        {/* Info Panel */}
+        <div className="lg:col-span-5 lg:sticky lg:top-32 lg:self-start">
+          <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+            {product.category} · Article {product.sku}
+          </div>
+          <h1 className="mt-4 editorial-h text-[clamp(2.25rem,4vw,3.5rem)]">{product.name}</h1>
+          <p className="mt-5 text-foreground/75 leading-[1.75]">{product.description}</p>
 
-          <dl className="mt-8 grid grid-cols-2 gap-y-4 gap-x-6 text-sm border-y border-border py-6">
-            <Spec label="SKU" value={product.sku} />
-            <Spec label="Fit" value={product.fit} />
-            <Spec label="Tkanina" value={product.fabric} />
-            <Spec label="Težina" value={product.weight} />
-            <Spec label="Veličine" value={product.sizes.join(", ")} />
-            <Spec label="Isporuka" value={product.delivery} />
-            <Spec label="MOQ" value={`${product.moq} kom`} />
-            <Spec label="Boja" value={product.color} />
-          </dl>
-
-          <div className="mt-6 flex items-end justify-between gap-6">
+          <div className="mt-10 flex items-end justify-between gap-8 border-t border-foreground/20 pt-6">
             <div>
-              <div className="eyebrow">Veleprodaja</div>
+              <div className="eyebrow">Wholesale</div>
               {approved ? (
-                <div className="text-4xl font-display font-bold mt-1">€{Number(product.wholesale).toFixed(2)}</div>
+                <div className="serif text-5xl mt-2 tabular-nums">€{Number(product.wholesale).toFixed(0)}</div>
               ) : (
-                <div className="mt-1 flex items-center gap-2 text-muted-foreground">
-                  <Lock className="w-4 h-4" /> Cijena za B2B partnere
+                <div className="mt-2 inline-flex items-center gap-2 border border-border px-3 py-2 text-xs uppercase tracking-[0.22em] text-muted-foreground">
+                  <Lock className="w-3.5 h-3.5" /> B2B Partners Only
                 </div>
               )}
             </div>
             <div className="text-right">
-              <div className="eyebrow">Preporučena maloprodaja</div>
-              <div className="text-2xl font-display font-semibold mt-1">€{Number(product.retail).toFixed(2)}</div>
+              <div className="eyebrow">Suggested Retail</div>
+              <div className="serif text-3xl mt-2 tabular-nums text-foreground/70">€{Number(product.retail).toFixed(0)}</div>
             </div>
           </div>
 
-          <div className="mt-6 flex flex-wrap gap-3">
+          <dl className="mt-10 grid grid-cols-2 gap-y-5 gap-x-8 text-sm">
+            <Spec label="Fit" value={product.fit} />
+            <Spec label="Composition" value={product.fabric} />
+            <Spec label="Weight" value={product.weight} />
+            <Spec label="Colour" value={product.color} />
+            <Spec label="Sizes" value={product.sizes.join(" · ")} />
+            <Spec label="MOQ" value={`${product.moq} pcs`} />
+            <Spec label="Delivery" value={product.delivery} />
+            <Spec label="SKU" value={product.sku} />
+          </dl>
+
+          <div className="mt-8 flex flex-wrap gap-3">
             <a href={`/api/line-sheet/${product.sku}`} target="_blank" rel="noopener" className="btn-outline">
-              <Download className="w-4 h-4" /> Line sheet PDF
+              <Download className="w-3.5 h-3.5" /> View Line Sheet
             </a>
           </div>
 
-          <div className="mt-8">
+          <div className="mt-10">
             {approved ? (
               <SizeMatrix product={product} />
             ) : (
-              <div className="border border-dashed border-foreground rounded-sm p-6 text-center">
-                <Lock className="w-5 h-5 mx-auto text-muted-foreground" />
-                <div className="mt-3 font-semibold">Size matrix narudžba dostupna B2B partnerima</div>
-                <p className="text-sm text-muted-foreground mt-2">
-                  Odobreni partneri vide stock po veličinama, cijene i mogu poslati upit za narudžbu.
+              <div className="border border-foreground p-8 text-center">
+                <Lock className="w-5 h-5 mx-auto text-foreground" strokeWidth={1.25} />
+                <div className="mt-5 serif text-2xl">Reserved for B2B partners</div>
+                <p className="text-sm text-muted-foreground mt-3 max-w-sm mx-auto leading-relaxed">
+                  Odobreni partneri vide stock po veličinama, cijene i mogu poslati upit za narudžbu kroz size matrix.
                 </p>
-                <Link to="/auth" className="btn-primary mt-5 inline-flex">
-                  {user ? "Status naloga" : "Zatraži B2B pristup"}
+                <Link to="/auth" className="btn-primary mt-7 inline-flex">
+                  {user ? "Account Status" : "Request B2B Access"}
                 </Link>
               </div>
             )}
@@ -125,10 +139,10 @@ function ProductDetail() {
         </div>
       </section>
 
-      <section className="section-pad bg-secondary">
+      <section className="border-t border-border section-pad bg-secondary/50">
         <div className="container-x">
-          <div className="eyebrow">Više iz kategorije</div>
-          <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-5">
+          <div className="eyebrow">More from the {product.category} line</div>
+          <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-12">
             {related.map((p) => <ProductCard key={p.id} product={p} showPrice={approved} />)}
           </div>
         </div>
@@ -140,8 +154,8 @@ function ProductDetail() {
 function Spec({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <dt className="text-xs uppercase tracking-wider text-muted-foreground">{label}</dt>
-      <dd className="mt-1 font-medium">{value}</dd>
+      <dt className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{label}</dt>
+      <dd className="mt-1.5 font-medium text-foreground">{value}</dd>
     </div>
   );
 }
