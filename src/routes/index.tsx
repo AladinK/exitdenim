@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { ArrowRight, ArrowUpRight, Check, Ruler, Truck, ShieldCheck, TrendingUp, Repeat, Scissors } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { ProductCard } from "@/components/ProductCard";
+import { Reveal } from "@/components/Reveal";
 import { listProducts, type ProductWithStock } from "@/lib/products.functions";
 import { getMyProfile } from "@/lib/orders.functions";
 import { useAuth } from "@/hooks/useAuth";
