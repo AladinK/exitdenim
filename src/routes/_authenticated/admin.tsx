@@ -1,10 +1,44 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Check, X, ExternalLink } from "lucide-react";
+import { Check, X, ExternalLink, Plus, Trash2, Upload, Pencil } from "lucide-react";
 import { Layout } from "@/components/Layout";
-import { listPartners, setPartnerStatus, listAllOrders, updateOrderStatus, adminStats } from "@/lib/admin.functions";
+import { supabase } from "@/integrations/supabase/client";
+import {
+  listPartners, setPartnerStatus, listAllOrders, updateOrderStatus, adminStats,
+  adminListProducts, upsertProduct, deleteProduct, upsertStock,
+} from "@/lib/admin.functions";
 import { getMyProfile } from "@/lib/orders.functions";
+
+type AdminProduct = {
+  id: string;
+  slug: string; sku: string; name: string;
+  category: "jeans" | "chino" | "cargo";
+  fit: "Slim" | "Regular Slim" | "Relaxed" | "Cargo";
+  fabric: string; weight: string; color: string;
+  sizes: string[];
+  wholesale: number; retail: number; moq: number;
+  delivery: string;
+  description: string | null;
+  image_url: string | null;
+  active: boolean; sort_order: number;
+  stock: Record<string, number>;
+};
+
+const EMPTY: AdminProduct = {
+  id: "",
+  slug: "", sku: "", name: "",
+  category: "jeans", fit: "Slim",
+  fabric: "100% pamuk, 13.5 oz selvedge denim",
+  weight: "13.5 oz", color: "Indigo",
+  sizes: ["28","30","32","34","36","38"],
+  wholesale: 0, retail: 0, moq: 10,
+  delivery: "5-7 dana",
+  description: "",
+  image_url: null,
+  active: true, sort_order: 0,
+  stock: {},
+};
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({ meta: [{ title: "Admin — EXIT Denim B2B" }] }),
