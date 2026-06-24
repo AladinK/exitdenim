@@ -48,7 +48,9 @@
   --denim: #1B2A44;         /* denim navy */
   --indigo-mid: #2E4A7B;    /* mid indigo */
   --ivory: #F2EDE4;         /* warm ivory paper */
-  --copper: #B8744A;        /* copper / rivet */
+  --ecru: #E6DFCB;          /* unbleached muslin */
+  --copper: #B8744A;        /* copper rivet */
+  --selvedge: #C0392E;      /* selvedge red */
 
   --background: var(--ivory);
   --foreground: var(--ink);
