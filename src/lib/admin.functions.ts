@@ -117,3 +117,85 @@ export const adminStats = createServerFn({ method: "GET" })
       confirmed: confirmed.count ?? 0,
     };
   });
+
+// =========================================================================
+// PRODUCTS / STOCK / IMAGES (admin)
+// =========================================================================
+
+export const adminListProducts = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    const { data: products, error } = await context.supabase
+      .from("products")
+      .select("*")
+      .order("sort_order", { ascending: true })
+      .order("created_at", { ascending: false });
+    if (error) throw new Error(error.message);
+    const { data: stock } = await context.supabase.from("stock").select("*");
+    const stockBy: Record<string, Record<string, number>> = {};
+    (stock || []).forEach((s: any) => {
+      (stockBy[s.product_id] ||= {})[s.size] = s.quantity;
+    });
+    return (products || []).map((p: any) => ({ ...p, stock: stockBy[p.id] || {} }));
+  });
+
+export const upsertProduct = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => productSchema.parse(d))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    const payload = { ...data };
+    if (!payload.id) delete (payload as any).id;
+    const { data: row, error } = await context.supabase
+      .from("products")
+      .upsert(payload, { onConflict: "id" })
+      .select("*")
+      .single();
+    if (error) throw new Error(error.message);
+    return row;
+  });
+
+export const deleteProduct = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    const { error } = await context.supabase.from("products").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const upsertStock = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => stockSchema.parse(d))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    const rows = data.entries.map((e) => ({
+      product_id: data.productId,
+      size: e.size,
+      quantity: e.quantity,
+    }));
+    const { error } = await context.supabase
+      .from("stock")
+      .upsert(rows, { onConflict: "product_id,size" });
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+/**
+ * Resolves a stored image reference (full URL or storage path inside the
+ * `product-images` bucket) to a long-lived signed URL the browser can render.
+ */
+export const signProductImage = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({ path: z.string().min(1).max(500) }).parse(d))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    if (/^https?:\/\//i.test(data.path)) return { url: data.path };
+    const { data: signed, error } = await context.supabase
+      .storage.from("product-images")
+      .createSignedUrl(data.path, 60 * 60 * 24 * 365);
+    if (error) throw new Error(error.message);
+    return { url: signed.signedUrl };
+  });
