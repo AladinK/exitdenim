@@ -49,8 +49,8 @@
   --indigo-mid: #2E4A7B;    /* mid indigo */
   --ivory: #F2EDE4;         /* warm ivory paper */
   --ecru: #E6DFCB;          /* unbleached muslin */
-  --copper: #B8744A;        /* copper rivet */
-  --selvedge: #C0392E;      /* selvedge red */
+  --copper: #5C7A3A;        /* olive thread */
+  --selvedge: #2E5D34;      /* selvedge green */
 
   --background: var(--ivory);
   --foreground: var(--ink);
