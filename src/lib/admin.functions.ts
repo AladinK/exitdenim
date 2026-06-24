@@ -74,11 +74,20 @@ export const listAllOrders = createServerFn({ method: "GET" })
     await assertAdmin(context.supabase, context.userId);
     const { data, error } = await context.supabase
       .from("orders")
-      .select("*, profiles!orders_user_id_fkey(boutique_name, country, city, email), order_items(*, products(sku, name, color))")
+      .select("*, order_items(*, products(sku, name, color))")
       .neq("status", "draft")
       .order("submitted_at", { ascending: false });
     if (error) throw new Error(error.message);
-    return data;
+    const userIds = Array.from(new Set((data ?? []).map((o: any) => o.user_id).filter(Boolean)));
+    let profilesById: Record<string, any> = {};
+    if (userIds.length) {
+      const { data: profs } = await context.supabase
+        .from("profiles")
+        .select("id, boutique_name, country, city, email")
+        .in("id", userIds);
+      profilesById = Object.fromEntries((profs ?? []).map((p: any) => [p.id, p]));
+    }
+    return (data ?? []).map((o: any) => ({ ...o, profiles: profilesById[o.user_id] ?? null }));
   });
 
 export const updateOrderStatus = createServerFn({ method: "POST" })
