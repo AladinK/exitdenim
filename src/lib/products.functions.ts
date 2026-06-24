@@ -16,6 +16,13 @@ function publicClient() {
   );
 }
 
+async function signIfPath(sb: ReturnType<typeof publicClient>, image_url: string | null) {
+  if (!image_url) return null;
+  if (/^https?:\/\//i.test(image_url) || image_url.startsWith("/")) return image_url;
+  const { data } = await sb.storage.from("product-images").createSignedUrl(image_url, 60 * 60 * 24 * 7);
+  return data?.signedUrl ?? null;
+}
+
 export const listProducts = createServerFn({ method: "GET" }).handler(async () => {
   const sb = publicClient();
   const { data: products, error } = await sb
@@ -30,7 +37,14 @@ export const listProducts = createServerFn({ method: "GET" }).handler(async () =
     if (!stockBy[s.product_id]) stockBy[s.product_id] = {};
     stockBy[s.product_id][s.size] = s.quantity;
   });
-  return (products || []).map((p) => ({ ...p, stock: stockBy[p.id] || {} })) as ProductWithStock[];
+  const resolved = await Promise.all(
+    (products || []).map(async (p) => ({
+      ...p,
+      image_url: await signIfPath(sb, p.image_url),
+      stock: stockBy[p.id] || {},
+    })),
+  );
+  return resolved as ProductWithStock[];
 });
 
 export const getProductBySlug = createServerFn({ method: "GET" })
