@@ -84,10 +84,10 @@ function Home() {
               </div>
 
               {/* Floating dark spec card */}
-              <Reveal delay={2} className="absolute -bottom-12 -right-4 md:right-10 lg:-right-16 z-20 hidden sm:block">
-                <div className="bg-[var(--color-ink)] text-background p-8 md:p-10 space-y-4 shadow-[30px_30px_60px_rgba(15,26,46,0.25)] w-[18rem] md:w-[22rem]">
+              <Reveal delay={2} className="absolute -bottom-10 left-4 md:left-10 z-20 hidden sm:block">
+                <div className="bg-[var(--color-ink)] text-background p-7 md:p-8 space-y-3 shadow-[30px_30px_60px_rgba(15,26,46,0.25)] w-[18rem] md:w-[20rem]">
                   <div className="mono text-[10px] tracking-[0.2em] uppercase opacity-50">Ref. EX-0027 / SLV</div>
-                  <div className="serif text-3xl md:text-4xl font-light tracking-tight leading-[0.95]">
+                  <div className="serif text-2xl md:text-3xl font-light tracking-tight leading-[0.95]">
                     Indigo Selvedge<br />
                     <span className="italic text-[var(--color-copper)]">Olive Stitch</span>
                   </div>
