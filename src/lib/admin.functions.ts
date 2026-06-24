@@ -2,6 +2,34 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { z } from "zod";
 
+// ===== Product schemas =====
+const productSchema = z.object({
+  id: z.string().uuid().optional(),
+  slug: z.string().min(1).max(120).regex(/^[a-z0-9-]+$/, "samo mala slova, brojevi i crtice"),
+  sku: z.string().min(1).max(60),
+  name: z.string().min(1).max(160),
+  category: z.enum(["jeans", "chino", "cargo"]),
+  fit: z.enum(["slim", "regular", "relaxed", "tapered", "straight"]),
+  fabric: z.string().min(1).max(200),
+  weight: z.string().min(1).max(40),
+  sizes: z.array(z.string().min(1).max(8)).min(1),
+  wholesale: z.number().nonnegative(),
+  retail: z.number().nonnegative(),
+  moq: z.number().int().nonnegative(),
+  delivery: z.string().min(1).max(80),
+  description: z.string().max(2000).nullable().optional(),
+  color: z.string().min(1).max(60),
+  image_url: z.string().max(500).nullable().optional(),
+  active: z.boolean(),
+  sort_order: z.number().int(),
+});
+
+const stockSchema = z.object({
+  productId: z.string().uuid(),
+  entries: z.array(z.object({ size: z.string().min(1).max(8), quantity: z.number().int().nonnegative() })),
+});
+
+
 async function assertAdmin(supabase: any, userId: string) {
   const { data } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });
   if (!data) throw new Error("Forbidden: admin role required.");
