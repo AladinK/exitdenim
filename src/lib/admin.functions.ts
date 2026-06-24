@@ -9,7 +9,7 @@ const productSchema = z.object({
   sku: z.string().min(1).max(60),
   name: z.string().min(1).max(160),
   category: z.enum(["jeans", "chino", "cargo"]),
-  fit: z.enum(["slim", "regular", "relaxed", "tapered", "straight"]),
+  fit: z.enum(["Slim", "Regular Slim", "Relaxed", "Cargo"]),
   fabric: z.string().min(1).max(200),
   weight: z.string().min(1).max(40),
   sizes: z.array(z.string().min(1).max(8)).min(1),
