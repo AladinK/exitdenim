@@ -115,10 +115,10 @@ function Home() {
               </Reveal>
 
               <Reveal delay={1}>
-                <h1 className="mt-10 serif font-light text-[var(--color-ink)] leading-[0.78] tracking-[-0.03em] text-[clamp(5rem,12vw,11rem)]">
+                <h1 className="mt-10 serif font-light text-[var(--color-ink)] leading-[0.82] tracking-[-0.03em] text-[clamp(4rem,9vw,8.5rem)]">
                   EXIT
                   <br />
-                  <span className="italic font-light ml-8 md:ml-16 text-[var(--color-selvedge)]">
+                  <span className="italic font-light ml-4 md:ml-10 text-[var(--color-selvedge)]">
                     Studio.
                   </span>
                 </h1>
