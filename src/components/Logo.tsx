@@ -29,7 +29,7 @@ export function Logo({
         </span>
         {!compact && (
           <span
-            className={`mono ${sub} mt-1 text-[8.5px] sm:text-[9px] uppercase tracking-[0.34em]`}
+            className={`font-mono ${sub} mt-1 text-[8.5px] sm:text-[9px] uppercase tracking-[0.34em]`}
           >
             B2B Wholesale · Novi&nbsp;Pazar / RS
           </span>
