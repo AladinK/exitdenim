@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { ArrowRight, ArrowUpRight, Check, Ruler, Truck, ShieldCheck, TrendingUp, Repeat, Scissors } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { ProductCard } from "@/components/ProductCard";
+import { Reveal } from "@/components/Reveal";
 import { listProducts, type ProductWithStock } from "@/lib/products.functions";
 import { getMyProfile } from "@/lib/orders.functions";
 import { useAuth } from "@/hooks/useAuth";
@@ -41,69 +42,92 @@ function Home() {
     <Layout>
       {/* ============== HERO ============== */}
       <section className="relative bg-foreground text-background overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={heroAsset.url} alt="" className="w-full h-full object-cover opacity-55" />
-          <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/75 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-foreground/30" />
+        <div className="absolute inset-0 overflow-hidden">
+          <img
+            src={heroAsset.url}
+            alt=""
+            className="w-full h-full object-cover opacity-60 animate-kenburns"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-transparent to-foreground/30" />
+          {/* copper hairline accent */}
+          <div className="absolute left-0 right-0 bottom-0 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
         </div>
 
         <div className="container-x relative pt-28 pb-20 md:pt-40 md:pb-32 grid lg:grid-cols-12 gap-10 items-end">
           <div className="lg:col-span-8">
-            <div className="text-[10px] uppercase tracking-[0.36em] text-accent">
-              Maison · B2B Wholesale · Est. Novi Pazar
-            </div>
-            <h1 className="mt-7 editorial-h text-[clamp(2.75rem,9vw,7.5rem)] text-background">
-              EXIT Denim<br/>
-              <span className="italic font-light text-background/85">B2B Showroom</span>
-            </h1>
-            <p className="mt-8 text-base md:text-lg text-background/80 max-w-xl leading-relaxed">
-              Premium muški denim za butike koji traže kvalitet, stabilan fit i robu koja se brzo okreće.
-            </p>
-            <div className="mt-10 flex flex-wrap gap-3">
-              <Link to="/auth" className="btn-accent">
-                Zatraži B2B pristup <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-              <Link to="/katalog" className="btn-outline border-background text-background hover:bg-background hover:text-foreground">
-                Pogledaj kolekciju
-              </Link>
-            </div>
+            <Reveal>
+              <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.36em] text-accent">
+                <span className="inline-block w-8 h-px bg-accent" />
+                Maison · B2B Wholesale · Est. Novi Pazar
+              </div>
+            </Reveal>
+            <Reveal delay={1} as="h1" className="mt-7 editorial-h text-[clamp(2.75rem,9vw,7.5rem)] text-background">
+              <>EXIT Denim<br/>
+              <span className="italic font-light text-background/90">B2B Showroom</span></>
+            </Reveal>
+            <Reveal delay={2}>
+              <p className="mt-8 text-base md:text-lg text-background/80 max-w-xl leading-relaxed">
+                Premium muški denim za butike koji traže kvalitet, stabilan fit i robu koja se brzo okreće.
+                Krojen, sašiven i dorađen u <span className="text-accent">Novom Pazaru</span>.
+              </p>
+            </Reveal>
+            <Reveal delay={3}>
+              <div className="mt-10 flex flex-wrap gap-3">
+                <Link to="/auth" className="btn-accent">
+                  Zatraži B2B pristup <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+                <Link to="/katalog" className="btn-outline border-background text-background hover:bg-background hover:text-foreground">
+                  Pogledaj kolekciju
+                </Link>
+              </div>
+            </Reveal>
           </div>
 
           <div className="lg:col-span-4 hidden lg:block">
-            <div className="border-l border-background/20 pl-8">
-              <div className="text-[10px] uppercase tracking-[0.32em] text-background/55">Wholesale Index</div>
-              <dl className="mt-6 space-y-5">
-                {[
-                  ["Aktivni artikli", String(products.length || 8)],
-                  ["Veličine", "31 — 40"],
-                  ["MOQ / artikl", "10 kom"],
-                  ["Isporuka regija", "5–10 dana"],
-                ].map(([l, v]) => (
-                  <div key={l} className="flex items-baseline justify-between gap-4 border-b border-background/15 pb-3">
-                    <dt className="text-xs uppercase tracking-[0.18em] text-background/55">{l}</dt>
-                    <dd className="serif text-2xl text-background tabular-nums">{v}</dd>
-                  </div>
-                ))}
-              </dl>
-              <div className="mt-6 text-xs text-background/65">
-                Prosječna marža butika: <span className="text-accent serif text-lg">2.5–3.2×</span>
+            <Reveal delay={2}>
+              <div className="border-l border-accent/40 pl-8">
+                <div className="text-[10px] uppercase tracking-[0.32em] text-accent">Wholesale Index</div>
+                <dl className="mt-6 space-y-5">
+                  {[
+                    ["Aktivni artikli", String(products.length || 8)],
+                    ["Veličine", "31 — 40"],
+                    ["MOQ / artikl", "10 kom"],
+                    ["Isporuka regija", "5–10 dana"],
+                  ].map(([l, v]) => (
+                    <div key={l} className="flex items-baseline justify-between gap-4 border-b border-background/15 pb-3">
+                      <dt className="text-xs uppercase tracking-[0.18em] text-background/55">{l}</dt>
+                      <dd className="serif text-2xl text-background tabular-nums">{v}</dd>
+                    </div>
+                  ))}
+                </dl>
+                <div className="mt-6 text-xs text-background/65">
+                  Prosječna marža butika: <span className="text-accent serif text-lg">2.5–3.2×</span>
+                </div>
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
 
-        {/* Trust strip */}
-        <div className="border-t border-background/15 relative">
-          <div className="container-x py-6 flex flex-wrap items-center justify-between gap-x-10 gap-y-3 text-[10px] uppercase tracking-[0.28em] text-background/65 font-medium">
-            <span>Made in Serbia</span>
-            <span className="hidden md:inline opacity-30">·</span>
-            <span>Wholesale Partner Program</span>
-            <span className="hidden md:inline opacity-30">·</span>
-            <span>Sizes 31 – 40</span>
-            <span className="hidden md:inline opacity-30">·</span>
-            <span>Fast Regional Delivery</span>
-            <span className="hidden md:inline opacity-30">·</span>
-            <span>Repeat Order Friendly</span>
+        {/* Marquee trust strip */}
+        <div className="border-t border-background/15 relative bg-foreground/40 backdrop-blur-sm overflow-hidden">
+          <div className="flex animate-marquee whitespace-nowrap py-5 text-[10px] uppercase tracking-[0.32em] text-background/70 font-medium">
+            {Array.from({ length: 2 }).map((_, i) => (
+              <div key={i} className="flex shrink-0 items-center gap-12 px-6">
+                <span>Made in Serbia</span>
+                <span className="text-accent">✦</span>
+                <span>Wholesale Partner Program</span>
+                <span className="text-accent">✦</span>
+                <span>Sizes 31 – 40</span>
+                <span className="text-accent">✦</span>
+                <span>Fast Regional Delivery</span>
+                <span className="text-accent">✦</span>
+                <span>Repeat Order Friendly</span>
+                <span className="text-accent">✦</span>
+                <span>Own Atelier · Novi Pazar</span>
+                <span className="text-accent">✦</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
