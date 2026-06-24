@@ -234,41 +234,40 @@ function Home() {
         ))}
       </section>
 
-      {/* ============== WHY BOUTIQUES CHOOSE EXIT ============== */}
-      <section className="section-pad">
+      {/* ============== SIX REASONS — numbered editorial list, no icons ============== */}
+      <section className="section-pad bg-[var(--color-ecru)] border-y border-border">
         <div className="container-x">
           <div className="grid lg:grid-cols-12 gap-10 mb-16">
-            <div className="lg:col-span-5">
-              <div className="eyebrow">Why boutiques choose EXIT</div>
+            <div className="lg:col-span-4 selvedge-line pl-6">
+              <div className="spec text-[var(--color-selvedge)]">§ 002 — Why boutiques stay</div>
               <h2 className="mt-5 editorial-h text-[clamp(2rem,4vw,3.5rem)]">
-                Roba koja se okreće.<br/>
-                <span className="italic">Marža</span> koja drži butik.
+                Šest razloga<br/>
+                <span className="italic">koje butici znaju.</span>
               </h2>
             </div>
-            <div className="lg:col-span-7 flex items-end">
-              <p className="text-base text-foreground/70 leading-relaxed max-w-xl">
-                Šest razloga zbog kojih butici od Beograda do Ljubljane drže EXIT Denim na svojim policama tokom cijele godine.
+            <div className="lg:col-span-7 lg:col-start-6 flex items-end">
+              <p className="text-foreground/75 leading-relaxed max-w-xl text-[15px]">
+                Bez marketinških priča. Šest stvari koje butike od Beograda do Ljubljane drže s nama treću sezonu zaredom.
               </p>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 -mt-px -ml-px">
+          <div className="border-t border-foreground">
             {[
-              { icon: TrendingUp, n: "01", title: "Stabilne marže", text: "Veleprodajna cijena drži maloprodaju na 2.5–3.2×. Bez sezonskih iznenađenja." },
-              { icon: Ruler, n: "02", title: "Stabilan fit", text: "Slim, Regular Slim, Relaxed i Cargo — testirano na hiljade kupaca, bez razvlačenja." },
-              { icon: Scissors, n: "03", title: "Pune veličine", text: "Veličine 31–40 stalno na stanju. Bez praznina u sredini grid-a." },
-              { icon: Truck, n: "04", title: "Brza regionalna isporuka", text: "5–10 dana do Beograda, Sarajeva, Podgorice, Zagreba, Skoplja, Ljubljane." },
-              { icon: ShieldCheck, n: "05", title: "Kvalitet u proizvodnji", text: "Vlastita proizvodnja u Novom Pazaru. Kontrola kvaliteta na svakoj seriji." },
-              { icon: Repeat, n: "06", title: "Repeat orders", text: "Best-selleri se rade kontinuirano. Tvoj butik ne ostaje bez najtraženijih modela." },
-            ].map((f) => (
-              <div key={f.title} className="border-t border-l border-border p-8 group hover:bg-secondary/50 transition-colors">
-                <div className="flex items-start justify-between">
-                  <f.icon className="w-5 h-5 text-foreground" strokeWidth={1.25} />
-                  <span className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground tabular-nums">{f.n}</span>
+              ["01", "Marža drži", "Veleprodajna cijena drži retail na 2.5–3.2×. Cjenovnik ne mijenjamo usred sezone."],
+              ["02", "Fit ne razvlači", "Slim · Regular Slim · Relaxed · Cargo. Kalupi testirani na hiljade kupaca."],
+              ["03", "Veličine pune", "31 — 40 stalno na stanju. Bez praznina u sredini grid-a."],
+              ["04", "Brza isporuka", "5 — 10 dana: Beograd · Sarajevo · Podgorica · Zagreb · Skoplje · Ljubljana."],
+              ["05", "Vlastiti atelje", "Krojenje, šivenje, finiš — sve u Novom Pazaru. Kontrola na svakoj seriji."],
+              ["06", "Repeat na best-sellere", "Najtraženiji modeli se rade kontinuirano. Tvoj butik ne ostaje suh."],
+            ].map(([n, t, d]) => (
+              <Reveal key={n}>
+                <div className="grid lg:grid-cols-12 gap-6 border-b border-foreground/20 py-7 items-baseline group hover:bg-[var(--color-ivory)]/60 transition-colors px-2">
+                  <div className="lg:col-span-1 spec text-[var(--color-selvedge)]">N° {n}</div>
+                  <div className="lg:col-span-4 serif text-2xl md:text-3xl">{t}</div>
+                  <div className="lg:col-span-7 text-foreground/75 text-[15px] leading-relaxed">{d}</div>
                 </div>
-                <div className="serif text-2xl mt-7">{f.title}</div>
-                <p className="mt-3 text-sm text-muted-foreground leading-[1.7]">{f.text}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
