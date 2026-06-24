@@ -52,12 +52,18 @@ function Admin() {
   const fetchStats = useServerFn(adminStats);
   const setStatus = useServerFn(setPartnerStatus);
   const updateOrder = useServerFn(updateOrderStatus);
+  const fetchProducts = useServerFn(adminListProducts);
+  const saveProduct = useServerFn(upsertProduct);
+  const removeProduct = useServerFn(deleteProduct);
+  const saveStock = useServerFn(upsertStock);
 
-  const [tab, setTab] = useState<"partners" | "orders" | "stats">("partners");
+  const [tab, setTab] = useState<"products" | "partners" | "orders" | "stats">("products");
   const [allowed, setAllowed] = useState<boolean | null>(null);
   const [partners, setPartners] = useState<any[]>([]);
   const [orders, setOrders] = useState<any[]>([]);
+  const [products, setProducts] = useState<AdminProduct[]>([]);
   const [stats, setStats] = useState<any>(null);
+  const [editing, setEditing] = useState<AdminProduct | null>(null);
 
   useEffect(() => {
     fetchMe({}).then((r) => setAllowed(r.isAdmin));
@@ -66,6 +72,7 @@ function Admin() {
   const reload = async () => {
     if (tab === "partners") setPartners(await fetchPartners({}));
     if (tab === "orders") setOrders(await fetchOrders({}));
+    if (tab === "products") setProducts((await fetchProducts({})) as AdminProduct[]);
     if (tab === "stats") setStats(await fetchStats({}));
   };
   useEffect(() => { if (allowed) reload(); }, [tab, allowed]); // eslint-disable-line
@@ -83,8 +90,9 @@ function Admin() {
       </section>
 
       <div className="border-b border-border bg-background sticky top-16 z-20">
-        <div className="container-x flex gap-1">
+        <div className="container-x flex gap-1 overflow-x-auto">
           {[
+            ["products", "Proizvodi"],
             ["partners", "Partneri"],
             ["orders", "Narudžbe"],
             ["stats", "Statistika"],
@@ -92,7 +100,7 @@ function Admin() {
             <button
               key={k}
               onClick={() => setTab(k as any)}
-              className={`px-5 py-4 text-sm font-semibold border-b-2 transition-colors ${
+              className={`px-5 py-4 text-sm font-semibold border-b-2 transition-colors whitespace-nowrap ${
                 tab === k ? "border-foreground" : "border-transparent text-muted-foreground hover:text-foreground"
               }`}
             >{l}</button>
@@ -102,6 +110,27 @@ function Admin() {
 
       <section className="py-10">
         <div className="container-x">
+          {tab === "products" && (
+            <ProductsTab
+              products={products}
+              editing={editing}
+              setEditing={setEditing}
+              onSave={async (p, stockEntries) => {
+                const saved = await saveProduct({ data: stripStock(p) });
+                if (stockEntries.length) {
+                  await saveStock({ data: { productId: saved.id, entries: stockEntries } });
+                }
+                setEditing(null);
+                reload();
+              }}
+              onDelete={async (id) => {
+                if (!confirm("Obrisati ovaj artikal i sve zalihe?")) return;
+                await removeProduct({ data: { id } });
+                reload();
+              }}
+            />
+          )}
+
           {tab === "partners" && (
             <div className="space-y-3">
               {partners.length === 0 && <div className="text-muted-foreground">Nema prijava.</div>}
