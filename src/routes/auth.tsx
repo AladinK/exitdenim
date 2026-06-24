@@ -87,7 +87,7 @@ function Auth() {
       <section className="min-h-[80vh] grid lg:grid-cols-2">
         <div className="hidden lg:flex bg-foreground text-background p-12 flex-col justify-between">
           <div className="bg-background inline-block p-2 rounded-sm w-fit">
-            <Logo className="h-7" />
+            <Logo />
           </div>
           <div>
             <div className="eyebrow text-accent">B2B Wholesale Portal</div>
