@@ -33,8 +33,11 @@
   --color-indigo-mid: var(--indigo-mid);
   --color-ivory: var(--ivory);
   --color-copper: var(--copper);
+  --color-selvedge: var(--selvedge);
+  --color-ecru: var(--ecru);
   --font-display: "Cormorant Garamond", "Times New Roman", serif;
   --font-sans: "Karla", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
 }
 
 :root {
