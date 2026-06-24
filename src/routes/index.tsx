@@ -40,201 +40,234 @@ function Home() {
 
   return (
     <Layout>
-      {/* ============== HERO ============== */}
-      <section className="relative bg-foreground text-background overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <img
-            src={heroAsset.url}
-            alt=""
-            className="w-full h-full object-cover opacity-60 animate-kenburns"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/80 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-transparent to-foreground/30" />
-          {/* copper hairline accent */}
-          <div className="absolute left-0 right-0 bottom-0 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
-        </div>
+      {/* ============== HERO — DENIM SPEC SHEET ============== */}
+      <section className="relative denim-weave text-background overflow-hidden">
+        {/* blueprint grid + selvedge edge */}
+        <div className="absolute inset-0 blueprint text-background/40 pointer-events-none" />
+        <div className="absolute top-0 bottom-0 left-0 w-[3px] bg-[var(--color-selvedge)] z-10" />
+        <div className="absolute top-0 bottom-0 right-0 w-[3px] bg-[var(--color-selvedge)] z-10" />
 
-        <div className="container-x relative pt-28 pb-20 md:pt-40 md:pb-32 grid lg:grid-cols-12 gap-10 items-end">
-          <div className="lg:col-span-8">
-            <Reveal>
-              <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.36em] text-accent">
-                <span className="inline-block w-8 h-px bg-accent" />
-                Maison · B2B Wholesale · Est. Novi Pazar
-              </div>
-            </Reveal>
-            <Reveal delay={1} as="h1" className="mt-7 editorial-h text-[clamp(2.75rem,9vw,7.5rem)] text-background">
-              <>EXIT Denim<br/>
-              <span className="italic font-light text-background/90">B2B Showroom</span></>
-            </Reveal>
-            <Reveal delay={2}>
-              <p className="mt-8 text-base md:text-lg text-background/80 max-w-xl leading-relaxed">
-                Premium muški denim za butike koji traže kvalitet, stabilan fit i robu koja se brzo okreće.
-                Krojen, sašiven i dorađen u <span className="text-accent">Novom Pazaru</span>.
-              </p>
-            </Reveal>
-            <Reveal delay={3}>
-              <div className="mt-10 flex flex-wrap gap-3">
-                <Link to="/auth" className="btn-accent">
-                  Zatraži B2B pristup <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-                <Link to="/katalog" className="btn-outline border-background text-background hover:bg-background hover:text-foreground">
-                  Pogledaj kolekciju
-                </Link>
-              </div>
-            </Reveal>
+        <div className="container-x relative z-10 pt-16 md:pt-24 pb-16">
+          {/* top spec strip */}
+          <div className="flex flex-wrap justify-between gap-4 spec text-background/70 border-b border-background/20 pb-4">
+            <span>N°. 0028 / SS·26</span>
+            <span>43°08′N · 20°31′E — Novi Pazar, SRB</span>
+            <span>Atelier — Cut · Sew · Finish</span>
           </div>
 
-          <div className="lg:col-span-4 hidden lg:block">
-            <Reveal delay={2}>
-              <div className="border-l border-accent/40 pl-8">
-                <div className="text-[10px] uppercase tracking-[0.32em] text-accent">Wholesale Index</div>
-                <dl className="mt-6 space-y-5">
-                  {[
-                    ["Aktivni artikli", String(products.length || 8)],
-                    ["Veličine", "31 — 40"],
-                    ["MOQ / artikl", "10 kom"],
-                    ["Isporuka regija", "5–10 dana"],
-                  ].map(([l, v]) => (
-                    <div key={l} className="flex items-baseline justify-between gap-4 border-b border-background/15 pb-3">
-                      <dt className="text-xs uppercase tracking-[0.18em] text-background/55">{l}</dt>
-                      <dd className="serif text-2xl text-background tabular-nums">{v}</dd>
-                    </div>
-                  ))}
-                </dl>
-                <div className="mt-6 text-xs text-background/65">
-                  Prosječna marža butika: <span className="text-accent serif text-lg">2.5–3.2×</span>
+          <div className="mt-12 md:mt-16 grid lg:grid-cols-12 gap-10">
+            {/* Left — big type, no fluff */}
+            <div className="lg:col-span-8 relative">
+              <Reveal>
+                <div className="spec text-[var(--color-selvedge)]">— Wholesale Programme · By application</div>
+              </Reveal>
+
+              <Reveal delay={1} as="h1" className="mt-6 editorial-h text-background">
+                <>
+                <span className="block text-[clamp(3.5rem,12vw,11rem)] leading-[0.86]">EXIT</span>
+                <span className="block text-[clamp(3.5rem,12vw,11rem)] leading-[0.86] -mt-2">DENIM<span className="text-[var(--color-selvedge)]">.</span></span>
+                </>
+              </Reveal>
+
+              <Reveal delay={2}>
+                <p className="mt-10 max-w-xl text-background/85 text-[15px] leading-[1.85]">
+                  Pravimo muški denim za butike koji znaju razliku između robe i <em className="not-italic text-[var(--color-copper)]">stvari koja se vraća na police</em>.
+                  Bez sezonskih iznenađenja, bez praznina u veličinama, bez razvlačenja posle treće noše.
+                </p>
+              </Reveal>
+
+              <Reveal delay={3}>
+                <div className="mt-10 flex flex-wrap items-center gap-4">
+                  <Link to="/auth" className="btn-accent">
+                    Otvori B2B nalog <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                  <Link to="/katalog" className="spec text-background/75 hover:text-background border-b border-background/30 hover:border-background pb-1 transition-colors">
+                    Pogledaj line sheet →
+                  </Link>
                 </div>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-
-        {/* Marquee trust strip */}
-        <div className="border-t border-background/15 relative bg-foreground/40 backdrop-blur-sm overflow-hidden">
-          <div className="flex animate-marquee whitespace-nowrap py-5 text-[10px] uppercase tracking-[0.32em] text-background/70 font-medium">
-            {Array.from({ length: 2 }).map((_, i) => (
-              <div key={i} className="flex shrink-0 items-center gap-12 px-6">
-                <span>Made in Serbia</span>
-                <span className="text-accent">✦</span>
-                <span>Wholesale Partner Program</span>
-                <span className="text-accent">✦</span>
-                <span>Sizes 31 – 40</span>
-                <span className="text-accent">✦</span>
-                <span>Fast Regional Delivery</span>
-                <span className="text-accent">✦</span>
-                <span>Repeat Order Friendly</span>
-                <span className="text-accent">✦</span>
-                <span>Own Atelier · Novi Pazar</span>
-                <span className="text-accent">✦</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ============== EDITORIAL INTRO ============== */}
-      <section className="section-pad">
-        <div className="container-x">
-          <div className="grid lg:grid-cols-12 gap-10 items-end">
-            <div className="lg:col-span-7">
-              <div className="eyebrow">House Statement · 001</div>
-              <h2 className="mt-6 editorial-h text-[clamp(2.25rem,5vw,4.5rem)] max-w-3xl">
-                Denim built for <span className="italic">retail rotation</span>. <br/>
-                Designed for boutiques. Produced for repeat orders.
-              </h2>
+              </Reveal>
             </div>
-            <div className="lg:col-span-5">
-              <p className="text-base text-foreground/75 leading-[1.75] max-w-md">
-                EXIT Denim je privatni B2B showroom iz Novog Pazara. Radimo isključivo sa butik partnerima,
-                online prodavcima i regionalnim distributerima koji žele stabilnu denim ponudu, jake marže i robu koja se vraća na police.
-              </p>
-              <div className="mt-7 flex gap-6 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
-                <span>Tailored fits</span>
-                <span>Honest fabrics</span>
-                <span>Repeat stock</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ============== FEATURED CATEGORIES ============== */}
-      <section className="border-y border-border bg-secondary section-pad">
-        <div className="container-x">
-          <div className="flex items-end justify-between flex-wrap gap-6 mb-14">
-            <div>
-              <div className="eyebrow">Three lines · One catalogue</div>
-              <h2 className="mt-5 editorial-h text-[clamp(2rem,4vw,3.5rem)]">
-                Premium fit. <span className="italic">Reliable stock.</span> Strong margins.
-              </h2>
-            </div>
-            <Link to="/katalog" className="link-underline text-[11px] uppercase tracking-[0.22em] font-medium pb-1">
-              View complete catalogue →
-            </Link>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-1.5">
-            {[
-              { to: "/jeans" as const, label: "Jeans", desc: "Indigo · Black · Stone Wash", num: "01", bg: "linear-gradient(160deg, #1a2438 0%, #050505 100%)" },
-              { to: "/chino" as const, label: "Chino", desc: "Beige · Navy · Olive", num: "02", bg: "linear-gradient(160deg, #4a5240 0%, #1a1d18 100%)" },
-              { to: "/cargo" as const, label: "Cargo", desc: "Black · Sand · Seasonal", num: "03", bg: "linear-gradient(160deg, #2a2a2a 0%, #050505 100%)" },
-            ].map((c) => (
-              <Link
-                key={c.to}
-                to={c.to}
-                className="group relative aspect-[4/5] overflow-hidden flex flex-col justify-between p-7 text-background"
-                style={{ background: c.bg }}
-              >
-                <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/20 transition-colors duration-700" />
-                <div className="relative text-[10px] uppercase tracking-[0.32em] text-background/60 tabular-nums">{c.num} / 03</div>
-                <div className="relative">
-                  <div className="editorial-h text-5xl md:text-6xl">{c.label}</div>
-                  <div className="text-[11px] uppercase tracking-[0.22em] text-background/70 mt-3">{c.desc}</div>
-                  <div className="mt-6 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-accent">
-                    Explore line <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+            {/* Right — Tech Pack card */}
+            <div className="lg:col-span-4">
+              <Reveal delay={2}>
+                <div className="relative crosshair p-7 bg-[var(--color-ink)]/40 backdrop-blur-[2px]">
+                  <div className="flex justify-between spec text-background/55">
+                    <span>TECH · PACK</span>
+                    <span>REV·07</span>
                   </div>
+                  <div className="mt-8 serif text-3xl text-background leading-tight">
+                    Style EX–101<br/>
+                    <span className="italic text-background/80">«Slim Indigo»</span>
+                  </div>
+                  <dl className="mt-8 space-y-3 spec text-background/80">
+                    {[
+                      ["FABRIC", "100% COTTON"],
+                      ["WEIGHT", "13.5 OZ"],
+                      ["WASH", "RAW INDIGO"],
+                      ["SIZES", "31 — 40"],
+                      ["MOQ", "10 PCS"],
+                      ["LEAD", "5–10 DAYS"],
+                    ].map(([k, v]) => (
+                      <div key={k} className="flex justify-between border-b border-background/15 pb-2">
+                        <dt>{k}</dt>
+                        <dd className="text-background">{v}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <div className="mt-7 spec text-[var(--color-selvedge)]">— Wholesale 2.5–3.2× margin</div>
                 </div>
-              </Link>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+
+        {/* Marquee — mono, gritty, no luxury sparkles */}
+        <div className="relative z-10 border-t border-background/20 overflow-hidden">
+          <div className="flex animate-marquee whitespace-nowrap py-4 spec text-background/65">
+            {Array.from({ length: 2 }).map((_, i) => (
+              <div key={i} className="flex shrink-0 items-center gap-10 px-5">
+                <span>MADE IN NOVI PAZAR</span>
+                <span className="text-[var(--color-selvedge)]">—</span>
+                <span>OWN ATELIER</span>
+                <span className="text-[var(--color-selvedge)]">—</span>
+                <span>13.5 — 14.5 OZ</span>
+                <span className="text-[var(--color-selvedge)]">—</span>
+                <span>SIZES 31 / 32 / 33 / 34 / 36 / 38 / 40</span>
+                <span className="text-[var(--color-selvedge)]">—</span>
+                <span>WHOLESALE ONLY</span>
+                <span className="text-[var(--color-selvedge)]">—</span>
+                <span>REPEAT STOCK ON BEST-SELLERS</span>
+                <span className="text-[var(--color-selvedge)]">—</span>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ============== WHY BOUTIQUES CHOOSE EXIT ============== */}
+      {/* ============== MANIFESTO — asymmetric, plain-spoken ============== */}
       <section className="section-pad">
+        <div className="container-x grid lg:grid-cols-12 gap-x-8 gap-y-12">
+          <div className="lg:col-span-2 spec text-muted-foreground">
+            <div>§ 001</div>
+            <div className="mt-2 text-[var(--color-selvedge)]">— Manifesto</div>
+          </div>
+
+          <Reveal delay={1} className="lg:col-span-7">
+            <p className="serif text-[clamp(1.6rem,3vw,2.4rem)] leading-[1.25] text-foreground">
+              Ne pravimo modu. Pravimo <span className="text-[var(--color-selvedge)]">radne pantalone</span> za muškarce
+              koji ih nose svaki dan — i butike koji žele robu što se prodaje i drugi put.
+              Krojimo u Novom Pazaru, šijemo u Novom Pazaru, garantujemo fit u Novom Pazaru.
+              Bez outsourceanja. Bez white-label trikova. Bez «kolekcije» koja nestane kad ti zatreba repeat.
+            </p>
+          </Reveal>
+
+          <div className="lg:col-span-3 lg:border-l lg:border-border lg:pl-6">
+            <Reveal delay={2}>
+              <div className="spec text-muted-foreground">Founders</div>
+              <div className="mt-2 serif text-2xl">Familija Dazdarević</div>
+              <div className="mono text-xs text-muted-foreground mt-2">EST. 2014 · ATELIER NP</div>
+              <div className="mt-6 spec text-[var(--color-selvedge)]">— Treća generacija u tekstilu</div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ============== THREE LINES — full-bleed editorial strips ============== */}
+      <section className="border-t border-border">
+        {[
+          {
+            n: "01",
+            to: "/jeans" as const,
+            label: "JEANS",
+            ital: "Indigo Programme",
+            spec: "13.5 OZ · 5-POCKET · RAW / STONE / BLACK",
+            text: "Slim, Regular Slim, Relaxed. Tri kalupa koji su prošli kroz hiljade kupaca bez razvlačenja.",
+            bg: "bg-[var(--color-denim)]",
+          },
+          {
+            n: "02",
+            to: "/chino" as const,
+            label: "CHINO",
+            ital: "Twill Programme",
+            spec: "10 OZ · COMBED TWILL · BEIGE / NAVY / OLIVE",
+            text: "Glatka tkanina koja stoji. Kalup koji ne smara — ni petkom, ni ponedjeljkom.",
+            bg: "bg-[var(--color-ink)]",
+          },
+          {
+            n: "03",
+            to: "/cargo" as const,
+            label: "CARGO",
+            ital: "Utility Programme",
+            spec: "11 OZ · 6-POCKET · BLACK / SAND / SEASONAL",
+            text: "Workwear DNA. Džepovi koji nešto znače, fit koji nije šator.",
+            bg: "bg-[var(--color-indigo-mid)]",
+          },
+        ].map((c) => (
+          <Link
+            key={c.n}
+            to={c.to}
+            className={`group relative block ${c.bg} text-background overflow-hidden border-b border-background/10`}
+          >
+            <div className="container-x grid lg:grid-cols-12 gap-8 items-center py-16 md:py-24 relative">
+              <div className="lg:col-span-1 spec text-[var(--color-selvedge)]">N° {c.n}</div>
+              <div className="lg:col-span-6">
+                <div className="editorial-h text-[clamp(3rem,9vw,8rem)] leading-none">
+                  {c.label}
+                  <span className="text-[var(--color-selvedge)]">.</span>
+                </div>
+                <div className="mt-3 serif italic text-2xl text-background/80">{c.ital}</div>
+              </div>
+              <div className="lg:col-span-4 lg:border-l lg:border-background/20 lg:pl-8">
+                <div className="spec text-background/65">{c.spec}</div>
+                <p className="mt-4 text-background/85 text-[15px] leading-relaxed">{c.text}</p>
+                <div className="mt-6 spec inline-flex items-center gap-2 text-[var(--color-copper)]">
+                  Pogledaj liniju
+                  <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                </div>
+              </div>
+              <div className="lg:col-span-1 hidden lg:block text-right spec text-background/40">/ 03</div>
+            </div>
+            {/* hover sweep */}
+            <div className="absolute inset-y-0 left-0 w-0 bg-[var(--color-selvedge)]/15 group-hover:w-full transition-[width] duration-700 ease-out pointer-events-none" />
+          </Link>
+        ))}
+      </section>
+
+      {/* ============== SIX REASONS — numbered editorial list, no icons ============== */}
+      <section className="section-pad bg-[var(--color-ecru)] border-y border-border">
         <div className="container-x">
           <div className="grid lg:grid-cols-12 gap-10 mb-16">
-            <div className="lg:col-span-5">
-              <div className="eyebrow">Why boutiques choose EXIT</div>
+            <div className="lg:col-span-4 selvedge-line pl-6">
+              <div className="spec text-[var(--color-selvedge)]">§ 002 — Why boutiques stay</div>
               <h2 className="mt-5 editorial-h text-[clamp(2rem,4vw,3.5rem)]">
-                Roba koja se okreće.<br/>
-                <span className="italic">Marža</span> koja drži butik.
+                Šest razloga<br/>
+                <span className="italic">koje butici znaju.</span>
               </h2>
             </div>
-            <div className="lg:col-span-7 flex items-end">
-              <p className="text-base text-foreground/70 leading-relaxed max-w-xl">
-                Šest razloga zbog kojih butici od Beograda do Ljubljane drže EXIT Denim na svojim policama tokom cijele godine.
+            <div className="lg:col-span-7 lg:col-start-6 flex items-end">
+              <p className="text-foreground/75 leading-relaxed max-w-xl text-[15px]">
+                Bez marketinških priča. Šest stvari koje butike od Beograda do Ljubljane drže s nama treću sezonu zaredom.
               </p>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 -mt-px -ml-px">
+          <div className="border-t border-foreground">
             {[
-              { icon: TrendingUp, n: "01", title: "Stabilne marže", text: "Veleprodajna cijena drži maloprodaju na 2.5–3.2×. Bez sezonskih iznenađenja." },
-              { icon: Ruler, n: "02", title: "Stabilan fit", text: "Slim, Regular Slim, Relaxed i Cargo — testirano na hiljade kupaca, bez razvlačenja." },
-              { icon: Scissors, n: "03", title: "Pune veličine", text: "Veličine 31–40 stalno na stanju. Bez praznina u sredini grid-a." },
-              { icon: Truck, n: "04", title: "Brza regionalna isporuka", text: "5–10 dana do Beograda, Sarajeva, Podgorice, Zagreba, Skoplja, Ljubljane." },
-              { icon: ShieldCheck, n: "05", title: "Kvalitet u proizvodnji", text: "Vlastita proizvodnja u Novom Pazaru. Kontrola kvaliteta na svakoj seriji." },
-              { icon: Repeat, n: "06", title: "Repeat orders", text: "Best-selleri se rade kontinuirano. Tvoj butik ne ostaje bez najtraženijih modela." },
-            ].map((f) => (
-              <div key={f.title} className="border-t border-l border-border p-8 group hover:bg-secondary/50 transition-colors">
-                <div className="flex items-start justify-between">
-                  <f.icon className="w-5 h-5 text-foreground" strokeWidth={1.25} />
-                  <span className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground tabular-nums">{f.n}</span>
+              ["01", "Marža drži", "Veleprodajna cijena drži retail na 2.5–3.2×. Cjenovnik ne mijenjamo usred sezone."],
+              ["02", "Fit ne razvlači", "Slim · Regular Slim · Relaxed · Cargo. Kalupi testirani na hiljade kupaca."],
+              ["03", "Veličine pune", "31 — 40 stalno na stanju. Bez praznina u sredini grid-a."],
+              ["04", "Brza isporuka", "5 — 10 dana: Beograd · Sarajevo · Podgorica · Zagreb · Skoplje · Ljubljana."],
+              ["05", "Vlastiti atelje", "Krojenje, šivenje, finiš — sve u Novom Pazaru. Kontrola na svakoj seriji."],
+              ["06", "Repeat na best-sellere", "Najtraženiji modeli se rade kontinuirano. Tvoj butik ne ostaje suh."],
+            ].map(([n, t, d]) => (
+              <Reveal key={n}>
+                <div className="grid lg:grid-cols-12 gap-6 border-b border-foreground/20 py-7 items-baseline group hover:bg-[var(--color-ivory)]/60 transition-colors px-2">
+                  <div className="lg:col-span-1 spec text-[var(--color-selvedge)]">N° {n}</div>
+                  <div className="lg:col-span-4 serif text-2xl md:text-3xl">{t}</div>
+                  <div className="lg:col-span-7 text-foreground/75 text-[15px] leading-relaxed">{d}</div>
                 </div>
-                <div className="serif text-2xl mt-7">{f.title}</div>
-                <p className="mt-3 text-sm text-muted-foreground leading-[1.7]">{f.text}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
