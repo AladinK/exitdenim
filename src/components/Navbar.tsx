@@ -57,14 +57,17 @@ export function Navbar() {
       {/* Announcement bar */}
       <div className="hidden md:block bg-foreground text-background text-[10px] tracking-[0.32em] uppercase">
         <div className="container-x flex items-center justify-between py-2">
-          <span>Premium Denim · Made in Novi Pazar, Serbia</span>
-          <span className="text-accent">B2B Wholesale Showroom — Pristup samo za butike</span>
+          <span className="flex items-center gap-2">
+            <span className="inline-block w-1.5 h-1.5 bg-[var(--selvedge)] rounded-full" />
+            EXIT Denim · Wholesale Showroom — pristup samo za odobrene butike
+          </span>
+          <span className="text-accent">SS / FW · MOQ 10 kom · Isporuka 15–25 dana</span>
         </div>
       </div>
 
       <div className="container-x flex items-center justify-between h-20">
-        <Link to="/" className="flex items-center" onClick={() => setOpen(false)}>
-          <Logo className="h-8" />
+        <Link to="/" className="flex items-center -ml-1" onClick={() => setOpen(false)} aria-label="EXIT Denim — Home">
+          <Logo />
         </Link>
 
         <nav className="hidden lg:flex items-center gap-7 xl:gap-9">
@@ -119,7 +122,7 @@ export function Navbar() {
       {open && (
         <div className="lg:hidden fixed inset-0 top-0 z-50 bg-background flex flex-col">
           <div className="container-x flex items-center justify-between h-20 border-b border-border">
-            <Logo className="h-8" />
+            <Logo />
             <button onClick={() => setOpen(false)} aria-label="Close menu" className="p-2 -mr-2">
               <X className="w-6 h-6" />
             </button>

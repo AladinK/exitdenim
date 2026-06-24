@@ -8,7 +8,7 @@ export function Footer() {
         <div className="grid gap-14 md:grid-cols-12">
           <div className="md:col-span-5">
             <div className="bg-background inline-block p-3">
-              <Logo className="h-8" showWordmark={false} />
+              <Logo variant="light" />
             </div>
             <p className="serif text-2xl md:text-3xl mt-8 max-w-md leading-tight text-background/90">
               Premium denim, designed for boutique rotation. Produced in Novi Pazar, Serbia.
