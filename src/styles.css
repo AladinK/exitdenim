@@ -272,3 +272,89 @@
   background-position: 0 100%;
   padding-bottom: 2px;
 }
+
+/* === Denim / atelier identity utilities === */
+
+@utility mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "ss01", "cv11";
+}
+
+@utility spec {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Selvedge vertical red line — denim heritage motif */
+@utility selvedge-line {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 2px;
+    background: var(--color-selvedge);
+  }
+}
+
+/* Stamped / inked ATELIER mark */
+@utility stamp {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid currentColor;
+  color: var(--color-selvedge);
+  transform: rotate(-2deg);
+  opacity: 0.85;
+}
+
+/* Dashed white stitching border */
+@utility stitch {
+  border: 1px dashed color-mix(in oklab, var(--color-copper) 70%, transparent);
+  outline: 1px solid transparent;
+  outline-offset: -6px;
+}
+
+/* Blueprint grid background */
+@utility blueprint {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, currentColor 10%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, currentColor 10%, transparent) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Denim weave subtle texture for hero backgrounds */
+@utility denim-weave {
+  background-color: var(--color-denim);
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(-45deg, rgba(0,0,0,0.10) 0 1px, transparent 1px 3px);
+}
+
+/* Crosshair corner marks for spec frames */
+@utility crosshair {
+  position: relative;
+  &::before, &::after,
+  & > .ch-tr, & > .ch-bl {
+    content: ""; position: absolute; width: 14px; height: 14px;
+    border-color: currentColor; border-style: solid; border-width: 0;
+  }
+  &::before { top: 0; left: 0; border-top-width: 1px; border-left-width: 1px; }
+  &::after { bottom: 0; right: 0; border-bottom-width: 1px; border-right-width: 1px; }
+}
+
+@keyframes drawX {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@utility draw-x {
+  transform-origin: left;
+  animation: drawX 1.2s cubic-bezier(.6,.05,.05,1) both;
+}
+
