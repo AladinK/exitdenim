@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ProizvodnjaRouteImport } from './routes/proizvodnja'
 import { Route as PostaniPartnerRouteImport } from './routes/postani-partner'
 import { Route as MediaKitRouteImport } from './routes/media-kit'
@@ -27,6 +28,11 @@ import { Route as AuthenticatedCekanjeRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ApiLineSheetSkuRouteImport } from './routes/api/line-sheet.$sku'
 
+const ShopRoute = ShopRouteImport.update({
+  id: '/shop',
+  path: '/shop',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProizvodnjaRoute = ProizvodnjaRouteImport.update({
   id: '/proizvodnja',
   path: '/proizvodnja',
@@ -124,6 +130,7 @@ export interface FileRoutesByFullPath {
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/proizvodnja': typeof ProizvodnjaRoute
+  '/shop': typeof ShopRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/cekanje': typeof AuthenticatedCekanjeRoute
   '/narudzba': typeof AuthenticatedNarudzbaRoute
@@ -142,6 +149,7 @@ export interface FileRoutesByTo {
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/proizvodnja': typeof ProizvodnjaRoute
+  '/shop': typeof ShopRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/cekanje': typeof AuthenticatedCekanjeRoute
   '/narudzba': typeof AuthenticatedNarudzbaRoute
@@ -162,6 +170,7 @@ export interface FileRoutesById {
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/proizvodnja': typeof ProizvodnjaRoute
+  '/shop': typeof ShopRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/cekanje': typeof AuthenticatedCekanjeRoute
   '/_authenticated/narudzba': typeof AuthenticatedNarudzbaRoute
@@ -182,6 +191,7 @@ export interface FileRouteTypes {
     | '/media-kit'
     | '/postani-partner'
     | '/proizvodnja'
+    | '/shop'
     | '/admin'
     | '/cekanje'
     | '/narudzba'
@@ -200,6 +210,7 @@ export interface FileRouteTypes {
     | '/media-kit'
     | '/postani-partner'
     | '/proizvodnja'
+    | '/shop'
     | '/admin'
     | '/cekanje'
     | '/narudzba'
@@ -219,6 +230,7 @@ export interface FileRouteTypes {
     | '/media-kit'
     | '/postani-partner'
     | '/proizvodnja'
+    | '/shop'
     | '/_authenticated/admin'
     | '/_authenticated/cekanje'
     | '/_authenticated/narudzba'
@@ -239,12 +251,20 @@ export interface RootRouteChildren {
   MediaKitRoute: typeof MediaKitRoute
   PostaniPartnerRoute: typeof PostaniPartnerRoute
   ProizvodnjaRoute: typeof ProizvodnjaRoute
+  ShopRoute: typeof ShopRoute
   ProizvodSlugRoute: typeof ProizvodSlugRoute
   ApiLineSheetSkuRoute: typeof ApiLineSheetSkuRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/shop': {
+      id: '/shop'
+      path: '/shop'
+      fullPath: '/shop'
+      preLoaderRoute: typeof ShopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/proizvodnja': {
       id: '/proizvodnja'
       path: '/proizvodnja'
@@ -395,6 +415,7 @@ const rootRouteChildren: RootRouteChildren = {
   MediaKitRoute: MediaKitRoute,
   PostaniPartnerRoute: PostaniPartnerRoute,
   ProizvodnjaRoute: ProizvodnjaRoute,
+  ShopRoute: ShopRoute,
   ProizvodSlugRoute: ProizvodSlugRoute,
   ApiLineSheetSkuRoute: ApiLineSheetSkuRoute,
 }
