@@ -9,6 +9,7 @@ import { getMyProfile } from "@/lib/orders.functions";
 
 const NAV: Array<{ to: any; label: string }> = [
   { to: "/", label: "Home" },
+  { to: "/shop", label: "Shop" },
   { to: "/katalog", label: "B2B Catalog" },
   { to: "/jeans", label: "Jeans" },
   { to: "/chino", label: "Chino" },
