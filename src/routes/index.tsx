@@ -165,9 +165,9 @@ function HomePage() {
 
           <div className="mt-12 grid md:grid-cols-3 gap-5">
             {[
-              { to: "/jeans" as const, label: "Фармерке", desc: "12oz · slim, regular, relaxed", img: productJeans.url },
-              { to: "/chino" as const, label: "Чино", desc: "Памук стрейч · класичан крој", img: productChino.url },
-              { to: "/cargo" as const, label: "Карго", desc: "Утилитарни кројеви · funkcionalnost", img: productCargo.url },
+              { to: "/katalog" as const, label: "Фармерке", desc: "12oz · slim, regular, relaxed", img: productJeans.url },
+              { to: "/katalog" as const, label: "Чино", desc: "Памук стрейч · класичан крој", img: productChino.url },
+              { to: "/katalog" as const, label: "Карго", desc: "Утилитарни кројеви · funkcionalnost", img: productCargo.url },
             ].map((c, i) => (
               <Reveal key={c.label} delay={Math.min(3, i + 1) as 1 | 2 | 3}>
                 <Link to={c.to} className="group block card-soft overflow-hidden">

@@ -29,10 +29,8 @@ export function Footer() {
           <div className="md:col-span-2">
             <div className="text-xs uppercase tracking-[0.16em] text-white/55 font-semibold">Шоурум</div>
             <ul className="mt-4 space-y-2.5 text-sm">
+              <li><Link to="/katalog" className="hover:text-accent transition-colors">Продавница</Link></li>
               <li><Link to="/katalog" className="hover:text-accent transition-colors">B2B Каталог</Link></li>
-              <li><Link to="/jeans" className="hover:text-accent transition-colors">Фармерке</Link></li>
-              <li><Link to="/chino" className="hover:text-accent transition-colors">Чино</Link></li>
-              <li><Link to="/cargo" className="hover:text-accent transition-colors">Карго</Link></li>
             </ul>
           </div>
 

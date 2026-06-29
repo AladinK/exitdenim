@@ -9,12 +9,9 @@ import { getMyProfile } from "@/lib/orders.functions";
 
 const NAV: Array<{ to: any; label: string }> = [
   { to: "/", label: "Почетна" },
-  { to: "/shop", label: "Продавница" },
-  { to: "/katalog", label: "B2B Каталог" },
-  { to: "/jeans", label: "Фармерке" },
-  { to: "/chino", label: "Чино" },
-  { to: "/cargo", label: "Карго" },
+  { to: "/katalog", label: "Продавница" },
   { to: "/postani-partner", label: "Постаните партнер" },
+  { to: "/proizvodnja", label: "Производња" },
   { to: "/kontakt", label: "Контакт" },
 ];
 
