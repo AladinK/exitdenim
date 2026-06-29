@@ -52,7 +52,7 @@ export const getProductBySlug = createServerFn({ method: "GET" })
   .handler(async ({ data }) => {
     const sb = publicClient();
     const { data: product, error } = await sb
-      .from("products")
+      .from("products_public")
       .select("*")
       .eq("slug", data.slug)
       .eq("active", true)
