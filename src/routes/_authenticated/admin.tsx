@@ -100,6 +100,7 @@ function Admin() {
         <div className="container-x flex gap-1 overflow-x-auto">
           {[
             ["products", "Proizvodi"],
+            ["home", "Početna"],
             ["partners", "Partneri"],
             ["orders", "Narudžbe"],
             ["stats", "Statistika"],
