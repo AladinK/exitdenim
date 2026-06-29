@@ -1,10 +1,17 @@
 import { Link } from "@tanstack/react-router";
 import { Logo } from "./Logo";
+import { Seal } from "./Seal";
 
 export function Footer() {
   return (
-    <footer className="bg-[var(--ink)] text-white/85 mt-24">
-      <div className="container-x pt-20 pb-10">
+    <footer className="relative overflow-hidden bg-[var(--ink)] text-white/85 mt-24">
+      <Seal
+        tone="green"
+        opacity={0.08}
+        className="pointer-events-none absolute -right-16 -top-16 w-[420px] h-[420px] hidden md:block"
+      />
+      <div className="relative container-x pt-20 pb-10">
+
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-5">
             <Logo variant="light" className="h-10" />

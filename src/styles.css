@@ -41,12 +41,14 @@
 :root {
   --radius: 10px;
 
-  /* Premium SaaS palette — Stripe / Linear / Vercel inspired */
-  --ink: #0B1220;
-  --navy: #0F2547;
-  --teal: #0FB5A6;
-  --violet: #6D5DF6;
-  --surface: #F7F8FA;
+  /* EXIT Denim brand palette — green identity */
+  --ink: #1A1D1A;
+  --navy: #1F2A1A;
+  --teal: #6FA03A;          /* brand green (logo) */
+  --brand-green: #6FA03A;
+  --brand-green-deep: #4F7A24;
+  --violet: #6FA03A;
+  --surface: #F6F7F3;
 
   --background: #FFFFFF;
   --foreground: var(--ink);

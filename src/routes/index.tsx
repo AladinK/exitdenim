@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Check, Lock, Package, Truck, ShieldCheck, BarChart3, Sparkles, Globe2 } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Reveal } from "@/components/Reveal";
+import { Seal } from "@/components/Seal";
 import heroImg from "@/assets/hero-banner.jpg.asset.json";
 import workshopImg from "@/assets/workshop.jpg.asset.json";
 import productJeans from "@/assets/product-ex-101.jpg.asset.json";
@@ -26,6 +27,7 @@ function HomePage() {
       {/* ───────── HERO ───────── */}
       <section className="relative overflow-hidden gradient-mesh">
         <div className="absolute inset-0 grid-bg pointer-events-none" aria-hidden />
+        <Seal tone="green" opacity={0.06} className="pointer-events-none absolute -right-24 -top-24 w-[520px] h-[520px] hidden md:block" />
         <div className="container-x relative pt-20 pb-24 md:pt-28 md:pb-32">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7">
@@ -109,8 +111,9 @@ function HomePage() {
       </section>
 
       {/* ───────── ВРЕДНОСТИ ───────── */}
-      <section className="section-pad">
-        <div className="container-x">
+      <section className="section-pad relative">
+        <Seal tone="green" opacity={0.05} className="pointer-events-none absolute right-6 top-10 w-40 h-40" />
+        <div className="container-x relative">
           <Reveal>
             <div className="max-w-2xl">
               <span className="eyebrow">Зашто EXIT</span>
