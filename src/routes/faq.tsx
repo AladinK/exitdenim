@@ -6,22 +6,22 @@ import { Layout } from "@/components/Layout";
 export const Route = createFileRoute("/faq")({
   head: () => ({
     meta: [
-      { title: "FAQ — EXIT Denim B2B Wholesale" },
-      { name: "description", content: "Najčešća pitanja za B2B partnere: MOQ, isporuka, plaćanje, povrat, repeat orders." },
+      { title: "Често постављана питања — EXIT Denim B2B" },
+      { name: "description", content: "Најчешћа питања за B2B партнере: MOQ, испорука, плаћање, повраћај, поновне поруџбине." },
     ],
   }),
   component: Faq,
 });
 
 const QA: Array<[string, string]> = [
-  ["Koji je minimalni iznos prve narudžbe?", "Minimalna prva narudžba je 60 komada (Starter paket). MOQ po artiklu je 10–12 komada zavisno od modela."],
-  ["Kako funkcionišu cijene?", "Veleprodajne cijene vidljive su tek nakon odobrenja B2B naloga. Cijene su fiksne po sezoni — bez skrivenih troškova."],
-  ["Koliko traje isporuka?", "5–10 dana do Srbije, BiH, Crne Gore, Sjeverne Makedonije, Hrvatske i Slovenije. Grčka i ostatak EU 7–14 dana."],
-  ["Mogu li poručiti samo jednu boju u svim veličinama?", "Da. Size matrix omogućava da poručiš tačno koliko komada po svakoj veličini želiš, do raspoloživog stocka."],
-  ["Da li radite custom branding?", "Za partnere sa volumenom 500+ kom mjesečno radimo custom tagove i ambalažu. Detalje dogovaramo direktno."],
-  ["Kako funkcioniše plaćanje?", "Prva narudžba: 50% avans, 50% prije slanja. Nakon 3 uspješne saradnje prelazimo na fleksibilnije uslove."],
-  ["Da li je moguć povrat robe?", "Povrat samo u slučaju proizvodnog defekta, prijava unutar 7 dana od prijema. Stock povrati nisu mogući."],
-  ["Da li imate predstavnika u mojoj zemlji?", "Trenutno radimo direktno iz Novog Pazara. Sve komunikacije ide preko wholesale tima na BHS, srpskom i engleskom."],
+  ["Који је минимални износ прве поруџбине?", "Минимална прва поруџбина је 60 комада (Стартер пакет). MOQ по артиклу је 10–12 комада, зависно од модела."],
+  ["Како функционишу цене?", "Велепродајне цене видљиве су тек након одобрења B2B налога. Цене су фиксне по сезони — без скривених трошкова."],
+  ["Колико траје испорука?", "5–10 дана до Србије, БиХ, Црне Горе, Северне Македоније, Хрватске и Словеније. Грчка и остатак ЕУ 7–14 дана."],
+  ["Могу ли поручити само једну боју у свим величинама?", "Да. Матрица величина омогућава да поручите тачно колико комада по свакој величини желите, до расположивог стања."],
+  ["Радите ли custom брендинг?", "За партнере са волуменом 500+ ком месечно радимо custom етикете и амбалажу. Детаље договарамо директно."],
+  ["Како функционише плаћање?", "Прва поруџбина: 50% аванс, 50% пре слања. Након 3 успешне сарадње прелазимо на флексибилније услове."],
+  ["Да ли је могућ повраћај робе?", "Повраћај само у случају производног недостатка, пријава у року 7 дана од пријема. Stock повраћаји нису могући."],
+  ["Имате ли представника у мојој земљи?", "Тренутно радимо директно из Новог Пазара. Сва комуникација иде преко wholesale тима на српском, босанском, хрватском и енглеском."],
 ];
 
 function Faq() {
@@ -30,9 +30,9 @@ function Faq() {
     <Layout>
       <section className="bg-foreground text-background">
         <div className="container-x py-20 md:py-28">
-          <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Frequently Asked</div>
-          <h1 className="mt-7 editorial-h text-[clamp(2.5rem,7vw,6rem)] text-background">
-            Wholesale <span className="italic">questions</span>.
+          <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Често постављана питања</div>
+          <h1 className="mt-7 text-[clamp(2.5rem,7vw,6rem)] text-background">
+            Wholesale <span className="italic">питања</span>.
           </h1>
         </div>
       </section>
@@ -41,11 +41,11 @@ function Faq() {
         <div className="container-x grid lg:grid-cols-12 gap-12">
           <aside className="lg:col-span-4">
             <div className="lg:sticky lg:top-32">
-              <div className="eyebrow">Need more details?</div>
+              <div className="eyebrow">Треба вам више детаља?</div>
               <p className="mt-5 serif text-2xl leading-tight">
-                Wholesale tim odgovara na sva pitanja u <span className="italic">24h</span>.
+                Wholesale тим одговара на сва питања у <span className="italic">24h</span>.
               </p>
-              <Link to="/kontakt" className="btn-outline mt-7">Contact Desk</Link>
+              <Link to="/kontakt" className="btn-outline mt-7">Контактирајте нас</Link>
             </div>
           </aside>
 

@@ -14,14 +14,15 @@ export const Route = createFileRoute("/proizvod/$slug")({
     <Layout>
       <div className="container-x py-32 text-center">
         <div className="eyebrow">404</div>
-        <h1 className="editorial-h text-5xl mt-4">Article not found</h1>
-        <Link to="/katalog" className="btn-outline mt-8 inline-flex">Back to catalogue</Link>
+        <h1 className="text-5xl mt-4">Артикал није пронађен</h1>
+        <Link to="/katalog" className="btn-outline mt-8 inline-flex">Назад на каталог</Link>
       </div>
     </Layout>
   ),
   errorComponent: () => (
-    <Layout><div className="container-x py-32 text-center">Error loading article.</div></Layout>
+    <Layout><div className="container-x py-32 text-center">Грешка при учитавању артикла.</div></Layout>
   ),
+
   component: ProductDetail,
 });
 
@@ -48,15 +49,16 @@ function ProductDetail() {
     if (user) fetchProfile({}).then((r) => setApproved(r.profile?.status === "approved"));
   }, [user]); // eslint-disable-line
 
-  if (loading) return <Layout><div className="container-x py-32 text-center text-muted-foreground">Loading…</div></Layout>;
+  if (loading) return <Layout><div className="container-x py-32 text-center text-muted-foreground">Учитавање…</div></Layout>;
   if (!product) throw notFound();
 
   return (
     <Layout>
       <div className="container-x pt-10">
         <Link to="/katalog" className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 transition-colors">
-          <ChevronLeft className="w-3.5 h-3.5" /> Back to catalogue
+          <ChevronLeft className="w-3.5 h-3.5" /> Назад на каталог
         </Link>
+
       </div>
 
       <section className="container-x py-10 grid lg:grid-cols-12 gap-10 lg:gap-16">
@@ -81,42 +83,42 @@ function ProductDetail() {
         {/* Info Panel */}
         <div className="lg:col-span-5 lg:sticky lg:top-32 lg:self-start">
           <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-            {product.category} · Article {product.sku}
+            {product.category} · Артикал {product.sku}
           </div>
-          <h1 className="mt-4 editorial-h text-[clamp(2.25rem,4vw,3.5rem)]">{product.name}</h1>
+          <h1 className="mt-4 text-[clamp(2.25rem,4vw,3.5rem)]">{product.name}</h1>
           <p className="mt-5 text-foreground/75 leading-[1.75]">{product.description}</p>
 
           <div className="mt-10 flex items-end justify-between gap-8 border-t border-foreground/20 pt-6">
             <div>
-              <div className="eyebrow">Wholesale</div>
+              <div className="eyebrow">Велепродаја</div>
               {approved ? (
                 <div className="serif text-5xl mt-2 tabular-nums">€{Number(product.wholesale).toFixed(0)}</div>
               ) : (
                 <div className="mt-2 inline-flex items-center gap-2 border border-border px-3 py-2 text-xs uppercase tracking-[0.22em] text-muted-foreground">
-                  <Lock className="w-3.5 h-3.5" /> B2B Partners Only
+                  <Lock className="w-3.5 h-3.5" /> Само за B2B партнере
                 </div>
               )}
             </div>
             <div className="text-right">
-              <div className="eyebrow">Suggested Retail</div>
+              <div className="eyebrow">Препоручена МПЦ</div>
               <div className="serif text-3xl mt-2 tabular-nums text-foreground/70">€{Number(product.retail).toFixed(0)}</div>
             </div>
           </div>
 
           <dl className="mt-10 grid grid-cols-2 gap-y-5 gap-x-8 text-sm">
-            <Spec label="Fit" value={product.fit} />
-            <Spec label="Composition" value={product.fabric} />
-            <Spec label="Weight" value={product.weight} />
-            <Spec label="Colour" value={product.color} />
-            <Spec label="Sizes" value={product.sizes.join(" · ")} />
-            <Spec label="MOQ" value={`${product.moq} pcs`} />
-            <Spec label="Delivery" value={product.delivery} />
+            <Spec label="Крој" value={product.fit} />
+            <Spec label="Састав" value={product.fabric} />
+            <Spec label="Тежина" value={product.weight} />
+            <Spec label="Боја" value={product.color} />
+            <Spec label="Величине" value={product.sizes.join(" · ")} />
+            <Spec label="MOQ" value={`${product.moq} ком`} />
+            <Spec label="Испорука" value={product.delivery} />
             <Spec label="SKU" value={product.sku} />
           </dl>
 
           <div className="mt-8 flex flex-wrap gap-3">
             <a href={`/api/line-sheet/${product.sku}`} target="_blank" rel="noopener" className="btn-outline">
-              <Download className="w-3.5 h-3.5" /> View Line Sheet
+              <Download className="w-3.5 h-3.5" /> Преузми Line Sheet
             </a>
           </div>
 
@@ -126,12 +128,12 @@ function ProductDetail() {
             ) : (
               <div className="border border-foreground p-8 text-center">
                 <Lock className="w-5 h-5 mx-auto text-foreground" strokeWidth={1.25} />
-                <div className="mt-5 serif text-2xl">Reserved for B2B partners</div>
+                <div className="mt-5 serif text-2xl">Резервисано за B2B партнере</div>
                 <p className="text-sm text-muted-foreground mt-3 max-w-sm mx-auto leading-relaxed">
-                  Odobreni partneri vide stock po veličinama, cijene i mogu poslati upit za narudžbu kroz size matrix.
+                  Одобрени партнери виде стање по величинама, цене и могу послати упит за поруџбину кроз матрицу величина.
                 </p>
                 <Link to="/auth" className="btn-primary mt-7 inline-flex">
-                  {user ? "Account Status" : "Request B2B Access"}
+                  {user ? "Статус налога" : "Затражите B2B приступ"}
                 </Link>
               </div>
             )}
@@ -141,12 +143,13 @@ function ProductDetail() {
 
       <section className="border-t border-border section-pad bg-secondary/50">
         <div className="container-x">
-          <div className="eyebrow">More from the {product.category} line</div>
+          <div className="eyebrow">Још из линије {product.category}</div>
           <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-12">
             {related.map((p) => <ProductCard key={p.id} product={p} showPrice={approved} />)}
           </div>
         </div>
       </section>
+
     </Layout>
   );
 }

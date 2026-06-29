@@ -5,8 +5,8 @@ import { Layout } from "@/components/Layout";
 export const Route = createFileRoute("/media-kit")({
   head: () => ({
     meta: [
-      { title: "Media Kit — EXIT Denim za partnere" },
-      { name: "description", content: "Foto materijal, Instagram caption-i i story asseti za EXIT Denim B2B partnere." },
+      { title: "Медија кит — EXIT Denim за партнере" },
+      { name: "description", content: "Фото материјал, Instagram caption-и и story асети за EXIT Denim B2B партнере." },
     ],
   }),
   component: MediaKit,
@@ -14,9 +14,9 @@ export const Route = createFileRoute("/media-kit")({
 
 function MediaKit() {
   const packs = [
-    { icon: ImageIcon, title: "Product photos", desc: "Studio + lifestyle. Visoka rezolucija, ready-to-post.", count: "120 fajlova" },
-    { icon: Instagram, title: "Instagram pack", desc: "Story templates, reels covers i feed grid mock-up.", count: "40 templates" },
-    { icon: FileText, title: "Caption library", desc: "Gotovi caption-i na BHS i EN, optimizovani za konverziju.", count: "60 caption-a" },
+    { icon: ImageIcon, title: "Фотографије производа", desc: "Студио + lifestyle. Висока резолуција, спремно за објаву.", count: "120 фајлова" },
+    { icon: Instagram, title: "Instagram пакет", desc: "Story шаблони, reels насловне и feed grid mock-up.", count: "40 шаблона" },
+    { icon: FileText, title: "Библиотека caption-а", desc: "Готови caption-и на српском и енглеском, оптимизовани за конверзију.", count: "60 caption-а" },
   ];
 
   return (
@@ -24,11 +24,11 @@ function MediaKit() {
       <section className="bg-foreground text-background">
         <div className="container-x py-16 md:py-24 grid md:grid-cols-2 gap-10 items-end">
           <div>
-            <div className="eyebrow text-accent">Media Kit za partnere</div>
-            <h1 className="mt-3 text-5xl md:text-6xl">Sve što treba butiku za prodaju</h1>
+            <div className="eyebrow text-accent">Медија кит за партнере</div>
+            <h1 className="mt-3 text-5xl md:text-6xl">Све што бутику треба за продају</h1>
           </div>
           <p className="text-background/70 max-w-md">
-            Fotografije, Instagram materijal i gotovi caption-i. Skidaš, postuješ, prodaješ. Update svaku sezonu.
+            Фотографије, Instagram материјал и готови caption-и. Преузмете, објавите, продате. Освежавање сваке сезоне.
           </p>
         </div>
       </section>
@@ -42,14 +42,14 @@ function MediaKit() {
               <p className="mt-2 text-sm text-muted-foreground flex-1">{p.desc}</p>
               <div className="mt-4 text-xs eyebrow">{p.count}</div>
               <a href="#" className="btn-outline mt-5">
-                <Download className="w-4 h-4" /> Download .zip
+                <Download className="w-4 h-4" /> Преузми .zip
               </a>
             </div>
           ))}
         </div>
 
         <div className="container-x mt-16">
-          <div className="eyebrow">Preview</div>
+          <div className="eyebrow">Преглед</div>
           <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
             {["#1f2a44", "#111", "#6b7a3a", "#c8b48f", "#7891ad", "#1b2236", "#2a2a2a", "#c2a878"].map((c, i) => (
               <div key={i} className="aspect-square rounded-sm" style={{ background: `linear-gradient(135deg, ${c}, #0d0d0d)` }} />

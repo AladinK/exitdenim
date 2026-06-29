@@ -11,7 +11,7 @@ export const Route = createFileRoute("/auth")({
   validateSearch: search,
   head: () => ({
     meta: [
-      { title: "B2B Login — EXIT Denim" },
+      { title: "B2B Пријава — EXIT Denim" },
       { name: "description", content: "Prijavi se na EXIT Denim B2B portal." },
     ],
   }),
@@ -76,7 +76,7 @@ function Auth() {
         navigate({ to: "/cekanje" });
       }
     } catch (err: any) {
-      setError(err.message || "Greška");
+      setError(err.message || "Грешка");
     } finally {
       setLoading(false);
     }
@@ -90,17 +90,18 @@ function Auth() {
             <Logo />
           </div>
           <div>
-            <div className="eyebrow text-accent">B2B Wholesale Portal</div>
+            <div className="eyebrow text-accent">B2B Велепродајни портал</div>
             <h1 className="mt-4 text-4xl md:text-5xl">
-              {mode === "login" ? "Dobrodošao nazad." : "Otvori B2B nalog."}
+              {mode === "login" ? "Добродошли назад." : "Отворите B2B налог."}
             </h1>
             <p className="mt-5 text-background/70 max-w-md leading-relaxed">
               {mode === "login"
-                ? "Prijavi se za pristup veleprodajnim cijenama i size matrix narudžbama."
-                : "Prijava traje 2 minute. Naš tim provjerava nalog unutar 24h."}
+                ? "Пријавите се за приступ велепродајним ценама и матрици величина."
+                : "Пријава траје 2 минута. Наш тим проверава налог у року 24h."}
             </p>
           </div>
-          <div className="text-xs text-background/50">EXIT Denim · Novi Pazar, Srbija</div>
+          <div className="text-xs text-background/50">EXIT Denim · Нови Пазар, Србија</div>
+
         </div>
 
         <div className="flex items-center justify-center p-6 md:p-12 bg-background">
@@ -113,7 +114,7 @@ function Auth() {
                   mode === "login" ? "bg-foreground text-background" : "text-muted-foreground"
                 }`}
               >
-                Prijava
+                Пријава
               </button>
               <button
                 type="button"
@@ -122,30 +123,30 @@ function Auth() {
                   mode === "signup" ? "bg-foreground text-background" : "text-muted-foreground"
                 }`}
               >
-                Registracija
+                Регистрација
               </button>
             </div>
 
-            <Field label="Email" type="email" value={email} onChange={setEmail} required />
-            <Field label="Lozinka" type="password" value={password} onChange={setPassword} required />
+            <Field label="E-mail" type="email" value={email} onChange={setEmail} required />
+            <Field label="Лозинка" type="password" value={password} onChange={setPassword} required />
 
             {mode === "signup" && (
               <>
                 <div className="hairline pt-4" />
-                <div className="eyebrow">Podaci o butiku</div>
+                <div className="eyebrow">Подаци о бутику</div>
                 <div className="grid grid-cols-2 gap-3">
-                  <Field label="Ime butika" value={boutique} onChange={setBoutique} required />
-                  <Field label="Kontakt osoba" value={contact} onChange={setContact} required />
-                  <Field label="Država" value={country} onChange={setCountry} required />
-                  <Field label="Grad" value={city} onChange={setCity} required />
-                  <Field label="Telefon / WhatsApp" value={phone} onChange={setPhone} required />
-                  <Field label="Instagram" value={instagram} onChange={setInstagram} placeholder="@butik" />
+                  <Field label="Назив бутика" value={boutique} onChange={setBoutique} required />
+                  <Field label="Контакт особа" value={contact} onChange={setContact} required />
+                  <Field label="Држава" value={country} onChange={setCountry} required />
+                  <Field label="Град" value={city} onChange={setCity} required />
+                  <Field label="Телефон / WhatsApp" value={phone} onChange={setPhone} required />
+                  <Field label="Instagram" value={instagram} onChange={setInstagram} placeholder="@бутик" />
                 </div>
-                <Field label="Website" value={website} onChange={setWebsite} placeholder="butik.com" />
+                <Field label="Веб-сајт" value={website} onChange={setWebsite} placeholder="бутик.com" />
                 <div>
-                  <Label>Tip prodaje</Label>
+                  <Label>Тип продаје</Label>
                   <div className="mt-2 flex gap-2 flex-wrap">
-                    {["Fizički butik", "Online shop", "Oboje"].map((t) => (
+                    {["Физички бутик", "Онлајн продавница", "Обоје"].map((t) => (
                       <button
                         key={t}
                         type="button"
@@ -157,9 +158,9 @@ function Auth() {
                     ))}
                   </div>
                 </div>
-                <Field label="Procijenjena mjesečna količina" value={monthlyQty} onChange={setMonthlyQty} placeholder="npr. 50–100 kom" />
+                <Field label="Процењена месечна количина" value={monthlyQty} onChange={setMonthlyQty} placeholder="нпр. 50–100 ком" />
                 <div>
-                  <Label>Poruka (opciono)</Label>
+                  <Label>Порука (опционо)</Label>
                   <textarea
                     rows={2}
                     value={message}
@@ -173,12 +174,13 @@ function Auth() {
             {error && <div className="text-sm text-destructive">{error}</div>}
 
             <button type="submit" disabled={loading} className="btn-primary w-full">
-              {loading ? "..." : mode === "login" ? "Prijavi se" : "Registruj butik"}
+              {loading ? "..." : mode === "login" ? "Пријавите се" : "Региструјте бутик"}
             </button>
 
             <p className="text-center text-xs text-muted-foreground">
-              <Link to="/" className="hover:text-foreground">← Nazad na sajt</Link>
+              <Link to="/" className="hover:text-foreground">← Назад на сајт</Link>
             </p>
+
           </form>
         </div>
       </section>

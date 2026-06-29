@@ -11,16 +11,16 @@ import { useAuth } from "@/hooks/useAuth";
 export const Route = createFileRoute("/jeans")({
   head: () => ({
     meta: [
-      { title: "Jeans Line — EXIT Denim Wholesale" },
-      { name: "description", content: "Muški jeans modeli: Slim, Regular Slim, Relaxed. Indigo, Black, Stone wash. Wholesale za butike." },
+      { title: "Фармерке — EXIT Denim Wholesale" },
+      { name: "description", content: "Мушки модели фармерки: Slim, Regular Slim, Relaxed. Индиго, црна, stone wash. Велепродаја за бутике." },
     ],
   }),
   component: () => (
     <CategoryPage
-      title="Jeans"
-      eyebrow="Line · 01 / 03"
-      tagline="Indigo · Black · Stone Wash"
-      desc="Stabilni fitovi koji se ne razvlače. Slim, Regular Slim i Relaxed siluete — okvir cijele kolekcije."
+      title="Фармерке"
+      eyebrow="Линија · 01 / 03"
+      tagline="Индиго · Црна · Stone Wash"
+      desc="Стабилни кројеви који се не развлаче. Slim, Regular Slim и Relaxed силуете — оквир целе колекције."
       slug="jeans"
     />
   ),
@@ -58,14 +58,14 @@ export function CategoryPage({
         <div className="container-x py-20 md:py-32 grid lg:grid-cols-12 gap-10 items-end">
           <div className="lg:col-span-8">
             <div className="text-[10px] uppercase tracking-[0.36em] text-accent">{eyebrow}</div>
-            <h1 className="mt-7 editorial-h text-[clamp(3rem,10vw,8rem)] text-background">{title}</h1>
+            <h1 className="mt-7 text-[clamp(3rem,10vw,8rem)] text-background">{title}</h1>
             <div className="mt-6 text-[11px] uppercase tracking-[0.32em] text-background/65">{tagline}</div>
           </div>
           <div className="lg:col-span-4">
             <p className="text-background/75 leading-[1.8] max-w-md">{desc}</p>
             <div className="mt-7 flex items-baseline gap-8 text-background/65 text-[11px] uppercase tracking-[0.22em]">
-              <div><span className="serif text-3xl text-background tabular-nums">{items.length}</span><br/>Artikala</div>
-              <div><span className="serif text-3xl text-background tabular-nums">31–40</span><br/>Veličine</div>
+              <div><span className="serif text-3xl text-background tabular-nums">{items.length}</span><br/>Артикала</div>
+              <div><span className="serif text-3xl text-background tabular-nums">31–40</span><br/>Величине</div>
               <div><span className="serif text-3xl text-background tabular-nums">10</span><br/>MOQ</div>
             </div>
           </div>
@@ -76,9 +76,9 @@ export function CategoryPage({
         <section className="bg-secondary border-b border-border">
           <div className="container-x py-4 flex items-center justify-between flex-wrap gap-3">
             <div className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-muted-foreground">
-              <Lock className="w-3.5 h-3.5" /> Wholesale prices for approved B2B partners only
+              <Lock className="w-3.5 h-3.5" /> Велепродајне цене само за одобрене B2B партнере
             </div>
-            <Link to="/auth" className="text-[10px] uppercase tracking-[0.22em] link-underline pb-1">Request B2B Access →</Link>
+            <Link to="/auth" className="text-[10px] uppercase tracking-[0.22em] link-underline pb-1">Затражите B2B приступ →</Link>
           </div>
         </section>
       )}
@@ -89,7 +89,7 @@ export function CategoryPage({
             {items.map((p) => <ProductCard key={p.id} product={p} showPrice={approved} />)}
           </div>
           {items.length === 0 && (
-            <div className="text-center py-24 text-muted-foreground">No articles in this line yet.</div>
+            <div className="text-center py-24 text-muted-foreground">У овој линији још нема артикала.</div>
           )}
         </div>
       </section>

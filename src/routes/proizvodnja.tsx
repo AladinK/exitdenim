@@ -6,8 +6,8 @@ import workshopAsset from "@/assets/workshop.jpg.asset.json";
 export const Route = createFileRoute("/proizvodnja")({
   head: () => ({
     meta: [
-      { title: "Production · Atelier in Novi Pazar — EXIT Denim" },
-      { name: "description", content: "Vlastita proizvodnja u Novom Pazaru. Kontrola kvaliteta na svakoj seriji. Tkanine, fit, finiš." },
+      { title: "Производња · Атеље у Новом Пазару — EXIT Denim" },
+      { name: "description", content: "Властита производња у Новом Пазару. Контрола квалитета на свакој серији. Тканине, крој, финиш." },
     ],
   }),
   component: Proizvodnja,
@@ -18,13 +18,13 @@ function Proizvodnja() {
     <Layout>
       <section className="bg-foreground text-background">
         <div className="container-x py-20 md:py-32">
-          <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Atelier · Novi Pazar</div>
-          <h1 className="mt-7 editorial-h text-[clamp(2.75rem,8vw,7rem)] max-w-4xl text-background">
-            Production. <span className="italic">Honest fabrics</span>.<br/>
-            Tailored fits.
+          <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Атеље · Нови Пазар</div>
+          <h1 className="mt-7 text-[clamp(2.75rem,8vw,7rem)] max-w-4xl text-background">
+            Производња. <span className="italic">Поштене тканине</span>.<br/>
+            Скројени кројеви.
           </h1>
           <p className="mt-8 text-lg text-background/75 max-w-2xl leading-relaxed">
-            EXIT Denim radi sve in-house: krojenje, šivenje, pranje i kontrolu kvaliteta. Bez posrednika, bez iznenađenja.
+            EXIT Denim ради све у властитом погону: кројење, шивење, прање и контролу квалитета. Без посредника, без изненађења.
           </p>
         </div>
       </section>
@@ -32,17 +32,17 @@ function Proizvodnja() {
       <section className="section-pad">
         <div className="container-x grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
           <div className="lg:col-span-7 aspect-[4/3] overflow-hidden bg-secondary">
-            <img src={workshopAsset.url} alt="EXIT Denim atelier" className="w-full h-full object-cover" />
+            <img src={workshopAsset.url} alt="EXIT Denim атеље" className="w-full h-full object-cover" />
           </div>
           <div className="lg:col-span-5">
-            <div className="eyebrow">Why quality holds</div>
-            <h2 className="mt-5 editorial-h text-4xl">Šta drži kvalitet.</h2>
+            <div className="eyebrow">Чиме се квалитет држи</div>
+            <h2 className="mt-5 text-4xl">Шта држи квалитет.</h2>
             <div className="mt-10 space-y-7">
               {[
-                { icon: Factory, t: "In-house proizvodnja", d: "Vlastita radionica u Novom Pazaru. Kontrola svakog koraka." },
-                { icon: Scissors, t: "Fit testing", d: "Svaki novi model prolazi kroz tri runde fit testinga prije proizvodnje serije." },
-                { icon: ShieldCheck, t: "QC na svakoj seriji", d: "Šavovi, vesh, dimenzije i finiš provjeravaju se prije pakovanja." },
-                { icon: Truck, t: "Logistika u regiji", d: "Direktni partner za isporuku — 5–10 dana do svih balkanskih zemalja." },
+                { icon: Factory, t: "In-house производња", d: "Властита радионица у Новом Пазару. Контрола сваког корака." },
+                { icon: Scissors, t: "Тест кроја", d: "Сваки нови модел пролази кроз три рунде тестирања кроја пре производње серије." },
+                { icon: ShieldCheck, t: "QC на свакој серији", d: "Шавови, прање, димензије и финиш проверавају се пре паковања." },
+                { icon: Truck, t: "Логистика у региону", d: "Директни партнер за испоруку — 5–10 дана до свих балканских земаља." },
               ].map((f) => (
                 <div key={f.t} className="flex gap-5 pb-7 border-b border-border last:border-0 last:pb-0">
                   <f.icon className="w-5 h-5 mt-1 text-accent shrink-0" strokeWidth={1.25} />
@@ -61,9 +61,9 @@ function Proizvodnja() {
         <div className="container-x py-24">
           <div className="grid md:grid-cols-3 gap-px bg-background/10">
             {[
-              ["12.5 oz", "Standard denim weight"],
-              ["98 / 2", "Cotton · Elastane blend"],
-              ["3 ×", "QC pass / batch"],
+              ["12.5 oz", "Стандардна тежина денима"],
+              ["98 / 2", "Памук · Еластан"],
+              ["3 ×", "QC по серији"],
             ].map(([v, l]) => (
               <div key={l} className="bg-foreground p-10 text-center">
                 <div className="serif text-6xl text-accent tabular-nums">{v}</div>
@@ -72,7 +72,7 @@ function Proizvodnja() {
             ))}
           </div>
           <div className="text-center mt-16">
-            <Link to="/postani-partner" className="btn-accent">Become a Partner</Link>
+            <Link to="/postani-partner" className="btn-accent">Постаните партнер</Link>
           </div>
         </div>
       </section>
