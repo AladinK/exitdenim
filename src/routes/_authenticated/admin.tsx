@@ -58,13 +58,18 @@ function Admin() {
   const removeProduct = useServerFn(deleteProduct);
   const saveStock = useServerFn(upsertStock);
 
-  const [tab, setTab] = useState<"products" | "partners" | "orders" | "stats">("products");
+  const fetchSiteAssets = useServerFn(adminListSiteAssets);
+  const saveSiteAsset = useServerFn(upsertSiteAsset);
+  const removeSiteAsset = useServerFn(deleteSiteAsset);
+
+  const [tab, setTab] = useState<"products" | "home" | "partners" | "orders" | "stats">("products");
   const [allowed, setAllowed] = useState<boolean | null>(null);
   const [partners, setPartners] = useState<any[]>([]);
   const [orders, setOrders] = useState<any[]>([]);
   const [products, setProducts] = useState<AdminProduct[]>([]);
   const [stats, setStats] = useState<any>(null);
   const [editing, setEditing] = useState<AdminProduct | null>(null);
+  const [siteAssets, setSiteAssets] = useState<Record<string, { url: string; alt: string | null; signed: string }>>({});
 
   useEffect(() => {
     fetchMe({}).then((r) => setAllowed(r.isAdmin));
@@ -75,6 +80,7 @@ function Admin() {
     if (tab === "orders") setOrders(await fetchOrders({}));
     if (tab === "products") setProducts((await fetchProducts({})) as AdminProduct[]);
     if (tab === "stats") setStats(await fetchStats({}));
+    if (tab === "home") setSiteAssets(await fetchSiteAssets({}));
   };
   useEffect(() => { if (allowed) reload(); }, [tab, allowed]); // eslint-disable-line
 
