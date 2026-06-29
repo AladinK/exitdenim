@@ -78,7 +78,7 @@ export const Route = createFileRoute("/api/line-sheet/$sku")({
         page.drawText("VELEPRODAJA", { x: 310, y: 460, size: 7, font: bold, color: muted });
         page.drawText(`EUR ${Number(product.wholesale).toFixed(2)}`, { x: 310, y: 444, size: 16, font: bold, color: ink });
         page.drawText("PREPORUCENA MALOPRODAJA", { x: 430, y: 460, size: 7, font: bold, color: muted });
-        page.drawText(`EUR ${Number(product.retail).toFixed(2)}`, { x: 430, y: 444, size: 12, font: reg, color: ink });
+        page.drawText(`RSD ${Number(product.retail).toLocaleString("sr-RS")}`, { x: 430, y: 444, size: 12, font: reg, color: ink });
 
         // Stock matrix
         page.drawText("STOCK PO VELICINI", { x: 40, y: 430, size: 8, font: bold, color: muted });
