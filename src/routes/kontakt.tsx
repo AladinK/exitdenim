@@ -32,12 +32,12 @@ function Kontakt() {
         <div className="container-x grid lg:grid-cols-12 gap-12">
           <div className="lg:col-span-7 space-y-px">
             {[
-              { icon: Mail, label: "Wholesale e-mail", value: "wholesale@exitdenim.rs", href: "mailto:wholesale@exitdenim.rs" },
-              { icon: MessageCircle, label: "WhatsApp · Viber", value: "+381 6X XXX XXXX", href: "https://wa.me/3816xxxxxxxx" },
-              { icon: Phone, label: "Канцеларија", value: "+381 6X XXX XXXX", href: "tel:+3816xxxxxxxx" },
-              { icon: MapPin, label: "Шоурум", value: "Нови Пазар, Србија", href: "#" },
+              { icon: Phone, label: "Беким Куртановић · Wholesale", value: "+381 65 370 1701", href: "tel:+381653701701" },
+              { icon: MessageCircle, label: "WhatsApp · Viber", value: "+381 65 370 1701", href: "https://wa.me/381653701701" },
+              { icon: Instagram, label: "Instagram", value: "@exit.denim", href: "https://instagram.com/exit.denim" },
+              { icon: MapPin, label: "Шоурум · TRI-B DOO", value: "Нови Пазар, Србија", href: "#" },
             ].map((c) => (
-              <a key={c.label} href={c.href} className="flex items-center gap-6 border border-border bg-card p-7 hover:bg-secondary transition-colors group">
+              <a key={c.label} href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="flex items-center gap-6 border border-border bg-card p-7 hover:bg-secondary transition-colors group">
                 <c.icon className="w-5 h-5 text-accent shrink-0" strokeWidth={1.25} />
                 <div className="flex-1">
                   <div className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">{c.label}</div>
@@ -49,19 +49,30 @@ function Kontakt() {
 
           <aside className="lg:col-span-5">
             <div className="border border-foreground p-10">
-              <div className="eyebrow">Радно време</div>
-              <dl className="mt-6 space-y-4 text-sm">
-                <div className="flex justify-between border-b border-border pb-3">
-                  <dt className="text-muted-foreground">Пон — Пет</dt><dd className="serif text-lg">09:00 — 18:00</dd>
-                </div>
-                <div className="flex justify-between border-b border-border pb-3">
-                  <dt className="text-muted-foreground">Субота</dt><dd className="serif text-lg">10:00 — 14:00</dd>
-                </div>
-                <div className="flex justify-between">
-                  <dt className="text-muted-foreground">Недеља</dt><dd className="serif text-lg text-muted-foreground">Затворено</dd>
-                </div>
-              </dl>
-              <div className="mt-10 pt-6 border-t border-border">
+              <div className="eyebrow">Wholesale Department</div>
+              <p className="serif text-2xl mt-4 leading-snug">
+                EXIT Denim — TRI-B DOO
+              </p>
+              <p className="text-sm text-muted-foreground mt-2">
+                Direct manufacturer of denim, chino and cargo trousers. Нови Пазар, Србија.
+              </p>
+
+              <div className="mt-8 pt-6 border-t border-border">
+                <div className="eyebrow">Радно време</div>
+                <dl className="mt-4 space-y-3 text-sm">
+                  <div className="flex justify-between border-b border-border pb-2">
+                    <dt className="text-muted-foreground">Пон — Пет</dt><dd className="serif text-lg">09:00 — 18:00</dd>
+                  </div>
+                  <div className="flex justify-between border-b border-border pb-2">
+                    <dt className="text-muted-foreground">Субота</dt><dd className="serif text-lg">10:00 — 14:00</dd>
+                  </div>
+                  <div className="flex justify-between">
+                    <dt className="text-muted-foreground">Недеља</dt><dd className="serif text-lg text-muted-foreground">Затворено</dd>
+                  </div>
+                </dl>
+              </div>
+
+              <div className="mt-8 pt-6 border-t border-border">
                 <div className="eyebrow">Језици</div>
                 <div className="mt-3 text-sm text-foreground/80">Српски · Босански · Хрватски · English</div>
               </div>
@@ -70,6 +81,7 @@ function Kontakt() {
           </aside>
         </div>
       </section>
+
     </Layout>
   );
 }
