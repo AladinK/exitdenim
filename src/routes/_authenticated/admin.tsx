@@ -535,3 +535,130 @@ function Select({ label, v, options, onChange }: { label: string; v: string; opt
     </div>
   );
 }
+
+// =========================================================================
+// HOME ASSETS TAB
+// =========================================================================
+
+const HOME_SLOTS: { key: HomeAssetKey; title: string; desc: string; ratio: string }[] = [
+  { key: "hero", title: "Hero (naslovna)", desc: "Glavna slika u hero sekciji početne strane.", ratio: "aspect-[4/5]" },
+  { key: "workshop", title: "Atelier / Radionica", desc: "Slika u sekciji 'O nama / Atelier'.", ratio: "aspect-[4/5]" },
+  { key: "category_jeans", title: "Kategorija — Farmerke", desc: "Tile za kategoriju jeans.", ratio: "aspect-[4/5]" },
+  { key: "category_chino", title: "Kategorija — Chino", desc: "Tile za kategoriju chino.", ratio: "aspect-[4/5]" },
+  { key: "category_cargo", title: "Kategorija — Cargo", desc: "Tile za kategoriju cargo.", ratio: "aspect-[4/5]" },
+];
+
+function HomeAssetsTab({
+  assets, onSave, onDelete,
+}: {
+  assets: Record<string, { url: string; alt: string | null; signed: string }>;
+  onSave: (key: HomeAssetKey, url: string, alt: string | null) => Promise<void>;
+  onDelete: (key: HomeAssetKey) => Promise<void>;
+}) {
+  return (
+    <div>
+      <div className="mb-6">
+        <div className="text-xs uppercase tracking-wider text-muted-foreground">Vizuali početne strane</div>
+        <div className="text-lg font-semibold">{HOME_SLOTS.length} slotova · uploaduj ili zalijepi URL</div>
+      </div>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {HOME_SLOTS.map((slot) => (
+          <HomeAssetCard
+            key={slot.key}
+            slot={slot}
+            current={assets[slot.key]}
+            onSave={(url, alt) => onSave(slot.key, url, alt)}
+            onDelete={() => onDelete(slot.key)}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function HomeAssetCard({
+  slot, current, onSave, onDelete,
+}: {
+  slot: { key: HomeAssetKey; title: string; desc: string; ratio: string };
+  current?: { url: string; alt: string | null; signed: string };
+  onSave: (url: string, alt: string | null) => Promise<void>;
+  onDelete: () => Promise<void>;
+}) {
+  const [uploading, setUploading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  const [altText, setAltText] = useState(current?.alt || "");
+
+  useEffect(() => { setAltText(current?.alt || ""); }, [current?.alt]);
+
+  const handleFile = async (file: File) => {
+    setErr(null); setUploading(true);
+    try {
+      const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+      const path = `home/${slot.key}-${Date.now()}.${ext}`;
+      const { error } = await supabase.storage.from("site-assets").upload(path, file, {
+        cacheControl: "3600", upsert: true, contentType: file.type,
+      });
+      if (error) throw error;
+      await onSave(path, altText || null);
+    } catch (e: any) {
+      setErr(e.message || "Upload nije uspio");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const saveAlt = async () => {
+    if (!current) return;
+    setSaving(true); setErr(null);
+    try { await onSave(current.url, altText || null); }
+    catch (e: any) { setErr(e.message || "Greška"); }
+    finally { setSaving(false); }
+  };
+
+  return (
+    <div className="border border-border rounded-sm bg-card overflow-hidden">
+      <div className={`${slot.ratio} bg-secondary relative`}>
+        {current?.signed
+          ? <img src={current.signed} alt={current.alt || slot.title} className="w-full h-full object-cover" />
+          : <div className="w-full h-full grid place-items-center text-xs text-muted-foreground uppercase tracking-wider">default (bundled)</div>}
+      </div>
+      <div className="p-4">
+        <div className="text-[10px] uppercase tracking-wider text-muted-foreground mono">{slot.key}</div>
+        <div className="font-semibold mt-0.5">{slot.title}</div>
+        <div className="text-xs text-muted-foreground mt-1">{slot.desc}</div>
+
+        <div className="mt-3">
+          <Label>Alt tekst (SEO)</Label>
+          <input
+            className="input mt-1 w-full text-sm"
+            value={altText}
+            onChange={(e) => setAltText(e.target.value)}
+            placeholder="kratak opis slike"
+          />
+        </div>
+
+        {err && <div className="text-xs text-destructive mt-2">{err}</div>}
+
+        <div className="flex flex-wrap gap-2 mt-3">
+          <label className="btn-primary text-xs px-3 py-2 inline-flex items-center gap-2 cursor-pointer">
+            <Upload className="w-3 h-3" /> {uploading ? "Šaljem…" : (current ? "Zamijeni" : "Uploaduj")}
+            <input type="file" accept="image/*" className="hidden" disabled={uploading}
+              onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }} />
+          </label>
+          {current && (
+            <>
+              <button onClick={saveAlt} disabled={saving} className="btn-outline text-xs px-3 py-2">
+                {saving ? "Snimam…" : "Snimi alt"}
+              </button>
+              <button onClick={onDelete} className="btn-outline text-xs px-3 py-2 text-destructive border-destructive/40 inline-flex items-center gap-1">
+                <Trash2 className="w-3 h-3" /> Vrati default
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
