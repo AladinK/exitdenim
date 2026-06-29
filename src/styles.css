@@ -114,7 +114,7 @@
     letter-spacing: -0.028em;
     line-height: 1.02;
     color: var(--color-foreground);
-    font-feature-settings: "ss01", "ss02", "liga", "dlig";
+    font-feature-settings: "liga", "kern";
     font-variation-settings: "opsz" 144, "SOFT" 30;
   }
   h1 { letter-spacing: -0.04em; font-weight: 400; }

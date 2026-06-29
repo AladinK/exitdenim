@@ -71,9 +71,9 @@ function HomePage() {
 
             <div className="lg:col-span-5 relative order-1 lg:order-2">
               <Reveal delay={2}>
-                <div className="relative aspect-[4/5] overflow-hidden border border-border shadow-2xl shadow-navy/10">
-                  <img src={heroImg.url} alt="EXIT Denim премијум деним" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-transparent" />
+                <div className="relative aspect-[4/5] overflow-hidden border border-border shadow-2xl shadow-navy/10 bg-secondary">
+                  <img src={heroImg.url} alt="EXIT Denim премијум деним" className="w-full h-full object-cover" loading="eager" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/35 via-transparent to-transparent" />
                   {/* Brand corner mark on the image itself */}
                   <div className="absolute top-4 left-4 text-white/85">
                     <div className="text-[10px] uppercase tracking-[0.3em] font-medium">EXIT Denim</div>
