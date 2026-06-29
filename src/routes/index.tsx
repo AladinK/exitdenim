@@ -203,14 +203,14 @@ function HomePage() {
 
           <div className="mt-12 grid md:grid-cols-3 gap-5">
             {[
-              { to: "/katalog" as const, label: "Фармерке", desc: "12oz · slim, regular, relaxed", img: productJeans.url },
-              { to: "/katalog" as const, label: "Чино", desc: "Памук стрейч · класичан крој", img: productChino.url },
-              { to: "/katalog" as const, label: "Карго", desc: "Утилитарни кројеви · funkcionalnost", img: productCargo.url },
+              { to: "/katalog" as const, key: "category_jeans", label: "Фармерке", desc: "12oz · slim, regular, relaxed", fb: productJeans.url },
+              { to: "/katalog" as const, key: "category_chino", label: "Чино", desc: "Памук стрейч · класичан крој", fb: productChino.url },
+              { to: "/katalog" as const, key: "category_cargo", label: "Карго", desc: "Утилитарни кројеви · funkcionalnost", fb: productCargo.url },
             ].map((c, i) => (
               <Reveal key={c.label} delay={Math.min(3, i + 1) as 1 | 2 | 3}>
                 <Link to={c.to} className="group block card-soft overflow-hidden">
                   <div className="aspect-[4/5] overflow-hidden bg-secondary">
-                    <img src={c.img} alt={c.label} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <img src={img(c.key, c.fb)} alt={alt(c.key, c.label)} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
                   <div className="p-5 flex items-center justify-between">
                     <div>
