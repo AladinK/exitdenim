@@ -20,27 +20,13 @@ export function Logo({
   const ink = isLight ? "text-white" : "text-foreground";
   const sub = isLight ? "text-white/55" : "text-muted-foreground";
   return (
-    <div className={`flex items-center gap-2.5 ${className}`}>
+    <div className={`flex items-center ${className}`}>
       <img
         src={logoAsset.url}
-        alt=""
-        aria-hidden
-        className="h-9 sm:h-10 w-auto shrink-0"
-        style={isLight ? { filter: "brightness(0) invert(1)" } : { filter: "brightness(0)" }}
+        alt="EXIT Denim"
+        className="h-15 sm:h-16 w-auto shrink-0"
+        style={isLight ? { filter: "brightness(0) invert(1)", height: "60px" } : { filter: "brightness(0)", height: "60px" }}
       />
-      <div className="flex flex-col leading-none">
-        <span
-          className={`${ink} text-[18px] sm:text-[20px] tracking-[-0.045em]`}
-          style={{ fontWeight: 800 }}
-        >
-          EXIT<span className="serif-accent ml-1.5" style={{ fontWeight: 400 }}>Denim</span>
-        </span>
-        {!compact && (
-          <span className={`mt-1 text-[9.5px] uppercase tracking-[0.28em] ${sub} font-medium`}>
-            Novi Pazar · B2B
-          </span>
-        )}
-      </div>
     </div>
   );
 }
