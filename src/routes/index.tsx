@@ -28,67 +28,71 @@ function HomePage() {
       <section className="relative overflow-hidden gradient-mesh">
         <div className="absolute inset-0 grid-bg pointer-events-none" aria-hidden />
         <Seal tone="green" opacity={0.06} className="pointer-events-none absolute -right-24 -top-24 w-[520px] h-[520px] hidden md:block" />
-        <div className="container-x relative pt-20 pb-24 md:pt-28 md:pb-32">
-          <div className="grid lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-7">
+        <div className="container-x relative pt-10 pb-16 md:pt-24 md:pb-28">
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+            <div className="lg:col-span-7 order-2 lg:order-1">
               <Reveal>
                 <span className="chip">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-                  Нова SS колекција · Пријаве отворене
+                  Нова SS · Пријаве отворене
                 </span>
               </Reveal>
               <Reveal delay={1}>
-                <h1 className="mt-6 text-[clamp(2.5rem,6vw,4.75rem)] font-bold tracking-[-0.04em] leading-[1.02]">
+                <h1 className="mt-5 text-[clamp(2.4rem,8.5vw,4.75rem)] tracking-[-0.04em] leading-[1.0]">
                   B2B платформа за{" "}
-                  <span className="text-accent">премијум деним</span>
-                  <br />
+                  <span className="italic text-accent">премијум деним</span>,
                   створена за бутике.
                 </h1>
               </Reveal>
               <Reveal delay={2}>
-                <p className="mt-6 max-w-xl text-lg text-muted-foreground leading-relaxed">
+                <p className="mt-5 max-w-xl text-[15px] md:text-lg text-muted-foreground leading-relaxed">
                   Каталог, велепродајне цене, матрица величина и поруџбине — све на једном месту.
-                  Стабилни кројеви, поуздана испорука 15–25 дана, поновне поруџбине без бола.
+                  Стабилни кројеви, испорука 15–25 дана.
                 </p>
               </Reveal>
               <Reveal delay={3}>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <Link to="/postani-partner" className="btn-primary">
+                <div className="mt-7 grid grid-cols-1 sm:flex sm:flex-wrap gap-2.5">
+                  <Link to="/postani-partner" className="btn-primary justify-center">
                     Затражите B2B приступ <ArrowRight className="w-4 h-4" />
                   </Link>
-                  <Link to="/katalog" className="btn-outline">
+                  <Link to="/katalog" className="btn-outline justify-center">
                     Погледајте каталог
                   </Link>
                 </div>
               </Reveal>
               <Reveal delay={4}>
-                <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-2"><Check className="w-4 h-4 text-accent" /> MOQ 10 комада</div>
-                  <div className="flex items-center gap-2"><Check className="w-4 h-4 text-accent" /> Испорука 15–25 дана</div>
-                  <div className="flex items-center gap-2"><Check className="w-4 h-4 text-accent" /> Произведено у Србији</div>
+                <div className="mt-8 grid grid-cols-1 sm:flex sm:flex-wrap items-start sm:items-center gap-x-8 gap-y-2 text-[13px] md:text-sm text-muted-foreground">
+                  <div className="flex items-center gap-2"><Check className="w-4 h-4 text-accent shrink-0" /> MOQ 10 комада</div>
+                  <div className="flex items-center gap-2"><Check className="w-4 h-4 text-accent shrink-0" /> Испорука 15–25 дана</div>
+                  <div className="flex items-center gap-2"><Check className="w-4 h-4 text-accent shrink-0" /> Произведено у Србији</div>
                 </div>
               </Reveal>
             </div>
 
-            <div className="lg:col-span-5 relative">
+            <div className="lg:col-span-5 relative order-1 lg:order-2">
               <Reveal delay={2}>
-                <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-border shadow-2xl shadow-navy/10">
+                <div className="relative aspect-[4/5] overflow-hidden border border-border shadow-2xl shadow-navy/10">
                   <img src={heroImg.url} alt="EXIT Denim премијум деним" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent" />
-                </div>
-                {/* Floating spec card */}
-                <div className="absolute -left-4 md:-left-8 bottom-6 card-soft p-4 w-[260px] backdrop-blur-md bg-background/95">
-                  <div className="flex items-center justify-between text-xs text-muted-foreground">
-                    <span className="mono">EX-101 · SLIM</span>
-                    <span className="flex items-center gap-1 text-accent font-semibold">
-                      <span className="w-1.5 h-1.5 rounded-full bg-accent" /> На стању
-                    </span>
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-transparent" />
+                  {/* Brand corner mark on the image itself */}
+                  <div className="absolute top-4 left-4 text-white/85">
+                    <div className="text-[10px] uppercase tracking-[0.3em] font-medium">EXIT Denim</div>
+                    <div className="mono text-[10px] opacity-70 mt-1">SS · LOOK 01</div>
                   </div>
-                  <div className="mt-2 text-base font-semibold">12oz деним, тамно индиго</div>
-                  <div className="mt-3 grid grid-cols-3 gap-2 text-center">
-                    {["30", "32", "34"].map((s) => (
-                      <div key={s} className="rounded-lg bg-secondary py-1.5 text-xs font-medium">{s}</div>
-                    ))}
+                  {/* Inline spec card pinned inside the frame so it never clips on mobile */}
+                  <div className="absolute left-3 right-3 bottom-3 md:left-4 md:right-auto md:w-[260px] card-soft p-3.5 md:p-4 backdrop-blur-md bg-background/95">
+                    <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+                      <span className="mono">EX-101 · SLIM</span>
+                      <span className="flex items-center gap-1 text-accent font-semibold">
+                        <span className="w-1.5 h-1.5 rounded-full bg-accent" /> На стању
+                      </span>
+                    </div>
+                    <div className="mt-1.5 text-[13px] md:text-base font-semibold">12oz деним · тамно индиго</div>
+                    <div className="mt-2.5 grid grid-cols-3 gap-1.5 text-center">
+                      {["30", "32", "34"].map((s) => (
+                        <div key={s} className="bg-secondary py-1.5 text-[11px] font-medium mono">{s}</div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </Reveal>
@@ -98,17 +102,18 @@ function HomePage() {
 
         {/* logo strip */}
         <div className="border-y border-border bg-background/60">
-          <div className="container-x py-5 flex flex-wrap items-center justify-between gap-y-3 gap-x-8 text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium">
-            <span>Поверење партнера у региону</span>
-            <span>Београд</span>
-            <span>Сарајево</span>
-            <span>Подгорица</span>
-            <span>Скопље</span>
-            <span>Загреб</span>
-            <span>Љубљана</span>
+          <div className="container-x py-4 md:py-5 flex flex-nowrap overflow-x-auto md:flex-wrap items-center justify-start md:justify-between gap-y-3 gap-x-6 md:gap-x-8 text-[10.5px] md:text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium scrollbar-none">
+            <span className="shrink-0">Поверење партнера</span>
+            <span className="shrink-0">Београд</span>
+            <span className="shrink-0">Сарајево</span>
+            <span className="shrink-0">Подгорица</span>
+            <span className="shrink-0">Скопље</span>
+            <span className="shrink-0">Загреб</span>
+            <span className="shrink-0">Љубљана</span>
           </div>
         </div>
       </section>
+
 
       {/* ───────── ВРЕДНОСТИ ───────── */}
       <section className="section-pad relative">
