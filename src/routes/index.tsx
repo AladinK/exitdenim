@@ -125,42 +125,66 @@ function HomePage() {
 
 
       {/* ───────── ВРЕДНОСТИ ───────── */}
-      <section className="section-pad relative">
-        <Seal tone="green" opacity={0.05} className="pointer-events-none absolute right-6 top-10 w-40 h-40" />
+      <section className="section-pad relative bg-[var(--surface)]/40 overflow-hidden">
+        <Seal tone="green" opacity={0.04} className="pointer-events-none absolute -right-20 top-20 w-[420px] h-[420px] hidden md:block" />
         <div className="container-x relative">
-          <Reveal>
-            <div className="max-w-2xl">
-              <span className="eyebrow">Зашто EXIT</span>
-              <h2 className="mt-3 text-4xl md:text-5xl font-bold tracking-tight">
-                Алат за озбиљне купце.
-                <br />
-                <span className="text-muted-foreground">Не још један онлајн шоп.</span>
-              </h2>
-            </div>
-          </Reveal>
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-end">
+            <Reveal>
+              <div className="lg:col-span-7">
+                <span className="eyebrow inline-flex items-center gap-2">
+                  <span className="w-6 h-px bg-accent" /> Зашто EXIT
+                </span>
+                <h2 className="mt-5 text-[clamp(2.25rem,6vw,4rem)] leading-[0.98] tracking-tight font-bold">
+                  Алат за{" "}
+                  <span className="serif-accent italic text-accent">озбиљне</span>{" "}
+                  купце.
+                  <br />
+                  <span className="text-muted-foreground">Не још један онлајн шоп.</span>
+                </h2>
+              </div>
+            </Reveal>
+            <Reveal delay={2}>
+              <div className="lg:col-span-5">
+                <p className="text-base md:text-lg text-muted-foreground leading-relaxed border-l-2 border-accent pl-5">
+                  EXIT је затворена B2B радионица — не маркетплејс. Сваки крој,
+                  сваки шав и сваки рок испоруке стоји иза имена власника погона.
+                </p>
+                <div className="mt-6 flex items-center gap-6 text-[11px] uppercase tracking-[0.2em] text-muted-foreground mono">
+                  <span><span className="text-foreground font-bold">06</span> · принципа</span>
+                  <span className="h-3 w-px bg-border" />
+                  <span>Нови Пазар · RS</span>
+                </div>
+              </div>
+            </Reveal>
+          </div>
 
-          <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="mt-16 border-t border-foreground/15">
             {[
-              { icon: Lock, title: "Затворен каталог", text: "Цене и матрица величина видљиве су само одобреним партнерима." },
-              { icon: Package, title: "Стабилни кројеви", text: "Тачни лекала из сезоне у сезону — нема скакања величина." },
-              { icon: Truck, title: "Испорука 15–25 дана", text: "Производња у Новом Пазару. Контрола квалитета прије сваке отпреме." },
-              { icon: BarChart3, title: "Здраве марже", text: "ВПЦ позициониране за маркап 2.4–2.8× у бутицима." },
-              { icon: ShieldCheck, title: "Гаранција квалитета", text: "Замјена при дефекту тканине или конца у року 14 дана." },
-              { icon: Sparkles, title: "Подршка партнерима", text: "Лине-шит, фотке и материјали за ваше канале — на захтев." },
+              { icon: Lock, n: "01", title: "Затворен каталог", text: "Цене и матрица величина видљиве су само одобреним партнерима." },
+              { icon: Package, n: "02", title: "Стабилни кројеви", text: "Тачни лекала из сезоне у сезону — нема скакања величина." },
+              { icon: Truck, n: "03", title: "Испорука 15–25 дана", text: "Производња у Новом Пазару. Контрола квалитета прије сваке отпреме." },
+              { icon: BarChart3, n: "04", title: "Здраве марже", text: "ВПЦ позициониране за маркап 2.4–2.8× у бутицима." },
+              { icon: ShieldCheck, n: "05", title: "Гаранција квалитета", text: "Замјена при дефекту тканине или конца у року 14 дана." },
+              { icon: Sparkles, n: "06", title: "Подршка партнерима", text: "Лине-шит, фотке и материјали за ваше канале — на захтев." },
             ].map((f, i) => (
-              <Reveal key={f.title} delay={Math.min(4, i + 1) as 1 | 2 | 3 | 4}>
-                <div className="card-soft p-7 h-full">
-                  <div className="w-11 h-11 rounded-xl bg-secondary text-accent flex items-center justify-center">
+              <Reveal key={f.title} delay={Math.min(4, (i % 4) + 1) as 1 | 2 | 3 | 4}>
+                <div className="group grid grid-cols-[auto_1fr_auto] md:grid-cols-[80px_60px_1fr_auto] gap-x-5 md:gap-x-8 items-start py-7 md:py-8 border-b border-foreground/15 hover:bg-background/60 transition-colors">
+                  <div className="mono text-[11px] tracking-[0.25em] text-muted-foreground pt-2">{f.n}</div>
+                  <div className="hidden md:flex w-12 h-12 items-center justify-center border border-foreground/15 text-accent group-hover:border-accent group-hover:bg-accent/5 transition-colors">
                     <f.icon className="w-5 h-5" />
                   </div>
-                  <h3 className="mt-5 text-lg font-semibold">{f.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{f.text}</p>
+                  <div className="min-w-0">
+                    <h3 className="text-xl md:text-2xl font-semibold tracking-tight">{f.title}</h3>
+                    <p className="mt-1.5 text-sm md:text-[15px] text-muted-foreground leading-relaxed max-w-xl">{f.text}</p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:text-accent group-hover:translate-x-1 transition-all mt-2" />
                 </div>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
+
 
       {/* ───────── КАТЕГОРИЈЕ ───────── */}
       <section className="section-pad bg-[var(--surface)]">
