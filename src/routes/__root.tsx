@@ -18,20 +18,21 @@ function NotFoundComponent() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Stranica nije pronađena</h2>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">Страница није пронађена</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          Stranica koju tražiš ne postoji ili je premještena.
+          Страница коју тражите не постоји или је премештена.
         </p>
         <div className="mt-6">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="btn-primary"
           >
-            Nazad na početnu
+            Назад на почетну
           </Link>
         </div>
       </div>
     </div>
+
   );
 }
 
@@ -46,10 +47,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          Greška pri učitavanju
+          Грешка при учитавању
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Probaj ponovo ili se vrati na početnu.
+          Покушајте поново или се вратите на почетну.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
@@ -57,16 +58,17 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="btn-primary"
           >
-            Pokušaj ponovo
+            Покушајте поново
           </button>
-          <a href="/" className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent">
-            Početna
+          <a href="/" className="btn-outline">
+            Почетна
           </a>
         </div>
       </div>
     </div>
+
   );
 }
 
@@ -75,10 +77,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "EXIT Denim — B2B Wholesale Showroom" },
-      { name: "description", content: "Premium muški denim, chino i cargo iz Novog Pazara. Privatni B2B showroom za butike, online prodavce i regionalne partnere." },
-      { property: "og:title", content: "EXIT Denim — B2B Wholesale Showroom" },
-      { property: "og:description", content: "Premium denim. Stabilni fitovi. Stabilne marže. Repeat orders." },
+      { title: "EXIT Denim — Премијум B2B платформа за бутике" },
+      { name: "description", content: "Премијум мушки деним, чино и карго панталоне из Новог Пазара. Затворена B2B платформа за бутике и регионалне партнере." },
+      { property: "og:title", content: "EXIT Denim — Премијум B2B платформа" },
+      { property: "og:description", content: "Стабилни кројеви. Стабилне марже. Поновне поруџбине." },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "EXIT Denim" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -86,7 +88,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Karla:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap&subset=cyrillic,cyrillic-ext,latin" },
       { rel: "stylesheet", href: appCss },
       {
         rel: "icon",
@@ -94,10 +96,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href:
           "data:image/svg+xml;utf8," +
           encodeURIComponent(
-            `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23F2EDE4'/><rect x='6' y='10' width='5' height='44' fill='%232E5D34'/><text x='18' y='44' font-family='Georgia,serif' font-size='32' font-weight='600' fill='%230F1A2E'>E</text></svg>`
+            `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230F2547'/><text x='50%' y='54%' text-anchor='middle' dominant-baseline='middle' font-family='Inter,sans-serif' font-size='30' font-weight='800' fill='%230FB5A6'>Е</text></svg>`
           ),
       },
     ],
+
   }),
   shellComponent: RootShell,
   component: RootComponent,
