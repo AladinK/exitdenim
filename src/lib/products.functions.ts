@@ -26,7 +26,7 @@ async function signIfPath(sb: ReturnType<typeof publicClient>, image_url: string
 export const listProducts = createServerFn({ method: "GET" }).handler(async () => {
   const sb = publicClient();
   const { data: products, error } = await sb
-    .from("products")
+    .from("products_public")
     .select("*")
     .eq("active", true)
     .order("sort_order", { ascending: true });
@@ -41,7 +41,7 @@ export const listProducts = createServerFn({ method: "GET" }).handler(async () =
     (products || []).map(async (p) => ({
       ...p,
       image_url: await signIfPath(sb, p.image_url),
-      stock: stockBy[p.id] || {},
+      stock: (p.id && stockBy[p.id]) || {},
     })),
   );
   return resolved as ProductWithStock[];
@@ -52,14 +52,14 @@ export const getProductBySlug = createServerFn({ method: "GET" })
   .handler(async ({ data }) => {
     const sb = publicClient();
     const { data: product, error } = await sb
-      .from("products")
+      .from("products_public")
       .select("*")
       .eq("slug", data.slug)
       .eq("active", true)
       .maybeSingle();
     if (error) throw new Error(error.message);
     if (!product) return null;
-    const { data: stock } = await sb.from("stock").select("size, quantity").eq("product_id", product.id);
+    const { data: stock } = await sb.from("stock").select("size, quantity").eq("product_id", product.id!);
     const stockMap: Record<string, number> = {};
     (stock || []).forEach((s) => { stockMap[s.size] = s.quantity; });
     return { ...product, stock: stockMap } as ProductWithStock;

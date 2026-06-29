@@ -57,6 +57,13 @@ export type Database = {
             referencedRelation: "products"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       orders: {
@@ -254,6 +261,13 @@ export type Database = {
             referencedRelation: "products"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "stock_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       user_roles: {
@@ -279,7 +293,72 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      products_public: {
+        Row: {
+          active: boolean | null
+          category: Database["public"]["Enums"]["product_category"] | null
+          color: string | null
+          created_at: string | null
+          delivery: string | null
+          description: string | null
+          fabric: string | null
+          fit: Database["public"]["Enums"]["product_fit"] | null
+          id: string | null
+          image_url: string | null
+          moq: number | null
+          name: string | null
+          retail: number | null
+          sizes: string[] | null
+          sku: string | null
+          slug: string | null
+          sort_order: number | null
+          updated_at: string | null
+          weight: string | null
+        }
+        Insert: {
+          active?: boolean | null
+          category?: Database["public"]["Enums"]["product_category"] | null
+          color?: string | null
+          created_at?: string | null
+          delivery?: string | null
+          description?: string | null
+          fabric?: string | null
+          fit?: Database["public"]["Enums"]["product_fit"] | null
+          id?: string | null
+          image_url?: string | null
+          moq?: number | null
+          name?: string | null
+          retail?: number | null
+          sizes?: string[] | null
+          sku?: string | null
+          slug?: string | null
+          sort_order?: number | null
+          updated_at?: string | null
+          weight?: string | null
+        }
+        Update: {
+          active?: boolean | null
+          category?: Database["public"]["Enums"]["product_category"] | null
+          color?: string | null
+          created_at?: string | null
+          delivery?: string | null
+          description?: string | null
+          fabric?: string | null
+          fit?: Database["public"]["Enums"]["product_fit"] | null
+          id?: string | null
+          image_url?: string | null
+          moq?: number | null
+          name?: string | null
+          retail?: number | null
+          sizes?: string[] | null
+          sku?: string | null
+          slug?: string | null
+          sort_order?: number | null
+          updated_at?: string | null
+          weight?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {
