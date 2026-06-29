@@ -27,6 +27,7 @@ function HomePage() {
       {/* ───────── HERO ───────── */}
       <section className="relative overflow-hidden gradient-mesh">
         <div className="absolute inset-0 grid-bg pointer-events-none" aria-hidden />
+        <Seal tone="green" opacity={0.06} className="pointer-events-none absolute -right-24 -top-24 w-[520px] h-[520px] hidden md:block" />
         <div className="container-x relative pt-20 pb-24 md:pt-28 md:pb-32">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7">
