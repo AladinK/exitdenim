@@ -142,17 +142,18 @@ function Admin() {
           {tab === "home" && (
             <HomeAssetsTab
               assets={siteAssets}
-              onSave={async (key, url, alt) => {
+              onSave={async (key: HomeAssetKey, url: string, alt: string | null) => {
                 await saveSiteAsset({ data: { key, url, alt } });
                 reload();
               }}
-              onDelete={async (key) => {
+              onDelete={async (key: HomeAssetKey) => {
                 if (!confirm("Vratiti default sliku za ovaj slot?")) return;
                 await removeSiteAsset({ data: { key } });
                 reload();
               }}
             />
           )}
+
 
           {tab === "partners" && (
             <div className="space-y-3">
