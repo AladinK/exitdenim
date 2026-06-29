@@ -101,7 +101,7 @@ function ProductDetail() {
             </div>
             <div className="text-right">
               <div className="eyebrow">Препоручена МПЦ</div>
-              <div className="serif text-3xl mt-2 tabular-nums text-foreground/70">€{Number(product.retail).toFixed(0)}</div>
+              <div className="serif text-3xl mt-2 tabular-nums text-foreground/70">{Number(product.retail).toLocaleString("sr-RS")} дин</div>
             </div>
           </div>
 
