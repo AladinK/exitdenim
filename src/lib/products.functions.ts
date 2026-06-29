@@ -41,7 +41,7 @@ export const listProducts = createServerFn({ method: "GET" }).handler(async () =
     (products || []).map(async (p) => ({
       ...p,
       image_url: await signIfPath(sb, p.image_url),
-      stock: stockBy[p.id] || {},
+      stock: (p.id && stockBy[p.id]) || {},
     })),
   );
   return resolved as ProductWithStock[];
