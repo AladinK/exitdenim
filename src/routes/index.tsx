@@ -205,17 +205,17 @@ function HomePage() {
             </div>
           </Reveal>
 
-          <div className="mt-14 grid md:grid-cols-4 gap-px bg-border rounded-2xl overflow-hidden">
+          <div className="mt-14 grid md:grid-cols-4 gap-x-10 gap-y-12">
             {[
-              { n: "01", t: "Пријава", d: "Попуните кратку форму. Одговор у року 24h." },
-              { n: "02", t: "Одобрење", d: "Активирамо ваш B2B налог и приступ ценама." },
-              { n: "03", t: "Поруџбина", d: "Бирате моделе, величине и количине у каталогу." },
-              { n: "04", t: "Испорука", d: "Контрола квалитета и достава у 15–25 дана." },
+              { n: "01", t: "Пријава", d: "Кратка форма. Одговор у 24h." },
+              { n: "02", t: "Одобрење", d: "Активирамо B2B налог и цене." },
+              { n: "03", t: "Поруџбина", d: "Бирате моделе и величине." },
+              { n: "04", t: "Испорука", d: "Контрола и достава 15–25 дана." },
             ].map((s, i) => (
               <Reveal key={s.n} delay={Math.min(4, i + 1) as 1 | 2 | 3 | 4}>
-                <div className="bg-background p-7 h-full">
-                  <div className="mono text-xs text-accent font-semibold">{s.n}</div>
-                  <h3 className="mt-3 text-xl font-semibold">{s.t}</h3>
+                <div className="border-t border-foreground/15 pt-5">
+                  <div className="mono text-[11px] tracking-[0.2em] text-muted-foreground">{s.n}</div>
+                  <h3 className="mt-6 text-xl font-medium tracking-tight">{s.t}</h3>
                   <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.d}</p>
                 </div>
               </Reveal>
