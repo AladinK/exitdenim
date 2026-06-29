@@ -49,12 +49,15 @@ export function Footer() {
           <div className="md:col-span-3">
             <div className="text-xs uppercase tracking-[0.16em] text-white/55 font-semibold">Велепродаја</div>
             <ul className="mt-4 space-y-2.5 text-sm">
+              <li>Бекim Куртановић</li>
+              <li className="text-white/60">EXIT Denim — TRI-B DOO</li>
               <li>Нови Пазар, Србија</li>
-              <li><a href="mailto:wholesale@exitdenim.rs" className="hover:text-accent transition-colors">wholesale@exitdenim.rs</a></li>
-              <li>WhatsApp · Viber</li>
-              <li className="tabular-nums">+381 6X XXX XXXX</li>
+              <li className="tabular-nums"><a href="https://wa.me/381653701701" className="hover:text-accent transition-colors">+381 65 370 1701</a></li>
+              <li className="text-white/60">WhatsApp · Viber</li>
+              <li><a href="https://instagram.com/exit.denim" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors">@exit.denim</a></li>
             </ul>
           </div>
+
         </div>
 
         <div className="border-t border-white/10 mt-14 pt-6 flex flex-col md:flex-row justify-between gap-3 text-xs text-white/55">
