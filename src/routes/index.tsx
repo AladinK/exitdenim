@@ -111,8 +111,9 @@ function HomePage() {
       </section>
 
       {/* ───────── ВРЕДНОСТИ ───────── */}
-      <section className="section-pad">
-        <div className="container-x">
+      <section className="section-pad relative">
+        <Seal tone="green" opacity={0.05} className="pointer-events-none absolute right-6 top-10 w-40 h-40" />
+        <div className="container-x relative">
           <Reveal>
             <div className="max-w-2xl">
               <span className="eyebrow">Зашто EXIT</span>
