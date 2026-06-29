@@ -59,7 +59,7 @@ export const getProductBySlug = createServerFn({ method: "GET" })
       .maybeSingle();
     if (error) throw new Error(error.message);
     if (!product) return null;
-    const { data: stock } = await sb.from("stock").select("size, quantity").eq("product_id", product.id);
+    const { data: stock } = await sb.from("stock").select("size, quantity").eq("product_id", product.id!);
     const stockMap: Record<string, number> = {};
     (stock || []).forEach((s) => { stockMap[s.size] = s.quantity; });
     return { ...product, stock: stockMap } as ProductWithStock;
