@@ -30,10 +30,10 @@ export function Logo({
       />
       <div className="flex flex-col leading-none">
         <span
-          className={`font-display ${ink} text-[19px] sm:text-[21px] tracking-[-0.04em]`}
-          style={{ fontWeight: 500 }}
+          className={`${ink} text-[18px] sm:text-[20px] tracking-[-0.045em]`}
+          style={{ fontWeight: 800 }}
         >
-          EXIT <span className="italic font-normal">Denim</span>
+          EXIT<span className="serif-accent ml-1.5" style={{ fontWeight: 400 }}>Denim</span>
         </span>
         {!compact && (
           <span className={`mt-1 text-[9.5px] uppercase tracking-[0.28em] ${sub} font-medium`}>

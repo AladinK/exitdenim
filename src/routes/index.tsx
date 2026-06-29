@@ -38,9 +38,9 @@ function HomePage() {
                 </span>
               </Reveal>
               <Reveal delay={1}>
-                <h1 className="mt-5 text-[clamp(2.4rem,8.5vw,4.75rem)] tracking-[-0.04em] leading-[1.0]">
+                <h1 className="mt-5 text-[clamp(2.4rem,8.5vw,4.75rem)] leading-[1.02]">
                   B2B платформа за{" "}
-                  <span className="italic text-accent">премијум деним</span>,
+                  <span className="serif-accent text-accent">премијум деним</span>,
                   створена за бутике.
                 </h1>
               </Reveal>
