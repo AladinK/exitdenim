@@ -139,6 +139,21 @@ function Admin() {
             />
           )}
 
+          {tab === "home" && (
+            <HomeAssetsTab
+              assets={siteAssets}
+              onSave={async (key, url, alt) => {
+                await saveSiteAsset({ data: { key, url, alt } });
+                reload();
+              }}
+              onDelete={async (key) => {
+                if (!confirm("Vratiti default sliku za ovaj slot?")) return;
+                await removeSiteAsset({ data: { key } });
+                reload();
+              }}
+            />
+          )}
+
           {tab === "partners" && (
             <div className="space-y-3">
               {partners.length === 0 && <div className="text-muted-foreground">Nema prijava.</div>}
