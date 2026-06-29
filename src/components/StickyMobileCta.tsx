@@ -5,19 +5,17 @@ import { ArrowRight } from "lucide-react";
 export function StickyMobileCta() {
   const { user } = useAuth();
   const { pathname } = useLocation();
-  // Hide on auth and admin to reduce noise
   if (pathname.startsWith("/auth") || pathname.startsWith("/admin")) return null;
 
   return (
-    <div className="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-foreground text-background">
-      <div className="h-px bg-accent/60" />
+    <div className="lg:hidden fixed bottom-4 inset-x-4 z-30">
       {user ? (
-        <Link to="/narudzba" className="flex items-center justify-center gap-2 py-4 text-[11px] uppercase tracking-[0.22em] font-medium">
-          My Order <ArrowRight className="w-3.5 h-3.5" />
+        <Link to="/narudzba" className="btn-primary w-full shadow-2xl">
+          Моја поруџбина <ArrowRight className="w-4 h-4" />
         </Link>
       ) : (
-        <Link to="/auth" className="flex items-center justify-center gap-2 py-4 text-[11px] uppercase tracking-[0.22em] font-medium">
-          Zatraži B2B pristup <ArrowRight className="w-3.5 h-3.5" />
+        <Link to="/postani-partner" className="btn-primary w-full shadow-2xl">
+          Затражите B2B приступ <ArrowRight className="w-4 h-4" />
         </Link>
       )}
     </div>

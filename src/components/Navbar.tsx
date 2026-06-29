@@ -8,15 +8,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { getMyProfile } from "@/lib/orders.functions";
 
 const NAV: Array<{ to: any; label: string }> = [
-  { to: "/", label: "Home" },
-  { to: "/shop", label: "Shop" },
-  { to: "/katalog", label: "B2B Catalog" },
-  { to: "/jeans", label: "Jeans" },
-  { to: "/chino", label: "Chino" },
-  { to: "/cargo", label: "Cargo" },
-  { to: "/postani-partner", label: "Become a Partner" },
-  { to: "/proizvodnja", label: "Production" },
-  { to: "/kontakt", label: "Contact" },
+  { to: "/", label: "Почетна" },
+  { to: "/shop", label: "Продавница" },
+  { to: "/katalog", label: "B2B Каталог" },
+  { to: "/jeans", label: "Фармерке" },
+  { to: "/chino", label: "Чино" },
+  { to: "/cargo", label: "Карго" },
+  { to: "/postani-partner", label: "Постаните партнер" },
+  { to: "/kontakt", label: "Контакт" },
 ];
 
 export function Navbar() {
@@ -28,15 +27,12 @@ export function Navbar() {
   const [profile, setProfile] = useState<any>(null);
 
   useEffect(() => {
-    if (user) {
-      fetchProfile({}).then(setProfile).catch(() => {});
-    } else {
-      setProfile(null);
-    }
+    if (user) fetchProfile({}).then(setProfile).catch(() => {});
+    else setProfile(null);
   }, [user]); // eslint-disable-line
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -51,33 +47,24 @@ export function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-40 transition-[background,box-shadow,backdrop-filter] duration-300 ${
-        scrolled ? "bg-background/90 backdrop-blur-md shadow-[0_1px_0_0_var(--color-border)]" : "bg-background"
+      className={`sticky top-0 z-40 transition-all duration-300 ${
+        scrolled
+          ? "bg-background/85 backdrop-blur-lg border-b border-border"
+          : "bg-background/60 backdrop-blur-md border-b border-transparent"
       }`}
     >
-      {/* Announcement bar */}
-      <div className="hidden md:block bg-foreground text-background text-[10px] tracking-[0.32em] uppercase">
-        <div className="container-x flex items-center justify-between py-2">
-          <span className="flex items-center gap-2">
-            <span className="inline-block w-1.5 h-1.5 bg-[var(--selvedge)] rounded-full" />
-            EXIT Denim · Wholesale Showroom — pristup samo za odobrene butike
-          </span>
-          <span className="text-accent">SS / FW · MOQ 10 kom · Isporuka 15–25 dana</span>
-        </div>
-      </div>
-
-      <div className="container-x flex items-center justify-between h-20">
-        <Link to="/" className="flex items-center -ml-1" onClick={() => setOpen(false)} aria-label="EXIT Denim — Home">
-          <Logo />
+      <div className="container-x flex items-center justify-between h-16">
+        <Link to="/" className="flex items-center" onClick={() => setOpen(false)} aria-label="EXIT Denim — Почетна">
+          <Logo className="h-8" />
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-7 xl:gap-9">
+        <nav className="hidden lg:flex items-center gap-1">
           {NAV.map((n) => (
             <Link
               key={n.to}
               to={n.to}
-              className="link-underline text-[11px] uppercase tracking-[0.22em] font-medium text-foreground/75 hover:text-foreground transition-colors"
-              activeProps={{ className: "text-foreground" }}
+              className="px-3 py-2 rounded-md text-[14px] font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+              activeProps={{ className: "text-foreground bg-secondary" }}
               activeOptions={{ exact: n.to === "/" }}
             >
               {n.label}
@@ -85,76 +72,85 @@ export function Navbar() {
           ))}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-5">
+        <div className="hidden lg:flex items-center gap-2">
           {user && profile?.isAdmin && (
-            <Link to="/admin" className="text-[11px] uppercase tracking-[0.22em] flex items-center gap-1.5 text-foreground/75 hover:text-foreground">
-              <Shield className="w-3.5 h-3.5" /> Admin
+            <Link to="/admin" className="chip hover:text-foreground transition-colors">
+              <Shield className="w-3.5 h-3.5" /> Админ
             </Link>
           )}
           {user && isApproved && (
-            <Link to="/narudzba" className="text-[11px] uppercase tracking-[0.22em] flex items-center gap-1.5 text-foreground/75 hover:text-foreground">
-              <ShoppingBag className="w-3.5 h-3.5" /> Order
+            <Link to="/narudzba" className="chip hover:text-foreground transition-colors">
+              <ShoppingBag className="w-3.5 h-3.5" /> Поруџбина
             </Link>
           )}
           {user ? (
             <>
-              <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground max-w-[160px] truncate">
+              <span className="text-xs text-muted-foreground max-w-[160px] truncate hidden xl:block">
                 {profile?.profile?.boutique_name || user.email}
               </span>
-              <button onClick={signOut} aria-label="Sign out" className="border border-foreground/30 hover:border-foreground p-2.5 transition-colors">
-                <LogOut className="w-3.5 h-3.5" />
+              <button onClick={signOut} aria-label="Одјава" className="p-2 rounded-md hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors">
+                <LogOut className="w-4 h-4" />
               </button>
             </>
           ) : (
-            <Link to="/auth" className="btn-primary">B2B Access</Link>
+            <>
+              <Link to="/auth" className="text-[14px] font-medium text-muted-foreground hover:text-foreground px-3 py-2">
+                Пријава
+              </Link>
+              <Link to="/postani-partner" className="btn-primary">B2B Приступ</Link>
+            </>
           )}
         </div>
 
         <button
-          className="lg:hidden p-2 -mr-2"
+          className="lg:hidden p-2 -mr-2 rounded-md hover:bg-secondary"
           onClick={() => setOpen((o) => !o)}
-          aria-label="Toggle menu"
+          aria-label={open ? "Затвори мени" : "Отвори мени"}
         >
           {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
-      {/* Mobile drawer — full-screen */}
       {open && (
-        <div className="lg:hidden fixed inset-0 top-0 z-50 bg-background flex flex-col">
-          <div className="container-x flex items-center justify-between h-20 border-b border-border">
-            <Logo />
-            <button onClick={() => setOpen(false)} aria-label="Close menu" className="p-2 -mr-2">
+        <div className="lg:hidden fixed inset-0 top-0 z-50 bg-background flex flex-col animate-fade-up">
+          <div className="container-x flex items-center justify-between h-16 border-b border-border">
+            <Logo className="h-8" />
+            <button onClick={() => setOpen(false)} aria-label="Затвори мени" className="p-2 -mr-2 rounded-md hover:bg-secondary">
               <X className="w-6 h-6" />
             </button>
           </div>
-          <nav className="container-x flex-1 overflow-y-auto py-8 flex flex-col">
+          <nav className="container-x flex-1 overflow-y-auto py-6 flex flex-col gap-1">
             {NAV.map((n) => (
               <Link
                 key={n.to}
                 to={n.to}
                 onClick={() => setOpen(false)}
-                className="serif text-3xl py-4 border-b border-border/60 tracking-tight"
+                className="text-lg font-medium py-3 px-3 rounded-md hover:bg-secondary"
               >
                 {n.label}
               </Link>
             ))}
             {user && profile?.isAdmin && (
-              <Link to="/admin" onClick={() => setOpen(false)} className="serif text-3xl py-4 border-b border-border/60 text-accent">Admin panel</Link>
+              <Link to="/admin" onClick={() => setOpen(false)} className="text-lg font-medium py-3 px-3 rounded-md text-accent hover:bg-secondary">Админ панел</Link>
             )}
             {user && isApproved && (
-              <Link to="/narudzba" onClick={() => setOpen(false)} className="serif text-3xl py-4 border-b border-border/60">My Order</Link>
+              <Link to="/narudzba" onClick={() => setOpen(false)} className="text-lg font-medium py-3 px-3 rounded-md hover:bg-secondary">Моја поруџбина</Link>
             )}
           </nav>
-          <div className="container-x border-t border-border py-5 bg-foreground text-background">
+          <div className="container-x border-t border-border py-4">
             {user ? (
-              <button onClick={() => { signOut(); setOpen(false); }} className="w-full flex items-center justify-center gap-2 py-3 text-[11px] uppercase tracking-[0.22em]">
-                <LogOut className="w-3.5 h-3.5" /> Sign out
+              <button onClick={() => { signOut(); setOpen(false); }} className="btn-outline w-full">
+                <LogOut className="w-4 h-4" /> Одјава
               </button>
             ) : (
-              <Link to="/auth" onClick={() => setOpen(false)} className="w-full flex items-center justify-center py-3 text-[11px] uppercase tracking-[0.22em] text-background">
-                Zatraži B2B pristup →
-              </Link>
+              <div className="flex flex-col gap-2">
+                <Link to="/postani-partner" onClick={() => setOpen(false)} className="btn-primary w-full">
+                  Затражите B2B приступ
+                </Link>
+                <Link to="/auth" onClick={() => setOpen(false)} className="btn-outline w-full">
+                  Пријава
+                </Link>
+              </div>
             )}
           </div>
         </div>
