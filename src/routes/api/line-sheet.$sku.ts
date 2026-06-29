@@ -113,7 +113,7 @@ export const Route = createFileRoute("/api/line-sheet/$sku")({
 
         // Footer
         page.drawRectangle({ x: 40, y: 50, width: 515, height: 1, color: ink });
-        page.drawText("wholesale@exitdenim.rs · EXIT Denim · Made in Serbia", { x: 40, y: 36, size: 8, font: reg, color: muted });
+        page.drawText("EXIT Denim — TRI-B DOO · Bekim Kurtanovic · +381 65 370 1701 · @exit.denim · Made in Serbia", { x: 40, y: 36, size: 8, font: reg, color: muted });
         page.drawText(new Date().toLocaleDateString("sr-RS"), { x: 510, y: 36, size: 8, font: reg, color: muted });
 
         const bytes = await pdf.save();
