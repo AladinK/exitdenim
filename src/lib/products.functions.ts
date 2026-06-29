@@ -26,7 +26,7 @@ async function signIfPath(sb: ReturnType<typeof publicClient>, image_url: string
 export const listProducts = createServerFn({ method: "GET" }).handler(async () => {
   const sb = publicClient();
   const { data: products, error } = await sb
-    .from("products")
+    .from("products_public")
     .select("*")
     .eq("active", true)
     .order("sort_order", { ascending: true });
