@@ -1,8 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { ArrowRight, Check, Lock, Package, Truck, ShieldCheck, BarChart3, Sparkles, Globe2 } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Reveal } from "@/components/Reveal";
 import { Seal } from "@/components/Seal";
+import { getHomeAssets } from "@/lib/site-assets.functions";
 import heroImg from "@/assets/hero-banner.jpg.asset.json";
 import workshopImg from "@/assets/workshop.jpg.asset.json";
 import productJeans from "@/assets/product-ex-101.jpg.asset.json";
@@ -22,6 +25,12 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
+  const fetchAssets = useServerFn(getHomeAssets);
+  const [assets, setAssets] = useState<Record<string, { url: string; alt: string | null }>>({});
+  useEffect(() => { fetchAssets({}).then(setAssets).catch(() => {}); }, []); // eslint-disable-line
+  const img = (k: string, fb: string) => assets[k]?.url || fb;
+  const alt = (k: string, fb: string) => assets[k]?.alt || fb;
+
   return (
     <Layout>
       {/* ───────── HERO ───────── */}
@@ -72,7 +81,7 @@ function HomePage() {
             <div className="lg:col-span-5 relative order-1 lg:order-2">
               <Reveal delay={2}>
                 <div className="relative aspect-[4/5] overflow-hidden border border-border shadow-2xl shadow-navy/10 bg-secondary">
-                  <img src={heroImg.url} alt="EXIT Denim премијум деним" className="w-full h-full object-cover" loading="eager" />
+                  <img src={img("hero", heroImg.url)} alt={alt("hero", "EXIT Denim премијум деним")} className="w-full h-full object-cover" loading="eager" />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/35 via-transparent to-transparent" />
                   {/* Brand corner mark on the image itself */}
                   <div className="absolute top-4 left-4 text-white/85">
@@ -116,42 +125,66 @@ function HomePage() {
 
 
       {/* ───────── ВРЕДНОСТИ ───────── */}
-      <section className="section-pad relative">
-        <Seal tone="green" opacity={0.05} className="pointer-events-none absolute right-6 top-10 w-40 h-40" />
+      <section className="section-pad relative bg-[var(--surface)]/40 overflow-hidden">
+        <Seal tone="green" opacity={0.04} className="pointer-events-none absolute -right-20 top-20 w-[420px] h-[420px] hidden md:block" />
         <div className="container-x relative">
-          <Reveal>
-            <div className="max-w-2xl">
-              <span className="eyebrow">Зашто EXIT</span>
-              <h2 className="mt-3 text-4xl md:text-5xl font-bold tracking-tight">
-                Алат за озбиљне купце.
-                <br />
-                <span className="text-muted-foreground">Не још један онлајн шоп.</span>
-              </h2>
-            </div>
-          </Reveal>
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-end">
+            <Reveal>
+              <div className="lg:col-span-7">
+                <span className="eyebrow inline-flex items-center gap-2">
+                  <span className="w-6 h-px bg-accent" /> Зашто EXIT
+                </span>
+                <h2 className="mt-5 text-[clamp(2.25rem,6vw,4rem)] leading-[0.98] tracking-tight font-bold">
+                  Алат за{" "}
+                  <span className="serif-accent italic text-accent">озбиљне</span>{" "}
+                  купце.
+                  <br />
+                  <span className="text-muted-foreground">Не још један онлајн шоп.</span>
+                </h2>
+              </div>
+            </Reveal>
+            <Reveal delay={2}>
+              <div className="lg:col-span-5">
+                <p className="text-base md:text-lg text-muted-foreground leading-relaxed border-l-2 border-accent pl-5">
+                  EXIT је затворена B2B радионица — не маркетплејс. Сваки крој,
+                  сваки шав и сваки рок испоруке стоји иза имена власника погона.
+                </p>
+                <div className="mt-6 flex items-center gap-6 text-[11px] uppercase tracking-[0.2em] text-muted-foreground mono">
+                  <span><span className="text-foreground font-bold">06</span> · принципа</span>
+                  <span className="h-3 w-px bg-border" />
+                  <span>Нови Пазар · RS</span>
+                </div>
+              </div>
+            </Reveal>
+          </div>
 
-          <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="mt-16 border-t border-foreground/15">
             {[
-              { icon: Lock, title: "Затворен каталог", text: "Цене и матрица величина видљиве су само одобреним партнерима." },
-              { icon: Package, title: "Стабилни кројеви", text: "Тачни лекала из сезоне у сезону — нема скакања величина." },
-              { icon: Truck, title: "Испорука 15–25 дана", text: "Производња у Новом Пазару. Контрола квалитета прије сваке отпреме." },
-              { icon: BarChart3, title: "Здраве марже", text: "ВПЦ позициониране за маркап 2.4–2.8× у бутицима." },
-              { icon: ShieldCheck, title: "Гаранција квалитета", text: "Замјена при дефекту тканине или конца у року 14 дана." },
-              { icon: Sparkles, title: "Подршка партнерима", text: "Лине-шит, фотке и материјали за ваше канале — на захтев." },
+              { icon: Lock, n: "01", title: "Затворен каталог", text: "Цене и матрица величина видљиве су само одобреним партнерима." },
+              { icon: Package, n: "02", title: "Стабилни кројеви", text: "Тачни лекала из сезоне у сезону — нема скакања величина." },
+              { icon: Truck, n: "03", title: "Испорука 15–25 дана", text: "Производња у Новом Пазару. Контрола квалитета прије сваке отпреме." },
+              { icon: BarChart3, n: "04", title: "Здраве марже", text: "ВПЦ позициониране за маркап 2.4–2.8× у бутицима." },
+              { icon: ShieldCheck, n: "05", title: "Гаранција квалитета", text: "Замјена при дефекту тканине или конца у року 14 дана." },
+              { icon: Sparkles, n: "06", title: "Подршка партнерима", text: "Лине-шит, фотке и материјали за ваше канале — на захтев." },
             ].map((f, i) => (
-              <Reveal key={f.title} delay={Math.min(4, i + 1) as 1 | 2 | 3 | 4}>
-                <div className="card-soft p-7 h-full">
-                  <div className="w-11 h-11 rounded-xl bg-secondary text-accent flex items-center justify-center">
+              <Reveal key={f.title} delay={Math.min(4, (i % 4) + 1) as 1 | 2 | 3 | 4}>
+                <div className="group grid grid-cols-[auto_1fr_auto] md:grid-cols-[80px_60px_1fr_auto] gap-x-5 md:gap-x-8 items-start py-7 md:py-8 border-b border-foreground/15 hover:bg-background/60 transition-colors">
+                  <div className="mono text-[11px] tracking-[0.25em] text-muted-foreground pt-2">{f.n}</div>
+                  <div className="hidden md:flex w-12 h-12 items-center justify-center border border-foreground/15 text-accent group-hover:border-accent group-hover:bg-accent/5 transition-colors">
                     <f.icon className="w-5 h-5" />
                   </div>
-                  <h3 className="mt-5 text-lg font-semibold">{f.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{f.text}</p>
+                  <div className="min-w-0">
+                    <h3 className="text-xl md:text-2xl font-semibold tracking-tight">{f.title}</h3>
+                    <p className="mt-1.5 text-sm md:text-[15px] text-muted-foreground leading-relaxed max-w-xl">{f.text}</p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:text-accent group-hover:translate-x-1 transition-all mt-2" />
                 </div>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
+
 
       {/* ───────── КАТЕГОРИЈЕ ───────── */}
       <section className="section-pad bg-[var(--surface)]">
@@ -170,14 +203,14 @@ function HomePage() {
 
           <div className="mt-12 grid md:grid-cols-3 gap-5">
             {[
-              { to: "/katalog" as const, label: "Фармерке", desc: "12oz · slim, regular, relaxed", img: productJeans.url },
-              { to: "/katalog" as const, label: "Чино", desc: "Памук стрейч · класичан крој", img: productChino.url },
-              { to: "/katalog" as const, label: "Карго", desc: "Утилитарни кројеви · funkcionalnost", img: productCargo.url },
+              { to: "/katalog" as const, key: "category_jeans", label: "Фармерке", desc: "12oz · slim, regular, relaxed", fb: productJeans.url },
+              { to: "/katalog" as const, key: "category_chino", label: "Чино", desc: "Памук стрейч · класичан крој", fb: productChino.url },
+              { to: "/katalog" as const, key: "category_cargo", label: "Карго", desc: "Утилитарни кројеви · funkcionalnost", fb: productCargo.url },
             ].map((c, i) => (
               <Reveal key={c.label} delay={Math.min(3, i + 1) as 1 | 2 | 3}>
                 <Link to={c.to} className="group block card-soft overflow-hidden">
                   <div className="aspect-[4/5] overflow-hidden bg-secondary">
-                    <img src={c.img} alt={c.label} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <img src={img(c.key, c.fb)} alt={alt(c.key, c.label)} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
                   <div className="p-5 flex items-center justify-between">
                     <div>
@@ -229,7 +262,7 @@ function HomePage() {
         <div className="container-x grid lg:grid-cols-2 gap-12 items-center">
           <Reveal>
             <div className="rounded-2xl overflow-hidden border border-border aspect-[4/5] lg:aspect-[4/5]">
-              <img src={workshopImg.url} alt="EXIT Denim атеље у Новом Пазару" className="w-full h-full object-cover" />
+              <img src={img("workshop", workshopImg.url)} alt={alt("workshop", "EXIT Denim атеље у Новом Пазару")} className="w-full h-full object-cover" />
             </div>
           </Reveal>
           <Reveal delay={1}>
