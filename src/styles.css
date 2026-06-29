@@ -33,7 +33,7 @@
   --color-teal: var(--teal);
   --color-violet: var(--violet);
   --color-surface: var(--surface);
-  --font-display: "Fraunces", "Times New Roman", Georgia, serif;
+  --font-display: "Instrument Serif", "Times New Roman", Georgia, serif;
   --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
 }
@@ -109,17 +109,17 @@
     letter-spacing: -0.011em;
   }
   h1, h2, h3, h4 {
-    font-family: var(--font-display);
-    font-weight: 400;
-    letter-spacing: -0.028em;
-    line-height: 1.02;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.04;
     color: var(--color-foreground);
-    font-feature-settings: "liga", "kern";
-    font-variation-settings: "opsz" 144, "SOFT" 30;
+    font-feature-settings: "ss01", "ss02", "ss03", "kern";
   }
-  h1 { letter-spacing: -0.04em; font-weight: 400; }
-  h2 { letter-spacing: -0.032em; }
-  h3, h4 { font-family: var(--font-sans); letter-spacing: -0.018em; font-weight: 600; }
+  h1 { letter-spacing: -0.045em; font-weight: 800; }
+  h2 { letter-spacing: -0.038em; font-weight: 700; }
+  h3, h4 { letter-spacing: -0.022em; font-weight: 600; }
+  .serif-accent { font-family: var(--font-display); font-weight: 400; font-style: italic; letter-spacing: -0.02em; }
   ::selection { background: color-mix(in oklab, var(--color-accent) 35%, transparent); color: var(--color-foreground); }
 }
 
