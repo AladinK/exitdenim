@@ -231,6 +231,30 @@ export type Database = {
         }
         Relationships: []
       }
+      site_assets: {
+        Row: {
+          alt: string | null
+          key: string
+          updated_at: string
+          updated_by: string | null
+          url: string
+        }
+        Insert: {
+          alt?: string | null
+          key: string
+          updated_at?: string
+          updated_by?: string | null
+          url: string
+        }
+        Update: {
+          alt?: string | null
+          key?: string
+          updated_at?: string
+          updated_by?: string | null
+          url?: string
+        }
+        Relationships: []
+      }
       stock: {
         Row: {
           id: string
