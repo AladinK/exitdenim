@@ -100,20 +100,21 @@ export function Navbar() {
         </div>
 
         <button
-          className="lg:hidden p-2 -mr-2 rounded-md hover:bg-secondary"
+          className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-md hover:bg-secondary text-foreground"
           onClick={() => setOpen((o) => !o)}
           aria-label={open ? "Затвори мени" : "Отвори мени"}
         >
-          {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
+
       </div>
 
       {open && (
         <div className="lg:hidden fixed inset-0 top-0 z-50 bg-background flex flex-col animate-fade-up">
           <div className="container-x flex items-center justify-between h-16 border-b border-border">
             <Logo className="h-8" />
-            <button onClick={() => setOpen(false)} aria-label="Затвори мени" className="p-2 -mr-2 rounded-md hover:bg-secondary">
-              <X className="w-6 h-6" />
+            <button onClick={() => setOpen(false)} aria-label="Затвори мени" className="inline-flex items-center justify-center w-10 h-10 rounded-md hover:bg-secondary text-foreground">
+              <X className="w-5 h-5" />
             </button>
           </div>
           <nav className="container-x flex-1 overflow-y-auto py-6 flex flex-col gap-1">
