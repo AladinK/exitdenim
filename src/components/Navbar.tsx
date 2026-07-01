@@ -100,12 +100,13 @@ export function Navbar() {
         </div>
 
         <button
-          className="lg:hidden p-2 -mr-2 rounded-md hover:bg-secondary"
+          className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-md hover:bg-secondary text-foreground"
           onClick={() => setOpen((o) => !o)}
           aria-label={open ? "Затвори мени" : "Отвори мени"}
         >
-          {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
+
       </div>
 
       {open && (
