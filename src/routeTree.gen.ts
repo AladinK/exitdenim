@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ShopRouteImport } from './routes/shop'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ProizvodnjaRouteImport } from './routes/proizvodnja'
 import { Route as PostaniPartnerRouteImport } from './routes/postani-partner'
 import { Route as MediaKitRouteImport } from './routes/media-kit'
@@ -31,6 +32,11 @@ import { Route as ApiLineSheetSkuRouteImport } from './routes/api/line-sheet.$sk
 const ShopRoute = ShopRouteImport.update({
   id: '/shop',
   path: '/shop',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProizvodnjaRoute = ProizvodnjaRouteImport.update({
@@ -130,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/proizvodnja': typeof ProizvodnjaRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/shop': typeof ShopRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/cekanje': typeof AuthenticatedCekanjeRoute
@@ -149,6 +156,7 @@ export interface FileRoutesByTo {
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/proizvodnja': typeof ProizvodnjaRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/shop': typeof ShopRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/cekanje': typeof AuthenticatedCekanjeRoute
@@ -170,6 +178,7 @@ export interface FileRoutesById {
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/proizvodnja': typeof ProizvodnjaRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/shop': typeof ShopRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/cekanje': typeof AuthenticatedCekanjeRoute
@@ -191,6 +200,7 @@ export interface FileRouteTypes {
     | '/media-kit'
     | '/postani-partner'
     | '/proizvodnja'
+    | '/reset-password'
     | '/shop'
     | '/admin'
     | '/cekanje'
@@ -210,6 +220,7 @@ export interface FileRouteTypes {
     | '/media-kit'
     | '/postani-partner'
     | '/proizvodnja'
+    | '/reset-password'
     | '/shop'
     | '/admin'
     | '/cekanje'
@@ -230,6 +241,7 @@ export interface FileRouteTypes {
     | '/media-kit'
     | '/postani-partner'
     | '/proizvodnja'
+    | '/reset-password'
     | '/shop'
     | '/_authenticated/admin'
     | '/_authenticated/cekanje'
@@ -251,6 +263,7 @@ export interface RootRouteChildren {
   MediaKitRoute: typeof MediaKitRoute
   PostaniPartnerRoute: typeof PostaniPartnerRoute
   ProizvodnjaRoute: typeof ProizvodnjaRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   ShopRoute: typeof ShopRoute
   ProizvodSlugRoute: typeof ProizvodSlugRoute
   ApiLineSheetSkuRoute: typeof ApiLineSheetSkuRoute
@@ -263,6 +276,13 @@ declare module '@tanstack/react-router' {
       path: '/shop'
       fullPath: '/shop'
       preLoaderRoute: typeof ShopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/proizvodnja': {
@@ -415,6 +435,7 @@ const rootRouteChildren: RootRouteChildren = {
   MediaKitRoute: MediaKitRoute,
   PostaniPartnerRoute: PostaniPartnerRoute,
   ProizvodnjaRoute: ProizvodnjaRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   ShopRoute: ShopRoute,
   ProizvodSlugRoute: ProizvodSlugRoute,
   ApiLineSheetSkuRoute: ApiLineSheetSkuRoute,
