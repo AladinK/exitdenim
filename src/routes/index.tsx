@@ -6,10 +6,10 @@ import { Layout } from "@/components/Layout";
 import { Reveal } from "@/components/Reveal";
 import { Seal } from "@/components/Seal";
 import { getHomeAssets } from "@/lib/site-assets.functions";
-import heroImg from "@/assets/hero-banner.jpg.asset.json";
-import workshopImg from "@/assets/workshop.jpg.asset.json";
-import productJeans from "@/assets/product-ex-101.jpg.asset.json";
-import productChino from "@/assets/product-ex-201.jpg.asset.json";
+import heroImg from "@/assets/exit-lineup.png.asset.json";
+import workshopImg from "@/assets/exit-atelier.png.asset.json";
+import productJeans from "@/assets/exit-washes.png.asset.json";
+import productChino from "@/assets/exit-stock.png.asset.json";
 import productCargo from "@/assets/product-ex-301.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
