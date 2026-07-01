@@ -177,9 +177,28 @@ function Auth() {
               {loading ? "..." : mode === "login" ? "Пријавите се" : "Региструјте бутик"}
             </button>
 
+            {mode === "login" && (
+              <button
+                type="button"
+                onClick={async () => {
+                  if (!email) { setError("Унесите e-mail па кликните заборавили лозинку."); return; }
+                  setError(null);
+                  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                    redirectTo: `${window.location.origin}/reset-password`,
+                  });
+                  if (error) setError(error.message);
+                  else setError("Линк за ресет лозинке је послат на e-mail.");
+                }}
+                className="w-full text-xs text-muted-foreground hover:text-foreground underline underline-offset-4"
+              >
+                Заборавили сте лозинку?
+              </button>
+            )}
+
             <p className="text-center text-xs text-muted-foreground">
               <Link to="/" className="hover:text-foreground">← Назад на сајт</Link>
             </p>
+
 
           </form>
         </div>
