@@ -47,7 +47,7 @@ export function ProductCard({ product, showPrice }: { product: ProductWithStock;
           {showPrice ? (
             <>
               <div className="serif text-xl tabular-nums">€{Number(product.wholesale).toFixed(0)}</div>
-              <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground mt-0.5">Wholesale</div>
+              <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground mt-0.5">Велепродаја</div>
               <div className="text-[10px] text-muted-foreground mt-1.5 tabular-nums">
                 МПЦ {Number(product.retail).toLocaleString("sr-RS")} дин
               </div>
