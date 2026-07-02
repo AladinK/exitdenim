@@ -1,12 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
-import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 
 export const Route = createFileRoute("/api/line-sheet/$sku")({
   server: {
     handlers: {
       GET: async ({ params }) => {
+        // Lazy-load heavy CJS deps so tslib interop doesn't crash the SSR bundle
+        const [{ PDFDocument, StandardFonts, rgb }, { createClient }] = await Promise.all([
+          import("pdf-lib"),
+          import("@supabase/supabase-js"),
+        ]);
         const sku = params.sku.replace(/\.pdf$/i, "");
         const supabase = createClient<Database>(
           process.env.SUPABASE_URL!,
