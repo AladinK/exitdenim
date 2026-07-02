@@ -25,7 +25,7 @@ export function ProductCard({ product, showPrice }: { product: ProductWithStock;
         {/* Quick action — appears on hover */}
         <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 bg-background/95 backdrop-blur-sm border-t border-border">
           <div className="px-4 py-3 flex items-center justify-between text-[11px] uppercase tracking-[0.18em]">
-            <span>Add to B2B Order</span>
+            <span>Додај у поруџбину</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </div>
         </div>
