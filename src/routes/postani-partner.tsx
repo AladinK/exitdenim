@@ -18,7 +18,7 @@ function Partner() {
       <section className="bg-foreground text-background relative overflow-hidden">
         <div className="container-x py-20 md:py-32 relative">
           <div className="text-[10px] uppercase tracking-[0.36em] text-accent">По пријави · Приватни B2B шоурум</div>
-          <h1 className="mt-7 text-[clamp(2.5rem,7vw,6.5rem)] max-w-4xl text-background">
+          <h1 className="mt-7 text-[clamp(2.25rem,5.5vw,4.5rem)] max-w-4xl text-background">
             Партнерски програм<br/>
             <span className="italic font-light text-background/85">EXIT Denim</span>
           </h1>
