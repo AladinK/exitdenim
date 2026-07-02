@@ -60,8 +60,8 @@ export function Navbar() {
             <Link
               key={n.to}
               to={n.to}
-              className="px-3 py-2 rounded-md text-[14px] font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
-              activeProps={{ className: "text-foreground bg-secondary" }}
+              className="relative px-3 py-2 text-[13.5px] font-medium text-muted-foreground hover:text-foreground transition-colors after:absolute after:left-3 after:right-3 after:-bottom-0.5 after:h-px after:bg-foreground after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300"
+              activeProps={{ className: "text-foreground after:scale-x-100" }}
               activeOptions={{ exact: n.to === "/" }}
             >
               {n.label}

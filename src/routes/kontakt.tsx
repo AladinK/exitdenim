@@ -18,7 +18,7 @@ function Kontakt() {
       <section className="bg-foreground text-background">
         <div className="container-x py-20 md:py-32">
           <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Wholesale Desk</div>
-          <h1 className="mt-7 text-[clamp(2.75rem,8vw,7rem)] text-background">
+          <h1 className="mt-7 text-[clamp(2.25rem,5.5vw,4.5rem)] text-background">
             Разговор о <span className="italic">сарадњи</span>.
           </h1>
           <p className="mt-7 text-background/75 max-w-xl leading-relaxed">

@@ -42,13 +42,13 @@ function Katalog() {
   return (
     <Layout>
       <section className="border-b border-border">
-        <div className="container-x py-20 md:py-28">
+        <div className="container-x py-16 md:py-24">
           <div className="eyebrow">B2B Велепродајни каталог · SS / FW</div>
-          <div className="mt-7 grid lg:grid-cols-12 gap-8 items-end">
+          <div className="mt-6 grid lg:grid-cols-12 gap-8 items-end">
             <div className="lg:col-span-8">
-              <h1 className="text-[clamp(2.5rem,7vw,6rem)]">
-                Комплетан <span className="italic">каталог</span>
-                {approved && <span className="block text-accent mt-2 text-3xl md:text-4xl serif italic">— приступ одобрен</span>}
+              <h1 className="text-[clamp(2.25rem,5.5vw,4.25rem)] leading-[1.02] max-w-[14ch]">
+                Комплетан <span className="serif-accent italic text-accent">каталог</span>
+                {approved && <span className="block text-accent mt-3 text-2xl md:text-3xl serif-accent italic">— приступ одобрен</span>}
               </h1>
             </div>
             <div className="lg:col-span-4 lg:text-right">

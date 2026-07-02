@@ -115,12 +115,20 @@
     line-height: 1.04;
     color: var(--color-foreground);
     font-feature-settings: "ss01", "ss02", "ss03", "kern";
+    text-wrap: balance;
   }
   h1 { letter-spacing: -0.045em; font-weight: 800; }
   h2 { letter-spacing: -0.038em; font-weight: 700; }
   h3, h4 { letter-spacing: -0.022em; font-weight: 600; }
   .serif-accent { font-family: var(--font-display); font-weight: 400; font-style: italic; letter-spacing: -0.02em; }
   ::selection { background: color-mix(in oklab, var(--color-accent) 35%, transparent); color: var(--color-foreground); }
+
+  /* Consistent focus ring across all interactive elements */
+  :where(a, button, [role="button"], input, textarea, select, summary):focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
 }
 
 
@@ -224,12 +232,13 @@
 
 @utility chip {
   display: inline-flex; align-items: center; gap: 0.5rem;
-  padding: 0.35rem 0.8rem;
+  padding: 0.4rem 0.85rem;
   border-radius: 999px;
   border: 1px solid var(--color-border);
-  background: transparent;
-  font-size: 0.7rem; font-weight: 500;
-  letter-spacing: 0.18em; text-transform: uppercase;
+  background: color-mix(in oklab, var(--color-background) 60%, transparent);
+  backdrop-filter: blur(6px);
+  font-size: 0.68rem; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
   color: var(--color-muted-foreground);
 }
 

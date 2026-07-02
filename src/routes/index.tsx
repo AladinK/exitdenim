@@ -47,7 +47,7 @@ function HomePage() {
                 </span>
               </Reveal>
               <Reveal delay={1}>
-                <h1 className="mt-5 text-[clamp(2.4rem,8.5vw,4.75rem)] leading-[1.02]">
+                <h1 className="mt-5 text-[clamp(2.25rem,6.5vw,4rem)] leading-[1.03] max-w-[16ch]">
                   B2B платформа за{" "}
                   <span className="serif-accent text-accent">премијум деним</span>,
                   створена за бутике.
@@ -88,15 +88,15 @@ function HomePage() {
                     <div className="text-[10px] uppercase tracking-[0.3em] font-medium">EXIT Denim</div>
                     <div className="mono text-[10px] opacity-70 mt-1">SS · LOOK 01</div>
                   </div>
-                  {/* Inline spec card pinned inside the frame so it never clips on mobile */}
-                  <div className="absolute left-3 right-3 bottom-3 md:left-4 md:right-auto md:w-[260px] card-soft p-3.5 md:p-4 backdrop-blur-md bg-background/95">
+                  {/* Inline spec card — mobile only (desktop poster carries the message) */}
+                  <div className="md:hidden absolute left-3 right-3 bottom-3 card-soft p-3.5 backdrop-blur-md bg-background/95">
                     <div className="flex items-center justify-between text-[11px] text-muted-foreground">
                       <span className="mono">EX-101 · SLIM</span>
                       <span className="flex items-center gap-1 text-accent font-semibold">
                         <span className="w-1.5 h-1.5 rounded-full bg-accent" /> На стању
                       </span>
                     </div>
-                    <div className="mt-1.5 text-[13px] md:text-base font-semibold">12oz деним · тамно индиго</div>
+                    <div className="mt-1.5 text-[13px] font-semibold">12oz деним · тамно индиго</div>
                     <div className="mt-2.5 grid grid-cols-3 gap-1.5 text-center">
                       {["30", "32", "34"].map((s) => (
                         <div key={s} className="bg-secondary py-1.5 text-[11px] font-medium mono">{s}</div>
