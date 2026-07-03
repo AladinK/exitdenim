@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { Menu, X, LogOut, ShoppingBag, Shield } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Menu, X, LogOut, ShoppingBag, Shield, User as UserIcon, ChevronDown } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { Logo } from "./Logo";
 import { useAuth } from "@/hooks/useAuth";
@@ -18,10 +18,12 @@ const NAV: Array<{ to: any; label: string }> = [
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
   const fetchProfile = useServerFn(getMyProfile);
   const [profile, setProfile] = useState<any>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (user) fetchProfile({}).then(setProfile).catch(() => {});
@@ -35,12 +37,24 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false);
+    };
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, []);
+
   const signOut = async () => {
+    setMenuOpen(false);
     await supabase.auth.signOut();
     navigate({ to: "/" });
   };
 
   const isApproved = profile?.profile?.status === "approved";
+  const displayName = profile?.profile?.boutique_name || user?.user_metadata?.full_name || user?.email || "";
+  const initials = (displayName || "?").split(/\s+/).map((s: string) => s[0]).slice(0, 2).join("").toUpperCase();
+  const avatarUrl = user?.user_metadata?.avatar_url as string | undefined;
 
   return (
     <header
@@ -70,25 +84,58 @@ export function Navbar() {
         </nav>
 
         <div className="hidden lg:flex items-center gap-2">
-          {user && profile?.isAdmin && (
-            <Link to="/admin" className="chip hover:text-foreground transition-colors">
-              <Shield className="w-3.5 h-3.5" /> Админ
-            </Link>
-          )}
-          {user && isApproved && (
-            <Link to="/narudzba" className="chip hover:text-foreground transition-colors">
-              <ShoppingBag className="w-3.5 h-3.5" /> Поруџбина
-            </Link>
-          )}
           {user ? (
-            <>
-              <span className="text-xs text-muted-foreground max-w-[160px] truncate hidden xl:block">
-                {profile?.profile?.boutique_name || user.email}
-              </span>
-              <button onClick={signOut} aria-label="Одјава" className="p-2 rounded-md hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors">
-                <LogOut className="w-4 h-4" />
+            <div className="relative" ref={menuRef}>
+              <button
+                onClick={() => setMenuOpen((o) => !o)}
+                className="flex items-center gap-2 pl-1 pr-2 py-1 rounded-full border border-border hover:border-foreground/40 transition-colors"
+                aria-label="Кориснички мени"
+              >
+                {avatarUrl ? (
+                  <img src={avatarUrl} alt="" className="w-7 h-7 rounded-full object-cover" />
+                ) : (
+                  <span className="w-7 h-7 rounded-full bg-foreground text-background text-[11px] font-semibold flex items-center justify-center">{initials}</span>
+                )}
+                <span className="text-[13px] font-medium max-w-[140px] truncate">{displayName}</span>
+                <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
               </button>
-            </>
+              {menuOpen && (
+                <div className="absolute right-0 mt-2 w-64 bg-background border border-border rounded-md shadow-lg overflow-hidden">
+                  <div className="px-4 py-3 border-b border-border">
+                    <div className="text-[11px] uppercase tracking-wider text-muted-foreground">Пријављени сте као</div>
+                    <div className="text-sm font-semibold truncate mt-0.5">{displayName}</div>
+                    {user.email && displayName !== user.email && (
+                      <div className="text-xs text-muted-foreground truncate">{user.email}</div>
+                    )}
+                    <div className="mt-2">
+                      {isApproved ? (
+                        <span className="chip text-accent"><span className="w-1.5 h-1.5 rounded-full bg-accent" /> B2B одобрен</span>
+                      ) : (
+                        <span className="chip text-muted-foreground">На чекању</span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="py-1">
+                    {profile?.isAdmin && (
+                      <Link to="/admin" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-secondary">
+                        <Shield className="w-4 h-4 text-accent" /> Админ панел
+                      </Link>
+                    )}
+                    {isApproved && (
+                      <Link to="/narudzba" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-secondary">
+                        <ShoppingBag className="w-4 h-4" /> Моја поруџбина
+                      </Link>
+                    )}
+                    <Link to="/katalog" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-secondary">
+                      <UserIcon className="w-4 h-4" /> Каталог
+                    </Link>
+                  </div>
+                  <button onClick={signOut} className="w-full flex items-center gap-2 px-4 py-2.5 text-sm border-t border-border hover:bg-secondary text-muted-foreground hover:text-foreground">
+                    <LogOut className="w-4 h-4" /> Одјава
+                  </button>
+                </div>
+              )}
+            </div>
           ) : (
             <>
               <Link to="/auth" className="text-[14px] font-medium text-muted-foreground hover:text-foreground px-3 py-2">
