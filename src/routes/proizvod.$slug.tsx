@@ -164,22 +164,13 @@ function ProductDetail() {
             </a>
           </div>
 
-          <div className="mt-10">
-            {approved ? (
+          {approved && (
+            <div className="mt-10 border-t border-border pt-8">
+              <div className="eyebrow mb-4">B2B велепродаја — по величинама</div>
               <SizeMatrix product={product} />
-            ) : (
-              <div className="border border-foreground p-8 text-center">
-                <Lock className="w-5 h-5 mx-auto text-foreground" strokeWidth={1.25} />
-                <div className="mt-5 serif text-2xl">Резервисано за B2B партнере</div>
-                <p className="text-sm text-muted-foreground mt-3 max-w-sm mx-auto leading-relaxed">
-                  Одобрени партнери виде стање по величинама, цене и могу послати упит за поруџбину кроз матрицу величина.
-                </p>
-                <Link to="/auth" className="btn-primary mt-7 inline-flex">
-                  {user ? "Статус налога" : "Затражите B2B приступ"}
-                </Link>
-              </div>
-            )}
-          </div>
+            </div>
+          )}
+
         </div>
       </section>
 
