@@ -84,14 +84,17 @@ function HomePage() {
             {/* 1. LOOK 01 — dominant editorial 7×4 */}
             <Reveal delay={1} className="md:col-span-7 md:row-span-4 h-full min-h-[420px]">
               <div className="relative overflow-hidden rounded-sm bg-secondary group h-full w-full">
-                <img
-                  src={img("hero", heroImg.url)}
-                  alt={alt("hero", "EXIT Denim SS кампања")}
-                  fetchPriority="high"
-                  decoding="async"
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
-                />
+                {img("hero") && (
+                  <img
+                    src={img("hero")}
+                    alt={alt("hero", "EXIT Denim SS кампања")}
+                    fetchPriority="high"
+                    decoding="async"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
+                  />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/0 to-black/0" />
+
                 <div className="absolute top-5 left-5 right-5 flex items-center justify-between text-[10px] uppercase tracking-[0.3em] text-white/90 mono">
                   <span>Look 01</span>
                   <span>EX-101</span>
