@@ -249,6 +249,75 @@ function Admin() {
             </div>
           )}
 
+          {tab === "kupci" && (
+            <div className="space-y-3">
+              {customerOrders.length === 0 && <div className="text-muted-foreground">Još nema retail porudžbina.</div>}
+              {customerOrders.map((o) => (
+                <details key={o.id} className="border border-border rounded-sm bg-card">
+                  <summary className="px-5 py-4 cursor-pointer flex items-center justify-between gap-4 flex-wrap">
+                    <div>
+                      <div className="font-semibold">{o.order_number} · {o.customer_name}</div>
+                      <div className="text-xs text-muted-foreground">
+                        {o.email} · {o.phone} · {o.city}, {o.postal_code} · {new Date(o.created_at).toLocaleString("sr-RS")}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <span className="text-sm tabular-nums">
+                        {(o.customer_order_items || []).reduce((s: number, i: any) => s + i.quantity, 0)} kom · {Number(o.total).toLocaleString("sr-RS")} дин
+                      </span>
+                      <CustomerOrderStatusPill status={o.status} />
+                    </div>
+                  </summary>
+                  <div className="px-5 pb-5 border-t border-border">
+                    <div className="grid md:grid-cols-2 gap-4 mt-3 text-sm">
+                      <div>
+                        <div className="text-xs uppercase text-muted-foreground mb-1">Adresa isporuke</div>
+                        <div>{o.customer_name}</div>
+                        <div>{o.address}</div>
+                        <div>{o.postal_code} {o.city}</div>
+                        <div>{o.country || "Srbija"}</div>
+                      </div>
+                      <div>
+                        <div className="text-xs uppercase text-muted-foreground mb-1">Plaćanje</div>
+                        <div className="uppercase">{o.payment_method === "cod" ? "Pouzećem" : o.payment_method}</div>
+                        <div className="text-xs text-muted-foreground mt-2">Dostava: {Number(o.shipping).toLocaleString("sr-RS")} дин</div>
+                        <div className="text-xs text-muted-foreground">Ukupno: <b className="text-foreground">{Number(o.total).toLocaleString("sr-RS")} дин</b></div>
+                      </div>
+                    </div>
+                    <table className="w-full text-sm mt-4">
+                      <thead className="text-xs text-muted-foreground uppercase">
+                        <tr><th className="text-left py-1">SKU</th><th className="text-left">Artikal</th><th>Vel.</th><th>Kom</th><th className="text-right">Cijena</th></tr>
+                      </thead>
+                      <tbody>
+                        {(o.customer_order_items || []).map((i: any) => (
+                          <tr key={i.id} className="border-t border-border">
+                            <td className="py-1">{i.product_sku}</td>
+                            <td>{i.product_name}</td>
+                            <td className="text-center">{i.size}</td>
+                            <td className="text-center tabular-nums">{i.quantity}</td>
+                            <td className="text-right tabular-nums">{Number(i.unit_price).toLocaleString("sr-RS")} дин</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    {o.note && <div className="mt-3 text-sm italic text-muted-foreground border-l-2 border-border pl-3">{o.note}</div>}
+                    <div className="mt-4 flex gap-2 flex-wrap">
+                      {(["pending", "confirmed", "shipped", "delivered", "cancelled"] as const).map((s) => (
+                        <button
+                          key={s}
+                          onClick={async () => { await updateCustomerOrder({ data: { orderId: o.id, status: s } }); reload(); }}
+                          disabled={o.status === s}
+                          className={`px-3 py-1.5 text-xs border rounded-sm ${o.status === s ? "bg-foreground text-background border-foreground" : "border-border"}`}
+                        >{s}</button>
+                      ))}
+                    </div>
+                  </div>
+                </details>
+              ))}
+            </div>
+          )}
+
+
           {tab === "stats" && stats && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {[
