@@ -86,8 +86,8 @@ function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-12 md:grid-rows-6 gap-3 md:gap-4 md:h-[820px] lg:h-[880px]">
 
             {/* 1. LOOK 01 — dominant editorial 7×4 */}
-            <Reveal delay={1}>
-              <div className="md:col-span-7 md:row-span-4 relative overflow-hidden rounded-sm bg-secondary group h-full min-h-[420px]">
+            <Reveal delay={1} className="md:col-span-7 md:row-span-4 h-full min-h-[420px]">
+              <div className="relative overflow-hidden rounded-sm bg-secondary group h-full w-full">
                 <img
                   src={img("hero", heroImg.url)}
                   alt={alt("hero", "EXIT Denim SS кампања")}
@@ -110,8 +110,8 @@ function HomePage() {
             </Reveal>
 
             {/* 2. QUOTE — 5×2 */}
-            <Reveal delay={2}>
-              <div className="md:col-span-5 md:row-span-2 relative overflow-hidden rounded-sm border border-border bg-background p-8 md:p-10 flex flex-col justify-center h-full min-h-[200px]">
+            <Reveal delay={2} className="md:col-span-5 md:row-span-2 h-full min-h-[200px]">
+              <div className="relative overflow-hidden rounded-sm border border-border bg-background p-8 md:p-10 flex flex-col justify-center h-full w-full">
                 <div className="text-accent/25 mb-4 leading-none text-6xl serif-accent select-none">"</div>
                 <p className="serif-accent italic text-[22px] md:text-[26px] leading-[1.2] text-foreground">
                   Кројеви који се не мењају из сезоне у сезону — само постају бољи.
@@ -123,8 +123,8 @@ function HomePage() {
             </Reveal>
 
             {/* 3. STAT — 2×2 olive */}
-            <Reveal delay={2}>
-              <div className="md:col-span-2 md:row-span-2 relative overflow-hidden rounded-sm bg-accent text-accent-foreground p-6 md:p-7 flex flex-col justify-between h-full min-h-[200px]">
+            <Reveal delay={2} className="md:col-span-2 md:row-span-2 h-full min-h-[200px]">
+              <div className="relative overflow-hidden rounded-sm bg-accent text-accent-foreground p-6 md:p-7 flex flex-col justify-between h-full w-full">
                 <div className="w-8 h-px bg-accent-foreground/40" />
                 <div>
                   <div className="text-5xl md:text-6xl font-bold tracking-tight tabular-nums leading-none">
@@ -138,8 +138,8 @@ function HomePage() {
             </Reveal>
 
             {/* 4. LOOKBOOK 04 — 3×2 */}
-            <Reveal delay={3}>
-              <div className="md:col-span-3 md:row-span-2 relative overflow-hidden rounded-sm bg-secondary group h-full min-h-[200px]">
+            <Reveal delay={3} className="md:col-span-3 md:row-span-2 h-full min-h-[200px]">
+              <div className="relative overflow-hidden rounded-sm bg-secondary group h-full w-full">
                 <img
                   src={lookbookImg.url}
                   alt="Карго крој — лукбук"
@@ -159,8 +159,8 @@ function HomePage() {
             </Reveal>
 
             {/* 5. CATEGORIES — 8×2 editorial row */}
-            <Reveal delay={3}>
-              <div className="md:col-span-8 md:row-span-2 relative overflow-hidden rounded-sm bg-[var(--surface)] border border-border p-8 md:p-10 flex flex-col md:flex-row md:items-center justify-between gap-6 h-full min-h-[200px]">
+            <Reveal delay={3} className="md:col-span-8 md:row-span-2 h-full min-h-[200px]">
+              <div className="relative overflow-hidden rounded-sm bg-[var(--surface)] border border-border p-8 md:p-10 flex flex-col md:flex-row md:items-center justify-between gap-6 h-full w-full">
                 <div className="space-y-5 min-w-0">
                   <div className="mono text-[10px] uppercase tracking-[0.35em] text-muted-foreground font-semibold">
                     Колекције
@@ -190,10 +190,10 @@ function HomePage() {
             </Reveal>
 
             {/* 6. CTA B2B — 4×2 ink */}
-            <Reveal delay={4}>
+            <Reveal delay={4} className="md:col-span-4 md:row-span-2 h-full min-h-[200px]">
               <Link
                 to="/postani-partner"
-                className="md:col-span-4 md:row-span-2 relative overflow-hidden rounded-sm bg-[var(--ink)] text-white p-8 md:p-10 flex flex-col justify-between group h-full min-h-[200px]"
+                className="relative overflow-hidden rounded-sm bg-[var(--ink)] text-white p-8 md:p-10 flex flex-col justify-between group h-full w-full"
               >
                 <div className="absolute -top-6 -right-6 opacity-[0.06] group-hover:opacity-[0.12] transition-opacity duration-700">
                   <svg width="180" height="180" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4.5 20.29L5.21 21L12 18L18.79 21L19.5 20.29L12 2Z" /></svg>
@@ -219,6 +219,7 @@ function HomePage() {
                 </div>
               </Link>
             </Reveal>
+
 
           </div>
 
