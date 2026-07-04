@@ -89,21 +89,11 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
     const shipping_cost = subtotal >= FREE_SHIPPING_OVER ? 0 : SHIPPING_FLAT;
     const total = subtotal + shipping_cost;
 
-    // For authenticated inserts we need to act as that user (RLS). For guests use anon client.
-    let insertClient = sb;
-    if (userId) {
-      // Rebuild client with bearer so RLS treats insert as this user
-      const { getRequestHeader } = await import("@tanstack/react-start/server");
-      const auth = getRequestHeader("authorization") ?? "";
-      insertClient = createClient<Database>(
-        process.env.SUPABASE_URL!,
-        process.env.SUPABASE_PUBLISHABLE_KEY!,
-        {
-          auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
-          global: { headers: { Authorization: auth } },
-        },
-      );
-    }
+    // Use admin client for the write path: everything is validated & priced server-side.
+    // This avoids RLS EXISTS-subquery blocking guests from inserting order items.
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const insertClient = supabaseAdmin;
+
 
     const { data: order, error: oErr } = await insertClient
       .from("customer_orders")
