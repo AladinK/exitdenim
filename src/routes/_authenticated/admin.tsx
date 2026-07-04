@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   listPartners, setPartnerStatus, listAllOrders, updateOrderStatus, adminStats,
   adminListProducts, upsertProduct, deleteProduct, upsertStock,
+  listAllCustomerOrders, updateCustomerOrderStatus,
 } from "@/lib/admin.functions";
 import { adminListSiteAssets, upsertSiteAsset, deleteSiteAsset, HOME_ASSET_KEYS, type HomeAssetKey } from "@/lib/site-assets.functions";
 import { getMyProfile } from "@/lib/orders.functions";
