@@ -25,9 +25,9 @@ function MediaKit() {
         <div className="container-x py-16 md:py-24 grid md:grid-cols-2 gap-10 items-end">
           <div>
             <div className="eyebrow text-accent">Медија кит за партнере</div>
-            <h1 className="mt-3 text-5xl md:text-6xl">Све што бутику треба за продају</h1>
+            <h1 className="mt-3 h1-editorial text-background">Све што бутику треба за продају</h1>
           </div>
-          <p className="text-background/70 max-w-md">
+          <p className="text-background/70 max-w-md leading-relaxed">
             Фотографије, Instagram материјал и готови caption-и. Преузмете, објавите, продате. Освежавање сваке сезоне.
           </p>
         </div>
@@ -37,22 +37,42 @@ function MediaKit() {
         <div className="container-x grid md:grid-cols-3 gap-5">
           {packs.map((p) => (
             <div key={p.title} className="border border-border rounded-sm p-6 bg-card flex flex-col">
-              <p.icon className="w-6 h-6 text-accent" />
-              <div className="mt-4 font-semibold text-lg">{p.title}</div>
-              <p className="mt-2 text-sm text-muted-foreground flex-1">{p.desc}</p>
+              <p.icon className="w-6 h-6 text-accent" strokeWidth={1.25} />
+              <div className="mt-4 font-semibold text-lg tracking-tight">{p.title}</div>
+              <p className="mt-2 text-sm text-muted-foreground flex-1 leading-relaxed">{p.desc}</p>
               <div className="mt-4 text-xs eyebrow">{p.count}</div>
-              <a href="#" className="btn-outline mt-5">
-                <Download className="w-4 h-4" /> Преузми .zip
-              </a>
+              <button
+                type="button"
+                disabled
+                className="btn-outline mt-5 opacity-60 cursor-not-allowed"
+                aria-label={`${p.title} — ускоро доступно за преузимање`}
+              >
+                <Download className="w-4 h-4" /> Ускоро
+              </button>
             </div>
           ))}
         </div>
 
         <div className="container-x mt-16">
-          <div className="eyebrow">Преглед</div>
+          <div className="eyebrow">Брендинг · паста бојâ</div>
           <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
-            {["#1f2a44", "#111", "#6b7a3a", "#c8b48f", "#7891ad", "#1b2236", "#2a2a2a", "#c2a878"].map((c, i) => (
-              <div key={i} className="aspect-square rounded-sm" style={{ background: `linear-gradient(135deg, ${c}, #0d0d0d)` }} />
+            {[
+              ["#1B1A17", "Ink"],
+              ["#F5F0E7", "Ivory"],
+              ["#6B7F4A", "Sage"],
+              ["#B89968", "Gold"],
+              ["#E8DFD2", "Cashmere"],
+              ["#2A2823", "Espresso"],
+              ["#8C8377", "Taupe"],
+              ["#4F6135", "Deep Sage"],
+            ].map(([c, name]) => (
+              <div key={c} className="border border-border rounded-sm overflow-hidden">
+                <div className="aspect-square" style={{ background: c }} />
+                <div className="flex items-center justify-between px-3 py-2 text-[11px]">
+                  <span className="font-medium">{name}</span>
+                  <span className="mono text-muted-foreground">{c}</span>
+                </div>
+              </div>
             ))}
           </div>
         </div>

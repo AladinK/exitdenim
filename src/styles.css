@@ -129,6 +129,34 @@
     outline-offset: 2px;
     border-radius: 2px;
   }
+
+  /* Anchor jumps land below the sticky navbar */
+  :where(h1, h2, h3, h4, [id]) { scroll-margin-top: 96px; }
+  img { image-rendering: -webkit-optimize-contrast; }
+}
+
+/* Editorial hero H1 — consistent scale across every hero on the public site */
+@utility h1-editorial {
+  font-size: clamp(2.25rem, 5.2vw, 4.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+  font-weight: 800;
+  text-wrap: balance;
+}
+
+@utility h2-editorial {
+  font-size: clamp(1.875rem, 3.4vw, 2.875rem);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  text-wrap: balance;
+}
+
+@utility hairline {
+  display: block;
+  height: 1px;
+  width: 100%;
+  background: var(--color-border);
 }
 
 

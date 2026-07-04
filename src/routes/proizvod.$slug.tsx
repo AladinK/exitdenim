@@ -49,7 +49,26 @@ function ProductDetail() {
     if (user) fetchProfile({}).then((r) => setApproved(r.profile?.status === "approved"));
   }, [user]); // eslint-disable-line
 
-  if (loading) return <Layout><div className="container-x py-32 text-center text-muted-foreground">Учитавање…</div></Layout>;
+  if (loading) {
+    return (
+      <Layout>
+        <div className="container-x py-10">
+          <div className="h-3 w-40 bg-secondary animate-pulse" />
+          <div className="mt-8 grid lg:grid-cols-12 gap-10 lg:gap-16">
+            <div className="lg:col-span-7 aspect-[4/5] bg-secondary animate-pulse" />
+            <div className="lg:col-span-5 space-y-4">
+              <div className="h-3 w-32 bg-secondary animate-pulse" />
+              <div className="h-10 w-3/4 bg-secondary animate-pulse" />
+              <div className="h-4 w-full bg-secondary animate-pulse" />
+              <div className="h-4 w-5/6 bg-secondary animate-pulse" />
+              <div className="h-24 w-full bg-secondary animate-pulse mt-8" />
+              <div className="h-40 w-full bg-secondary animate-pulse" />
+            </div>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
   if (!product) throw notFound();
 
   return (
@@ -69,14 +88,19 @@ function ProductDetail() {
               <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" width={1024} height={1280} />
             )}
           </div>
-          <div className="mt-2 grid grid-cols-3 gap-2">
-            {[0, 1, 2].map((i) => (
-              <div key={i} className="aspect-[4/5] bg-secondary overflow-hidden opacity-80 hover:opacity-100 transition-opacity">
-                {product.image_url && (
-                  <img src={product.image_url} alt="" className="w-full h-full object-cover" />
-                )}
-              </div>
-            ))}
+          <div className="mt-3 grid grid-cols-3 gap-2 text-[11px]">
+            <div className="border border-border p-3">
+              <div className="eyebrow">Тканина</div>
+              <div className="mt-1.5 font-medium">{product.fabric}</div>
+            </div>
+            <div className="border border-border p-3">
+              <div className="eyebrow">Тежина</div>
+              <div className="mt-1.5 font-medium">{product.weight}</div>
+            </div>
+            <div className="border border-border p-3">
+              <div className="eyebrow">Крој</div>
+              <div className="mt-1.5 font-medium">{product.fit}</div>
+            </div>
           </div>
         </div>
 

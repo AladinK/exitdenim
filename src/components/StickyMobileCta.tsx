@@ -13,7 +13,8 @@ export function StickyMobileCta() {
     pathname.startsWith("/auth") ||
     pathname.startsWith("/admin") ||
     pathname.startsWith("/narudzba") ||
-    pathname.startsWith("/postani-partner");
+    pathname.startsWith("/postani-partner") ||
+    pathname.startsWith("/proizvod/");
   if (hide) return null;
 
   return (

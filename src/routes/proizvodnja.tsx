@@ -19,7 +19,7 @@ function Proizvodnja() {
       <section className="bg-foreground text-background">
         <div className="container-x py-20 md:py-32">
           <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Атеље · Нови Пазар</div>
-          <h1 className="mt-7 text-[clamp(2.25rem,5.5vw,4.5rem)] max-w-4xl text-background">
+          <h1 className="mt-7 h1-editorial max-w-4xl text-background">
             Производња. <span className="italic">Поштене тканине</span>.<br/>
             Скројени кројеви.
           </h1>
@@ -36,7 +36,7 @@ function Proizvodnja() {
           </div>
           <div className="lg:col-span-5">
             <div className="eyebrow">Чиме се квалитет држи</div>
-            <h2 className="mt-5 text-4xl">Шта држи квалитет.</h2>
+            <h2 className="mt-5 h2-editorial">Шта држи квалитет.</h2>
             <div className="mt-10 space-y-7">
               {[
                 { icon: Factory, t: "In-house производња", d: "Властита радионица у Новом Пазару. Контрола сваког корака." },

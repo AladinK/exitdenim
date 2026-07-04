@@ -18,7 +18,7 @@ function Kontakt() {
       <section className="bg-foreground text-background">
         <div className="container-x py-20 md:py-32">
           <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Wholesale Desk</div>
-          <h1 className="mt-7 text-[clamp(2.25rem,5.5vw,4.5rem)] text-background">
+          <h1 className="mt-7 h1-editorial text-background">
             Разговор о <span className="italic">сарадњи</span>.
           </h1>
           <p className="mt-7 text-background/75 max-w-xl leading-relaxed">
@@ -37,11 +37,11 @@ function Kontakt() {
               { icon: Instagram, label: "Instagram", value: "@exit.denim", href: "https://instagram.com/exit.denim" },
               { icon: MapPin, label: "Шоурум · TRI-B DOO", value: "Нови Пазар, Србија", href: "#" },
             ].map((c) => (
-              <a key={c.label} href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="flex items-center gap-6 border border-border bg-card p-7 hover:bg-secondary transition-colors group">
+              <a key={c.label} href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="flex items-center gap-6 border border-border bg-card p-6 md:p-7 hover:bg-secondary hover:border-foreground/40 transition-colors group">
                 <c.icon className="w-5 h-5 text-accent shrink-0" strokeWidth={1.25} />
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <div className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">{c.label}</div>
-                  <div className="serif text-2xl mt-1 group-hover:text-accent transition-colors">{c.value}</div>
+                  <div className="serif text-xl md:text-2xl mt-1.5 tabular-nums truncate group-hover:text-accent transition-colors">{c.value}</div>
                 </div>
               </a>
             ))}

@@ -31,7 +31,7 @@ function Faq() {
       <section className="bg-foreground text-background">
         <div className="container-x py-20 md:py-28">
           <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Често постављана питања</div>
-          <h1 className="mt-7 text-[clamp(2.5rem,7vw,6rem)] text-background">
+          <h1 className="mt-7 h1-editorial text-background">
             Wholesale <span className="italic">питања</span>.
           </h1>
         </div>
