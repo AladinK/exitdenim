@@ -1,8 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { Lock, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import type { ProductWithStock } from "@/lib/products.functions";
 
-export function ProductCard({ product, showPrice }: { product: ProductWithStock; showPrice: boolean }) {
+export function ProductCard({ product, showB2B }: { product: ProductWithStock; showB2B?: boolean }) {
   return (
     <Link
       to="/proizvod/$slug"
@@ -25,7 +25,7 @@ export function ProductCard({ product, showPrice }: { product: ProductWithStock;
         {/* Quick action — appears on hover */}
         <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 bg-background/95 backdrop-blur-sm border-t border-border">
           <div className="px-4 py-3 flex items-center justify-between text-[11px] uppercase tracking-[0.18em]">
-            <span>Додај у поруџбину</span>
+            <span>Погледај детаље</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </div>
         </div>
@@ -44,17 +44,10 @@ export function ProductCard({ product, showPrice }: { product: ProductWithStock;
           </div>
         </div>
         <div className="text-right shrink-0">
-          {showPrice ? (
-            <>
-              <div className="serif text-xl tabular-nums">€{Number(product.wholesale).toFixed(0)}</div>
-              <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground mt-0.5">Велепродаја</div>
-              <div className="text-[10px] text-muted-foreground mt-1.5 tabular-nums">
-                МПЦ {Number(product.retail).toLocaleString("sr-RS")} дин
-              </div>
-            </>
-          ) : (
-            <div className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.22em] text-muted-foreground border border-border px-2 py-1">
-              <Lock className="w-3 h-3" /> B2B
+          <div className="serif text-xl tabular-nums">{Number(product.retail).toLocaleString("sr-RS")} <span className="text-xs text-muted-foreground">дин</span></div>
+          {showB2B && (
+            <div className="text-[10px] uppercase tracking-[0.22em] text-accent mt-1.5 tabular-nums">
+              B2B €{Number(product.wholesale).toFixed(0)}
             </div>
           )}
         </div>
@@ -62,3 +55,4 @@ export function ProductCard({ product, showPrice }: { product: ProductWithStock;
     </Link>
   );
 }
+
