@@ -154,9 +154,13 @@ export function Navbar() {
                         <ShoppingBag className="w-4 h-4" /> Моја поруџбина
                       </Link>
                     )}
+                    <Link to="/moje-porudzbine" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-secondary">
+                      <Package className="w-4 h-4" /> Моје поруџбине
+                    </Link>
                     <Link to="/katalog" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-secondary">
                       <UserIcon className="w-4 h-4" /> Каталог
                     </Link>
+
                   </div>
                   <button onClick={signOut} className="w-full flex items-center gap-2 px-4 py-2.5 text-sm border-t border-border hover:bg-secondary text-muted-foreground hover:text-foreground">
                     <LogOut className="w-4 h-4" /> Одјава
