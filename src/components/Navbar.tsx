@@ -99,6 +99,19 @@ export function Navbar() {
         </nav>
 
         <div className="hidden lg:flex items-center gap-2">
+          <button
+            onClick={() => setCartOpen(true)}
+            className="relative inline-flex items-center justify-center w-10 h-10 rounded-md hover:bg-secondary text-foreground"
+            aria-label={`Корпа (${cartCount})`}
+          >
+            <ShoppingBag className="w-5 h-5" />
+            {cartCount > 0 && (
+              <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-accent text-accent-foreground text-[10px] font-semibold inline-flex items-center justify-center tabular-nums">
+                {cartCount}
+              </span>
+            )}
+          </button>
+
           {user ? (
             <div className="relative" ref={menuRef}>
               <button
