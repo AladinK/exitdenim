@@ -287,7 +287,12 @@ function HomePage() {
         <div className="container-x grid lg:grid-cols-2 gap-12 items-center">
           <Reveal>
             <div className="rounded-2xl overflow-hidden border border-border aspect-[4/5]">
-              <img src={img("workshop", workshopImg.url)} alt={alt("workshop", "EXIT Denim атеље у Новом Пазару")} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+              {img("workshop") ? (
+                <img src={img("workshop")} alt={alt("workshop", "EXIT Denim атеље у Новом Пазару")} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full bg-secondary" />
+              )}
+
             </div>
           </Reveal>
           <Reveal delay={1}>
