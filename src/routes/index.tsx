@@ -139,13 +139,16 @@ function HomePage() {
             {/* 4. LOOKBOOK 04 — 3×2 */}
             <Reveal delay={3} className="md:col-span-3 md:row-span-2 h-full min-h-[200px]">
               <div className="relative overflow-hidden rounded-sm bg-secondary group h-full w-full">
-                <img
-                  src={lookbookImg.url}
-                  alt="Карго крој — лукбук"
-                  loading="lazy"
-                  decoding="async"
-                  className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-[900ms] ease-out group-hover:scale-[1.05]"
-                />
+                {img("lookbook") && (
+                  <img
+                    src={img("lookbook")}
+                    alt={alt("lookbook", "Карго крој — лукбук")}
+                    loading="lazy"
+                    decoding="async"
+                    className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-[900ms] ease-out group-hover:scale-[1.05]"
+                  />
+                )}
+
                 <div className="absolute top-4 left-4 text-[10px] uppercase tracking-[0.3em] text-white/90 mono mix-blend-difference">
                   Лукбук 04
                 </div>
