@@ -79,6 +79,7 @@ function HomePage() {
             <Reveal delay={1}>
               <div className="lg:col-span-2 lg:row-span-2 relative overflow-hidden rounded-2xl border border-border bg-[var(--ink)] text-white group min-h-[420px] lg:min-h-full">
                 <img src={img("hero", heroImg.url)} alt={alt("hero", "EXIT Denim SS кампања")}
+                  fetchPriority="high" decoding="async"
                   className="absolute inset-0 w-full h-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-[1.04]" />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent" />
                 <div className="relative h-full p-6 md:p-8 flex flex-col justify-between">
@@ -125,7 +126,7 @@ function HomePage() {
             {/* 3. LOOKBOOK — 1×2 tall (new upload) */}
             <Reveal delay={3}>
               <div className="lg:row-span-2 relative overflow-hidden rounded-2xl border border-border bg-secondary group min-h-[420px]">
-                <img src={lookbookImg.url} alt="EXIT Denim — карго крој, лукбук"
+                <img src={lookbookImg.url} alt="EXIT Denim — карго крој, лукбук" loading="lazy" decoding="async"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.05]" />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
                 <div className="absolute top-4 left-4 right-4 flex items-center justify-between text-[10px] uppercase tracking-[0.3em] text-white/90">
@@ -157,7 +158,7 @@ function HomePage() {
             {/* 5. FARMERKE — 1×1 */}
             <Reveal delay={3}>
               <Link to="/katalog" className="relative overflow-hidden rounded-2xl border border-border bg-secondary group block min-h-[220px]">
-                <img src={img("category_jeans", productJeans.url)} alt={alt("category_jeans", "Фармерке")}
+                <img src={img("category_jeans", productJeans.url)} alt={alt("category_jeans", "Фармерке")} loading="lazy" decoding="async"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.06]" />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
                 <div className="absolute inset-0 p-4 flex flex-col justify-end text-white">
@@ -171,7 +172,7 @@ function HomePage() {
             {/* 6. CHINO — 1×1 */}
             <Reveal delay={4}>
               <Link to="/katalog" className="relative overflow-hidden rounded-2xl border border-border bg-secondary group block min-h-[220px]">
-                <img src={img("category_chino", productChino.url)} alt={alt("category_chino", "Чино")}
+                <img src={img("category_chino", productChino.url)} alt={alt("category_chino", "Чино")} loading="lazy" decoding="async"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.06]" />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
                 <div className="absolute inset-0 p-4 flex flex-col justify-end text-white">
@@ -221,7 +222,7 @@ function HomePage() {
             {/* 9. CARGO — 1×1 */}
             <Reveal delay={4}>
               <Link to="/katalog" className="relative overflow-hidden rounded-2xl border border-border bg-secondary group block min-h-[220px]">
-                <img src={img("category_cargo", productCargo.url)} alt={alt("category_cargo", "Карго")}
+                <img src={img("category_cargo", productCargo.url)} alt={alt("category_cargo", "Карго")} loading="lazy" decoding="async"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.06]" />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
                 <div className="absolute inset-0 p-4 flex flex-col justify-end text-white">
@@ -306,7 +307,7 @@ function HomePage() {
         <div className="container-x grid lg:grid-cols-2 gap-12 items-center">
           <Reveal>
             <div className="rounded-2xl overflow-hidden border border-border aspect-[4/5]">
-              <img src={img("workshop", workshopImg.url)} alt={alt("workshop", "EXIT Denim атеље у Новом Пазару")} className="w-full h-full object-cover" />
+              <img src={img("workshop", workshopImg.url)} alt={alt("workshop", "EXIT Denim атеље у Новом Пазару")} loading="lazy" decoding="async" className="w-full h-full object-cover" />
             </div>
           </Reveal>
           <Reveal delay={1}>

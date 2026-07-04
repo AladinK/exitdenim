@@ -323,3 +323,25 @@
   scrollbar-width: none;
   &::-webkit-scrollbar { display: none; }
 }
+
+/* === Refinements: body-copy line breaks + palette-matched scrollbar === */
+@layer base {
+  p, li, blockquote { text-wrap: pretty; }
+
+  html {
+    scrollbar-color: color-mix(in oklab, var(--color-foreground) 22%, transparent) transparent;
+    scrollbar-width: thin;
+  }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--color-foreground) 20%, transparent);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklab, var(--color-foreground) 34%, transparent);
+    background-clip: padding-box;
+  }
+}
