@@ -6,6 +6,7 @@ import { Layout } from "@/components/Layout";
 import { Reveal } from "@/components/Reveal";
 
 import { getHomeAssets } from "@/lib/site-assets.functions";
+import lookbookAsset from "@/assets/lookbook-ss26.png.asset.json";
 
 
 export const Route = createFileRoute("/")({
@@ -41,7 +42,8 @@ function HomePage() {
   const fetchAssets = useServerFn(getHomeAssets);
   const [assets, setAssets] = useState<Record<string, { url: string; alt: string | null }>>({});
   useEffect(() => { fetchAssets({}).then(setAssets).catch(() => {}); }, []); // eslint-disable-line
-  const img = (k: string) => assets[k]?.url || "";
+  const fallbacks: Record<string, string> = { lookbook: lookbookAsset.url };
+  const img = (k: string) => assets[k]?.url || fallbacks[k] || "";
   const alt = (k: string, fb: string) => assets[k]?.alt || fb;
 
 
