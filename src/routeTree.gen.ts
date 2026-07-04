@@ -26,6 +26,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProizvodSlugRouteImport } from './routes/proizvod.$slug'
+import { Route as PorudzbinaNumberRouteImport } from './routes/porudzbina.$number'
 import { Route as AuthenticatedNarudzbaRouteImport } from './routes/_authenticated/narudzba'
 import { Route as AuthenticatedCekanjeRouteImport } from './routes/_authenticated/cekanje'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
@@ -115,6 +116,11 @@ const ProizvodSlugRoute = ProizvodSlugRouteImport.update({
   path: '/proizvod/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PorudzbinaNumberRoute = PorudzbinaNumberRouteImport.update({
+  id: '/porudzbina/$number',
+  path: '/porudzbina/$number',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedNarudzbaRoute = AuthenticatedNarudzbaRouteImport.update({
   id: '/narudzba',
   path: '/narudzba',
@@ -155,6 +161,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRoute
   '/cekanje': typeof AuthenticatedCekanjeRoute
   '/narudzba': typeof AuthenticatedNarudzbaRoute
+  '/porudzbina/$number': typeof PorudzbinaNumberRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
   '/api/line-sheet/$sku': typeof ApiLineSheetSkuRoute
 }
@@ -177,6 +184,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminRoute
   '/cekanje': typeof AuthenticatedCekanjeRoute
   '/narudzba': typeof AuthenticatedNarudzbaRoute
+  '/porudzbina/$number': typeof PorudzbinaNumberRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
   '/api/line-sheet/$sku': typeof ApiLineSheetSkuRoute
 }
@@ -201,6 +209,7 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/cekanje': typeof AuthenticatedCekanjeRoute
   '/_authenticated/narudzba': typeof AuthenticatedNarudzbaRoute
+  '/porudzbina/$number': typeof PorudzbinaNumberRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
   '/api/line-sheet/$sku': typeof ApiLineSheetSkuRoute
 }
@@ -225,6 +234,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/cekanje'
     | '/narudzba'
+    | '/porudzbina/$number'
     | '/proizvod/$slug'
     | '/api/line-sheet/$sku'
   fileRoutesByTo: FileRoutesByTo
@@ -247,6 +257,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/cekanje'
     | '/narudzba'
+    | '/porudzbina/$number'
     | '/proizvod/$slug'
     | '/api/line-sheet/$sku'
   id:
@@ -270,6 +281,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/_authenticated/cekanje'
     | '/_authenticated/narudzba'
+    | '/porudzbina/$number'
     | '/proizvod/$slug'
     | '/api/line-sheet/$sku'
   fileRoutesById: FileRoutesById
@@ -291,6 +303,7 @@ export interface RootRouteChildren {
   ProizvodnjaRoute: typeof ProizvodnjaRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   ShopRoute: typeof ShopRoute
+  PorudzbinaNumberRoute: typeof PorudzbinaNumberRoute
   ProizvodSlugRoute: typeof ProizvodSlugRoute
   ApiLineSheetSkuRoute: typeof ApiLineSheetSkuRoute
 }
@@ -416,6 +429,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProizvodSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/porudzbina/$number': {
+      id: '/porudzbina/$number'
+      path: '/porudzbina/$number'
+      fullPath: '/porudzbina/$number'
+      preLoaderRoute: typeof PorudzbinaNumberRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/narudzba': {
       id: '/_authenticated/narudzba'
       path: '/narudzba'
@@ -479,6 +499,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProizvodnjaRoute: ProizvodnjaRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   ShopRoute: ShopRoute,
+  PorudzbinaNumberRoute: PorudzbinaNumberRoute,
   ProizvodSlugRoute: ProizvodSlugRoute,
   ApiLineSheetSkuRoute: ApiLineSheetSkuRoute,
 }
