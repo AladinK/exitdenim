@@ -1,11 +1,13 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Menu, X, LogOut, ShoppingBag, Shield, User as UserIcon, ChevronDown } from "lucide-react";
+import { Menu, X, LogOut, ShoppingBag, Shield, User as UserIcon, ChevronDown, Package } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { Logo } from "./Logo";
 import { useAuth } from "@/hooks/useAuth";
+import { useCart } from "@/hooks/useCart";
 import { supabase } from "@/integrations/supabase/client";
 import { getMyProfile } from "@/lib/orders.functions";
+
 
 const NAV: Array<{ to: any; label: string }> = [
   { to: "/", label: "Почетна" },
@@ -18,6 +20,8 @@ const NAV: Array<{ to: any; label: string }> = [
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { count: cartCount, setOpen: setCartOpen } = useCart();
+
   const [menuOpen, setMenuOpen] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -95,6 +99,19 @@ export function Navbar() {
         </nav>
 
         <div className="hidden lg:flex items-center gap-2">
+          <button
+            onClick={() => setCartOpen(true)}
+            className="relative inline-flex items-center justify-center w-10 h-10 rounded-md hover:bg-secondary text-foreground"
+            aria-label={`Корпа (${cartCount})`}
+          >
+            <ShoppingBag className="w-5 h-5" />
+            {cartCount > 0 && (
+              <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-accent text-accent-foreground text-[10px] font-semibold inline-flex items-center justify-center tabular-nums">
+                {cartCount}
+              </span>
+            )}
+          </button>
+
           {user ? (
             <div className="relative" ref={menuRef}>
               <button
@@ -137,9 +154,13 @@ export function Navbar() {
                         <ShoppingBag className="w-4 h-4" /> Моја поруџбина
                       </Link>
                     )}
+                    <Link to="/moje-porudzbine" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-secondary">
+                      <Package className="w-4 h-4" /> Моје поруџбине
+                    </Link>
                     <Link to="/katalog" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-secondary">
                       <UserIcon className="w-4 h-4" /> Каталог
                     </Link>
+
                   </div>
                   <button onClick={signOut} className="w-full flex items-center gap-2 px-4 py-2.5 text-sm border-t border-border hover:bg-secondary text-muted-foreground hover:text-foreground">
                     <LogOut className="w-4 h-4" /> Одјава
@@ -157,15 +178,30 @@ export function Navbar() {
           )}
         </div>
 
-        <button
-          className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-md hover:bg-secondary text-foreground"
-          onClick={() => setOpen((o) => !o)}
-          aria-label={open ? "Затвори мени" : "Отвори мени"}
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-        >
-          {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
+        <div className="lg:hidden flex items-center gap-1">
+          <button
+            onClick={() => setCartOpen(true)}
+            className="relative inline-flex items-center justify-center w-10 h-10 rounded-md hover:bg-secondary text-foreground"
+            aria-label={`Корпа (${cartCount})`}
+          >
+            <ShoppingBag className="w-5 h-5" />
+            {cartCount > 0 && (
+              <span className="absolute top-1 right-1 min-w-[16px] h-[16px] px-1 rounded-full bg-accent text-accent-foreground text-[10px] font-semibold inline-flex items-center justify-center tabular-nums">
+                {cartCount}
+              </span>
+            )}
+          </button>
+          <button
+            className="inline-flex items-center justify-center w-10 h-10 rounded-md hover:bg-secondary text-foreground"
+            onClick={() => setOpen((o) => !o)}
+            aria-label={open ? "Затвори мени" : "Отвори мени"}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+          >
+            {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
+
 
       </div>
 

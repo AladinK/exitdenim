@@ -1,13 +1,15 @@
 import { createFileRoute, useParams, Link, notFound } from "@tanstack/react-router";
-import { Download, ChevronLeft, Lock } from "lucide-react";
+import { Download, ChevronLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Layout } from "@/components/Layout";
 import { SizeMatrix } from "@/components/SizeMatrix";
 import { ProductCard } from "@/components/ProductCard";
+import { AddToCart } from "@/components/AddToCart";
 import { getProductBySlug, listProducts, type ProductWithStock } from "@/lib/products.functions";
 import { getMyProfile } from "@/lib/orders.functions";
 import { useAuth } from "@/hooks/useAuth";
+
 
 export const Route = createFileRoute("/proizvod/$slug")({
   notFoundComponent: () => (
@@ -128,20 +130,22 @@ function ProductDetail() {
 
           <div className="mt-10 flex items-end justify-between gap-8 border-t border-foreground/20 pt-6">
             <div>
-              <div className="eyebrow">Велепродаја</div>
-              {approved ? (
-                <div className="serif text-5xl mt-2 tabular-nums">€{Number(product.wholesale).toFixed(0)}</div>
-              ) : (
-                <div className="mt-2 inline-flex items-center gap-2 border border-border px-3 py-2 text-xs uppercase tracking-[0.22em] text-muted-foreground">
-                  <Lock className="w-3.5 h-3.5" /> Само за B2B партнере
-                </div>
-              )}
+              <div className="eyebrow">Малопродаја</div>
+              <div className="serif text-5xl mt-2 tabular-nums">{Number(product.retail).toLocaleString("sr-RS")} <span className="text-2xl text-muted-foreground">дин</span></div>
             </div>
-            <div className="text-right">
-              <div className="eyebrow">Препоручена МПЦ</div>
-              <div className="serif text-3xl mt-2 tabular-nums text-foreground/70">{Number(product.retail).toLocaleString("sr-RS")} дин</div>
-            </div>
+            {approved && (
+              <div className="text-right">
+                <div className="eyebrow">B2B</div>
+                <div className="serif text-3xl mt-2 tabular-nums text-accent">€{Number(product.wholesale).toFixed(0)}</div>
+              </div>
+            )}
           </div>
+
+          {/* Retail purchase — anyone */}
+          <div className="mt-6">
+            <AddToCart product={product} />
+          </div>
+
 
           <dl className="mt-10 grid grid-cols-2 gap-y-5 gap-x-8 text-sm">
             <Spec label="Крој" value={product.fit} />
@@ -160,22 +164,13 @@ function ProductDetail() {
             </a>
           </div>
 
-          <div className="mt-10">
-            {approved ? (
+          {approved && (
+            <div className="mt-10 border-t border-border pt-8">
+              <div className="eyebrow mb-4">B2B велепродаја — по величинама</div>
               <SizeMatrix product={product} />
-            ) : (
-              <div className="border border-foreground p-8 text-center">
-                <Lock className="w-5 h-5 mx-auto text-foreground" strokeWidth={1.25} />
-                <div className="mt-5 serif text-2xl">Резервисано за B2B партнере</div>
-                <p className="text-sm text-muted-foreground mt-3 max-w-sm mx-auto leading-relaxed">
-                  Одобрени партнери виде стање по величинама, цене и могу послати упит за поруџбину кроз матрицу величина.
-                </p>
-                <Link to="/auth" className="btn-primary mt-7 inline-flex">
-                  {user ? "Статус налога" : "Затражите B2B приступ"}
-                </Link>
-              </div>
-            )}
-          </div>
+            </div>
+          )}
+
         </div>
       </section>
 
@@ -183,7 +178,7 @@ function ProductDetail() {
         <div className="container-x">
           <div className="eyebrow">Још из линије {product.category}</div>
           <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-12">
-            {related.map((p) => <ProductCard key={p.id} product={p} showPrice={approved} />)}
+            {related.map((p) => <ProductCard key={p.id} product={p} showB2B={approved} />)}
           </div>
         </div>
       </section>

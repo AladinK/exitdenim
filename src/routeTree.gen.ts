@@ -14,8 +14,10 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ProizvodnjaRouteImport } from './routes/proizvodnja'
 import { Route as PostaniPartnerRouteImport } from './routes/postani-partner'
 import { Route as MediaKitRouteImport } from './routes/media-kit'
+import { Route as KorpaRouteImport } from './routes/korpa'
 import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as KatalogRouteImport } from './routes/katalog'
+import { Route as KasaRouteImport } from './routes/kasa'
 import { Route as JeansRouteImport } from './routes/jeans'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as ChinoRouteImport } from './routes/chino'
@@ -24,7 +26,9 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProizvodSlugRouteImport } from './routes/proizvod.$slug'
+import { Route as PorudzbinaNumberRouteImport } from './routes/porudzbina.$number'
 import { Route as AuthenticatedNarudzbaRouteImport } from './routes/_authenticated/narudzba'
+import { Route as AuthenticatedMojePorudzbineRouteImport } from './routes/_authenticated/moje-porudzbine'
 import { Route as AuthenticatedCekanjeRouteImport } from './routes/_authenticated/cekanje'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ApiLineSheetSkuRouteImport } from './routes/api/line-sheet.$sku'
@@ -54,6 +58,11 @@ const MediaKitRoute = MediaKitRouteImport.update({
   path: '/media-kit',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KorpaRoute = KorpaRouteImport.update({
+  id: '/korpa',
+  path: '/korpa',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const KontaktRoute = KontaktRouteImport.update({
   id: '/kontakt',
   path: '/kontakt',
@@ -62,6 +71,11 @@ const KontaktRoute = KontaktRouteImport.update({
 const KatalogRoute = KatalogRouteImport.update({
   id: '/katalog',
   path: '/katalog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KasaRoute = KasaRouteImport.update({
+  id: '/kasa',
+  path: '/kasa',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JeansRoute = JeansRouteImport.update({
@@ -103,11 +117,22 @@ const ProizvodSlugRoute = ProizvodSlugRouteImport.update({
   path: '/proizvod/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PorudzbinaNumberRoute = PorudzbinaNumberRouteImport.update({
+  id: '/porudzbina/$number',
+  path: '/porudzbina/$number',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedNarudzbaRoute = AuthenticatedNarudzbaRouteImport.update({
   id: '/narudzba',
   path: '/narudzba',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMojePorudzbineRoute =
+  AuthenticatedMojePorudzbineRouteImport.update({
+    id: '/moje-porudzbine',
+    path: '/moje-porudzbine',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedCekanjeRoute = AuthenticatedCekanjeRouteImport.update({
   id: '/cekanje',
   path: '/cekanje',
@@ -131,8 +156,10 @@ export interface FileRoutesByFullPath {
   '/chino': typeof ChinoRoute
   '/faq': typeof FaqRoute
   '/jeans': typeof JeansRoute
+  '/kasa': typeof KasaRoute
   '/katalog': typeof KatalogRoute
   '/kontakt': typeof KontaktRoute
+  '/korpa': typeof KorpaRoute
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/proizvodnja': typeof ProizvodnjaRoute
@@ -140,7 +167,9 @@ export interface FileRoutesByFullPath {
   '/shop': typeof ShopRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/cekanje': typeof AuthenticatedCekanjeRoute
+  '/moje-porudzbine': typeof AuthenticatedMojePorudzbineRoute
   '/narudzba': typeof AuthenticatedNarudzbaRoute
+  '/porudzbina/$number': typeof PorudzbinaNumberRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
   '/api/line-sheet/$sku': typeof ApiLineSheetSkuRoute
 }
@@ -151,8 +180,10 @@ export interface FileRoutesByTo {
   '/chino': typeof ChinoRoute
   '/faq': typeof FaqRoute
   '/jeans': typeof JeansRoute
+  '/kasa': typeof KasaRoute
   '/katalog': typeof KatalogRoute
   '/kontakt': typeof KontaktRoute
+  '/korpa': typeof KorpaRoute
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/proizvodnja': typeof ProizvodnjaRoute
@@ -160,7 +191,9 @@ export interface FileRoutesByTo {
   '/shop': typeof ShopRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/cekanje': typeof AuthenticatedCekanjeRoute
+  '/moje-porudzbine': typeof AuthenticatedMojePorudzbineRoute
   '/narudzba': typeof AuthenticatedNarudzbaRoute
+  '/porudzbina/$number': typeof PorudzbinaNumberRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
   '/api/line-sheet/$sku': typeof ApiLineSheetSkuRoute
 }
@@ -173,8 +206,10 @@ export interface FileRoutesById {
   '/chino': typeof ChinoRoute
   '/faq': typeof FaqRoute
   '/jeans': typeof JeansRoute
+  '/kasa': typeof KasaRoute
   '/katalog': typeof KatalogRoute
   '/kontakt': typeof KontaktRoute
+  '/korpa': typeof KorpaRoute
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/proizvodnja': typeof ProizvodnjaRoute
@@ -182,7 +217,9 @@ export interface FileRoutesById {
   '/shop': typeof ShopRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/cekanje': typeof AuthenticatedCekanjeRoute
+  '/_authenticated/moje-porudzbine': typeof AuthenticatedMojePorudzbineRoute
   '/_authenticated/narudzba': typeof AuthenticatedNarudzbaRoute
+  '/porudzbina/$number': typeof PorudzbinaNumberRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
   '/api/line-sheet/$sku': typeof ApiLineSheetSkuRoute
 }
@@ -195,8 +232,10 @@ export interface FileRouteTypes {
     | '/chino'
     | '/faq'
     | '/jeans'
+    | '/kasa'
     | '/katalog'
     | '/kontakt'
+    | '/korpa'
     | '/media-kit'
     | '/postani-partner'
     | '/proizvodnja'
@@ -204,7 +243,9 @@ export interface FileRouteTypes {
     | '/shop'
     | '/admin'
     | '/cekanje'
+    | '/moje-porudzbine'
     | '/narudzba'
+    | '/porudzbina/$number'
     | '/proizvod/$slug'
     | '/api/line-sheet/$sku'
   fileRoutesByTo: FileRoutesByTo
@@ -215,8 +256,10 @@ export interface FileRouteTypes {
     | '/chino'
     | '/faq'
     | '/jeans'
+    | '/kasa'
     | '/katalog'
     | '/kontakt'
+    | '/korpa'
     | '/media-kit'
     | '/postani-partner'
     | '/proizvodnja'
@@ -224,7 +267,9 @@ export interface FileRouteTypes {
     | '/shop'
     | '/admin'
     | '/cekanje'
+    | '/moje-porudzbine'
     | '/narudzba'
+    | '/porudzbina/$number'
     | '/proizvod/$slug'
     | '/api/line-sheet/$sku'
   id:
@@ -236,8 +281,10 @@ export interface FileRouteTypes {
     | '/chino'
     | '/faq'
     | '/jeans'
+    | '/kasa'
     | '/katalog'
     | '/kontakt'
+    | '/korpa'
     | '/media-kit'
     | '/postani-partner'
     | '/proizvodnja'
@@ -245,7 +292,9 @@ export interface FileRouteTypes {
     | '/shop'
     | '/_authenticated/admin'
     | '/_authenticated/cekanje'
+    | '/_authenticated/moje-porudzbine'
     | '/_authenticated/narudzba'
+    | '/porudzbina/$number'
     | '/proizvod/$slug'
     | '/api/line-sheet/$sku'
   fileRoutesById: FileRoutesById
@@ -258,13 +307,16 @@ export interface RootRouteChildren {
   ChinoRoute: typeof ChinoRoute
   FaqRoute: typeof FaqRoute
   JeansRoute: typeof JeansRoute
+  KasaRoute: typeof KasaRoute
   KatalogRoute: typeof KatalogRoute
   KontaktRoute: typeof KontaktRoute
+  KorpaRoute: typeof KorpaRoute
   MediaKitRoute: typeof MediaKitRoute
   PostaniPartnerRoute: typeof PostaniPartnerRoute
   ProizvodnjaRoute: typeof ProizvodnjaRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   ShopRoute: typeof ShopRoute
+  PorudzbinaNumberRoute: typeof PorudzbinaNumberRoute
   ProizvodSlugRoute: typeof ProizvodSlugRoute
   ApiLineSheetSkuRoute: typeof ApiLineSheetSkuRoute
 }
@@ -306,6 +358,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MediaKitRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/korpa': {
+      id: '/korpa'
+      path: '/korpa'
+      fullPath: '/korpa'
+      preLoaderRoute: typeof KorpaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/kontakt': {
       id: '/kontakt'
       path: '/kontakt'
@@ -318,6 +377,13 @@ declare module '@tanstack/react-router' {
       path: '/katalog'
       fullPath: '/katalog'
       preLoaderRoute: typeof KatalogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kasa': {
+      id: '/kasa'
+      path: '/kasa'
+      fullPath: '/kasa'
+      preLoaderRoute: typeof KasaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/jeans': {
@@ -376,11 +442,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProizvodSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/porudzbina/$number': {
+      id: '/porudzbina/$number'
+      path: '/porudzbina/$number'
+      fullPath: '/porudzbina/$number'
+      preLoaderRoute: typeof PorudzbinaNumberRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/narudzba': {
       id: '/_authenticated/narudzba'
       path: '/narudzba'
       fullPath: '/narudzba'
       preLoaderRoute: typeof AuthenticatedNarudzbaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/moje-porudzbine': {
+      id: '/_authenticated/moje-porudzbine'
+      path: '/moje-porudzbine'
+      fullPath: '/moje-porudzbine'
+      preLoaderRoute: typeof AuthenticatedMojePorudzbineRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/cekanje': {
@@ -410,12 +490,14 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedCekanjeRoute: typeof AuthenticatedCekanjeRoute
+  AuthenticatedMojePorudzbineRoute: typeof AuthenticatedMojePorudzbineRoute
   AuthenticatedNarudzbaRoute: typeof AuthenticatedNarudzbaRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedCekanjeRoute: AuthenticatedCekanjeRoute,
+  AuthenticatedMojePorudzbineRoute: AuthenticatedMojePorudzbineRoute,
   AuthenticatedNarudzbaRoute: AuthenticatedNarudzbaRoute,
 }
 
@@ -430,13 +512,16 @@ const rootRouteChildren: RootRouteChildren = {
   ChinoRoute: ChinoRoute,
   FaqRoute: FaqRoute,
   JeansRoute: JeansRoute,
+  KasaRoute: KasaRoute,
   KatalogRoute: KatalogRoute,
   KontaktRoute: KontaktRoute,
+  KorpaRoute: KorpaRoute,
   MediaKitRoute: MediaKitRoute,
   PostaniPartnerRoute: PostaniPartnerRoute,
   ProizvodnjaRoute: ProizvodnjaRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   ShopRoute: ShopRoute,
+  PorudzbinaNumberRoute: PorudzbinaNumberRoute,
   ProizvodSlugRoute: ProizvodSlugRoute,
   ApiLineSheetSkuRoute: ApiLineSheetSkuRoute,
 }

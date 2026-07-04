@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Lock } from "lucide-react";
 import { useEffect, useState } from "react";
+
 import { useServerFn } from "@tanstack/react-start";
 import { Layout } from "@/components/Layout";
 import { ProductCard } from "@/components/ProductCard";
@@ -11,12 +11,13 @@ import { useAuth } from "@/hooks/useAuth";
 export const Route = createFileRoute("/katalog")({
   head: () => ({
     meta: [
-      { title: "B2B Каталог — EXIT Denim Wholesale" },
-      { name: "description", content: "Комплетан велепродајни каталог EXIT Denim — фармерке, чино, карго. Цене доступне одобреним B2B партнерима." },
+      { title: "Продавница — EXIT Denim" },
+      { name: "description", content: "Комплетан каталог EXIT Denim — премијум мушки деним, чино и карго. Наручите онлајн, плаћање поузећем." },
     ],
   }),
   component: Katalog,
 });
+
 
 type Cat = "all" | "jeans" | "chino" | "cargo";
 type FitFilter = "all" | "Slim" | "Regular Slim" | "Relaxed" | "Cargo";
@@ -43,17 +44,17 @@ function Katalog() {
     <Layout>
       <section className="border-b border-border">
         <div className="container-x py-16 md:py-24">
-          <div className="eyebrow">B2B Велепродајни каталог · SS / FW</div>
+          <div className="eyebrow">Продавница · SS / FW</div>
           <div className="mt-6 grid lg:grid-cols-12 gap-8 items-end">
             <div className="lg:col-span-8">
               <h1 className="text-[clamp(2.25rem,5.5vw,4.25rem)] leading-[1.02] max-w-[14ch]">
                 Комплетан <span className="serif-accent italic text-accent">каталог</span>
-                {approved && <span className="block text-accent mt-3 text-2xl md:text-3xl serif-accent italic">— приступ одобрен</span>}
+                {approved && <span className="block text-accent mt-3 text-2xl md:text-3xl serif-accent italic">— B2B приступ одобрен</span>}
               </h1>
             </div>
             <div className="lg:col-span-4 lg:text-right">
               <p className="text-sm text-muted-foreground max-w-sm lg:ml-auto leading-relaxed">
-                Фармерке, чино и карго линије. {products.length} активних артикала · величине 31–40 · MOQ од 10 комада.
+                Фармерке, чино и карго линије. {products.length} артикала · величине 31–40. Плаћање поузећем, достава широм Србије.
               </p>
             </div>
           </div>
@@ -61,18 +62,17 @@ function Katalog() {
       </section>
 
       {!approved && (
-        <section className="bg-foreground text-background">
-          <div className="container-x py-5 flex items-center justify-between flex-wrap gap-4">
-            <div className="flex items-center gap-3 text-xs uppercase tracking-[0.22em]">
-              <Lock className="w-3.5 h-3.5 text-accent" />
-              Велепродајне цене видљиве су само одобреним B2B партнерима
-            </div>
-            <Link to="/auth" className="btn-accent text-[10px] px-4 py-2.5">
-              {user ? "Статус налога" : "Затражите B2B приступ"}
+        <section className="bg-secondary/60 border-b border-border">
+          <div className="container-x py-4 flex items-center justify-between flex-wrap gap-3 text-xs">
+            <span className="text-muted-foreground uppercase tracking-[0.2em]">Ви сте бутик? Затражите B2B приступ за велепродајне цене и матрицу величина.</span>
+            <Link to="/postani-partner" className="link-underline uppercase tracking-[0.2em] font-medium">
+              Постаните партнер →
             </Link>
           </div>
         </section>
       )}
+
+
 
       <section className="section-pad">
         <div className="container-x">
@@ -92,7 +92,7 @@ function Katalog() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-14">
-            {filtered.map((p) => <ProductCard key={p.id} product={p} showPrice={approved} />)}
+            {filtered.map((p) => <ProductCard key={p.id} product={p} showB2B={approved} />)}
           </div>
 
           {filtered.length === 0 && (
