@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   listPartners, setPartnerStatus, listAllOrders, updateOrderStatus, adminStats,
   adminListProducts, upsertProduct, deleteProduct, upsertStock,
+  listAllCustomerOrders, updateCustomerOrderStatus,
 } from "@/lib/admin.functions";
 import { adminListSiteAssets, upsertSiteAsset, deleteSiteAsset, HOME_ASSET_KEYS, type HomeAssetKey } from "@/lib/site-assets.functions";
 import { getMyProfile } from "@/lib/orders.functions";
@@ -57,15 +58,18 @@ function Admin() {
   const saveProduct = useServerFn(upsertProduct);
   const removeProduct = useServerFn(deleteProduct);
   const saveStock = useServerFn(upsertStock);
+  const fetchCustomerOrders = useServerFn(listAllCustomerOrders);
+  const updateCustomerOrder = useServerFn(updateCustomerOrderStatus);
 
   const fetchSiteAssets = useServerFn(adminListSiteAssets);
   const saveSiteAsset = useServerFn(upsertSiteAsset);
   const removeSiteAsset = useServerFn(deleteSiteAsset);
 
-  const [tab, setTab] = useState<"products" | "home" | "partners" | "orders" | "stats">("products");
+  const [tab, setTab] = useState<"products" | "home" | "partners" | "orders" | "kupci" | "stats">("products");
   const [allowed, setAllowed] = useState<boolean | null>(null);
   const [partners, setPartners] = useState<any[]>([]);
   const [orders, setOrders] = useState<any[]>([]);
+  const [customerOrders, setCustomerOrders] = useState<any[]>([]);
   const [products, setProducts] = useState<AdminProduct[]>([]);
   const [stats, setStats] = useState<any>(null);
   const [editing, setEditing] = useState<AdminProduct | null>(null);
@@ -78,6 +82,7 @@ function Admin() {
   const reload = async () => {
     if (tab === "partners") setPartners(await fetchPartners({}));
     if (tab === "orders") setOrders(await fetchOrders({}));
+    if (tab === "kupci") setCustomerOrders(await fetchCustomerOrders({}));
     if (tab === "products") setProducts((await fetchProducts({})) as AdminProduct[]);
     if (tab === "stats") setStats(await fetchStats({}));
     if (tab === "home") setSiteAssets(await fetchSiteAssets({}));
@@ -101,8 +106,9 @@ function Admin() {
           {[
             ["products", "Proizvodi"],
             ["home", "Početna"],
-            ["partners", "Partneri"],
-            ["orders", "Narudžbe"],
+            ["partners", "Partneri (B2B)"],
+            ["orders", "B2B narudžbe"],
+            ["kupci", "Kupci (retail)"],
             ["stats", "Statistika"],
           ].map(([k, l]) => (
             <button
@@ -243,6 +249,75 @@ function Admin() {
             </div>
           )}
 
+          {tab === "kupci" && (
+            <div className="space-y-3">
+              {customerOrders.length === 0 && <div className="text-muted-foreground">Još nema retail porudžbina.</div>}
+              {customerOrders.map((o) => (
+                <details key={o.id} className="border border-border rounded-sm bg-card">
+                  <summary className="px-5 py-4 cursor-pointer flex items-center justify-between gap-4 flex-wrap">
+                    <div>
+                      <div className="font-semibold">{o.order_number} · {o.customer_name}</div>
+                      <div className="text-xs text-muted-foreground">
+                        {o.email} · {o.phone} · {o.city}, {o.postal_code} · {new Date(o.created_at).toLocaleString("sr-RS")}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <span className="text-sm tabular-nums">
+                        {(o.customer_order_items || []).reduce((s: number, i: any) => s + i.quantity, 0)} kom · {Number(o.total).toLocaleString("sr-RS")} дин
+                      </span>
+                      <CustomerOrderStatusPill status={o.status} />
+                    </div>
+                  </summary>
+                  <div className="px-5 pb-5 border-t border-border">
+                    <div className="grid md:grid-cols-2 gap-4 mt-3 text-sm">
+                      <div>
+                        <div className="text-xs uppercase text-muted-foreground mb-1">Adresa isporuke</div>
+                        <div>{o.customer_name}</div>
+                        <div>{o.address}</div>
+                        <div>{o.postal_code} {o.city}</div>
+                        <div>{o.country || "Srbija"}</div>
+                      </div>
+                      <div>
+                        <div className="text-xs uppercase text-muted-foreground mb-1">Plaćanje</div>
+                        <div className="uppercase">{o.payment_method === "cod" ? "Pouzećem" : o.payment_method}</div>
+                        <div className="text-xs text-muted-foreground mt-2">Dostava: {Number(o.shipping).toLocaleString("sr-RS")} дин</div>
+                        <div className="text-xs text-muted-foreground">Ukupno: <b className="text-foreground">{Number(o.total).toLocaleString("sr-RS")} дин</b></div>
+                      </div>
+                    </div>
+                    <table className="w-full text-sm mt-4">
+                      <thead className="text-xs text-muted-foreground uppercase">
+                        <tr><th className="text-left py-1">SKU</th><th className="text-left">Artikal</th><th>Vel.</th><th>Kom</th><th className="text-right">Cijena</th></tr>
+                      </thead>
+                      <tbody>
+                        {(o.customer_order_items || []).map((i: any) => (
+                          <tr key={i.id} className="border-t border-border">
+                            <td className="py-1">{i.product_sku}</td>
+                            <td>{i.product_name}</td>
+                            <td className="text-center">{i.size}</td>
+                            <td className="text-center tabular-nums">{i.quantity}</td>
+                            <td className="text-right tabular-nums">{Number(i.unit_price).toLocaleString("sr-RS")} дин</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    {o.note && <div className="mt-3 text-sm italic text-muted-foreground border-l-2 border-border pl-3">{o.note}</div>}
+                    <div className="mt-4 flex gap-2 flex-wrap">
+                      {(["pending", "confirmed", "shipped", "delivered", "cancelled"] as const).map((s) => (
+                        <button
+                          key={s}
+                          onClick={async () => { await updateCustomerOrder({ data: { orderId: o.id, status: s } }); reload(); }}
+                          disabled={o.status === s}
+                          className={`px-3 py-1.5 text-xs border rounded-sm ${o.status === s ? "bg-foreground text-background border-foreground" : "border-border"}`}
+                        >{s}</button>
+                      ))}
+                    </div>
+                  </div>
+                </details>
+              ))}
+            </div>
+          )}
+
+
           {tab === "stats" && stats && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {[
@@ -269,6 +344,16 @@ function StatusPill({ status }: { status: string }) {
     pending: "bg-secondary text-muted-foreground",
     approved: "bg-accent text-accent-foreground",
     rejected: "bg-destructive text-destructive-foreground",
+  };
+  return <span className={`px-2 py-0.5 text-[10px] uppercase tracking-wider rounded-sm font-semibold ${map[status] || "bg-secondary"}`}>{status}</span>;
+}
+function CustomerOrderStatusPill({ status }: { status: string }) {
+  const map: Record<string, string> = {
+    pending: "bg-secondary text-muted-foreground",
+    confirmed: "bg-accent/20 text-accent",
+    shipped: "bg-foreground text-background",
+    delivered: "bg-accent text-accent-foreground",
+    cancelled: "bg-destructive/20 text-destructive",
   };
   return <span className={`px-2 py-0.5 text-[10px] uppercase tracking-wider rounded-sm font-semibold ${map[status] || "bg-secondary"}`}>{status}</span>;
 }

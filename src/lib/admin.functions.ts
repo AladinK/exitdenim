@@ -208,3 +208,35 @@ export const signProductImage = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { url: signed.signedUrl };
   });
+
+// ===== Retail (customer) orders =====
+export const listAllCustomerOrders = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    const { data, error } = await context.supabase
+      .from("customer_orders")
+      .select("*, customer_order_items(*)")
+      .order("created_at", { ascending: false });
+    if (error) throw new Error(error.message);
+    return data ?? [];
+  });
+
+export const updateCustomerOrderStatus = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z.object({
+      orderId: z.string().uuid(),
+      status: z.enum(["pending", "confirmed", "shipped", "delivered", "cancelled"]),
+    }).parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    const { error } = await context.supabase
+      .from("customer_orders")
+      .update({ status: data.status })
+      .eq("id", data.orderId);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
