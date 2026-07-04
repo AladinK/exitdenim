@@ -20,6 +20,8 @@ const NAV: Array<{ to: any; label: string }> = [
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { count: cartCount, setOpen: setCartOpen } = useCart();
+
   const [menuOpen, setMenuOpen] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
