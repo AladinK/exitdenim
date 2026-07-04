@@ -1,5 +1,5 @@
 import { createFileRoute, useParams, Link, notFound } from "@tanstack/react-router";
-import { Download, ChevronLeft, Lock } from "lucide-react";
+import { Download, ChevronLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Layout } from "@/components/Layout";
