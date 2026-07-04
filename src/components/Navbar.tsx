@@ -1,11 +1,13 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Menu, X, LogOut, ShoppingBag, Shield, User as UserIcon, ChevronDown } from "lucide-react";
+import { Menu, X, LogOut, ShoppingBag, Shield, User as UserIcon, ChevronDown, Package } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { Logo } from "./Logo";
 import { useAuth } from "@/hooks/useAuth";
+import { useCart } from "@/hooks/useCart";
 import { supabase } from "@/integrations/supabase/client";
 import { getMyProfile } from "@/lib/orders.functions";
+
 
 const NAV: Array<{ to: any; label: string }> = [
   { to: "/", label: "Почетна" },
