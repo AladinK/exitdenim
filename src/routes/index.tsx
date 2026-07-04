@@ -55,22 +55,18 @@ function HomePage() {
       <section className="relative overflow-hidden gradient-mesh">
         <div className="absolute inset-0 grid-bg pointer-events-none" aria-hidden />
         <Seal tone="green" opacity={0.05} className="pointer-events-none absolute -right-32 -top-32 w-[560px] h-[560px] hidden md:block" />
-        <div className="container-x relative py-10 md:py-16">
+        <div className="container-x relative py-10 md:py-14">
           <Reveal>
-            <div className="flex items-end justify-between gap-6 mb-8">
-              <div>
-                <span className="chip">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" /> Нова SS · Пријаве отворене
-                </span>
-                <h1 className="mt-4 text-[clamp(1.75rem,4.2vw,2.75rem)] leading-[1.05] tracking-tight font-bold max-w-2xl">
-                  B2B платформа за <span className="serif-accent italic text-accent">премијум деним</span>.
-                </h1>
-              </div>
+            <div className="flex items-end justify-between gap-6 mb-6">
+              <span className="chip">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" /> Нова SS · Пријаве отворене
+              </span>
               <div className="hidden md:flex items-center gap-3 text-[11px] uppercase tracking-[0.2em] text-muted-foreground mono">
                 <span>Нови Пазар</span><span className="h-3 w-px bg-border" /><span>RS</span>
               </div>
             </div>
           </Reveal>
+
 
           {/* BENTO GRID */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 auto-rows-[minmax(160px,auto)] gap-4">
