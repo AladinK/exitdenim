@@ -58,6 +58,8 @@ function Admin() {
   const saveProduct = useServerFn(upsertProduct);
   const removeProduct = useServerFn(deleteProduct);
   const saveStock = useServerFn(upsertStock);
+  const fetchCustomerOrders = useServerFn(listAllCustomerOrders);
+  const updateCustomerOrder = useServerFn(updateCustomerOrderStatus);
 
   const fetchSiteAssets = useServerFn(adminListSiteAssets);
   const saveSiteAsset = useServerFn(upsertSiteAsset);
