@@ -6,6 +6,7 @@ import { Layout } from "@/components/Layout";
 import { Reveal } from "@/components/Reveal";
 
 import { getHomeAssets } from "@/lib/site-assets.functions";
+import lookbookAsset from "@/assets/lookbook-ss26.png.asset.json";
 
 
 export const Route = createFileRoute("/")({
