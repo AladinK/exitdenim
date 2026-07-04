@@ -18,7 +18,7 @@ function Partner() {
       <section className="bg-foreground text-background relative overflow-hidden">
         <div className="container-x py-20 md:py-32 relative">
           <div className="text-[10px] uppercase tracking-[0.36em] text-accent">По пријави · Приватни B2B шоурум</div>
-          <h1 className="mt-7 text-[clamp(2.25rem,5.5vw,4.5rem)] max-w-4xl text-background">
+          <h1 className="mt-7 h1-editorial max-w-4xl text-background">
             Партнерски програм<br/>
             <span className="italic font-light text-background/85">EXIT Denim</span>
           </h1>
@@ -32,7 +32,7 @@ function Partner() {
         <div className="container-x grid lg:grid-cols-12 gap-12">
           <div className="lg:col-span-5">
             <div className="eyebrow">Шта добијате</div>
-            <h2 className="mt-5 text-4xl">
+            <h2 className="mt-5 h2-editorial">
               Комплетан <span className="italic">партнерски пакет</span>.
             </h2>
             <ul className="mt-8 space-y-4 text-[15px]">
