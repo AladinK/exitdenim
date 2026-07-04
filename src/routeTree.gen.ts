@@ -28,6 +28,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProizvodSlugRouteImport } from './routes/proizvod.$slug'
 import { Route as PorudzbinaNumberRouteImport } from './routes/porudzbina.$number'
 import { Route as AuthenticatedNarudzbaRouteImport } from './routes/_authenticated/narudzba'
+import { Route as AuthenticatedMojePorudzbineRouteImport } from './routes/_authenticated/moje-porudzbine'
 import { Route as AuthenticatedCekanjeRouteImport } from './routes/_authenticated/cekanje'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ApiLineSheetSkuRouteImport } from './routes/api/line-sheet.$sku'
@@ -126,6 +127,12 @@ const AuthenticatedNarudzbaRoute = AuthenticatedNarudzbaRouteImport.update({
   path: '/narudzba',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMojePorudzbineRoute =
+  AuthenticatedMojePorudzbineRouteImport.update({
+    id: '/moje-porudzbine',
+    path: '/moje-porudzbine',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedCekanjeRoute = AuthenticatedCekanjeRouteImport.update({
   id: '/cekanje',
   path: '/cekanje',
@@ -160,6 +167,7 @@ export interface FileRoutesByFullPath {
   '/shop': typeof ShopRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/cekanje': typeof AuthenticatedCekanjeRoute
+  '/moje-porudzbine': typeof AuthenticatedMojePorudzbineRoute
   '/narudzba': typeof AuthenticatedNarudzbaRoute
   '/porudzbina/$number': typeof PorudzbinaNumberRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
@@ -183,6 +191,7 @@ export interface FileRoutesByTo {
   '/shop': typeof ShopRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/cekanje': typeof AuthenticatedCekanjeRoute
+  '/moje-porudzbine': typeof AuthenticatedMojePorudzbineRoute
   '/narudzba': typeof AuthenticatedNarudzbaRoute
   '/porudzbina/$number': typeof PorudzbinaNumberRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
@@ -208,6 +217,7 @@ export interface FileRoutesById {
   '/shop': typeof ShopRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/cekanje': typeof AuthenticatedCekanjeRoute
+  '/_authenticated/moje-porudzbine': typeof AuthenticatedMojePorudzbineRoute
   '/_authenticated/narudzba': typeof AuthenticatedNarudzbaRoute
   '/porudzbina/$number': typeof PorudzbinaNumberRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
@@ -233,6 +243,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/admin'
     | '/cekanje'
+    | '/moje-porudzbine'
     | '/narudzba'
     | '/porudzbina/$number'
     | '/proizvod/$slug'
@@ -256,6 +267,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/admin'
     | '/cekanje'
+    | '/moje-porudzbine'
     | '/narudzba'
     | '/porudzbina/$number'
     | '/proizvod/$slug'
@@ -280,6 +292,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/_authenticated/admin'
     | '/_authenticated/cekanje'
+    | '/_authenticated/moje-porudzbine'
     | '/_authenticated/narudzba'
     | '/porudzbina/$number'
     | '/proizvod/$slug'
@@ -443,6 +456,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedNarudzbaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/moje-porudzbine': {
+      id: '/_authenticated/moje-porudzbine'
+      path: '/moje-porudzbine'
+      fullPath: '/moje-porudzbine'
+      preLoaderRoute: typeof AuthenticatedMojePorudzbineRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/cekanje': {
       id: '/_authenticated/cekanje'
       path: '/cekanje'
@@ -470,12 +490,14 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedCekanjeRoute: typeof AuthenticatedCekanjeRoute
+  AuthenticatedMojePorudzbineRoute: typeof AuthenticatedMojePorudzbineRoute
   AuthenticatedNarudzbaRoute: typeof AuthenticatedNarudzbaRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedCekanjeRoute: AuthenticatedCekanjeRoute,
+  AuthenticatedMojePorudzbineRoute: AuthenticatedMojePorudzbineRoute,
   AuthenticatedNarudzbaRoute: AuthenticatedNarudzbaRoute,
 }
 
