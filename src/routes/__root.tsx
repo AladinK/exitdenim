@@ -77,12 +77,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "theme-color", content: "#FBF8F2" },
+      { name: "format-detection", content: "telephone=no" },
       { title: "EXIT Denim — Премијум B2B платформа за бутике" },
       { name: "description", content: "Премијум мушки деним, чино и карго панталоне из Новог Пазара. Затворена B2B платформа за бутике и регионалне партнере." },
       { property: "og:title", content: "EXIT Denim — Премијум B2B платформа за бутике" },
       { property: "og:description", content: "Премијум мушки деним, чино и карго панталоне из Новог Пазара. Затворена B2B платформа за бутике и регионалне партнере." },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "EXIT Denim" },
+      { property: "og:locale", content: "sr_RS" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "EXIT Denim — Премијум B2B платформа за бутике" },
       { name: "twitter:description", content: "Премијум мушки деним, чино и карго панталоне из Новог Пазара. Затворена B2B платформа за бутике и регионалне партнере." },
@@ -92,7 +95,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap&subset=cyrillic,cyrillic-ext,latin,latin-ext" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap&subset=cyrillic,cyrillic-ext,latin,latin-ext" },
       { rel: "stylesheet", href: appCss },
       {
         rel: "icon",
@@ -100,7 +103,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href:
           "data:image/svg+xml;utf8," +
           encodeURIComponent(
-            `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230F2547'/><text x='50%' y='54%' text-anchor='middle' dominant-baseline='middle' font-family='Inter,sans-serif' font-size='30' font-weight='800' fill='%230FB5A6'>Е</text></svg>`
+            `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%231B1A17'/><text x='50%' y='54%' text-anchor='middle' dominant-baseline='middle' font-family='system-ui,-apple-system,sans-serif' font-size='30' font-weight='800' fill='%236B7F4A'>Е</text></svg>`
           ),
       },
     ],
@@ -114,7 +117,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="sr">
+    <html lang="sr-Cyrl">
       <head>
         <HeadContent />
       </head>

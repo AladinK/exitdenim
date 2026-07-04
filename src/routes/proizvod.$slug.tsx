@@ -85,7 +85,7 @@ function ProductDetail() {
         <div className="lg:col-span-7">
           <div className="aspect-[4/5] overflow-hidden bg-secondary">
             {product.image_url && (
-              <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" width={1024} height={1280} />
+              <img src={product.image_url} alt={product.name} fetchPriority="high" decoding="async" className="w-full h-full object-cover" width={1024} height={1280} />
             )}
           </div>
           <div className="mt-3 grid grid-cols-3 gap-2 text-[11px]">

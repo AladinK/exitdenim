@@ -45,6 +45,21 @@ export function Navbar() {
     return () => document.removeEventListener("mousedown", onClick);
   }, []);
 
+  // Lock background scroll and allow Escape-to-close while the mobile menu is open
+  useEffect(() => {
+    if (!open) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
   const signOut = async () => {
     setMenuOpen(false);
     await supabase.auth.signOut();
