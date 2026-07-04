@@ -62,5 +62,6 @@ export const getProductBySlug = createServerFn({ method: "GET" })
     const { data: stock } = await sb.from("stock").select("size, quantity").eq("product_id", product.id!);
     const stockMap: Record<string, number> = {};
     (stock || []).forEach((s) => { stockMap[s.size] = s.quantity; });
-    return { ...product, stock: stockMap } as ProductWithStock;
+    const image_url = await signIfPath(sb, product.image_url);
+    return { ...product, image_url, stock: stockMap } as ProductWithStock;
   });
