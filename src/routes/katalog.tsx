@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Lock } from "lucide-react";
 import { useEffect, useState } from "react";
+
 import { useServerFn } from "@tanstack/react-start";
 import { Layout } from "@/components/Layout";
 import { ProductCard } from "@/components/ProductCard";
