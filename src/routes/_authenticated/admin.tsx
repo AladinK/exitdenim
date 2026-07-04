@@ -65,10 +65,11 @@ function Admin() {
   const saveSiteAsset = useServerFn(upsertSiteAsset);
   const removeSiteAsset = useServerFn(deleteSiteAsset);
 
-  const [tab, setTab] = useState<"products" | "home" | "partners" | "orders" | "stats">("products");
+  const [tab, setTab] = useState<"products" | "home" | "partners" | "orders" | "kupci" | "stats">("products");
   const [allowed, setAllowed] = useState<boolean | null>(null);
   const [partners, setPartners] = useState<any[]>([]);
   const [orders, setOrders] = useState<any[]>([]);
+  const [customerOrders, setCustomerOrders] = useState<any[]>([]);
   const [products, setProducts] = useState<AdminProduct[]>([]);
   const [stats, setStats] = useState<any>(null);
   const [editing, setEditing] = useState<AdminProduct | null>(null);
