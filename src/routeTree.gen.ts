@@ -17,6 +17,7 @@ import { Route as MediaKitRouteImport } from './routes/media-kit'
 import { Route as KorpaRouteImport } from './routes/korpa'
 import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as KatalogRouteImport } from './routes/katalog'
+import { Route as KasaRouteImport } from './routes/kasa'
 import { Route as JeansRouteImport } from './routes/jeans'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as ChinoRouteImport } from './routes/chino'
@@ -68,6 +69,11 @@ const KontaktRoute = KontaktRouteImport.update({
 const KatalogRoute = KatalogRouteImport.update({
   id: '/katalog',
   path: '/katalog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KasaRoute = KasaRouteImport.update({
+  id: '/kasa',
+  path: '/kasa',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JeansRoute = JeansRouteImport.update({
@@ -137,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/chino': typeof ChinoRoute
   '/faq': typeof FaqRoute
   '/jeans': typeof JeansRoute
+  '/kasa': typeof KasaRoute
   '/katalog': typeof KatalogRoute
   '/kontakt': typeof KontaktRoute
   '/korpa': typeof KorpaRoute
@@ -158,6 +165,7 @@ export interface FileRoutesByTo {
   '/chino': typeof ChinoRoute
   '/faq': typeof FaqRoute
   '/jeans': typeof JeansRoute
+  '/kasa': typeof KasaRoute
   '/katalog': typeof KatalogRoute
   '/kontakt': typeof KontaktRoute
   '/korpa': typeof KorpaRoute
@@ -181,6 +189,7 @@ export interface FileRoutesById {
   '/chino': typeof ChinoRoute
   '/faq': typeof FaqRoute
   '/jeans': typeof JeansRoute
+  '/kasa': typeof KasaRoute
   '/katalog': typeof KatalogRoute
   '/kontakt': typeof KontaktRoute
   '/korpa': typeof KorpaRoute
@@ -204,6 +213,7 @@ export interface FileRouteTypes {
     | '/chino'
     | '/faq'
     | '/jeans'
+    | '/kasa'
     | '/katalog'
     | '/kontakt'
     | '/korpa'
@@ -225,6 +235,7 @@ export interface FileRouteTypes {
     | '/chino'
     | '/faq'
     | '/jeans'
+    | '/kasa'
     | '/katalog'
     | '/kontakt'
     | '/korpa'
@@ -247,6 +258,7 @@ export interface FileRouteTypes {
     | '/chino'
     | '/faq'
     | '/jeans'
+    | '/kasa'
     | '/katalog'
     | '/kontakt'
     | '/korpa'
@@ -270,6 +282,7 @@ export interface RootRouteChildren {
   ChinoRoute: typeof ChinoRoute
   FaqRoute: typeof FaqRoute
   JeansRoute: typeof JeansRoute
+  KasaRoute: typeof KasaRoute
   KatalogRoute: typeof KatalogRoute
   KontaktRoute: typeof KontaktRoute
   KorpaRoute: typeof KorpaRoute
@@ -338,6 +351,13 @@ declare module '@tanstack/react-router' {
       path: '/katalog'
       fullPath: '/katalog'
       preLoaderRoute: typeof KatalogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kasa': {
+      id: '/kasa'
+      path: '/kasa'
+      fullPath: '/kasa'
+      preLoaderRoute: typeof KasaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/jeans': {
@@ -450,6 +470,7 @@ const rootRouteChildren: RootRouteChildren = {
   ChinoRoute: ChinoRoute,
   FaqRoute: FaqRoute,
   JeansRoute: JeansRoute,
+  KasaRoute: KasaRoute,
   KatalogRoute: KatalogRoute,
   KontaktRoute: KontaktRoute,
   KorpaRoute: KorpaRoute,
