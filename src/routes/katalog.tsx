@@ -11,12 +11,13 @@ import { useAuth } from "@/hooks/useAuth";
 export const Route = createFileRoute("/katalog")({
   head: () => ({
     meta: [
-      { title: "B2B Каталог — EXIT Denim Wholesale" },
-      { name: "description", content: "Комплетан велепродајни каталог EXIT Denim — фармерке, чино, карго. Цене доступне одобреним B2B партнерима." },
+      { title: "Продавница — EXIT Denim" },
+      { name: "description", content: "Комплетан каталог EXIT Denim — премијум мушки деним, чино и карго. Наручите онлајн, плаћање поузећем." },
     ],
   }),
   component: Katalog,
 });
+
 
 type Cat = "all" | "jeans" | "chino" | "cargo";
 type FitFilter = "all" | "Slim" | "Regular Slim" | "Relaxed" | "Cargo";
