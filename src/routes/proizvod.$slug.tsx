@@ -83,11 +83,25 @@ function ProductDetail() {
       <section className="container-x py-10 grid lg:grid-cols-12 gap-10 lg:gap-16">
         {/* Gallery */}
         <div className="lg:col-span-7">
-          <div className="aspect-[4/5] overflow-hidden bg-secondary">
-            {product.image_url && (
-              <img src={product.image_url} alt={product.name} fetchPriority="high" decoding="async" className="w-full h-full object-cover" width={1024} height={1280} />
+          <div className="aspect-[4/5] overflow-hidden bg-secondary relative">
+            {product.image_url ? (
+              <img
+                src={product.image_url}
+                alt={product.name}
+                fetchPriority="high"
+                decoding="async"
+                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                className="w-full h-full object-cover"
+                width={1024}
+                height={1280}
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center text-xs uppercase tracking-[0.22em] text-muted-foreground">
+                {product.sku}
+              </div>
             )}
           </div>
+
           <div className="mt-3 grid grid-cols-3 gap-2 text-[11px]">
             <div className="border border-border p-3">
               <div className="eyebrow">Тканина</div>
