@@ -80,111 +80,141 @@ function HomePage() {
         </div>
       </section>
 
-      {/* ───────── MINIMAL BENTO ───────── */}
+      {/* ───────── EDITORIAL BENTO — 12-col ───────── */}
       <section className="relative">
         <div className="container-x pb-10 md:pb-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 auto-rows-[minmax(160px,auto)] gap-3 md:gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-12 md:grid-rows-6 gap-3 md:gap-4 md:h-[820px] lg:h-[880px]">
 
-            {/* 1. HERO IMAGE — 2×2, silent */}
+            {/* 1. LOOK 01 — dominant editorial 7×4 */}
             <Reveal delay={1}>
-              <div className="lg:col-span-2 lg:row-span-2 relative overflow-hidden rounded-sm bg-secondary group min-h-[420px] lg:min-h-full">
-                <img src={img("hero", heroImg.url)} alt={alt("hero", "EXIT Denim SS кампања")}
-                  fetchPriority="high" decoding="async"
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.03]" />
-                <div className="absolute top-4 left-4 right-4 flex items-center justify-between text-[10px] uppercase tracking-[0.3em] text-white/90 mix-blend-difference">
+              <div className="md:col-span-7 md:row-span-4 relative overflow-hidden rounded-sm bg-secondary group h-full min-h-[420px]">
+                <img
+                  src={img("hero", heroImg.url)}
+                  alt={alt("hero", "EXIT Denim SS кампања")}
+                  fetchPriority="high"
+                  decoding="async"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/0 to-black/0" />
+                <div className="absolute top-5 left-5 right-5 flex items-center justify-between text-[10px] uppercase tracking-[0.3em] text-white/90 mono">
                   <span>Look 01</span>
-                  <span className="mono">EX-101</span>
+                  <span>EX-101</span>
+                </div>
+                <div className="absolute bottom-6 left-6 right-6 text-white">
+                  <div className="mono text-[10px] tracking-[0.3em] opacity-80">SS · 2026</div>
+                  <h3 className="mt-2 text-3xl md:text-5xl serif-accent italic leading-[1.02]">
+                    Нови стандард <br className="hidden md:block" />за бутике.
+                  </h3>
                 </div>
               </div>
             </Reveal>
 
-            {/* 2. LOOKBOOK — 1×2 tall */}
+            {/* 2. QUOTE — 5×2 */}
             <Reveal delay={2}>
-              <div className="lg:row-span-2 relative overflow-hidden rounded-sm bg-secondary group min-h-[420px]">
-                <img src={lookbookImg.url} alt="Карго крој — лукбук" loading="lazy" decoding="async"
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.03]" />
-                <div className="absolute top-4 left-4 right-4 flex items-center justify-between text-[10px] uppercase tracking-[0.3em] text-white/90 mix-blend-difference">
-                  <span>Лукбук</span>
-                  <span className="mono">04</span>
+              <div className="md:col-span-5 md:row-span-2 relative overflow-hidden rounded-sm border border-border bg-background p-8 md:p-10 flex flex-col justify-center h-full min-h-[200px]">
+                <div className="text-accent/25 mb-4 leading-none text-6xl serif-accent select-none">"</div>
+                <p className="serif-accent italic text-[22px] md:text-[26px] leading-[1.2] text-foreground">
+                  Кројеви који се не мењају из сезоне у сезону — само постају бољи.
+                </p>
+                <div className="mt-6 text-[10px] mono uppercase tracking-[0.3em] text-muted-foreground font-semibold">
+                  Милан В. · Београд
                 </div>
               </div>
             </Reveal>
 
-            {/* 3. STATS — 1×1 */}
+            {/* 3. STAT — 2×2 olive */}
             <Reveal delay={2}>
-              <div className="relative overflow-hidden rounded-sm border border-border bg-background p-5 flex flex-col justify-between min-h-[220px]">
-                <div className="mono text-[10px] tracking-[0.25em] text-muted-foreground">Партнери</div>
+              <div className="md:col-span-2 md:row-span-2 relative overflow-hidden rounded-sm bg-accent text-accent-foreground p-6 md:p-7 flex flex-col justify-between h-full min-h-[200px]">
+                <div className="w-8 h-px bg-accent-foreground/40" />
                 <div>
-                  <div className="text-5xl md:text-6xl font-bold tracking-tight tabular-nums">
+                  <div className="text-5xl md:text-6xl font-bold tracking-tight tabular-nums leading-none">
                     <CountUp to={180} suffix="+" />
                   </div>
-                  <div className="mt-1 text-[11px] text-muted-foreground">бутика у региону</div>
+                  <p className="mt-3 text-[10px] uppercase tracking-[0.22em] leading-relaxed opacity-80 mono">
+                    Бутика у<br />региону
+                  </p>
                 </div>
               </div>
             </Reveal>
 
-            {/* 4. QUOTE — 1×1 */}
+            {/* 4. LOOKBOOK 04 — 3×2 */}
             <Reveal delay={3}>
-              <div className="relative overflow-hidden rounded-sm border border-border bg-background p-5 flex flex-col justify-between min-h-[220px]">
-                <p className="serif-accent italic text-[18px] leading-snug text-foreground">
-                  „Кројеви који се не мењају из сезоне у сезону."
-                </p>
-                <div className="text-[11px] mono uppercase tracking-[0.22em] text-muted-foreground">Милан В. · Београд</div>
+              <div className="md:col-span-3 md:row-span-2 relative overflow-hidden rounded-sm bg-secondary group h-full min-h-[200px]">
+                <img
+                  src={lookbookImg.url}
+                  alt="Карго крој — лукбук"
+                  loading="lazy"
+                  decoding="async"
+                  className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-[900ms] ease-out group-hover:scale-[1.05]"
+                />
+                <div className="absolute top-4 left-4 text-[10px] uppercase tracking-[0.3em] text-white/90 mono mix-blend-difference">
+                  Лукбук 04
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <span className="bg-background/90 backdrop-blur-md border border-border px-4 py-2 text-[10px] uppercase tracking-[0.25em] font-semibold serif-accent italic">
+                    Погледајте
+                  </span>
+                </div>
               </div>
             </Reveal>
 
-            {/* 5. FARMERKE */}
+            {/* 5. CATEGORIES — 8×2 editorial row */}
             <Reveal delay={3}>
-              <Link to="/katalog" className="group block">
-                <div className="relative overflow-hidden rounded-sm bg-secondary aspect-[4/5]">
-                  <img src={img("category_jeans", productJeans.url)} alt={alt("category_jeans", "Фармерке")} loading="lazy" decoding="async"
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]" />
-                </div>
-                <div className="mt-3 flex items-baseline justify-between">
-                  <div className="text-sm font-medium tracking-tight">Фармерке</div>
-                  <ArrowRight className="w-3.5 h-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
-                </div>
-              </Link>
-            </Reveal>
-
-            {/* 6. CHINO */}
-            <Reveal delay={4}>
-              <Link to="/katalog" className="group block">
-                <div className="relative overflow-hidden rounded-sm bg-secondary aspect-[4/5]">
-                  <img src={img("category_chino", productChino.url)} alt={alt("category_chino", "Чино")} loading="lazy" decoding="async"
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]" />
-                </div>
-                <div className="mt-3 flex items-baseline justify-between">
-                  <div className="text-sm font-medium tracking-tight">Чино</div>
-                  <ArrowRight className="w-3.5 h-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
-                </div>
-              </Link>
-            </Reveal>
-
-            {/* 7. CARGO */}
-            <Reveal delay={4}>
-              <Link to="/katalog" className="group block">
-                <div className="relative overflow-hidden rounded-sm bg-secondary aspect-[4/5]">
-                  <img src={img("category_cargo", productCargo.url)} alt={alt("category_cargo", "Карго")} loading="lazy" decoding="async"
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]" />
-                </div>
-                <div className="mt-3 flex items-baseline justify-between">
-                  <div className="text-sm font-medium tracking-tight">Карго</div>
-                  <ArrowRight className="w-3.5 h-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
-                </div>
-              </Link>
-            </Reveal>
-
-            {/* 8. CTA — silent card */}
-            <Reveal delay={4}>
-              <Link to="/postani-partner" className="relative overflow-hidden rounded-sm bg-[var(--ink)] text-white p-6 flex flex-col justify-between group aspect-[4/5] md:aspect-auto md:min-h-[220px]">
-                <div className="mono text-[10px] tracking-[0.25em] text-white/60">Одговор у 24h</div>
-                <div>
-                  <div className="text-xl font-semibold tracking-tight leading-tight">
-                    Отворите <span className="serif-accent italic text-accent">B2B</span> налог
+              <div className="md:col-span-8 md:row-span-2 relative overflow-hidden rounded-sm bg-[var(--surface)] border border-border p-8 md:p-10 flex flex-col md:flex-row md:items-center justify-between gap-6 h-full min-h-[200px]">
+                <div className="space-y-5 min-w-0">
+                  <div className="mono text-[10px] uppercase tracking-[0.35em] text-muted-foreground font-semibold">
+                    Колекције
                   </div>
-                  <div className="mt-3 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.2em] text-white/90">
-                    Пријава <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                  <div className="flex flex-wrap gap-x-8 md:gap-x-12 gap-y-2">
+                    <Link to="/katalog" className="group relative text-3xl md:text-4xl serif-accent transition-all hover:italic">
+                      Фармерке
+                      <span className="absolute -bottom-1 left-0 w-0 h-px bg-accent transition-all duration-500 group-hover:w-full" />
+                    </Link>
+                    <Link to="/katalog" className="group relative text-3xl md:text-4xl serif-accent transition-all hover:italic">
+                      Чино
+                      <span className="absolute -bottom-1 left-0 w-0 h-px bg-accent transition-all duration-500 group-hover:w-full" />
+                    </Link>
+                    <Link to="/katalog" className="group relative text-3xl md:text-4xl serif-accent italic text-accent">
+                      Карго
+                      <span className="absolute -bottom-1 left-0 w-full h-px bg-accent" />
+                    </Link>
+                  </div>
+                </div>
+                <div className="hidden md:block w-px h-16 bg-border shrink-0" />
+                <div className="hidden md:block text-right shrink-0">
+                  <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mono leading-relaxed">
+                    Одабрано<br />за сезону
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* 6. CTA B2B — 4×2 ink */}
+            <Reveal delay={4}>
+              <Link
+                to="/postani-partner"
+                className="md:col-span-4 md:row-span-2 relative overflow-hidden rounded-sm bg-[var(--ink)] text-white p-8 md:p-10 flex flex-col justify-between group h-full min-h-[200px]"
+              >
+                <div className="absolute -top-6 -right-6 opacity-[0.06] group-hover:opacity-[0.12] transition-opacity duration-700">
+                  <svg width="180" height="180" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4.5 20.29L5.21 21L12 18L18.79 21L19.5 20.29L12 2Z" /></svg>
+                </div>
+                <div className="relative z-10 flex items-start justify-between">
+                  <div className="mono text-[10px] tracking-[0.3em] text-white/60 uppercase">Одговор у 24h</div>
+                  <div className="w-11 h-11 border border-white/20 flex items-center justify-center group-hover:bg-accent group-hover:border-accent transition-all duration-500">
+                    <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-0.5" />
+                  </div>
+                </div>
+                <div className="relative z-10">
+                  <h4 className="text-2xl md:text-[28px] serif-accent leading-[1.1]">
+                    Отворите <span className="italic text-accent">B2B</span> налог
+                  </h4>
+                  <p className="mt-3 text-[12px] text-white/50 leading-relaxed max-w-[240px]">
+                    Приступ каталогу, B2B ценама и line-sheet PDF-у.
+                  </p>
+                  <div className="mt-6 inline-flex items-center gap-3">
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.3em] pb-1 border-b border-white/20 group-hover:border-accent transition-colors">
+                      Пријава
+                    </span>
                   </div>
                 </div>
               </Link>
@@ -202,7 +232,6 @@ function HomePage() {
             </div>
           </div>
 
-
           {/* logo strip */}
           <div className="mt-10 border-t border-b border-border">
             <div className="py-4 flex flex-nowrap overflow-x-auto md:flex-wrap items-center justify-start md:justify-between gap-y-3 gap-x-8 text-[10.5px] md:text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium scrollbar-none">
@@ -217,6 +246,7 @@ function HomePage() {
           </div>
         </div>
       </section>
+
 
       {/* ───────── KAKO RADI ───────── */}
       <section className="section-pad">
