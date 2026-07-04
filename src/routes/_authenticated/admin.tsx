@@ -347,6 +347,16 @@ function StatusPill({ status }: { status: string }) {
   };
   return <span className={`px-2 py-0.5 text-[10px] uppercase tracking-wider rounded-sm font-semibold ${map[status] || "bg-secondary"}`}>{status}</span>;
 }
+function CustomerOrderStatusPill({ status }: { status: string }) {
+  const map: Record<string, string> = {
+    pending: "bg-secondary text-muted-foreground",
+    confirmed: "bg-accent/20 text-accent",
+    shipped: "bg-foreground text-background",
+    delivered: "bg-accent text-accent-foreground",
+    cancelled: "bg-destructive/20 text-destructive",
+  };
+  return <span className={`px-2 py-0.5 text-[10px] uppercase tracking-wider rounded-sm font-semibold ${map[status] || "bg-secondary"}`}>{status}</span>;
+}
 function OrderStatusPill({ status }: { status: string }) {
   const map: Record<string, string> = {
     submitted: "bg-accent/20 text-accent",
