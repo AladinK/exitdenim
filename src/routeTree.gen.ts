@@ -14,6 +14,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ProizvodnjaRouteImport } from './routes/proizvodnja'
 import { Route as PostaniPartnerRouteImport } from './routes/postani-partner'
 import { Route as MediaKitRouteImport } from './routes/media-kit'
+import { Route as KorpaRouteImport } from './routes/korpa'
 import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as KatalogRouteImport } from './routes/katalog'
 import { Route as JeansRouteImport } from './routes/jeans'
@@ -52,6 +53,11 @@ const PostaniPartnerRoute = PostaniPartnerRouteImport.update({
 const MediaKitRoute = MediaKitRouteImport.update({
   id: '/media-kit',
   path: '/media-kit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KorpaRoute = KorpaRouteImport.update({
+  id: '/korpa',
+  path: '/korpa',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KontaktRoute = KontaktRouteImport.update({
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/jeans': typeof JeansRoute
   '/katalog': typeof KatalogRoute
   '/kontakt': typeof KontaktRoute
+  '/korpa': typeof KorpaRoute
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/proizvodnja': typeof ProizvodnjaRoute
@@ -153,6 +160,7 @@ export interface FileRoutesByTo {
   '/jeans': typeof JeansRoute
   '/katalog': typeof KatalogRoute
   '/kontakt': typeof KontaktRoute
+  '/korpa': typeof KorpaRoute
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/proizvodnja': typeof ProizvodnjaRoute
@@ -175,6 +183,7 @@ export interface FileRoutesById {
   '/jeans': typeof JeansRoute
   '/katalog': typeof KatalogRoute
   '/kontakt': typeof KontaktRoute
+  '/korpa': typeof KorpaRoute
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/proizvodnja': typeof ProizvodnjaRoute
@@ -197,6 +206,7 @@ export interface FileRouteTypes {
     | '/jeans'
     | '/katalog'
     | '/kontakt'
+    | '/korpa'
     | '/media-kit'
     | '/postani-partner'
     | '/proizvodnja'
@@ -217,6 +227,7 @@ export interface FileRouteTypes {
     | '/jeans'
     | '/katalog'
     | '/kontakt'
+    | '/korpa'
     | '/media-kit'
     | '/postani-partner'
     | '/proizvodnja'
@@ -238,6 +249,7 @@ export interface FileRouteTypes {
     | '/jeans'
     | '/katalog'
     | '/kontakt'
+    | '/korpa'
     | '/media-kit'
     | '/postani-partner'
     | '/proizvodnja'
@@ -260,6 +272,7 @@ export interface RootRouteChildren {
   JeansRoute: typeof JeansRoute
   KatalogRoute: typeof KatalogRoute
   KontaktRoute: typeof KontaktRoute
+  KorpaRoute: typeof KorpaRoute
   MediaKitRoute: typeof MediaKitRoute
   PostaniPartnerRoute: typeof PostaniPartnerRoute
   ProizvodnjaRoute: typeof ProizvodnjaRoute
@@ -304,6 +317,13 @@ declare module '@tanstack/react-router' {
       path: '/media-kit'
       fullPath: '/media-kit'
       preLoaderRoute: typeof MediaKitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/korpa': {
+      id: '/korpa'
+      path: '/korpa'
+      fullPath: '/korpa'
+      preLoaderRoute: typeof KorpaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kontakt': {
@@ -432,6 +452,7 @@ const rootRouteChildren: RootRouteChildren = {
   JeansRoute: JeansRoute,
   KatalogRoute: KatalogRoute,
   KontaktRoute: KontaktRoute,
+  KorpaRoute: KorpaRoute,
   MediaKitRoute: MediaKitRoute,
   PostaniPartnerRoute: PostaniPartnerRoute,
   ProizvodnjaRoute: ProizvodnjaRoute,
