@@ -106,8 +106,9 @@ function Admin() {
           {[
             ["products", "Proizvodi"],
             ["home", "Početna"],
-            ["partners", "Partneri"],
-            ["orders", "Narudžbe"],
+            ["partners", "Partneri (B2B)"],
+            ["orders", "B2B narudžbe"],
+            ["kupci", "Kupci (retail)"],
             ["stats", "Statistika"],
           ].map(([k, l]) => (
             <button
