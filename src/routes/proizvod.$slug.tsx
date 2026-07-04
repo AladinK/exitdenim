@@ -130,20 +130,22 @@ function ProductDetail() {
 
           <div className="mt-10 flex items-end justify-between gap-8 border-t border-foreground/20 pt-6">
             <div>
-              <div className="eyebrow">Велепродаја</div>
-              {approved ? (
-                <div className="serif text-5xl mt-2 tabular-nums">€{Number(product.wholesale).toFixed(0)}</div>
-              ) : (
-                <div className="mt-2 inline-flex items-center gap-2 border border-border px-3 py-2 text-xs uppercase tracking-[0.22em] text-muted-foreground">
-                  <Lock className="w-3.5 h-3.5" /> Само за B2B партнере
-                </div>
-              )}
+              <div className="eyebrow">Малопродаја</div>
+              <div className="serif text-5xl mt-2 tabular-nums">{Number(product.retail).toLocaleString("sr-RS")} <span className="text-2xl text-muted-foreground">дин</span></div>
             </div>
-            <div className="text-right">
-              <div className="eyebrow">Препоручена МПЦ</div>
-              <div className="serif text-3xl mt-2 tabular-nums text-foreground/70">{Number(product.retail).toLocaleString("sr-RS")} дин</div>
-            </div>
+            {approved && (
+              <div className="text-right">
+                <div className="eyebrow">B2B</div>
+                <div className="serif text-3xl mt-2 tabular-nums text-accent">€{Number(product.wholesale).toFixed(0)}</div>
+              </div>
+            )}
           </div>
+
+          {/* Retail purchase — anyone */}
+          <div className="mt-6">
+            <AddToCart product={product} />
+          </div>
+
 
           <dl className="mt-10 grid grid-cols-2 gap-y-5 gap-x-8 text-sm">
             <Spec label="Крој" value={product.fit} />
