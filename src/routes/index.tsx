@@ -41,8 +41,9 @@ function HomePage() {
   const fetchAssets = useServerFn(getHomeAssets);
   const [assets, setAssets] = useState<Record<string, { url: string; alt: string | null }>>({});
   useEffect(() => { fetchAssets({}).then(setAssets).catch(() => {}); }, []); // eslint-disable-line
-  const img = (k: string, fb: string) => assets[k]?.url || fb;
+  const img = (k: string) => assets[k]?.url || "";
   const alt = (k: string, fb: string) => assets[k]?.alt || fb;
+
 
   return (
     <Layout>
