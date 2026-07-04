@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowRight, Check, Lock, Truck, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Reveal } from "@/components/Reveal";
-import { Seal } from "@/components/Seal";
+
 import { getHomeAssets } from "@/lib/site-assets.functions";
 import heroImg from "@/assets/exit-hero-poster.png.asset.json";
 import workshopImg from "@/assets/exit-atelier.png.asset.json";
