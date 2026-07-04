@@ -82,6 +82,7 @@ function Admin() {
   const reload = async () => {
     if (tab === "partners") setPartners(await fetchPartners({}));
     if (tab === "orders") setOrders(await fetchOrders({}));
+    if (tab === "kupci") setCustomerOrders(await fetchCustomerOrders({}));
     if (tab === "products") setProducts((await fetchProducts({})) as AdminProduct[]);
     if (tab === "stats") setStats(await fetchStats({}));
     if (tab === "home") setSiteAssets(await fetchSiteAssets({}));
