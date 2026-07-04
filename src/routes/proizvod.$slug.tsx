@@ -178,7 +178,7 @@ function ProductDetail() {
         <div className="container-x">
           <div className="eyebrow">Још из линије {product.category}</div>
           <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-12">
-            {related.map((p) => <ProductCard key={p.id} product={p} showPrice={approved} />)}
+            {related.map((p) => <ProductCard key={p.id} product={p} showB2B={approved} />)}
           </div>
         </div>
       </section>

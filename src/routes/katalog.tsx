@@ -92,7 +92,7 @@ function Katalog() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-14">
-            {filtered.map((p) => <ProductCard key={p.id} product={p} showPrice={approved} />)}
+            {filtered.map((p) => <ProductCard key={p.id} product={p} showB2B={approved} />)}
           </div>
 
           {filtered.length === 0 && (
