@@ -171,50 +171,59 @@ export function Navbar() {
 
       </div>
 
-      {open && (
-        <div className="lg:hidden fixed inset-0 top-0 z-50 bg-background flex flex-col animate-fade-up">
-          <div className="container-x flex items-center justify-between h-16 border-b border-border">
-            <Logo className="h-8" />
-            <button onClick={() => setOpen(false)} aria-label="Затвори мени" className="inline-flex items-center justify-center w-10 h-10 rounded-md hover:bg-secondary text-foreground">
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-          <nav className="container-x flex-1 overflow-y-auto py-6 flex flex-col gap-1">
-            {NAV.map((n) => (
-              <Link
-                key={n.to}
-                to={n.to}
-                onClick={() => setOpen(false)}
-                className="text-lg font-medium py-3 px-3 rounded-md hover:bg-secondary"
-              >
-                {n.label}
-              </Link>
-            ))}
-            {user && profile?.isAdmin && (
-              <Link to="/admin" onClick={() => setOpen(false)} className="text-lg font-medium py-3 px-3 rounded-md text-accent hover:bg-secondary">Админ панел</Link>
-            )}
-            {user && isApproved && (
-              <Link to="/narudzba" onClick={() => setOpen(false)} className="text-lg font-medium py-3 px-3 rounded-md hover:bg-secondary">Моја поруџбина</Link>
-            )}
-          </nav>
-          <div className="container-x border-t border-border py-4">
-            {user ? (
-              <button onClick={() => { signOut(); setOpen(false); }} className="btn-outline w-full">
+      <div
+        id="mobile-menu"
+        className={`lg:hidden overflow-hidden border-t bg-background transition-[max-height,opacity] duration-300 ease-out ${
+          open ? "max-h-[80vh] opacity-100 border-border" : "max-h-0 opacity-0 border-transparent"
+        }`}
+      >
+        <nav className="container-x py-2 flex flex-col">
+          {NAV.map((n) => (
+            <Link
+              key={n.to}
+              to={n.to}
+              onClick={() => setOpen(false)}
+              className="text-[15px] font-medium py-3 px-2 border-b border-border/60 hover:bg-secondary rounded-sm"
+              activeProps={{ className: "text-foreground" }}
+              activeOptions={{ exact: n.to === "/" }}
+            >
+              {n.label}
+            </Link>
+          ))}
+          {user && profile?.isAdmin && (
+            <Link to="/admin" onClick={() => setOpen(false)} className="text-[15px] font-medium py-3 px-2 border-b border-border/60 text-accent hover:bg-secondary rounded-sm flex items-center gap-2">
+              <Shield className="w-4 h-4" /> Админ панел
+            </Link>
+          )}
+          {user && isApproved && (
+            <Link to="/narudzba" onClick={() => setOpen(false)} className="text-[15px] font-medium py-3 px-2 border-b border-border/60 hover:bg-secondary rounded-sm flex items-center gap-2">
+              <ShoppingBag className="w-4 h-4" /> Моја поруџбина
+            </Link>
+          )}
+        </nav>
+        <div className="container-x py-3">
+          {user ? (
+            <div className="flex items-center justify-between gap-3">
+              <div className="min-w-0">
+                <div className="text-[11px] uppercase tracking-wider text-muted-foreground">Пријављени</div>
+                <div className="text-sm font-semibold truncate">{displayName}</div>
+              </div>
+              <button onClick={() => { signOut(); setOpen(false); }} className="btn-outline shrink-0">
                 <LogOut className="w-4 h-4" /> Одјава
               </button>
-            ) : (
-              <div className="flex flex-col gap-2">
-                <Link to="/postani-partner" onClick={() => setOpen(false)} className="btn-primary w-full">
-                  Затражите B2B приступ
-                </Link>
-                <Link to="/auth" onClick={() => setOpen(false)} className="btn-outline w-full">
-                  Пријава
-                </Link>
-              </div>
-            )}
-          </div>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <Link to="/postani-partner" onClick={() => setOpen(false)} className="btn-primary w-full">
+                Затражите B2B приступ
+              </Link>
+              <Link to="/auth" onClick={() => setOpen(false)} className="btn-outline w-full">
+                Пријава
+              </Link>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </header>
   );
 }
