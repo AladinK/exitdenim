@@ -6,12 +6,7 @@ import { Layout } from "@/components/Layout";
 import { Reveal } from "@/components/Reveal";
 
 import { getHomeAssets } from "@/lib/site-assets.functions";
-import heroImg from "@/assets/exit-hero-poster.png.asset.json";
-import workshopImg from "@/assets/exit-atelier.png.asset.json";
-import productJeans from "@/assets/exit-lifestyle-jeans.png.asset.json";
-import productChino from "@/assets/exit-chino-navy.png.asset.json";
-import productCargo from "@/assets/exit-chino-taupe.png.asset.json";
-import lookbookImg from "@/assets/exit-lookbook-cargo.png.asset.json";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -46,8 +41,9 @@ function HomePage() {
   const fetchAssets = useServerFn(getHomeAssets);
   const [assets, setAssets] = useState<Record<string, { url: string; alt: string | null }>>({});
   useEffect(() => { fetchAssets({}).then(setAssets).catch(() => {}); }, []); // eslint-disable-line
-  const img = (k: string, fb: string) => assets[k]?.url || fb;
+  const img = (k: string) => assets[k]?.url || "";
   const alt = (k: string, fb: string) => assets[k]?.alt || fb;
+
 
   return (
     <Layout>
@@ -88,14 +84,17 @@ function HomePage() {
             {/* 1. LOOK 01 — dominant editorial 7×4 */}
             <Reveal delay={1} className="md:col-span-7 md:row-span-4 h-full min-h-[420px]">
               <div className="relative overflow-hidden rounded-sm bg-secondary group h-full w-full">
-                <img
-                  src={img("hero", heroImg.url)}
-                  alt={alt("hero", "EXIT Denim SS кампања")}
-                  fetchPriority="high"
-                  decoding="async"
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
-                />
+                {img("hero") && (
+                  <img
+                    src={img("hero")}
+                    alt={alt("hero", "EXIT Denim SS кампања")}
+                    fetchPriority="high"
+                    decoding="async"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
+                  />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/0 to-black/0" />
+
                 <div className="absolute top-5 left-5 right-5 flex items-center justify-between text-[10px] uppercase tracking-[0.3em] text-white/90 mono">
                   <span>Look 01</span>
                   <span>EX-101</span>
@@ -140,13 +139,16 @@ function HomePage() {
             {/* 4. LOOKBOOK 04 — 3×2 */}
             <Reveal delay={3} className="md:col-span-3 md:row-span-2 h-full min-h-[200px]">
               <div className="relative overflow-hidden rounded-sm bg-secondary group h-full w-full">
-                <img
-                  src={lookbookImg.url}
-                  alt="Карго крој — лукбук"
-                  loading="lazy"
-                  decoding="async"
-                  className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-[900ms] ease-out group-hover:scale-[1.05]"
-                />
+                {img("lookbook") && (
+                  <img
+                    src={img("lookbook")}
+                    alt={alt("lookbook", "Карго крој — лукбук")}
+                    loading="lazy"
+                    decoding="async"
+                    className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-[900ms] ease-out group-hover:scale-[1.05]"
+                  />
+                )}
+
                 <div className="absolute top-4 left-4 text-[10px] uppercase tracking-[0.3em] text-white/90 mono mix-blend-difference">
                   Лукбук 04
                 </div>
@@ -285,7 +287,12 @@ function HomePage() {
         <div className="container-x grid lg:grid-cols-2 gap-12 items-center">
           <Reveal>
             <div className="rounded-2xl overflow-hidden border border-border aspect-[4/5]">
-              <img src={img("workshop", workshopImg.url)} alt={alt("workshop", "EXIT Denim атеље у Новом Пазару")} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+              {img("workshop") ? (
+                <img src={img("workshop")} alt={alt("workshop", "EXIT Denim атеље у Новом Пазару")} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full bg-secondary" />
+              )}
+
             </div>
           </Reveal>
           <Reveal delay={1}>
