@@ -14,6 +14,116 @@ export type Database = {
   }
   public: {
     Tables: {
+      customer_order_items: {
+        Row: {
+          created_at: string
+          id: string
+          order_id: string
+          product_id: string
+          product_name: string
+          product_sku: string
+          quantity: number
+          size: string
+          unit_price: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          order_id: string
+          product_id: string
+          product_name: string
+          product_sku: string
+          quantity: number
+          size: string
+          unit_price: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          order_id?: string
+          product_id?: string
+          product_name?: string
+          product_sku?: string
+          quantity?: number
+          size?: string
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "customer_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      customer_orders: {
+        Row: {
+          created_at: string
+          customer_email: string
+          customer_name: string
+          customer_phone: string
+          id: string
+          note: string | null
+          order_number: string
+          payment_method: string
+          shipping_address: string
+          shipping_city: string
+          shipping_cost: number
+          shipping_country: string
+          shipping_method: string
+          shipping_postal: string
+          status: Database["public"]["Enums"]["customer_order_status"]
+          subtotal: number
+          total: number
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          customer_email: string
+          customer_name: string
+          customer_phone: string
+          id?: string
+          note?: string | null
+          order_number?: string
+          payment_method?: string
+          shipping_address: string
+          shipping_city: string
+          shipping_cost?: number
+          shipping_country?: string
+          shipping_method?: string
+          shipping_postal: string
+          status?: Database["public"]["Enums"]["customer_order_status"]
+          subtotal?: number
+          total?: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          customer_email?: string
+          customer_name?: string
+          customer_phone?: string
+          id?: string
+          note?: string | null
+          order_number?: string
+          payment_method?: string
+          shipping_address?: string
+          shipping_city?: string
+          shipping_cost?: number
+          shipping_country?: string
+          shipping_method?: string
+          shipping_postal?: string
+          status?: Database["public"]["Enums"]["customer_order_status"]
+          subtotal?: number
+          total?: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       order_items: {
         Row: {
           created_at: string
@@ -395,6 +505,12 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "partner"
+      customer_order_status:
+        | "pending"
+        | "confirmed"
+        | "shipped"
+        | "delivered"
+        | "cancelled"
       order_status:
         | "draft"
         | "submitted"
@@ -532,6 +648,13 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "partner"],
+      customer_order_status: [
+        "pending",
+        "confirmed",
+        "shipped",
+        "delivered",
+        "cancelled",
+      ],
       order_status: ["draft", "submitted", "confirmed", "shipped", "cancelled"],
       partner_status: ["pending", "approved", "rejected"],
       product_category: ["jeans", "chino", "cargo"],
