@@ -5,9 +5,11 @@ import { useServerFn } from "@tanstack/react-start";
 import { Layout } from "@/components/Layout";
 import { SizeMatrix } from "@/components/SizeMatrix";
 import { ProductCard } from "@/components/ProductCard";
+import { AddToCart } from "@/components/AddToCart";
 import { getProductBySlug, listProducts, type ProductWithStock } from "@/lib/products.functions";
 import { getMyProfile } from "@/lib/orders.functions";
 import { useAuth } from "@/hooks/useAuth";
+
 
 export const Route = createFileRoute("/proizvod/$slug")({
   notFoundComponent: () => (
