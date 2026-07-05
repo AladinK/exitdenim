@@ -66,8 +66,9 @@ export function Hero() {
           <div className="md:col-span-4 md:pl-6 md:border-l md:border-[color:var(--ivory)]/15">
             <FadeUp delay={0.35}>
               <p className="text-[15px] leading-[1.55] text-[color:var(--ivory)]/75 max-w-sm">
-                Затворена платформа за одабране партнере — стабилни кројеви, поуздана
-                испорука, марже 2.4–2.8×.
+                Мала породична производња у Новом Пазару. Радимо са бутицима који
+                желе стабилан крој, поштен рок и марже 2.4–2.8×. Без агената,
+                без притиска, без сезонских промена кроја.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
                 <Magnetic strength={0.28}>
@@ -86,6 +87,9 @@ export function Hero() {
                   Погледајте каталог
                 </Link>
               </div>
+              <p className="mt-4 text-[10.5px] uppercase tracking-[0.22em] mono text-[color:var(--ivory)]/45">
+                Пријава без обавезе куповине · одговор у 24h
+              </p>
             </FadeUp>
           </div>
         </div>
@@ -95,7 +99,7 @@ export function Hero() {
             <div>MOQ · 10 ком</div>
             <div>Испорука · 15–25 дана</div>
             <div>Марже · 2.4–2.8×</div>
-            <div className="md:text-right">180+ бутика у региону</div>
+            <div className="md:text-right">Произведено у Србији</div>
           </div>
         </FadeUp>
       </div>

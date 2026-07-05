@@ -88,33 +88,37 @@ function HomePage() {
               </div>
             </Reveal>
 
-            {/* 2. QUOTE — 5×2 */}
+            {/* 2. PRINCIP ATELJEA — не лажни цитат, него принцип производње */}
             <Reveal delay={2} className="md:col-span-5 md:row-span-2 h-full min-h-[200px]">
               <div className="relative overflow-hidden rounded-sm border border-border bg-background p-8 md:p-10 flex flex-col justify-center h-full w-full">
-                <div className="text-accent/25 mb-4 leading-none text-6xl serif-accent select-none">"</div>
-                <p className="serif-accent italic text-[22px] md:text-[26px] leading-[1.2] text-foreground">
-                  Кројеви који се не мењају из сезоне у сезону — само постају бољи.
-                </p>
-                <div className="mt-6 text-[10px] mono uppercase tracking-[0.3em] text-muted-foreground font-semibold">
-                  Милан В. · Београд
+                <div className="mono text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+                  Принцип атељеа
                 </div>
+                <p className="mt-5 serif-accent text-[22px] md:text-[26px] leading-[1.22] text-foreground">
+                  Крој који не мора да се брани сваке сезоне.
+                </p>
+                <p className="mt-4 text-[13px] leading-[1.55] text-muted-foreground max-w-[42ch]">
+                  Радимо у малим серијама, са сталним тимом. Модел који је ушао у каталог
+                  остаје — усавршава се, не мења без разлога.
+                </p>
               </div>
             </Reveal>
 
-            {/* 3. STAT — 2×2 olive */}
+            {/* 3. STAT — реалан број, не vanity metric */}
             <Reveal delay={2} className="md:col-span-2 md:row-span-2 h-full min-h-[200px]">
               <div className="relative overflow-hidden rounded-sm bg-accent text-accent-foreground p-6 md:p-7 flex flex-col justify-between h-full w-full">
                 <div className="w-8 h-px bg-accent-foreground/40" />
                 <div>
                   <div className="text-5xl md:text-6xl font-bold tracking-tight tabular-nums leading-none">
-                    <CountUp to={180} suffix="+" />
+                    <CountUp to={10} />
                   </div>
-                  <p className="mt-3 text-[10px] uppercase tracking-[0.22em] leading-relaxed opacity-80 mono">
-                    Бутика у<br />региону
+                  <p className="mt-3 text-[10px] uppercase tracking-[0.22em] leading-relaxed opacity-85 mono">
+                    MOQ<br />по моделу
                   </p>
                 </div>
               </div>
             </Reveal>
+
 
             {/* 4. LOOKBOOK 04 — 3×2 */}
             <Reveal delay={3} className="md:col-span-3 md:row-span-2 h-full min-h-[200px]">
@@ -190,8 +194,9 @@ function HomePage() {
                   <h4 className="text-2xl md:text-[28px] serif-accent leading-[1.1]">
                     Отворите <span className="italic text-accent">B2B</span> налог
                   </h4>
-                  <p className="mt-3 text-[12px] text-white/50 leading-relaxed max-w-[240px]">
+                  <p className="mt-3 text-[12px] text-white/55 leading-relaxed max-w-[240px]">
                     Приступ каталогу, B2B ценама и line-sheet PDF-у.
+                    Пријава без обавезе куповине.
                   </p>
                   <div className="mt-6 inline-flex items-center gap-3">
                     <span className="text-[10px] font-semibold uppercase tracking-[0.3em] pb-1 border-b border-white/20 group-hover:border-accent transition-colors">
@@ -201,6 +206,7 @@ function HomePage() {
                 </div>
               </Link>
             </Reveal>
+
 
 
           </div>
@@ -215,18 +221,19 @@ function HomePage() {
             </div>
           </div>
 
-          {/* logo strip */}
+          {/* delivery area — службено подручје испоруке, не листа референци */}
           <div className="mt-10 border-t border-b border-border">
             <div className="py-4 flex flex-nowrap overflow-x-auto md:flex-wrap items-center justify-start md:justify-between gap-y-3 gap-x-8 text-[10.5px] md:text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium scrollbar-none">
-              <span className="shrink-0">Поверење партнера</span>
-              <span className="shrink-0">Београд</span>
-              <span className="shrink-0">Сарајево</span>
-              <span className="shrink-0">Подгорица</span>
-              <span className="shrink-0">Скопље</span>
-              <span className="shrink-0">Загреб</span>
-              <span className="shrink-0">Љубљана</span>
+              <span className="shrink-0">Испорука · регион</span>
+              <span className="shrink-0">Србија</span>
+              <span className="shrink-0">БиХ</span>
+              <span className="shrink-0">Црна Гора</span>
+              <span className="shrink-0">С. Македонија</span>
+              <span className="shrink-0">Хрватска</span>
+              <span className="shrink-0">Словенија</span>
             </div>
           </div>
+
         </div>
       </section>
 
