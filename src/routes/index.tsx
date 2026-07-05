@@ -8,7 +8,6 @@ import { Hero } from "@/components/hero/Hero";
 
 import { getHomeAssets } from "@/lib/site-assets.functions";
 import lookbookAsset from "@/assets/lookbook-ss26.png.asset.json";
-import denimTexture from "@/assets/denim-texture.jpg.asset.json";
 
 
 
@@ -52,30 +51,43 @@ function HomePage() {
 
   return (
     <Layout>
-      {/* Global premium denim texture — fixed behind content */}
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 z-0"
-        style={{
-          backgroundImage: `url(${denimTexture.url})`,
-          backgroundSize: "520px 520px",
-          backgroundRepeat: "repeat",
-        }}
-      />
-      {/* Warm ivory wash so type stays legible without hiding the weave */}
+      {/* Premium editorial atmosphere: warm cream base + soft indigo halo + hairline grid + fine grain */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 z-0 bg-[var(--ivory)]" />
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 z-0"
         style={{
           background:
-            "linear-gradient(180deg, color-mix(in oklab, var(--ivory) 78%, transparent) 0%, color-mix(in oklab, var(--background) 70%, transparent) 100%)",
+            "radial-gradient(70% 55% at 18% 8%, color-mix(in oklab, var(--indigo) 14%, transparent) 0%, transparent 60%)," +
+            "radial-gradient(60% 50% at 92% 6%, color-mix(in oklab, var(--gold) 10%, transparent) 0%, transparent 55%)," +
+            "radial-gradient(80% 60% at 50% 100%, color-mix(in oklab, var(--ecru-deep) 55%, transparent) 0%, transparent 65%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 z-0 opacity-[0.35]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, color-mix(in oklab, var(--ink) 6%, transparent) 1px, transparent 1px)," +
+            "linear-gradient(to bottom, color-mix(in oklab, var(--ink) 6%, transparent) 1px, transparent 1px)",
+          backgroundSize: "72px 72px",
+          maskImage: "radial-gradient(ellipse 90% 70% at 50% 20%, black 30%, transparent 85%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 z-0 opacity-[0.5] mix-blend-multiply"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.08  0 0 0 0 0.09  0 0 0 0 0.12  0 0 0 0.18 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
+          backgroundSize: "220px 220px",
         }}
       />
       <div className="relative z-10">
 
-
-
       <Hero />
+
+
 
 
 
