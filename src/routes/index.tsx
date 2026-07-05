@@ -263,6 +263,8 @@ function HomePage() {
           </Reveal>
         </div>
       </section>
+      </div>
     </Layout>
+
   );
 }
