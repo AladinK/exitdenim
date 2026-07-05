@@ -73,15 +73,15 @@ export function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-40 transition-all duration-300 ${
+      className={`sticky top-0 z-40 transition-all duration-500 ${
         scrolled
-          ? "bg-background/85 backdrop-blur-lg border-b border-border"
-          : "bg-background/60 backdrop-blur-md border-b border-transparent"
+          ? "bg-background/90 backdrop-blur-xl border-b border-border"
+          : "bg-transparent border-b border-transparent"
       }`}
     >
-      <div className="container-x flex items-center justify-between h-16">
+      <div className={`container-x flex items-center justify-between transition-all duration-500 ${scrolled ? "h-14" : "h-20"}`}>
         <Link to="/" className="flex items-center" onClick={() => setOpen(false)} aria-label="EXIT Denim — Почетна">
-          <Logo className="h-8" />
+          <Logo className={`transition-all duration-500 ${scrolled ? "h-6" : "h-8"}`} />
         </Link>
 
         <nav className="hidden lg:flex items-center gap-1">
