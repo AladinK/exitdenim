@@ -4,6 +4,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { ArrowRight, Check } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Reveal } from "@/components/Reveal";
+import { Hero } from "@/components/hero/Hero";
+import { FadeUp, RevealLines } from "@/components/RevealText";
 
 import { getHomeAssets } from "@/lib/site-assets.functions";
 import lookbookAsset from "@/assets/lookbook-ss26.png.asset.json";
@@ -49,34 +51,10 @@ function HomePage() {
 
   return (
     <Layout>
-      {/* ───────── EDITORIAL HERO ───────── */}
-      <section className="relative">
-        <div className="container-x pt-10 md:pt-16 pb-8 md:pb-12">
-          <Reveal>
-            <div className="flex items-center justify-between gap-6 text-[10px] uppercase tracking-[0.3em] text-muted-foreground mono">
-              <span className="inline-flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-accent" /> SS · 2026
-              </span>
-              <span>Нови Пазар — RS</span>
-            </div>
-          </Reveal>
-          <Reveal delay={1}>
-            <h1 className="mt-10 md:mt-14 h1-editorial max-w-[16ch]">
-              Деним створен за <span className="serif-accent italic text-accent">бутике</span>.
-            </h1>
-          </Reveal>
-          <Reveal delay={2}>
-            <div className="mt-8 md:mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
-              <Link to="/postani-partner" className="btn-accent">
-                Затражите приступ <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link to="/katalog" className="text-sm uppercase tracking-[0.2em] font-medium link-underline">
-                Каталог
-              </Link>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      {/* ───────── SIGNATURE WEBGL HERO ───────── */}
+      <Hero />
+
+
 
       {/* ───────── EDITORIAL BENTO — 12-col ───────── */}
       <section className="relative">

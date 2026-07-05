@@ -39,23 +39,27 @@
 }
 
 :root {
-  --radius: 4px;
+  --radius: 2px;
 
-  /* EXIT Denim — Cucinelli inspirisana paleta (cashmere, ivory, taupe, sage-green) */
-  --ink: #1B1A17;             /* topli soft black */
-  --navy: #2A2823;            /* warm espresso */
-  --taupe: #8C8377;
-  --cashmere: #E8DFD2;
+  /* EXIT Denim — refined editorial palette (cream base, raw-indigo, ecru, ink) */
+  --ink: #0D0D0C;             /* near-black for type */
+  --navy: #14203A;            /* deep denim shadow */
+  --indigo: #1A2A48;          /* raw denim indigo — signature */
+  --indigo-deep: #0F1B33;
+  --ecru: #E9E1D0;            /* undyed weft */
+  --ecru-deep: #D8CEB8;
+  --cashmere: #EDE6D6;
   --ivory: #F5F0E7;
-  --ivory-deep: #EDE6D8;
-  --brand-green: #6B7F4A;     /* prigušeno sage-green, brend potpis */
-  --brand-green-deep: #4F6135;
+  --ivory-deep: #EDE6D6;
+  --taupe: #8C8377;
   --gold: #B89968;
-  --teal: var(--brand-green);
-  --violet: var(--brand-green);
+  --brand-green: #6B7F4A;
+  --brand-green-deep: #4F6135;
+  --teal: var(--indigo);
+  --violet: var(--indigo);
   --surface: var(--ivory);
 
-  --background: #FBF8F2;       /* topla ivory pozadina */
+  --background: #FBF8F2;
   --foreground: var(--ink);
   --card: #FFFFFF;
   --card-foreground: var(--ink);
@@ -66,14 +70,14 @@
   --secondary: var(--ivory-deep);
   --secondary-foreground: var(--ink);
   --muted: var(--ivory-deep);
-  --muted-foreground: #6B655B;
-  --accent: var(--brand-green);
-  --accent-foreground: #FFFFFF;
+  --muted-foreground: #5A5449;
+  --accent: var(--indigo);
+  --accent-foreground: var(--ivory);
   --destructive: #9B3A2A;
   --destructive-foreground: #FFFFFF;
   --border: #DFD7C7;
   --input: #DFD7C7;
-  --ring: var(--brand-green-deep);
+  --ring: var(--indigo);
 }
 
 
@@ -109,19 +113,22 @@
     letter-spacing: -0.011em;
   }
   h1, h2, h3, h4 {
-    font-family: var(--font-sans);
-    font-weight: 700;
-    letter-spacing: -0.035em;
-    line-height: 1.04;
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
     color: var(--color-foreground);
-    font-feature-settings: "ss01", "ss02", "ss03", "kern";
     text-wrap: balance;
   }
-  h1 { letter-spacing: -0.045em; font-weight: 800; }
-  h2 { letter-spacing: -0.038em; font-weight: 700; }
-  h3, h4 { letter-spacing: -0.022em; font-weight: 600; }
-  .serif-accent { font-family: var(--font-display); font-weight: 400; font-style: italic; letter-spacing: -0.02em; }
-  ::selection { background: color-mix(in oklab, var(--color-accent) 35%, transparent); color: var(--color-foreground); }
+  h1 { letter-spacing: -0.028em; }
+  h2 { letter-spacing: -0.022em; }
+  h3, h4 { font-family: var(--font-sans); font-weight: 600; letter-spacing: -0.015em; }
+  .serif-accent { font-family: var(--font-display); font-weight: 400; font-style: italic; letter-spacing: -0.015em; }
+  ::selection { background: color-mix(in oklab, var(--color-accent) 30%, transparent); color: var(--color-foreground); }
+
+  /* Custom cursor mode — hide native cursor on interactive elements too */
+  html.has-custom-cursor,
+  html.has-custom-cursor * { cursor: none !important; }
 
   /* Consistent focus ring across all interactive elements */
   :where(a, button, [role="button"], input, textarea, select, summary):focus-visible {
@@ -135,12 +142,13 @@
   img { image-rendering: -webkit-optimize-contrast; }
 }
 
-/* Editorial hero H1 — consistent scale across every hero on the public site */
+/* Editorial hero H1 — display serif, oversized */
 @utility h1-editorial {
-  font-size: clamp(2.25rem, 5.2vw, 4.25rem);
-  line-height: 1.02;
-  letter-spacing: -0.045em;
-  font-weight: 800;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.75rem, 8vw, 6.5rem);
+  line-height: 0.96;
+  letter-spacing: -0.02em;
   text-wrap: balance;
 }
 

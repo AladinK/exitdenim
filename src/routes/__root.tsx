@@ -14,6 +14,8 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "@/hooks/useAuth";
 import { CartProvider } from "@/hooks/useCart";
 import { CartDrawer } from "@/components/CartDrawer";
+import { SmoothScroll } from "@/components/SmoothScroll";
+import { Cursor } from "@/components/Cursor";
 
 
 function NotFoundComponent() {
@@ -138,8 +140,11 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <CartProvider>
-          <Outlet />
+          <SmoothScroll>
+            <Outlet />
+          </SmoothScroll>
           <CartDrawer />
+          <Cursor />
         </CartProvider>
       </AuthProvider>
     </QueryClientProvider>
