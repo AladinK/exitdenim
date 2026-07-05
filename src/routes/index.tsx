@@ -59,8 +59,10 @@ function HomePage() {
         style={{
           background:
             "radial-gradient(70% 55% at 18% 8%, color-mix(in oklab, var(--indigo) 14%, transparent) 0%, transparent 60%)," +
-            "radial-gradient(60% 50% at 92% 6%, color-mix(in oklab, var(--gold) 10%, transparent) 0%, transparent 55%)," +
+            "radial-gradient(55% 45% at 88% 12%, color-mix(in oklab, var(--brand-green) 16%, transparent) 0%, transparent 55%)," +
+            "radial-gradient(50% 40% at 8% 88%, color-mix(in oklab, var(--brand-green-deep) 12%, transparent) 0%, transparent 60%)," +
             "radial-gradient(80% 60% at 50% 100%, color-mix(in oklab, var(--ecru-deep) 55%, transparent) 0%, transparent 65%)",
+
         }}
       />
       <div
