@@ -71,7 +71,7 @@
   --secondary-foreground: var(--ink);
   --muted: var(--ivory-deep);
   --muted-foreground: #5A5449;
-  --accent: var(--indigo);
+  --accent: var(--brand-green);
   --accent-foreground: var(--ivory);
   --destructive: #9B3A2A;
   --destructive-foreground: #FFFFFF;
