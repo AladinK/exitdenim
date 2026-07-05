@@ -52,26 +52,27 @@ function HomePage() {
 
   return (
     <Layout>
-      {/* Global premium denim texture — fixed */}
+      {/* Global premium denim texture — fixed behind content */}
       <div
         aria-hidden
-        className="pointer-events-none fixed inset-0 -z-10"
+        className="pointer-events-none fixed inset-0 z-0"
         style={{
           backgroundImage: `url(${denimTexture.url})`,
           backgroundSize: "520px 520px",
           backgroundRepeat: "repeat",
-          backgroundAttachment: "fixed",
         }}
       />
       {/* Warm ivory wash so type stays legible without hiding the weave */}
       <div
         aria-hidden
-        className="pointer-events-none fixed inset-0 -z-10"
+        className="pointer-events-none fixed inset-0 z-0"
         style={{
           background:
-            "linear-gradient(180deg, color-mix(in oklab, var(--ivory) 82%, transparent) 0%, color-mix(in oklab, var(--background) 74%, transparent) 100%)",
+            "linear-gradient(180deg, color-mix(in oklab, var(--ivory) 78%, transparent) 0%, color-mix(in oklab, var(--background) 70%, transparent) 100%)",
         }}
       />
+      <div className="relative z-10">
+
 
 
       <Hero />
