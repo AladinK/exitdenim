@@ -76,7 +76,7 @@ export function Navbar() {
       className={`sticky top-0 z-40 transition-all duration-500 ${
         scrolled
           ? "bg-background/90 backdrop-blur-xl border-b border-border"
-          : "bg-transparent border-b border-transparent"
+          : "bg-background/70 backdrop-blur-md border-b border-transparent"
       }`}
     >
       <div className={`container-x flex items-center justify-between transition-all duration-500 ${scrolled ? "h-14" : "h-20"}`}>
