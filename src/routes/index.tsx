@@ -52,27 +52,27 @@ function HomePage() {
 
   return (
     <Layout>
-      {/* Global premium denim texture — fixed, filtered, with warm ivory wash */}
+      {/* Global premium denim texture — fixed */}
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 -z-10"
         style={{
           backgroundImage: `url(${denimTexture.url})`,
-          backgroundSize: "620px 620px",
+          backgroundSize: "520px 520px",
           backgroundRepeat: "repeat",
           backgroundAttachment: "fixed",
-          filter: "saturate(0.55) contrast(0.95) brightness(0.98)",
-          opacity: 0.22,
         }}
       />
+      {/* Warm ivory wash so type stays legible without hiding the weave */}
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 -z-10"
         style={{
           background:
-            "radial-gradient(120% 80% at 50% 0%, color-mix(in oklab, var(--ivory) 88%, transparent) 0%, color-mix(in oklab, var(--background) 92%, transparent) 55%, color-mix(in oklab, var(--background) 96%, transparent) 100%)",
+            "linear-gradient(180deg, color-mix(in oklab, var(--ivory) 82%, transparent) 0%, color-mix(in oklab, var(--background) 74%, transparent) 100%)",
         }}
       />
+
 
       <Hero />
 
