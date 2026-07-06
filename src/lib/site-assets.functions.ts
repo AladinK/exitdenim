@@ -5,10 +5,15 @@ import { z } from "zod";
 
 export const HOME_ASSET_KEYS = [
   "hero",
+  "hero_texture",
+  "lookbook",
   "workshop",
   "category_jeans",
   "category_chino",
   "category_cargo",
+  "logo",
+  "seal",
+  "page_proizvodnja",
 ] as const;
 export type HomeAssetKey = (typeof HOME_ASSET_KEYS)[number];
 

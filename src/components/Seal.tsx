@@ -1,4 +1,5 @@
 import sealAsset from "@/assets/exit-seal.png.asset.json";
+import { useSiteAsset } from "@/hooks/useSiteAsset";
 
 type Props = {
   className?: string;
@@ -12,8 +13,8 @@ type Props = {
  * Recolored via CSS filters so the same PNG mark works in any tone.
  */
 export function Seal({ className = "w-10 h-10", tone = "green", opacity = 1, title }: Props) {
+  const src = useSiteAsset("seal", sealAsset.url);
   const filterByTone: Record<NonNullable<Props["tone"]>, string> = {
-    // brand green ≈ #6FA03A
     green:
       "brightness(0) saturate(100%) invert(54%) sepia(45%) saturate(560%) hue-rotate(45deg) brightness(92%) contrast(86%)",
     ink: "brightness(0)",
@@ -21,7 +22,7 @@ export function Seal({ className = "w-10 h-10", tone = "green", opacity = 1, tit
   };
   return (
     <img
-      src={sealAsset.url}
+      src={src}
       alt={title ?? "EXIT brand mark"}
       aria-hidden={title ? undefined : true}
       className={className}
@@ -30,3 +31,4 @@ export function Seal({ className = "w-10 h-10", tone = "green", opacity = 1, tit
     />
   );
 }
+

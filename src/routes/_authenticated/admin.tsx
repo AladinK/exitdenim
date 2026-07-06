@@ -626,11 +626,16 @@ function Select({ label, v, options, onChange }: { label: string; v: string; opt
 // =========================================================================
 
 const HOME_SLOTS: { key: HomeAssetKey; title: string; desc: string; ratio: string }[] = [
-  { key: "hero", title: "Hero (naslovna)", desc: "Glavna slika u hero sekciji početne strane.", ratio: "aspect-[4/5]" },
-  { key: "workshop", title: "Atelier / Radionica", desc: "Slika u sekciji 'O nama / Atelier'.", ratio: "aspect-[4/5]" },
-  { key: "category_jeans", title: "Kategorija — Farmerke", desc: "Tile za kategoriju jeans.", ratio: "aspect-[4/5]" },
+  { key: "hero", title: "Hero (naslovna — bento)", desc: "Glavna slika u editorial bento sekciji početne strane.", ratio: "aspect-[4/5]" },
+  { key: "hero_texture", title: "Hero pozadina (denim tekstura)", desc: "Denim tekstura iza velikog naslova na vrhu početne.", ratio: "aspect-[16/9]" },
+  { key: "lookbook", title: "Lookbook tile", desc: "Slika u lookbook plocici na početnoj.", ratio: "aspect-[4/5]" },
+  { key: "workshop", title: "Atelier / Radionica", desc: "Slika u 'Atelier u Novom Pazaru' sekciji.", ratio: "aspect-[4/5]" },
+  { key: "category_jeans", title: "Kategorija — Farmerke", desc: "Tile za kategoriju farmerki.", ratio: "aspect-[4/5]" },
   { key: "category_chino", title: "Kategorija — Chino", desc: "Tile za kategoriju chino.", ratio: "aspect-[4/5]" },
   { key: "category_cargo", title: "Kategorija — Cargo", desc: "Tile za kategoriju cargo.", ratio: "aspect-[4/5]" },
+  { key: "logo", title: "Logo (navbar / footer)", desc: "PNG logo — koristi se u navigaciji i footeru.", ratio: "aspect-[3/1]" },
+  { key: "seal", title: "Brand pečat (chevron)", desc: "Watermark/pečat koji se koristi po sajtu.", ratio: "aspect-square" },
+  { key: "page_proizvodnja", title: "Stranica — Proizvodnja", desc: "Velika slika radionice na /proizvodnja stranici.", ratio: "aspect-[4/3]" },
 ];
 
 function HomeAssetsTab({
