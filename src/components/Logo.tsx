@@ -1,4 +1,5 @@
 import logoAsset from "@/assets/exit-logo.png.asset.json";
+import { useSiteAsset } from "@/hooks/useSiteAsset";
 
 type Variant = "dark" | "light";
 
@@ -17,12 +18,11 @@ export function Logo({
   compact?: boolean;
 }) {
   const isLight = variant === "light";
-  const ink = isLight ? "text-white" : "text-foreground";
-  const sub = isLight ? "text-white/55" : "text-muted-foreground";
+  const src = useSiteAsset("logo", logoAsset.url);
   return (
     <div className={`flex items-center ${className}`}>
       <img
-        src={logoAsset.url}
+        src={src}
         alt="EXIT Denim"
         className="h-15 sm:h-16 w-auto shrink-0"
         style={isLight ? { filter: "brightness(0) invert(1)", height: "60px" } : { filter: "brightness(0)", height: "60px" }}
@@ -30,3 +30,4 @@ export function Logo({
     </div>
   );
 }
+

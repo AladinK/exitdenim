@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
 import { Factory, ShieldCheck, Scissors, Truck } from "lucide-react";
 import workshopAsset from "@/assets/workshop.jpg.asset.json";
+import { useSiteAsset } from "@/hooks/useSiteAsset";
 
 export const Route = createFileRoute("/proizvodnja")({
   head: () => ({
@@ -14,6 +15,7 @@ export const Route = createFileRoute("/proizvodnja")({
 });
 
 function Proizvodnja() {
+  const workshopSrc = useSiteAsset("page_proizvodnja", workshopAsset.url);
   return (
     <Layout>
       <section className="bg-foreground text-background">
@@ -32,7 +34,7 @@ function Proizvodnja() {
       <section className="section-pad">
         <div className="container-x grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
           <div className="lg:col-span-7 aspect-[4/3] overflow-hidden bg-secondary">
-            <img src={workshopAsset.url} alt="EXIT Denim атеље" decoding="async" className="w-full h-full object-cover" />
+            <img src={workshopSrc} alt="EXIT Denim атеље" decoding="async" className="w-full h-full object-cover" />
           </div>
           <div className="lg:col-span-5">
             <div className="eyebrow">Чиме се квалитет држи</div>
