@@ -65,14 +65,3 @@ export function Hero() {
   );
 }
 
-function StaticFallback() {
-  return (
-    <div
-      className="absolute inset-0"
-      style={{
-        background:
-          "radial-gradient(120% 80% at 30% 20%, #24365a 0%, #172542 45%, #0e1830 80%), repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0 2px, transparent 2px 5px), repeating-linear-gradient(-45deg, rgba(0,0,0,0.10) 0 2px, transparent 2px 5px)",
-      }}
-    />
-  );
-}
