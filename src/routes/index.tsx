@@ -8,6 +8,9 @@ import { Hero } from "@/components/hero/Hero";
 
 import { getHomeAssets } from "@/lib/site-assets.functions";
 import lookbookAsset from "@/assets/lookbook-ss26.png.asset.json";
+import catDenim from "@/assets/cat-denim.jpg.asset.json";
+import catChino from "@/assets/cat-chino.jpg.asset.json";
+import catCargo from "@/assets/cat-cargo.jpg.asset.json";
 
 
 
@@ -88,6 +91,65 @@ function HomePage() {
       <div className="relative z-10">
 
       <Hero />
+
+      {/* ───────── КАТЕГОРИЈЕ ───────── */}
+      <section className="relative py-10 md:py-14">
+        <div className="container-x">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+            {[
+              { to: "/jeans", label: "DENIM", sub: "Стабилан крој. Брз обрт.", img: catDenim.url, tone: "dark" as const },
+              { to: "/chino", label: "CHINO", sub: "Чист изглед за сваки дан.", img: catChino.url, tone: "light" as const },
+              { to: "/cargo", label: "CARGO", sub: "Функционалан модел са јачим карактером.", img: catCargo.url, tone: "dark" as const },
+              { to: "/postani-partner", label: "B2B САРАДЊА", sub: "Веле­продаја за бутике.", img: null, tone: "green" as const, cta: "ПОСТАНИТЕ ДЕО EXIT DENIM ПРИЧЕ." },
+            ].map((c) => (
+              <Reveal key={c.label}>
+                <Link
+                  to={c.to}
+                  className="group relative block overflow-hidden rounded-sm aspect-[3/4] w-full"
+                >
+                  {c.img ? (
+                    <>
+                      <img
+                        src={c.img}
+                        alt={c.label}
+                        loading="lazy"
+                        decoding="async"
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.05]"
+                      />
+                      <div className={`absolute inset-0 ${c.tone === "dark" ? "bg-gradient-to-t from-black/70 via-black/25 to-black/10" : "bg-gradient-to-t from-black/25 via-white/0 to-white/10"}`} />
+                    </>
+                  ) : (
+                    <div className="absolute inset-0 bg-[color:var(--brand-green-deep,#4a5a2f)]" />
+                  )}
+                  <div className={`absolute inset-0 flex flex-col justify-between p-5 md:p-6 ${c.tone === "light" ? "text-[color:var(--ink)]" : "text-white"}`}>
+                    <div>
+                      <h3 className="text-xl md:text-2xl font-bold tracking-tight">{c.label}</h3>
+                      <p className={`mt-2 text-[13px] md:text-sm leading-snug max-w-[220px] ${c.tone === "light" ? "text-[color:var(--ink)]/75" : "text-white/85"}`}>
+                        {c.sub}
+                      </p>
+                    </div>
+                    <div className="flex items-end justify-between gap-4">
+                      {c.cta ? (
+                        <p className="text-[10px] md:text-[11px] uppercase tracking-[0.2em] leading-relaxed opacity-90 max-w-[180px]">
+                          {c.cta}
+                        </p>
+                      ) : <span />}
+                      <span className="w-9 h-9 flex items-center justify-center text-[color:var(--brand-green,#8aa35a)] transition-transform duration-500 group-hover:translate-x-1">
+                        <ArrowRight className="w-5 h-5" strokeWidth={2.25} />
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
+
+
+
 
 
 
