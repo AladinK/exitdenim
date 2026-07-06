@@ -8,6 +8,9 @@ import { Hero } from "@/components/hero/Hero";
 
 import { getHomeAssets } from "@/lib/site-assets.functions";
 import lookbookAsset from "@/assets/lookbook-ss26.png.asset.json";
+import catDenim from "@/assets/cat-denim.jpg.asset.json";
+import catChino from "@/assets/cat-chino.jpg.asset.json";
+import catCargo from "@/assets/cat-cargo.jpg.asset.json";
 
 
 
