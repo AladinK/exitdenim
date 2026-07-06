@@ -1,32 +1,24 @@
-import { Suspense, lazy, useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { RevealLines, FadeUp } from "@/components/RevealText";
 import { Magnetic } from "@/components/Magnetic";
-
-const DenimWeave = lazy(() => import("./DenimWeave"));
+import denimTexture from "@/assets/denim-hero.jpg.asset.json";
 
 export function Hero() {
-  const [enableGL, setEnableGL] = useState(false);
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!reduced) setEnableGL(true);
-  }, []);
-
   return (
-    <section className="relative isolate overflow-hidden bg-[#141d2f] text-[color:var(--ivory)]">
+    <section className="relative isolate overflow-hidden bg-[#0b1220] text-[color:var(--ivory)]">
       <div className="absolute inset-0 -z-10" aria-hidden>
-        {enableGL ? (
-          <Suspense fallback={<StaticFallback />}>
-            <DenimWeave />
-          </Suspense>
-        ) : (
-          <StaticFallback />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0d1526]/40 via-transparent to-[#0d1526]/85" />
-        <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_20%_30%,rgba(0,0,0,0.35),transparent_60%)]" />
+        <img
+          src={denimTexture.url}
+          alt=""
+          fetchPriority="high"
+          decoding="async"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0b1220]/55 via-[#0b1220]/35 to-[#0b1220]/90" />
+        <div className="absolute inset-0 bg-[radial-gradient(65%_55%_at_18%_28%,rgba(0,0,0,0.45),transparent_65%)]" />
       </div>
+
 
       <div className="container-x relative min-h-[92svh] flex flex-col justify-end pt-28 pb-16 md:pt-32 md:pb-24">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-y-10 md:gap-x-8 items-end">
