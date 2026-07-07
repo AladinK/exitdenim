@@ -6,8 +6,11 @@ export const Route = createFileRoute("/kontakt")({
   head: () => ({
     meta: [
       { title: "Контакт — EXIT Denim Wholesale" },
-      { name: "description", content: "Контакт EXIT Denim wholesale тима. Нови Пазар, Србија. E-mail, WhatsApp, Viber." },
+      { name: "description", content: "Контактирајте EXIT Denim wholesale тим у Новом Пазару. E-mail, WhatsApp и Viber за B2B партнере из региона." },
+      { property: "og:title", content: "Контакт — EXIT Denim Wholesale" },
+      { property: "og:url", content: "https://exitdenim.shop/kontakt" },
     ],
+    links: [{ rel: "canonical", href: "https://exitdenim.shop/kontakt" }],
   }),
   component: Kontakt,
 });

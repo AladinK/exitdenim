@@ -12,6 +12,26 @@ import { useAuth } from "@/hooks/useAuth";
 
 
 export const Route = createFileRoute("/proizvod/$slug")({
+  head: ({ params }) => {
+    const name = params.slug
+      .split("-")
+      .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+      .join(" ");
+    const title = `${name} — EXIT Denim B2B`.slice(0, 60);
+    const desc = `${name} — премијум мушке панталоне из Новог Пазара. Величине, тканина, MOQ и велепродајне цене за одобрене B2B партнере.`;
+    const url = `https://exitdenim.shop/proizvod/${params.slug}`;
+    return {
+      meta: [
+        { title },
+        { name: "description", content: desc },
+        { property: "og:title", content: title },
+        { property: "og:description", content: desc },
+        { property: "og:type", content: "product" },
+        { property: "og:url", content: url },
+      ],
+      links: [{ rel: "canonical", href: url }],
+    };
+  },
   notFoundComponent: () => (
     <Layout>
       <div className="container-x py-32 text-center">
