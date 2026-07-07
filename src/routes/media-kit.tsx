@@ -5,9 +5,12 @@ import { Layout } from "@/components/Layout";
 export const Route = createFileRoute("/media-kit")({
   head: () => ({
     meta: [
-      { title: "Медија кит — EXIT Denim за партнере" },
-      { name: "description", content: "Фото материјал, Instagram caption-и и story асети за EXIT Denim B2B партнере." },
+      { title: "Медија кит — EXIT Denim за B2B партнере" },
+      { name: "description", content: "Фото материјал производа, Instagram story шаблони и готови caption-и за EXIT Denim B2B партнере. Освежавање сваке сезоне." },
+      { property: "og:title", content: "Медија кит — EXIT Denim за B2B партнере" },
+      { property: "og:url", content: "https://exitdenim.shop/media-kit" },
     ],
+    links: [{ rel: "canonical", href: "https://exitdenim.shop/media-kit" }],
   }),
   component: MediaKit,
 });

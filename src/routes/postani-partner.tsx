@@ -5,9 +5,12 @@ import { Check, ArrowRight } from "lucide-react";
 export const Route = createFileRoute("/postani-partner")({
   head: () => ({
     meta: [
-      { title: "Партнерски програм — EXIT Denim" },
-      { name: "description", content: "Приступ велепродајном каталогу одобравамо бутицима, онлајн продавцима и дистрибутерима који желе стабилну деним понуду." },
+      { title: "Партнерски програм — EXIT Denim B2B" },
+      { name: "description", content: "Пријавите бутик за EXIT Denim B2B партнерство. Одобравамо велепродају бутицима, онлајн продавцима и дистрибутерима у региону." },
+      { property: "og:title", content: "Партнерски програм — EXIT Denim B2B" },
+      { property: "og:url", content: "https://exitdenim.shop/postani-partner" },
     ],
+    links: [{ rel: "canonical", href: "https://exitdenim.shop/postani-partner" }],
   }),
   component: Partner,
 });

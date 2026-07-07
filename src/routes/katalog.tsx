@@ -12,9 +12,12 @@ import { useAuth } from "@/hooks/useAuth";
 export const Route = createFileRoute("/katalog")({
   head: () => ({
     meta: [
-      { title: "Продавница — EXIT Denim" },
-      { name: "description", content: "Комплетан каталог EXIT Denim — премијум мушки деним, чино и карго. Наручите онлајн, плаћање поузећем." },
+      { title: "Каталог · Деним, чино и карго — EXIT Denim" },
+      { name: "description", content: "Комплетан B2B каталог EXIT Denim — премијум мушки деним, чино и карго. Величине, тканина и велепродајне цене за одобрене партнере." },
+      { property: "og:title", content: "Каталог · Деним, чино и карго — EXIT Denim" },
+      { property: "og:url", content: "https://exitdenim.shop/katalog" },
     ],
+    links: [{ rel: "canonical", href: "https://exitdenim.shop/katalog" }],
   }),
   component: Katalog,
 });

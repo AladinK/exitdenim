@@ -8,8 +8,11 @@ export const Route = createFileRoute("/proizvodnja")({
   head: () => ({
     meta: [
       { title: "Производња · Атеље у Новом Пазару — EXIT Denim" },
-      { name: "description", content: "Властита производња у Новом Пазару. Контрола квалитета на свакој серији. Тканине, крој, финиш." },
+      { name: "description", content: "Властита производња EXIT Denim у Новом Пазару. Тканине, крој и финиш под контролом квалитета на свакој серији мушких панталона." },
+      { property: "og:title", content: "Производња · Атеље у Новом Пазару — EXIT Denim" },
+      { property: "og:url", content: "https://exitdenim.shop/proizvodnja" },
     ],
+    links: [{ rel: "canonical", href: "https://exitdenim.shop/proizvodnja" }],
   }),
   component: Proizvodnja,
 });
