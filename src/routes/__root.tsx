@@ -96,6 +96,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:description", content: "Премијум мушки деним, чино и карго панталоне из Новог Пазара. Затворена B2B платформа за бутике и регионалне партнере." },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/wQ2yi2LWW4Nm6dZjG9u5v1l2MuN2/social-images/social-1782753110672-EXIT_DENIM.webp" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/wQ2yi2LWW4Nm6dZjG9u5v1l2MuN2/social-images/social-1782753110672-EXIT_DENIM.webp" },
+      { name: "google-site-verification", content: "DCaQQtJo89Yh-fBlqH3zmXiNmuE9PQyNuRxoXLYY_DA" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
