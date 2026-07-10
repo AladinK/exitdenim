@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowRight, Check, Quote } from "lucide-react";
+import { ArrowRight, Check, Quote, ChevronLeft, ChevronRight } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Reveal } from "@/components/Reveal";
 import { Hero } from "@/components/hero/Hero";
@@ -79,8 +79,37 @@ function TrustProof() {
     },
   ];
 
+  const [quoteIndex, setQuoteIndex] = useState(0);
+  const [activeGroup, setActiveGroup] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    const update = () => setIsMobile(window.innerWidth < 768);
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  useEffect(() => {
+    if (paused) return;
+    const id = setInterval(() => {
+      setQuoteIndex((i) => (i + 1) % groups[0].items.length);
+      if (isMobile) {
+        setActiveGroup((g) => (g + 1) % groups.length);
+      }
+    }, 4500);
+    return () => clearInterval(id);
+  }, [paused, isMobile, groups.length]);
+
+  const goTo = (g: number) => {
+    setActiveGroup(g);
+  };
+
+  const visibleGroups = isMobile ? [groups[activeGroup]] : groups;
+
   return (
-    <section className="section-pad bg-[var(--surface)]">
+    <section className="section-pad bg-[var(--surface)] overflow-hidden">
       <div className="container-x">
         <Reveal>
           <div className="max-w-2xl">
@@ -92,24 +121,72 @@ function TrustProof() {
           </div>
         </Reveal>
 
-        <div className="mt-14 grid md:grid-cols-3 gap-10 lg:gap-14">
-          {groups.map((g, i) => (
-            <Reveal key={g.label} delay={(i + 1) as 1 | 2 | 3}>
-              <div>
-                <div className="eyebrow text-accent mb-8">{g.label}</div>
-                <div className="space-y-6">
-                  {g.items.map((item, idx) => (
-                    <div key={idx} className="relative pl-6">
-                      <Quote className="absolute left-0 top-0.5 w-3.5 h-3.5 text-accent/70" strokeWidth={2.5} />
-                      <p className="text-[15px] leading-relaxed text-foreground/90">
-                        „{item}”
-                      </p>
-                    </div>
-                  ))}
+        <div
+          className="mt-12 md:mt-16"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+            {visibleGroups.map((g, i) => (
+              <div
+                key={g.label}
+                className="relative h-full rounded-sm border border-border bg-background p-7 md:p-8 flex flex-col justify-between min-h-[260px] md:min-h-[300px] transition-all duration-500 hover:shadow-[0_18px_50px_-12px_color-mix(in_oklab,var(--ink)_8%,transparent)]"
+              >
+                <Quote className="w-8 h-8 text-accent/40" strokeWidth={1.5} />
+                <p
+                  key={quoteIndex}
+                  className="mt-6 text-[17px] md:text-[19px] leading-relaxed text-foreground/90 serif-accent animate-fade-in"
+                >
+                  „{g.items[quoteIndex]}”
+                </p>
+                <div className="mt-8 pt-5 border-t border-border/60 flex items-center justify-between">
+                  <span className="text-[11px] uppercase tracking-[0.18em] text-accent font-medium">
+                    {g.label}
+                  </span>
+                  <span className="text-[10px] text-muted-foreground mono">
+                    {String(quoteIndex + 1).padStart(2, "0")}/{String(g.items.length).padStart(2, "0")}
+                  </span>
                 </div>
               </div>
-            </Reveal>
-          ))}
+            ))}
+          </div>
+
+          <div className="mt-10 flex items-center justify-between gap-4">
+            <div className="flex md:hidden items-center gap-2">
+              {groups.map((g, i) => (
+                <button
+                  key={g.label}
+                  onClick={() => goTo(i)}
+                  aria-label={`Прикажи групу ${g.label}`}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    i === activeGroup ? "w-8 bg-accent" : "w-1.5 bg-foreground/20 hover:bg-foreground/40"
+                  }`}
+                />
+              ))}
+            </div>
+
+            <div className="hidden md:flex items-center gap-3 text-[12px] text-muted-foreground mono">
+              <span className="w-24 h-1 rounded-full bg-foreground/10 overflow-hidden">
+                <span
+                  key={quoteIndex}
+                  className="block h-full bg-accent origin-left animate-[scale-x_4.5s_linear_forwards]"
+                  style={{ animationName: "scale-x" }}
+                />
+              </span>
+              <span>Картице се мењају сваких 4.5s</span>
+            </div>
+
+            <div className="flex items-center gap-2 text-[12px] text-muted-foreground mono">
+              <span className="md:hidden">{String(quoteIndex + 1).padStart(2, "0")}/{String(groups[0].items.length).padStart(2, "0")}</span>
+              <button
+                onClick={() => setQuoteIndex((i) => (i + 1) % groups[0].items.length)}
+                aria-label="Следећи коментар"
+                className="w-10 h-10 flex items-center justify-center rounded-full border border-border bg-background text-foreground/70 hover:text-foreground hover:border-foreground/30 transition-colors"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
