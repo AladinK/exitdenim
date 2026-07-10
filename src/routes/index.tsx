@@ -104,7 +104,6 @@ function TrustProof() {
 
   const goTo = (g: number) => {
     setActiveGroup(g);
-    setQuoteIndex((i) => (i + 1) % groups[0].items.length);
   };
 
   const visibleGroups = isMobile ? [groups[activeGroup]] : groups;
