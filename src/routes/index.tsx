@@ -348,6 +348,10 @@ function HomePage() {
       </section>
 
 
+      {/* ───────── TRUST PROOF ───────── */}
+      <TrustProof />
+
+
       {/* ───────── KAKO RADI ───────── */}
       <section className="section-pad">
         <div className="container-x">
