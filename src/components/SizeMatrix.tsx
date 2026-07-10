@@ -1,18 +1,29 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { useNavigate } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import type { ProductWithStock } from "@/lib/products.functions";
 import { addToOrder } from "@/lib/orders.functions";
+import { getStockQuantities } from "@/lib/products.functions";
 
 export function SizeMatrix({ product }: { product: ProductWithStock }) {
   const add = useServerFn(addToOrder);
+  const fetchStock = useServerFn(getStockQuantities);
   const navigate = useNavigate();
+  const [stock, setStock] = useState<Record<string, number>>(product.stock || {});
   const [qty, setQty] = useState<Record<string, number>>(
     Object.fromEntries(product.sizes.map((s) => [s, 0])),
   );
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchStock({ data: { productId: product.id } })
+      .then((m) => { if (!cancelled) setStock(m); })
+      .catch(() => { /* keep booleans from public fetch */ });
+    return () => { cancelled = true; };
+  }, [product.id, fetchStock]);
 
   const total = useMemo(() => Object.values(qty).reduce((a, b) => a + b, 0), [qty]);
   const totalValue = total * Number(product.wholesale);
