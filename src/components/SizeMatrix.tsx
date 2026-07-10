@@ -57,14 +57,14 @@ export function SizeMatrix({ product }: { product: ProductWithStock }) {
               <input
                 type="number"
                 min={0}
-                max={product.stock[s] ?? 0}
+                max={stock[s] ?? 0}
                 value={qty[s]}
                 onChange={(e) =>
-                  setQty((q) => ({ ...q, [s]: Math.max(0, Math.min(product.stock[s] ?? 0, Number(e.target.value) || 0)) }))
+                  setQty((q) => ({ ...q, [s]: Math.max(0, Math.min(stock[s] ?? 0, Number(e.target.value) || 0)) }))
                 }
                 className="w-full text-center border border-input bg-background py-2.5 text-base serif font-medium focus:outline-none focus:border-foreground tabular-nums transition-colors"
               />
-              <div className="text-[10px] text-center text-muted-foreground mt-1 tabular-nums">/{product.stock[s] ?? 0}</div>
+              <div className="text-[10px] text-center text-muted-foreground mt-1 tabular-nums">/{stock[s] ?? 0}</div>
             </div>
           ))}
         </div>
