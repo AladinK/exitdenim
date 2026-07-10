@@ -79,35 +79,35 @@ function TrustProof() {
     },
   ];
 
-  const cards = groups.flatMap((g) => g.items.map((text) => ({ label: g.label, text })));
-  const [index, setIndex] = useState(0);
+  const [quoteIndex, setQuoteIndex] = useState(0);
+  const [activeGroup, setActiveGroup] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const [paused, setPaused] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(1);
 
   useEffect(() => {
-    const update = () => {
-      const w = window.innerWidth;
-      setVisibleCount(w >= 1024 ? 3 : w >= 768 ? 2 : 1);
-    };
+    const update = () => setIsMobile(window.innerWidth < 768);
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  const maxIndex = Math.max(0, cards.length - visibleCount);
-  const next = useCallback(() => setIndex((i) => (i >= maxIndex ? 0 : i + 1)), [maxIndex]);
-  const prev = useCallback(() => setIndex((i) => (i <= 0 ? maxIndex : i - 1)), [maxIndex]);
-
   useEffect(() => {
     if (paused) return;
-    const id = setInterval(next, 4500);
+    const id = setInterval(() => {
+      setQuoteIndex((i) => (i + 1) % groups[0].items.length);
+      if (isMobile) {
+        setActiveGroup((g) => (g + 1) % groups.length);
+      }
+    }, 4500);
     return () => clearInterval(id);
-  }, [paused, next]);
+  }, [paused, isMobile, groups.length]);
 
-  const visible = cards.slice(index, index + visibleCount);
-  const padded = visible.length < visibleCount
-    ? [...visible, ...cards.slice(0, visibleCount - visible.length)]
-    : visible;
+  const goTo = (g: number) => {
+    setActiveGroup(g);
+    setQuoteIndex((i) => (i + 1) % groups[0].items.length);
+  };
+
+  const visibleGroups = isMobile ? [groups[activeGroup]] : groups;
 
   return (
     <section className="section-pad bg-[var(--surface)] overflow-hidden">
@@ -123,52 +123,53 @@ function TrustProof() {
         </Reveal>
 
         <div
-          className="mt-12 md:mt-16 relative"
+          className="mt-12 md:mt-16"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-            {padded.map((card, i) => (
-              <Reveal key={`${index}-${i}`} delay={(i + 1) as 1 | 2 | 3}>
-                <div className="relative h-full rounded-sm border border-border bg-background p-7 md:p-8 flex flex-col justify-between min-h-[260px] md:min-h-[280px] transition-all duration-500 hover:shadow-[0_18px_50px_-12px_color-mix(in_oklab,var(--ink)_8%,transparent)]">
-                  <Quote className="w-8 h-8 text-accent/40" strokeWidth={1.5} />
-                  <p className="mt-6 text-[17px] md:text-[18px] leading-relaxed text-foreground/90 serif-accent">
-                    „{card.text}”
-                  </p>
-                  <div className="mt-8 pt-5 border-t border-border/60">
-                    <span className="text-[11px] uppercase tracking-[0.18em] text-accent font-medium">
-                      {card.label}
-                    </span>
-                  </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+            {visibleGroups.map((g, i) => (
+              <div
+                key={g.label}
+                className="relative h-full rounded-sm border border-border bg-background p-7 md:p-8 flex flex-col justify-between min-h-[260px] md:min-h-[300px] transition-all duration-500 hover:shadow-[0_18px_50px_-12px_color-mix(in_oklab,var(--ink)_8%,transparent)]"
+              >
+                <Quote className="w-8 h-8 text-accent/40" strokeWidth={1.5} />
+                <p
+                  key={quoteIndex}
+                  className="mt-6 text-[17px] md:text-[19px] leading-relaxed text-foreground/90 serif-accent animate-fade-in"
+                >
+                  „{g.items[quoteIndex]}”
+                </p>
+                <div className="mt-8 pt-5 border-t border-border/60 flex items-center justify-between">
+                  <span className="text-[11px] uppercase tracking-[0.18em] text-accent font-medium">
+                    {g.label}
+                  </span>
+                  <span className="text-[10px] text-muted-foreground mono">
+                    {String(quoteIndex + 1).padStart(2, "0")}/{String(g.items.length).padStart(2, "0")}
+                  </span>
                 </div>
-              </Reveal>
+              </div>
             ))}
           </div>
 
           <div className="mt-10 flex items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              {Array.from({ length: maxIndex + 1 }).map((_, i) => (
+              {groups.map((g, i) => (
                 <button
-                  key={i}
-                  onClick={() => setIndex(i)}
-                  aria-label={`Прикажи коментар ${i + 1}`}
+                  key={g.label}
+                  onClick={() => goTo(i)}
+                  aria-label={`Прикажи групу ${g.label}`}
                   className={`h-1.5 rounded-full transition-all duration-300 ${
-                    i === index ? "w-8 bg-accent" : "w-1.5 bg-foreground/20 hover:bg-foreground/40"
-                  }`}
+                    (isMobile ? i === activeGroup : false) ? "w-8 bg-accent" : "w-1.5 bg-foreground/20 hover:bg-foreground/40"
+                  } ${!isMobile ? "md:w-1.5 md:bg-foreground/20" : ""}`}
                 />
               ))}
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 text-[12px] text-muted-foreground mono">
+              <span className="hidden md:inline">Картице се мењају сваких 4.5s</span>
               <button
-                onClick={prev}
-                aria-label="Претходни коментар"
-                className="w-10 h-10 flex items-center justify-center rounded-full border border-border bg-background text-foreground/70 hover:text-foreground hover:border-foreground/30 transition-colors"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <button
-                onClick={next}
+                onClick={() => setQuoteIndex((i) => (i + 1) % groups[0].items.length)}
                 aria-label="Следећи коментар"
                 className="w-10 h-10 flex items-center justify-center rounded-full border border-border bg-background text-foreground/70 hover:text-foreground hover:border-foreground/30 transition-colors"
               >
