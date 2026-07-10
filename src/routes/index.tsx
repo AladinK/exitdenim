@@ -152,21 +152,32 @@ function TrustProof() {
           </div>
 
           <div className="mt-10 flex items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
+            <div className="flex md:hidden items-center gap-2">
               {groups.map((g, i) => (
                 <button
                   key={g.label}
                   onClick={() => goTo(i)}
                   aria-label={`Прикажи групу ${g.label}`}
                   className={`h-1.5 rounded-full transition-all duration-300 ${
-                    (isMobile ? i === activeGroup : false) ? "w-8 bg-accent" : "w-1.5 bg-foreground/20 hover:bg-foreground/40"
-                  } ${!isMobile ? "md:w-1.5 md:bg-foreground/20" : ""}`}
+                    i === activeGroup ? "w-8 bg-accent" : "w-1.5 bg-foreground/20 hover:bg-foreground/40"
+                  }`}
                 />
               ))}
             </div>
 
+            <div className="hidden md:flex items-center gap-3 text-[12px] text-muted-foreground mono">
+              <span className="w-24 h-1 rounded-full bg-foreground/10 overflow-hidden">
+                <span
+                  key={quoteIndex}
+                  className="block h-full bg-accent origin-left animate-[scale-x_4.5s_linear_forwards]"
+                  style={{ animationName: "scale-x" }}
+                />
+              </span>
+              <span>Картице се мењају сваких 4.5s</span>
+            </div>
+
             <div className="flex items-center gap-2 text-[12px] text-muted-foreground mono">
-              <span className="hidden md:inline">Картице се мењају сваких 4.5s</span>
+              <span className="md:hidden">{String(quoteIndex + 1).padStart(2, "0")}/{String(groups[0].items.length).padStart(2, "0")}</span>
               <button
                 onClick={() => setQuoteIndex((i) => (i + 1) % groups[0].items.length)}
                 aria-label="Следећи коментар"
