@@ -6,16 +6,12 @@ export const Route = createFileRoute("/api/line-sheet/$sku")({
     handlers: {
       GET: async ({ params }) => {
         // Lazy-load heavy CJS deps so tslib interop doesn't crash the SSR bundle
-        const [{ PDFDocument, StandardFonts, rgb }, { createClient }] = await Promise.all([
+        const [{ PDFDocument, StandardFonts, rgb }, { supabaseAdmin }] = await Promise.all([
           import("pdf-lib"),
-          import("@supabase/supabase-js"),
+          import("@/integrations/supabase/client.server"),
         ]);
         const sku = params.sku.replace(/\.pdf$/i, "");
-        const supabase = createClient<Database>(
-          process.env.SUPABASE_URL!,
-          process.env.SUPABASE_PUBLISHABLE_KEY!,
-          { auth: { storage: undefined, persistSession: false, autoRefreshToken: false } },
-        );
+        const supabase = supabaseAdmin;
         const { data: product } = await supabase
           .from("products")
           .select("*")
