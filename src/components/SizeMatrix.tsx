@@ -1,18 +1,29 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { useNavigate } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import type { ProductWithStock } from "@/lib/products.functions";
 import { addToOrder } from "@/lib/orders.functions";
+import { getStockQuantities } from "@/lib/products.functions";
 
 export function SizeMatrix({ product }: { product: ProductWithStock }) {
   const add = useServerFn(addToOrder);
+  const fetchStock = useServerFn(getStockQuantities);
   const navigate = useNavigate();
+  const [stock, setStock] = useState<Record<string, number>>(product.stock || {});
   const [qty, setQty] = useState<Record<string, number>>(
     Object.fromEntries(product.sizes.map((s) => [s, 0])),
   );
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchStock({ data: { productId: product.id } })
+      .then((m) => { if (!cancelled) setStock(m); })
+      .catch(() => { /* keep booleans from public fetch */ });
+    return () => { cancelled = true; };
+  }, [product.id, fetchStock]);
 
   const total = useMemo(() => Object.values(qty).reduce((a, b) => a + b, 0), [qty]);
   const totalValue = total * Number(product.wholesale);
@@ -46,14 +57,14 @@ export function SizeMatrix({ product }: { product: ProductWithStock }) {
               <input
                 type="number"
                 min={0}
-                max={product.stock[s] ?? 0}
+                max={stock[s] ?? 0}
                 value={qty[s]}
                 onChange={(e) =>
-                  setQty((q) => ({ ...q, [s]: Math.max(0, Math.min(product.stock[s] ?? 0, Number(e.target.value) || 0)) }))
+                  setQty((q) => ({ ...q, [s]: Math.max(0, Math.min(stock[s] ?? 0, Number(e.target.value) || 0)) }))
                 }
                 className="w-full text-center border border-input bg-background py-2.5 text-base serif font-medium focus:outline-none focus:border-foreground tabular-nums transition-colors"
               />
-              <div className="text-[10px] text-center text-muted-foreground mt-1 tabular-nums">/{product.stock[s] ?? 0}</div>
+              <div className="text-[10px] text-center text-muted-foreground mt-1 tabular-nums">/{stock[s] ?? 0}</div>
             </div>
           ))}
         </div>
