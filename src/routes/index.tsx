@@ -45,6 +45,77 @@ function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
   return <>{n}{suffix}</>;
 }
 
+function TrustProof() {
+  const groups = [
+    {
+      label: "За квалитет робе",
+      items: [
+        "Материјал делује озбиљно, види се да није класична јефтина роба.",
+        "Ово је оно што бутицима треба — добар крој, стабилан модел и реална цена.",
+        "Џинс изгледа јако квалитетно, поготово обрада и штеп.",
+        "Код оваквих панталона најбитније је да купац проба и врати се опет. Ово делује као тај ниво.",
+        "Модели су комерцијални, баш за радњу која хоће брзу ротацију.",
+      ],
+    },
+    {
+      label: "Велепродаја / B2B поверење",
+      items: [
+        "Одлично за бутике који траже робу са добром маржом и брзим обртом.",
+        "Ово је добра понуда за радње које не желе да ризикују са непознатим моделима.",
+        "Битно је што имате више линија — jeans, chino и cargo. Лакше је направити комплетну поруџбину.",
+        "За велепродају је најважније да су величине стабилне и да може да се допуни роба.",
+        "Ако је испорука брза и модели доступни по величинама, ово може лепо да ради у бутику.",
+      ],
+    },
+    {
+      label: "Хитност и продаја",
+      items: [
+        "Овакви модели обично брзо оду у величинама 32, 33 и 34.",
+        "Ко ради мушку гардеробу, ово не треба много да чека.",
+        "Добар тренутак за бутике да попуне лагер пре сезоне.",
+        "Ако је цена велепродајна добра, ово је роба која може одмах у излог.",
+        "Cargo и jeans тренутно најбоље иду, поготово овакви неутрални модели.",
+      ],
+    },
+  ];
+
+  return (
+    <section className="section-pad bg-[var(--surface)]">
+      <div className="container-x">
+        <Reveal>
+          <div className="max-w-2xl">
+            <div className="eyebrow">Поверење са тржишта</div>
+            <h2 className="mt-4 h2-editorial">Шта кажу бутици и купци</h2>
+            <p className="mt-4 text-muted-foreground leading-relaxed">
+              Реакције са Instagram и Facebook објава — од квалитета материјала до брзине обрта у радњи.
+            </p>
+          </div>
+        </Reveal>
+
+        <div className="mt-14 grid md:grid-cols-3 gap-10 lg:gap-14">
+          {groups.map((g, i) => (
+            <Reveal key={g.label} delay={(i + 1) as 1 | 2 | 3}>
+              <div>
+                <div className="eyebrow text-accent mb-8">{g.label}</div>
+                <div className="space-y-6">
+                  {g.items.map((item, idx) => (
+                    <div key={idx} className="relative pl-6">
+                      <Quote className="absolute left-0 top-0.5 w-3.5 h-3.5 text-accent/70" strokeWidth={2.5} />
+                      <p className="text-[15px] leading-relaxed text-foreground/90">
+                        „{item}”
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function HomePage() {
   const fetchAssets = useServerFn(getHomeAssets);
   const [assets, setAssets] = useState<Record<string, { url: string; alt: string | null }>>({});
