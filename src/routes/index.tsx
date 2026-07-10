@@ -79,8 +79,38 @@ function TrustProof() {
     },
   ];
 
+  const cards = groups.flatMap((g) => g.items.map((text) => ({ label: g.label, text })));
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(1);
+
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth;
+      setVisibleCount(w >= 1024 ? 3 : w >= 768 ? 2 : 1);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  const maxIndex = Math.max(0, cards.length - visibleCount);
+  const next = useCallback(() => setIndex((i) => (i >= maxIndex ? 0 : i + 1)), [maxIndex]);
+  const prev = useCallback(() => setIndex((i) => (i <= 0 ? maxIndex : i - 1)), [maxIndex]);
+
+  useEffect(() => {
+    if (paused) return;
+    const id = setInterval(next, 4500);
+    return () => clearInterval(id);
+  }, [paused, next]);
+
+  const visible = cards.slice(index, index + visibleCount);
+  const padded = visible.length < visibleCount
+    ? [...visible, ...cards.slice(0, visibleCount - visible.length)]
+    : visible;
+
   return (
-    <section className="section-pad bg-[var(--surface)]">
+    <section className="section-pad bg-[var(--surface)] overflow-hidden">
       <div className="container-x">
         <Reveal>
           <div className="max-w-2xl">
@@ -92,24 +122,60 @@ function TrustProof() {
           </div>
         </Reveal>
 
-        <div className="mt-14 grid md:grid-cols-3 gap-10 lg:gap-14">
-          {groups.map((g, i) => (
-            <Reveal key={g.label} delay={(i + 1) as 1 | 2 | 3}>
-              <div>
-                <div className="eyebrow text-accent mb-8">{g.label}</div>
-                <div className="space-y-6">
-                  {g.items.map((item, idx) => (
-                    <div key={idx} className="relative pl-6">
-                      <Quote className="absolute left-0 top-0.5 w-3.5 h-3.5 text-accent/70" strokeWidth={2.5} />
-                      <p className="text-[15px] leading-relaxed text-foreground/90">
-                        „{item}”
-                      </p>
-                    </div>
-                  ))}
+        <div
+          className="mt-12 md:mt-16 relative"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+            {padded.map((card, i) => (
+              <Reveal key={`${index}-${i}`} delay={(i + 1) as 1 | 2 | 3}>
+                <div className="relative h-full rounded-sm border border-border bg-background p-7 md:p-8 flex flex-col justify-between min-h-[260px] md:min-h-[280px] transition-all duration-500 hover:shadow-[0_18px_50px_-12px_color-mix(in_oklab,var(--ink)_8%,transparent)]">
+                  <Quote className="w-8 h-8 text-accent/40" strokeWidth={1.5} />
+                  <p className="mt-6 text-[17px] md:text-[18px] leading-relaxed text-foreground/90 serif-accent">
+                    „{card.text}”
+                  </p>
+                  <div className="mt-8 pt-5 border-t border-border/60">
+                    <span className="text-[11px] uppercase tracking-[0.18em] text-accent font-medium">
+                      {card.label}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            ))}
+          </div>
+
+          <div className="mt-10 flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              {Array.from({ length: maxIndex + 1 }).map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setIndex(i)}
+                  aria-label={`Прикажи коментар ${i + 1}`}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    i === index ? "w-8 bg-accent" : "w-1.5 bg-foreground/20 hover:bg-foreground/40"
+                  }`}
+                />
+              ))}
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={prev}
+                aria-label="Претходни коментар"
+                className="w-10 h-10 flex items-center justify-center rounded-full border border-border bg-background text-foreground/70 hover:text-foreground hover:border-foreground/30 transition-colors"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                onClick={next}
+                aria-label="Следећи коментар"
+                className="w-10 h-10 flex items-center justify-center rounded-full border border-border bg-background text-foreground/70 hover:text-foreground hover:border-foreground/30 transition-colors"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
