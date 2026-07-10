@@ -495,6 +495,14 @@ export type Database = {
       }
     }
     Functions: {
+      get_stock_availability: {
+        Args: never
+        Returns: {
+          in_stock: boolean
+          product_id: string
+          size: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
