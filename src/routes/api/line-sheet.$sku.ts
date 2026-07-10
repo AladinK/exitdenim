@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import type { Database } from "@/integrations/supabase/types";
+
 
 export const Route = createFileRoute("/api/line-sheet/$sku")({
   server: {
