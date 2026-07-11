@@ -411,15 +411,20 @@ function HomePage() {
               {bestSellers.map((p, i) => (
                 <Reveal key={p.id} delay={Math.min(4, i + 1) as 1 | 2 | 3 | 4}>
                   <div className="group flex flex-col h-full">
-                    <Link
-                      to="/proizvod/$slug"
-                      params={{ slug: p.slug! }}
-                      className="relative block aspect-[3/4] overflow-hidden bg-secondary"
+                    <button
+                      type="button"
+                      onClick={() => setPeek(p)}
+                      className="relative block aspect-[3/4] overflow-hidden bg-secondary text-left"
+                      aria-label={`Отвори ${p.name}`}
                     >
                       {p.image_url ? (
                         <img
                           src={p.image_url}
                           alt={p.name!}
+                          loading="lazy"
+                          decoding="async"
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
+                        />
                           loading="lazy"
                           decoding="async"
                           className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
