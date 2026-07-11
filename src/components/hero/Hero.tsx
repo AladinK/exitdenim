@@ -10,14 +10,15 @@ export function Hero() {
   return (
     <section className="relative isolate overflow-hidden bg-[#0b1220] text-[color:var(--ivory)]">
       <div className="absolute inset-0 -z-10" aria-hidden>
-        <img
-          src={bg}
-          alt=""
-          fetchPriority="high"
-          decoding="async"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-
+        {bg && (
+          <img
+            src={bg}
+            alt=""
+            fetchPriority="high"
+            decoding="async"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-b from-[#0b1220]/55 via-[#0b1220]/35 to-[#0b1220]/90" />
         <div className="absolute inset-0 bg-[radial-gradient(65%_55%_at_18%_28%,rgba(0,0,0,0.45),transparent_65%)]" />
       </div>
