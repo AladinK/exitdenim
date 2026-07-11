@@ -249,9 +249,9 @@ function HomePage() {
         <div className="container-x">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
             {[
-              { to: "/jeans", label: "ФАРМЕРКЕ", sub: "Стабилан крој. Брз обрт.", img: img("category_jeans") || catDenim.url, tone: "dark" as const },
-              { to: "/chino", label: "ЧИНО", sub: "Чист изглед за сваки дан.", img: img("category_chino") || catChino.url, tone: "light" as const },
-              { to: "/cargo", label: "КАРГО", sub: "Функционалан модел са јачим карактером.", img: img("category_cargo") || catCargo.url, tone: "dark" as const },
+              { to: "/jeans", label: "ФАРМЕРКЕ", sub: "Стабилан крој. Брз обрт.", img: img("category_jeans"), tone: "dark" as const },
+              { to: "/chino", label: "ЧИНО", sub: "Чист изглед за сваки дан.", img: img("category_chino"), tone: "light" as const },
+              { to: "/cargo", label: "КАРГО", sub: "Функционалан модел са јачим карактером.", img: img("category_cargo"), tone: "dark" as const },
               { to: "/postani-partner", label: "B2B САРАДЊА", sub: "Веле­продаја за бутике.", img: null, tone: "green" as const, cta: "ПОСТАНИТЕ ДЕО EXIT DENIM ПРИЧЕ." },
             ].map((c) => (
               <Reveal key={c.label}>
