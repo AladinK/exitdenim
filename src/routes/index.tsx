@@ -1,13 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { ArrowRight, Check, Quote, ChevronRight, Flame } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Reveal } from "@/components/Reveal";
 import { Hero } from "@/components/hero/Hero";
 import { QuickBuy } from "@/components/QuickBuy";
-import { IntentBar, applyIntent, type Intent } from "@/components/IntentBar";
-import { ProductPeek } from "@/components/ProductPeek";
 
 import { getHomeAssets } from "@/lib/site-assets.functions";
 import { listProducts, type ProductWithStock } from "@/lib/products.functions";
@@ -197,32 +195,13 @@ function HomePage() {
   const fetchAssets = useServerFn(getHomeAssets);
   const fetchProducts = useServerFn(listProducts);
   const [assets, setAssets] = useState<Record<string, { url: string; alt: string | null }>>({});
-  const [products, setProducts] = useState<ProductWithStock[]>([]);
-  const [intent, setIntent] = useState<Intent>({ q: "" });
-  const [peek, setPeek] = useState<ProductWithStock | null>(null);
+  const [bestSellers, setBestSellers] = useState<ProductWithStock[]>([]);
   useEffect(() => {
     fetchAssets({}).then(setAssets).catch(() => {});
-    fetchProducts({}).then(setProducts).catch(() => {});
+    fetchProducts({}).then((p) => setBestSellers(p.slice(0, 4))).catch(() => {});
   }, []); // eslint-disable-line
   const img = (k: string) => assets[k]?.url || "";
   const alt = (k: string, fb: string) => assets[k]?.alt || fb;
-
-  const intentActive = !!(intent.q || intent.size || intent.category || intent.b2b || intent.bestseller);
-  const results = useMemo(() => applyIntent(products, intent), [products, intent]);
-  const bestSellers = products.slice(0, 4);
-
-  const patchIntent = (patch: Partial<Intent>) => {
-    setIntent((cur) => {
-      const next: Intent = { ...cur, ...patch };
-      // Toggle behavior for chips
-      if (patch.size !== undefined && cur.size === patch.size) next.size = undefined;
-      if (patch.category !== undefined && cur.category === patch.category) next.category = undefined;
-      if (patch.b2b !== undefined && cur.b2b === patch.b2b) next.b2b = false;
-      if (patch.bestseller !== undefined && cur.bestseller === patch.bestseller) next.bestseller = false;
-      return next;
-    });
-  };
-  const clearIntent = () => setIntent({ q: "" });
 
 
   return (
@@ -264,73 +243,6 @@ function HomePage() {
       <div className="relative z-10">
 
       <Hero />
-
-      {/* ───────── INTENT BAR — pageless entry ───────── */}
-      <IntentBar
-        intent={intent}
-        onChange={patchIntent}
-        onClear={clearIntent}
-        count={results.length}
-        products={products}
-        onPick={setPeek}
-      />
-
-      {/* ───────── LIVE RESULTS (only when intent active) ───────── */}
-      {intentActive && (
-        <section className="relative py-8 md:py-12">
-          <div className="container-x">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-              {results.length === 0 && (
-                <div className="col-span-full py-16 text-center">
-                  <div className="eyebrow">Нема подударања</div>
-                  <p className="mt-3 text-muted-foreground">Пробај другу величину или категорију.</p>
-                  <button onClick={clearIntent} className="btn-outline mt-6 inline-flex">
-                    Ресетуј претрагу
-                  </button>
-                </div>
-              )}
-              {results.map((p) => (
-                <div key={p.id} className="group flex flex-col h-full">
-                  <button
-                    onClick={() => setPeek(p)}
-                    className="relative block aspect-[3/4] overflow-hidden bg-secondary text-left"
-                    aria-label={`Отвори ${p.name}`}
-                  >
-                    {p.image_url ? (
-                      <img
-                        src={p.image_url}
-                        alt={p.name!}
-                        loading="lazy"
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
-                      />
-                    ) : (
-                      <div className="absolute inset-0 bg-foreground/5" />
-                    )}
-                    <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 bg-background/95 backdrop-blur-sm border-t border-border px-3 py-2 text-[11px] uppercase tracking-[0.18em]">
-                      Отвори
-                    </div>
-                  </button>
-                  <div className="mt-3 flex items-start justify-between gap-3">
-                    <div className="min-w-0">
-                      <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                        {p.sku} · {p.fit}
-                      </div>
-                      <div className="serif text-lg mt-1 leading-tight truncate">{p.name}</div>
-                    </div>
-                    <div className="serif text-lg tabular-nums shrink-0">
-                      {Number(p.retail).toLocaleString("sr-RS")}{" "}
-                      <span className="text-xs text-muted-foreground">дин</span>
-                    </div>
-                  </div>
-                  <div className="mt-3">
-                    <QuickBuy product={p} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* ───────── КАТЕГОРИЈЕ ───────── */}
       <section className="relative py-10 md:py-14">
@@ -411,11 +323,10 @@ function HomePage() {
               {bestSellers.map((p, i) => (
                 <Reveal key={p.id} delay={Math.min(4, i + 1) as 1 | 2 | 3 | 4}>
                   <div className="group flex flex-col h-full">
-                    <button
-                      type="button"
-                      onClick={() => setPeek(p)}
-                      className="relative block aspect-[3/4] overflow-hidden bg-secondary text-left"
-                      aria-label={`Отвори ${p.name}`}
+                    <Link
+                      to="/proizvod/$slug"
+                      params={{ slug: p.slug! }}
+                      className="relative block aspect-[3/4] overflow-hidden bg-secondary"
                     >
                       {p.image_url ? (
                         <img
@@ -433,7 +344,7 @@ function HomePage() {
                           №1
                         </span>
                       )}
-                    </button>
+                    </Link>
                     <div className="mt-4 flex items-start justify-between gap-3">
                       <div className="min-w-0">
                         <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{p.sku} · {p.fit}</div>
@@ -646,7 +557,6 @@ function HomePage() {
         </div>
       </section>
       </div>
-      <ProductPeek product={peek} onClose={() => setPeek(null)} />
     </Layout>
 
   );
