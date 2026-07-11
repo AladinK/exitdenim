@@ -197,13 +197,32 @@ function HomePage() {
   const fetchAssets = useServerFn(getHomeAssets);
   const fetchProducts = useServerFn(listProducts);
   const [assets, setAssets] = useState<Record<string, { url: string; alt: string | null }>>({});
-  const [bestSellers, setBestSellers] = useState<ProductWithStock[]>([]);
+  const [products, setProducts] = useState<ProductWithStock[]>([]);
+  const [intent, setIntent] = useState<Intent>({ q: "" });
+  const [peek, setPeek] = useState<ProductWithStock | null>(null);
   useEffect(() => {
     fetchAssets({}).then(setAssets).catch(() => {});
-    fetchProducts({}).then((p) => setBestSellers(p.slice(0, 4))).catch(() => {});
+    fetchProducts({}).then(setProducts).catch(() => {});
   }, []); // eslint-disable-line
   const img = (k: string) => assets[k]?.url || "";
   const alt = (k: string, fb: string) => assets[k]?.alt || fb;
+
+  const intentActive = !!(intent.q || intent.size || intent.category || intent.b2b || intent.bestseller);
+  const results = useMemo(() => applyIntent(products, intent), [products, intent]);
+  const bestSellers = products.slice(0, 4);
+
+  const patchIntent = (patch: Partial<Intent>) => {
+    setIntent((cur) => {
+      const next: Intent = { ...cur, ...patch };
+      // Toggle behavior for chips
+      if (patch.size !== undefined && cur.size === patch.size) next.size = undefined;
+      if (patch.category !== undefined && cur.category === patch.category) next.category = undefined;
+      if (patch.b2b !== undefined && cur.b2b === patch.b2b) next.b2b = false;
+      if (patch.bestseller !== undefined && cur.bestseller === patch.bestseller) next.bestseller = false;
+      return next;
+    });
+  };
+  const clearIntent = () => setIntent({ q: "" });
 
 
   return (
