@@ -17,7 +17,7 @@ export const Route = createFileRoute("/proizvodnja")({
 });
 
 function Proizvodnja() {
-  const workshopSrc = useSiteAsset("page_proizvodnja", workshopAsset.url);
+  const workshopSrc = useSiteAsset("page_proizvodnja") || useSiteAsset("workshop");
   return (
     <Layout>
       <section className="bg-foreground text-background">
