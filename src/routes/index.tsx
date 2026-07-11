@@ -1,11 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { ArrowRight, Check, Quote, ChevronRight, Flame } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Reveal } from "@/components/Reveal";
 import { Hero } from "@/components/hero/Hero";
 import { QuickBuy } from "@/components/QuickBuy";
+import { IntentBar, applyIntent, type Intent } from "@/components/IntentBar";
+import { ProductPeek } from "@/components/ProductPeek";
 
 import { getHomeAssets } from "@/lib/site-assets.functions";
 import { listProducts, type ProductWithStock } from "@/lib/products.functions";
