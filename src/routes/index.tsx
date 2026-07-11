@@ -1,16 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowRight, Check, Quote, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, Check, Quote, ChevronRight, Flame } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Reveal } from "@/components/Reveal";
 import { Hero } from "@/components/hero/Hero";
+import { QuickBuy } from "@/components/QuickBuy";
 
 import { getHomeAssets } from "@/lib/site-assets.functions";
-import lookbookAsset from "@/assets/lookbook-ss26.png.asset.json";
-import catDenim from "@/assets/cat-denim.jpg.asset.json";
-import catChino from "@/assets/cat-chino.jpg.asset.json";
-import catCargo from "@/assets/cat-cargo.jpg.asset.json";
+import { listProducts, type ProductWithStock } from "@/lib/products.functions";
 
 
 
