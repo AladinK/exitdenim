@@ -425,10 +425,6 @@ function HomePage() {
                           decoding="async"
                           className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
                         />
-                          loading="lazy"
-                          decoding="async"
-                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
-                        />
                       ) : (
                         <div className="absolute inset-0 bg-foreground/5" />
                       )}
@@ -437,7 +433,7 @@ function HomePage() {
                           №1
                         </span>
                       )}
-                    </Link>
+                    </button>
                     <div className="mt-4 flex items-start justify-between gap-3">
                       <div className="min-w-0">
                         <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{p.sku} · {p.fit}</div>
