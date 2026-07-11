@@ -1,16 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowRight, Check, Quote, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, Check, Quote, ChevronRight, Flame } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Reveal } from "@/components/Reveal";
 import { Hero } from "@/components/hero/Hero";
+import { QuickBuy } from "@/components/QuickBuy";
 
 import { getHomeAssets } from "@/lib/site-assets.functions";
-import lookbookAsset from "@/assets/lookbook-ss26.png.asset.json";
-import catDenim from "@/assets/cat-denim.jpg.asset.json";
-import catChino from "@/assets/cat-chino.jpg.asset.json";
-import catCargo from "@/assets/cat-cargo.jpg.asset.json";
+import { listProducts, type ProductWithStock } from "@/lib/products.functions";
 
 
 
@@ -195,10 +193,14 @@ function TrustProof() {
 
 function HomePage() {
   const fetchAssets = useServerFn(getHomeAssets);
+  const fetchProducts = useServerFn(listProducts);
   const [assets, setAssets] = useState<Record<string, { url: string; alt: string | null }>>({});
-  useEffect(() => { fetchAssets({}).then(setAssets).catch(() => {}); }, []); // eslint-disable-line
-  const fallbacks: Record<string, string> = { lookbook: lookbookAsset.url };
-  const img = (k: string) => assets[k]?.url || fallbacks[k] || "";
+  const [bestSellers, setBestSellers] = useState<ProductWithStock[]>([]);
+  useEffect(() => {
+    fetchAssets({}).then(setAssets).catch(() => {});
+    fetchProducts({}).then((p) => setBestSellers(p.slice(0, 4))).catch(() => {});
+  }, []); // eslint-disable-line
+  const img = (k: string) => assets[k]?.url || "";
   const alt = (k: string, fb: string) => assets[k]?.alt || fb;
 
 
@@ -247,9 +249,9 @@ function HomePage() {
         <div className="container-x">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
             {[
-              { to: "/jeans", label: "ФАРМЕРКЕ", sub: "Стабилан крој. Брз обрт.", img: img("category_jeans") || catDenim.url, tone: "dark" as const },
-              { to: "/chino", label: "ЧИНО", sub: "Чист изглед за сваки дан.", img: img("category_chino") || catChino.url, tone: "light" as const },
-              { to: "/cargo", label: "КАРГО", sub: "Функционалан модел са јачим карактером.", img: img("category_cargo") || catCargo.url, tone: "dark" as const },
+              { to: "/jeans", label: "ФАРМЕРКЕ", sub: "Стабилан крој. Брз обрт.", img: img("category_jeans"), tone: "dark" as const },
+              { to: "/chino", label: "ЧИНО", sub: "Чист изглед за сваки дан.", img: img("category_chino"), tone: "light" as const },
+              { to: "/cargo", label: "КАРГО", sub: "Функционалан модел са јачим карактером.", img: img("category_cargo"), tone: "dark" as const },
               { to: "/postani-partner", label: "B2B САРАДЊА", sub: "Веле­продаја за бутике.", img: null, tone: "green" as const, cta: "ПОСТАНИТЕ ДЕО EXIT DENIM ПРИЧЕ." },
             ].map((c) => (
               <Reveal key={c.label}>
@@ -296,13 +298,74 @@ function HomePage() {
         </div>
       </section>
 
+      {/* ───────── BEST SELLERS ───────── */}
+      {bestSellers.length > 0 && (
+        <section className="section-pad">
+          <div className="container-x">
+            <Reveal>
+              <div className="flex items-end justify-between gap-6 flex-wrap">
+                <div className="max-w-xl">
+                  <div className="eyebrow flex items-center gap-2">
+                    <Flame className="w-3.5 h-3.5 text-accent" /> Најпродаванији модели
+                  </div>
+                  <h2 className="mt-4 h2-editorial">Топ избор ове сезоне</h2>
+                  <p className="mt-4 text-muted-foreground leading-relaxed">
+                    Модели који најбрже одлазе — изаберите величину и додајте у корпу у једном клику.
+                  </p>
+                </div>
+                <Link to="/katalog" className="btn-outline">
+                  Цео каталог <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </Reveal>
 
-
-
-
-
-
-
+            <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+              {bestSellers.map((p, i) => (
+                <Reveal key={p.id} delay={Math.min(4, i + 1) as 1 | 2 | 3 | 4}>
+                  <div className="group flex flex-col h-full">
+                    <Link
+                      to="/proizvod/$slug"
+                      params={{ slug: p.slug! }}
+                      className="relative block aspect-[3/4] overflow-hidden bg-secondary"
+                    >
+                      {p.image_url ? (
+                        <img
+                          src={p.image_url}
+                          alt={p.name!}
+                          loading="lazy"
+                          decoding="async"
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 bg-foreground/5" />
+                      )}
+                      {i === 0 && (
+                        <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 font-medium">
+                          №1
+                        </span>
+                      )}
+                    </Link>
+                    <div className="mt-4 flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{p.sku} · {p.fit}</div>
+                        <Link to="/proizvod/$slug" params={{ slug: p.slug! }} className="serif text-lg mt-1 leading-tight block hover:text-accent transition-colors">
+                          {p.name}
+                        </Link>
+                      </div>
+                      <div className="serif text-lg tabular-nums shrink-0">
+                        {Number(p.retail).toLocaleString("sr-RS")} <span className="text-xs text-muted-foreground">дин</span>
+                      </div>
+                    </div>
+                    <div className="mt-4">
+                      <QuickBuy product={p} />
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
 
       {/* ───────── EDITORIAL BENTO ───────── */}

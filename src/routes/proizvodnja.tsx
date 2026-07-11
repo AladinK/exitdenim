@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
 import { Factory, ShieldCheck, Scissors, Truck } from "lucide-react";
-import workshopAsset from "@/assets/workshop.jpg.asset.json";
 import { useSiteAsset } from "@/hooks/useSiteAsset";
 
 export const Route = createFileRoute("/proizvodnja")({
@@ -18,7 +17,7 @@ export const Route = createFileRoute("/proizvodnja")({
 });
 
 function Proizvodnja() {
-  const workshopSrc = useSiteAsset("page_proizvodnja", workshopAsset.url);
+  const workshopSrc = useSiteAsset("page_proizvodnja") || useSiteAsset("workshop");
   return (
     <Layout>
       <section className="bg-foreground text-background">
