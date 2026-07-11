@@ -2,11 +2,11 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { RevealLines, FadeUp } from "@/components/RevealText";
 import { Magnetic } from "@/components/Magnetic";
-import denimTexture from "@/assets/denim-hero.jpg.asset.json";
-import { useSiteAsset } from "@/hooks/useSiteAsset";
+import { useSiteAssets } from "@/hooks/useSiteAsset";
 
 export function Hero() {
-  const bg = useSiteAsset("hero_texture", denimTexture.url);
+  const assets = useSiteAssets();
+  const bg = assets["hero_texture"]?.url || assets["hero"]?.url || "";
   return (
     <section className="relative isolate overflow-hidden bg-[#0b1220] text-[color:var(--ivory)]">
       <div className="absolute inset-0 -z-10" aria-hidden>
