@@ -645,6 +645,7 @@ function HomePage() {
         </div>
       </section>
       </div>
+      <ProductPeek product={peek} onClose={() => setPeek(null)} />
     </Layout>
 
   );
