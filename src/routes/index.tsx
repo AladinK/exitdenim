@@ -18,7 +18,7 @@ export const Route = createFileRoute("/")({
       { title: "EXIT Denim — B2B деним, чино и карго за бутике" },
       { name: "description", content: "Затворена B2B платформа из Новог Пазара. Премијум мушке панталоне — деним, чино и карго. Стабилни кројеви, поуздана испорука и марже за бутике у региону." },
       { property: "og:title", content: "EXIT Denim — B2B деним, чино и карго за бутике" },
-      { property: "og:description", content: "Затворена B2B платформа за бутике. Каталог, цене и поруџбине на једном месту." },
+      { property: "og:description", content: "Затворена B2B платформа из Новог Пазара. Премијум мушке панталоне — деним, чино и карго. Стабилни кројеви, поуздана испорука и марже за бутике у региону." },
       { property: "og:url", content: "https://exitdenim.shop/" },
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/" }],

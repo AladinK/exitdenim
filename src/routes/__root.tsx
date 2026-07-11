@@ -84,16 +84,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "theme-color", content: "#FBF8F2" },
       { name: "format-detection", content: "telephone=no" },
-      { title: "EXIT Denim — Премијум B2B платформа за бутике" },
-      { name: "description", content: "Затворена B2B платформа за деним, чино и карго панталоне. Стабилни кројеви, поуздана испорука и марже за бутике у региону." },
-      { property: "og:title", content: "EXIT Denim — Премијум B2B платформа за бутике" },
-      { property: "og:description", content: "Затворена B2B платформа за деним, чино и карго панталоне. Стабилни кројеви, поуздана испорука и марже за бутике у региону." },
+      { title: "EXIT Denim — B2B деним, чино и карго за бутике" },
+      { name: "description", content: "Затворена B2B платформа из Новог Пазара. Премијум мушке панталоне — деним, чино и карго. Стабилни кројеви, поуздана испорука и марже за бутике у региону." },
+      { property: "og:title", content: "EXIT Denim — B2B деним, чино и карго за бутике" },
+      { property: "og:description", content: "Затворена B2B платформа из Новог Пазара. Премијум мушке панталоне — деним, чино и карго. Стабилни кројеви, поуздана испорука и марже за бутике у региону." },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "EXIT Denim" },
       { property: "og:locale", content: "sr_RS" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "EXIT Denim — Премијум B2B платформа за бутике" },
-      { name: "twitter:description", content: "Затворена B2B платформа за деним, чино и карго панталоне. Стабилни кројеви, поуздана испорука и марже за бутике у региону." },
+      { name: "twitter:title", content: "EXIT Denim — B2B деним, чино и карго за бутике" },
+      { name: "twitter:description", content: "Затворена B2B платформа из Новог Пазара. Премијум мушке панталоне — деним, чино и карго. Стабилни кројеви, поуздана испорука и марже за бутике у региону." },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/wQ2yi2LWW4Nm6dZjG9u5v1l2MuN2/social-images/social-1782753110672-EXIT_DENIM.webp" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/wQ2yi2LWW4Nm6dZjG9u5v1l2MuN2/social-images/social-1782753110672-EXIT_DENIM.webp" },
       { name: "google-site-verification", content: "DCaQQtJo89Yh-fBlqH3zmXiNmuE9PQyNuRxoXLYY_DA" },
@@ -103,15 +103,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap&subset=cyrillic,cyrillic-ext,latin,latin-ext" },
       { rel: "stylesheet", href: appCss },
-      {
-        rel: "icon",
-        type: "image/svg+xml",
-        href:
-          "data:image/svg+xml;utf8," +
-          encodeURIComponent(
-            `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%231B1A17'/><text x='50%' y='54%' text-anchor='middle' dominant-baseline='middle' font-family='system-ui,-apple-system,sans-serif' font-size='30' font-weight='800' fill='%236B7F4A'>Е</text></svg>`
-          ),
-      },
     ],
 
   }),
