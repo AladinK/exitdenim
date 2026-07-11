@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
 import { Factory, ShieldCheck, Scissors, Truck } from "lucide-react";
-import workshopAsset from "@/assets/workshop.jpg.asset.json";
 import { useSiteAsset } from "@/hooks/useSiteAsset";
 
 export const Route = createFileRoute("/proizvodnja")({
