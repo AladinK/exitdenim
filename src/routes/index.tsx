@@ -298,13 +298,74 @@ function HomePage() {
         </div>
       </section>
 
+      {/* ───────── BEST SELLERS ───────── */}
+      {bestSellers.length > 0 && (
+        <section className="section-pad">
+          <div className="container-x">
+            <Reveal>
+              <div className="flex items-end justify-between gap-6 flex-wrap">
+                <div className="max-w-xl">
+                  <div className="eyebrow flex items-center gap-2">
+                    <Flame className="w-3.5 h-3.5 text-accent" /> Најпродаванији модели
+                  </div>
+                  <h2 className="mt-4 h2-editorial">Топ избор ове сезоне</h2>
+                  <p className="mt-4 text-muted-foreground leading-relaxed">
+                    Модели који најбрже одлазе — изаберите величину и додајте у корпу у једном клику.
+                  </p>
+                </div>
+                <Link to="/katalog" className="btn-outline">
+                  Цео каталог <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </Reveal>
 
-
-
-
-
-
-
+            <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+              {bestSellers.map((p, i) => (
+                <Reveal key={p.id} delay={Math.min(4, i + 1) as 1 | 2 | 3 | 4}>
+                  <div className="group flex flex-col h-full">
+                    <Link
+                      to="/proizvod/$slug"
+                      params={{ slug: p.slug! }}
+                      className="relative block aspect-[3/4] overflow-hidden bg-secondary"
+                    >
+                      {p.image_url ? (
+                        <img
+                          src={p.image_url}
+                          alt={p.name!}
+                          loading="lazy"
+                          decoding="async"
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 bg-foreground/5" />
+                      )}
+                      {i === 0 && (
+                        <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 font-medium">
+                          №1
+                        </span>
+                      )}
+                    </Link>
+                    <div className="mt-4 flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{p.sku} · {p.fit}</div>
+                        <Link to="/proizvod/$slug" params={{ slug: p.slug! }} className="serif text-lg mt-1 leading-tight block hover:text-accent transition-colors">
+                          {p.name}
+                        </Link>
+                      </div>
+                      <div className="serif text-lg tabular-nums shrink-0">
+                        {Number(p.retail).toLocaleString("sr-RS")} <span className="text-xs text-muted-foreground">дин</span>
+                      </div>
+                    </div>
+                    <div className="mt-4">
+                      <QuickBuy product={p} />
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
 
       {/* ───────── EDITORIAL BENTO ───────── */}
