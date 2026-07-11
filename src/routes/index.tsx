@@ -193,10 +193,14 @@ function TrustProof() {
 
 function HomePage() {
   const fetchAssets = useServerFn(getHomeAssets);
+  const fetchProducts = useServerFn(listProducts);
   const [assets, setAssets] = useState<Record<string, { url: string; alt: string | null }>>({});
-  useEffect(() => { fetchAssets({}).then(setAssets).catch(() => {}); }, []); // eslint-disable-line
-  const fallbacks: Record<string, string> = { lookbook: lookbookAsset.url };
-  const img = (k: string) => assets[k]?.url || fallbacks[k] || "";
+  const [bestSellers, setBestSellers] = useState<ProductWithStock[]>([]);
+  useEffect(() => {
+    fetchAssets({}).then(setAssets).catch(() => {});
+    fetchProducts({}).then((p) => setBestSellers(p.slice(0, 4))).catch(() => {});
+  }, []); // eslint-disable-line
+  const img = (k: string) => assets[k]?.url || "";
   const alt = (k: string, fb: string) => assets[k]?.alt || fb;
 
 
