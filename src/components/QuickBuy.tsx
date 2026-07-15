@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { ShoppingBag, Check } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
 import type { ProductWithStock } from "@/lib/products.functions";
 
 /**
- * Compact quick-buy widget for homepage / listing cards.
- * Pick size → single click adds to cart and opens the drawer.
+ * QuickBuy — minimalist, premium size picker + single CTA.
+ * Design: generous whitespace, hairline borders, one restrained accent,
+ * quiet micro-interactions. No gradients, no heavy shadows.
  */
 export function QuickBuy({ product }: { product: ProductWithStock }) {
   const { add, setOpen } = useCart();
@@ -26,16 +27,25 @@ export function QuickBuy({ product }: { product: ProductWithStock }) {
       image: product.image_url,
     }, 1);
     setAdded(true);
-    setTimeout(() => setAdded(false), 1200);
+    setTimeout(() => setAdded(false), 1400);
     setOpen(true);
   };
 
   return (
     <div
-      className="flex flex-col gap-2"
+      className="flex flex-col gap-4"
       onClick={(e) => e.preventDefault()}
     >
-      <div className="flex flex-wrap gap-1.5">
+      {/* Eyebrow */}
+      <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
+        <span>Величина</span>
+        <span className="tabular-nums text-foreground/60">
+          {size ?? "—"}
+        </span>
+      </div>
+
+      {/* Size row — hairline squares, quiet accent on active */}
+      <div className="grid grid-cols-6 gap-1.5">
         {product.sizes.map((s) => {
           const stock = product.stock?.[s] ?? 0;
           const disabled = stock <= 0;
@@ -46,31 +56,50 @@ export function QuickBuy({ product }: { product: ProductWithStock }) {
               type="button"
               disabled={disabled}
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSize(s); }}
-              className={`min-w-[38px] px-2 py-1.5 text-[11px] font-medium border tabular-nums transition-all ${
+              className={[
+                "relative h-10 text-[11px] tabular-nums font-medium",
+                "border transition-[color,background,border-color] duration-300 ease-out",
                 active
                   ? "border-foreground bg-foreground text-background"
                   : disabled
-                  ? "border-border text-muted-foreground/50 line-through cursor-not-allowed"
-                  : "border-border hover:border-foreground bg-background"
-              }`}
-              aria-label={`Величина ${s}`}
+                  ? "border-border/60 text-muted-foreground/40 line-through cursor-not-allowed"
+                  : "border-border text-foreground hover:border-foreground",
+              ].join(" ")}
+              aria-label={`Величина ${s}${disabled ? " — распродато" : ""}`}
+              aria-pressed={active}
             >
               {s}
             </button>
           );
         })}
       </div>
+
+      {/* CTA — full-width, hairline, refined hover */}
       <button
         type="button"
         onClick={onAdd}
         disabled={!size}
-        className={`inline-flex items-center justify-center gap-2 py-2.5 text-[11px] uppercase tracking-[0.2em] font-medium transition-all ${
+        className={[
+          "group relative inline-flex items-center justify-between",
+          "w-full px-4 h-11",
+          "text-[11px] uppercase tracking-[0.22em] font-medium",
+          "border transition-all duration-500 ease-out",
           size
-            ? "bg-foreground text-background hover:bg-accent hover:text-accent-foreground"
-            : "bg-secondary text-muted-foreground cursor-not-allowed"
-        }`}
+            ? "border-foreground bg-foreground text-background hover:bg-background hover:text-foreground"
+            : "border-border bg-transparent text-muted-foreground cursor-not-allowed",
+        ].join(" ")}
+        aria-disabled={!size}
       >
-        {added ? (<><Check className="w-3.5 h-3.5" /> Додато</>) : (<><ShoppingBag className="w-3.5 h-3.5" /> Брза куповина</>)}
+        <span className="flex items-center gap-2">
+          {added ? <Check className="w-3.5 h-3.5" /> : null}
+          {added ? "Додато у корпу" : "Додај у корпу"}
+        </span>
+        <ArrowRight
+          className={[
+            "w-3.5 h-3.5 transition-transform duration-500 ease-out",
+            size ? "group-hover:translate-x-1" : "opacity-40",
+          ].join(" ")}
+        />
       </button>
     </div>
   );
