@@ -206,90 +206,51 @@ function HomePage() {
 
   return (
     <Layout>
-      {/* Premium editorial atmosphere: warm cream base + soft indigo halo + hairline grid + fine grain */}
+      {/* Quiet ivory canvas — no colored halos, no grid, no noise. COS/Tom Ford calm. */}
       <div aria-hidden className="pointer-events-none fixed inset-0 z-0 bg-[var(--ivory)]" />
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 z-0"
-        style={{
-          background:
-            "radial-gradient(70% 55% at 18% 8%, color-mix(in oklab, var(--indigo) 14%, transparent) 0%, transparent 60%)," +
-            "radial-gradient(55% 45% at 88% 12%, color-mix(in oklab, var(--brand-green) 16%, transparent) 0%, transparent 55%)," +
-            "radial-gradient(50% 40% at 8% 88%, color-mix(in oklab, var(--brand-green-deep) 12%, transparent) 0%, transparent 60%)," +
-            "radial-gradient(80% 60% at 50% 100%, color-mix(in oklab, var(--ecru-deep) 55%, transparent) 0%, transparent 65%)",
-
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 z-0 opacity-[0.35]"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, color-mix(in oklab, var(--ink) 6%, transparent) 1px, transparent 1px)," +
-            "linear-gradient(to bottom, color-mix(in oklab, var(--ink) 6%, transparent) 1px, transparent 1px)",
-          backgroundSize: "72px 72px",
-          maskImage: "radial-gradient(ellipse 90% 70% at 50% 20%, black 30%, transparent 85%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 z-0 opacity-[0.5] mix-blend-multiply"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.08  0 0 0 0 0.09  0 0 0 0 0.12  0 0 0 0.18 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
-          backgroundSize: "220px 220px",
-        }}
-      />
       <div className="relative z-10">
 
       <Hero />
 
-      {/* ───────── КАТЕГОРИЈЕ ───────── */}
-      <section className="relative py-10 md:py-14">
+      {/* ───────── КАТЕГОРИЈЕ — editorial lookbook, labels under image ───────── */}
+      <section className="relative pt-20 md:pt-32 pb-8 md:pb-12">
         <div className="container-x">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+          <div className="flex items-end justify-between mb-10 md:mb-16">
+            <div className="eyebrow">Колекција</div>
+            <Link to="/katalog" className="text-[11px] uppercase tracking-[0.22em] link-underline text-foreground/70 hover:text-foreground">
+              Погледајте све
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10">
             {[
-              { to: "/jeans", label: "ФАРМЕРКЕ", sub: "Стабилан крој. Брз обрт.", img: img("category_jeans"), tone: "dark" as const },
-              { to: "/chino", label: "ЧИНО", sub: "Чист изглед за сваки дан.", img: img("category_chino"), tone: "light" as const },
-              { to: "/cargo", label: "КАРГО", sub: "Функционалан модел са јачим карактером.", img: img("category_cargo"), tone: "dark" as const },
-              { to: "/postani-partner", label: "B2B САРАДЊА", sub: "Веле­продаја за бутике.", img: null, tone: "green" as const, cta: "ПОСТАНИТЕ ДЕО EXIT DENIM ПРИЧЕ." },
+              { to: "/jeans", label: "Фармерке", num: "01", img: img("category_jeans") },
+              { to: "/chino", label: "Чино", num: "02", img: img("category_chino") },
+              { to: "/cargo", label: "Карго", num: "03", img: img("category_cargo") },
+              { to: "/postani-partner", label: "B2B", num: "04", img: null },
             ].map((c) => (
               <Reveal key={c.label}>
-                <Link
-                  to={c.to}
-                  className="group relative block overflow-hidden rounded-sm aspect-[3/4] w-full"
-                >
-                  {c.img ? (
-                    <>
+                <Link to={c.to} className="group block">
+                  <div className="relative overflow-hidden aspect-[3/4] w-full bg-[var(--ecru)]">
+                    {c.img ? (
                       <img
                         src={c.img}
                         alt={c.label}
                         loading="lazy"
                         decoding="async"
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.05]"
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.03]"
                       />
-                      <div className={`absolute inset-0 ${c.tone === "dark" ? "bg-gradient-to-t from-black/70 via-black/25 to-black/10" : "bg-gradient-to-t from-black/25 via-white/0 to-white/10"}`} />
-                    </>
-                  ) : (
-                    <div className="absolute inset-0 bg-[color:var(--brand-green-deep,#4a5a2f)]" />
-                  )}
-                  <div className={`absolute inset-0 flex flex-col justify-between p-5 md:p-6 ${c.tone === "light" ? "text-[color:var(--ink)]" : "text-white"}`}>
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="serif-accent italic text-6xl text-foreground/15">B2B</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="mt-4 flex items-baseline justify-between">
                     <div>
-                      <h3 className="text-xl md:text-2xl font-bold tracking-tight">{c.label}</h3>
-                      <p className={`mt-2 text-[13px] md:text-sm leading-snug max-w-[220px] ${c.tone === "light" ? "text-[color:var(--ink)]/75" : "text-white/85"}`}>
-                        {c.sub}
-                      </p>
+                      <div className="mono text-[10px] tracking-[0.22em] text-muted-foreground">{c.num}</div>
+                      <div className="mt-1 text-[13px] uppercase tracking-[0.18em] font-medium">{c.label}</div>
                     </div>
-                    <div className="flex items-end justify-between gap-4">
-                      {c.cta ? (
-                        <p className="text-[10px] md:text-[11px] uppercase tracking-[0.2em] leading-relaxed opacity-90 max-w-[180px]">
-                          {c.cta}
-                        </p>
-                      ) : <span />}
-                      <span className="w-9 h-9 flex items-center justify-center text-[color:var(--brand-green,#8aa35a)] transition-transform duration-500 group-hover:translate-x-1">
-                        <ArrowRight className="w-5 h-5" strokeWidth={2.25} />
-                      </span>
-                    </div>
+                    <ArrowRight className="w-3.5 h-3.5 text-foreground/40 transition-transform duration-500 group-hover:translate-x-1 group-hover:text-foreground" />
                   </div>
                 </Link>
               </Reveal>
@@ -297,6 +258,7 @@ function HomePage() {
           </div>
         </div>
       </section>
+
 
       {/* ───────── BEST SELLERS ───────── */}
       {bestSellers.length > 0 && (
