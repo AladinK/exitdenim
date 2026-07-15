@@ -260,35 +260,30 @@ function HomePage() {
       </section>
 
 
-      {/* ───────── BEST SELLERS ───────── */}
+      {/* ───────── BEST SELLERS — quiet editorial grid ───────── */}
       {bestSellers.length > 0 && (
-        <section className="section-pad">
+        <section className="pt-24 md:pt-40 pb-12 md:pb-20">
           <div className="container-x">
             <Reveal>
-              <div className="flex items-end justify-between gap-6 flex-wrap">
+              <div className="flex items-end justify-between gap-6 flex-wrap mb-14 md:mb-20">
                 <div className="max-w-xl">
-                  <div className="eyebrow flex items-center gap-2">
-                    <Flame className="w-3.5 h-3.5 text-accent" /> Најпродаванији модели
-                  </div>
-                  <h2 className="mt-4 h2-editorial">Топ избор ове сезоне</h2>
-                  <p className="mt-4 text-muted-foreground leading-relaxed">
-                    Модели који најбрже одлазе — изаберите величину и додајте у корпу у једном клику.
-                  </p>
+                  <div className="eyebrow">Издвојено</div>
+                  <h2 className="mt-5 h2-editorial">Најпродаванији модели</h2>
                 </div>
-                <Link to="/katalog" className="btn-outline">
-                  Цео каталог <ArrowRight className="w-4 h-4" />
+                <Link to="/katalog" className="text-[11px] uppercase tracking-[0.22em] link-underline text-foreground/70 hover:text-foreground">
+                  Цео каталог
                 </Link>
               </div>
             </Reveal>
 
-            <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-16 md:gap-x-10 md:gap-y-24">
               {bestSellers.map((p, i) => (
                 <Reveal key={p.id} delay={Math.min(4, i + 1) as 1 | 2 | 3 | 4}>
                   <div className="group flex flex-col h-full">
                     <Link
                       to="/proizvod/$slug"
                       params={{ slug: p.slug! }}
-                      className="relative block aspect-[3/4] overflow-hidden bg-secondary"
+                      className="relative block aspect-[3/4] overflow-hidden bg-[var(--ecru)]"
                     >
                       {p.image_url ? (
                         <img
@@ -296,29 +291,24 @@ function HomePage() {
                           alt={p.name!}
                           loading="lazy"
                           decoding="async"
-                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.03]"
                         />
                       ) : (
                         <div className="absolute inset-0 bg-foreground/5" />
                       )}
-                      {i === 0 && (
-                        <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 font-medium">
-                          №1
-                        </span>
-                      )}
                     </Link>
-                    <div className="mt-4 flex items-start justify-between gap-3">
+                    <div className="mt-5 flex items-start justify-between gap-4">
                       <div className="min-w-0">
-                        <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{p.sku} · {p.fit}</div>
-                        <Link to="/proizvod/$slug" params={{ slug: p.slug! }} className="serif text-lg mt-1 leading-tight block hover:text-accent transition-colors">
+                        <div className="mono text-[10px] tracking-[0.22em] text-muted-foreground uppercase">{p.sku}</div>
+                        <Link to="/proizvod/$slug" params={{ slug: p.slug! }} className="serif-accent text-[17px] mt-1.5 leading-tight block hover:opacity-70 transition-opacity">
                           {p.name}
                         </Link>
                       </div>
-                      <div className="serif text-lg tabular-nums shrink-0">
-                        {Number(p.retail).toLocaleString("sr-RS")} <span className="text-xs text-muted-foreground">дин</span>
+                      <div className="text-[13px] tabular-nums shrink-0 text-foreground/80">
+                        {Number(p.retail).toLocaleString("sr-RS")} <span className="text-muted-foreground">дин</span>
                       </div>
                     </div>
-                    <div className="mt-4">
+                    <div className="mt-5">
                       <QuickBuy product={p} />
                     </div>
                   </div>
@@ -330,121 +320,60 @@ function HomePage() {
       )}
 
 
-      {/* ───────── EDITORIAL BENTO ───────── */}
-      <section className="relative">
-        <div className="container-x pb-10 md:pb-16">
-          <div className="grid grid-cols-1 md:grid-cols-12 md:grid-rows-6 gap-3 md:gap-4 md:h-[820px] lg:h-[880px]">
-
-            {/* 1. LOOK 01 */}
-            <Reveal delay={1} className="md:col-span-7 md:row-span-4 h-full min-h-[420px]">
-              <div className="relative overflow-hidden rounded-sm bg-secondary group h-full w-full">
+      {/* ───────── EDITORIAL SPREAD — full-bleed image + quiet text ───────── */}
+      <section className="relative pt-20 md:pt-32 pb-16 md:pb-24">
+        <div className="container-x">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-10 items-end">
+            <Reveal delay={1} className="md:col-span-8">
+              <div className="relative overflow-hidden aspect-[4/5] md:aspect-[16/11] bg-[var(--ecru)] group">
                 {img("hero") && (
                   <img
                     src={img("hero")}
                     alt={alt("hero", "EXIT Denim SS кампања")}
-                    fetchPriority="high"
                     decoding="async"
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-[1.02]"
                   />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/0 to-black/0" />
-                <div className="absolute bottom-6 left-6 right-6 text-white">
-                  <h3 className="text-3xl md:text-5xl serif-accent italic leading-[1.02]">
-                    Нови стандард <br className="hidden md:block" />за бутике.
-                  </h3>
-                </div>
               </div>
             </Reveal>
-
-            {/* 2. PRINCIP */}
-            <Reveal delay={2} className="md:col-span-5 md:row-span-2 h-full min-h-[200px]">
-              <div className="relative overflow-hidden rounded-sm border border-border bg-background p-8 md:p-10 flex items-center h-full w-full">
-                <p className="serif-accent text-[22px] md:text-[28px] leading-[1.22] text-foreground">
-                  Крој који не мора да се брани сваке сезоне.
-                </p>
-              </div>
+            <Reveal delay={2} className="md:col-span-4">
+              <div className="mono text-[10px] tracking-[0.28em] text-muted-foreground uppercase">Look 01 — SS26</div>
+              <p className="mt-6 serif-accent italic text-[26px] md:text-[32px] leading-[1.15] text-foreground">
+                Крој који не мора да се брани сваке сезоне.
+              </p>
+              <p className="mt-6 text-[14px] text-muted-foreground leading-relaxed">
+                Ткања бирана за држање облика. Штепови и рубови изведени за поновни повратак у радњу.
+              </p>
+              <Link to="/katalog" className="mt-8 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] link-underline">
+                Погледајте колекцију <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </Reveal>
+          </div>
 
-            {/* 3. STAT */}
-            <Reveal delay={2} className="md:col-span-2 md:row-span-2 h-full min-h-[200px]">
-              <div className="relative overflow-hidden rounded-sm bg-accent text-accent-foreground p-6 md:p-7 flex flex-col justify-between h-full w-full">
-                <div className="w-8 h-px bg-accent-foreground/40" />
-                <div>
-                  <div className="text-5xl md:text-6xl font-bold tracking-tight tabular-nums leading-none">
-                    <CountUp to={10} />
-                  </div>
-                  <p className="mt-3 text-[10px] uppercase tracking-[0.22em] leading-relaxed opacity-85 mono">
-                    MOQ
-                  </p>
-                </div>
-              </div>
+          {/* Second spread — reversed, quiet lookbook */}
+          <div className="mt-20 md:mt-32 grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-10 items-center">
+            <Reveal delay={1} className="md:col-span-4 md:order-1 order-2">
+              <div className="mono text-[10px] tracking-[0.28em] text-muted-foreground uppercase">Look 02 — Лукбук</div>
+              <p className="mt-6 serif-accent italic text-[26px] md:text-[32px] leading-[1.15]">
+                Тихо луксуз. Без метафора.
+              </p>
+              <Link to="/postani-partner" className="mt-8 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] link-underline">
+                Отворите B2B налог <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </Reveal>
-
-            {/* 4. LOOKBOOK */}
-            <Reveal delay={3} className="md:col-span-3 md:row-span-2 h-full min-h-[200px]">
-              <div className="relative overflow-hidden rounded-sm bg-secondary group h-full w-full">
+            <Reveal delay={2} className="md:col-span-8 md:order-2 order-1">
+              <div className="relative overflow-hidden aspect-[4/5] md:aspect-[16/11] bg-[var(--ecru)] group">
                 {img("lookbook") && (
                   <img
                     src={img("lookbook")}
                     alt={alt("lookbook", "Карго крој — лукбук")}
                     loading="lazy"
                     decoding="async"
-                    className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-[900ms] ease-out group-hover:scale-[1.05]"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-[1.02]"
                   />
                 )}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <span className="bg-background/90 backdrop-blur-md border border-border px-4 py-2 text-[11px] uppercase tracking-[0.25em] font-semibold serif-accent italic">
-                    Лукбук
-                  </span>
-                </div>
               </div>
             </Reveal>
-
-            {/* 5. CATEGORIES */}
-            <Reveal delay={3} className="md:col-span-8 md:row-span-2 h-full min-h-[200px]">
-              <div className="relative overflow-hidden rounded-sm bg-[var(--surface)] border border-border p-8 md:p-10 flex items-center h-full w-full">
-                <div className="flex flex-wrap gap-x-8 md:gap-x-12 gap-y-2">
-                  <Link to="/katalog" className="group relative text-3xl md:text-4xl serif-accent transition-all hover:italic">
-                    Фармерке
-                    <span className="absolute -bottom-1 left-0 w-0 h-px bg-accent transition-all duration-500 group-hover:w-full" />
-                  </Link>
-                  <Link to="/katalog" className="group relative text-3xl md:text-4xl serif-accent transition-all hover:italic">
-                    Чино
-                    <span className="absolute -bottom-1 left-0 w-0 h-px bg-accent transition-all duration-500 group-hover:w-full" />
-                  </Link>
-                  <Link to="/katalog" className="group relative text-3xl md:text-4xl serif-accent italic text-accent">
-                    Карго
-                    <span className="absolute -bottom-1 left-0 w-full h-px bg-accent" />
-                  </Link>
-                </div>
-              </div>
-            </Reveal>
-
-            {/* 6. CTA B2B */}
-            <Reveal delay={4} className="md:col-span-4 md:row-span-2 h-full min-h-[200px]">
-              <Link
-                to="/postani-partner"
-                className="relative overflow-hidden rounded-sm bg-[var(--ink)] text-white p-8 md:p-10 flex flex-col justify-between group h-full w-full"
-              >
-                <div className="absolute -top-6 -right-6 opacity-[0.06] group-hover:opacity-[0.12] transition-opacity duration-700">
-                  <svg width="180" height="180" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4.5 20.29L5.21 21L12 18L18.79 21L19.5 20.29L12 2Z" /></svg>
-                </div>
-                <div className="relative z-10 flex items-start justify-end">
-                  <div className="w-11 h-11 border border-white/20 flex items-center justify-center group-hover:bg-accent group-hover:border-accent transition-all duration-500">
-                    <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-0.5" />
-                  </div>
-                </div>
-                <div className="relative z-10">
-                  <h4 className="text-2xl md:text-[28px] serif-accent leading-[1.1]">
-                    Отворите <span className="italic text-accent">B2B</span> налог
-                  </h4>
-                  <p className="mt-3 text-[13px] text-white/60 leading-relaxed max-w-[240px]">
-                    Одговор у 24h.
-                  </p>
-                </div>
-              </Link>
-            </Reveal>
-
           </div>
         </div>
       </section>
