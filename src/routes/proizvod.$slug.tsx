@@ -8,7 +8,9 @@ import { ProductCard } from "@/components/ProductCard";
 import { AddToCart } from "@/components/AddToCart";
 import { getProductBySlug, listProducts, type ProductWithStock } from "@/lib/products.functions";
 import { getMyProfile } from "@/lib/orders.functions";
+import { generateLineSheet } from "@/lib/line-sheet.functions";
 import { useAuth } from "@/hooks/useAuth";
+
 
 
 export const Route = createFileRoute("/proizvod/$slug")({

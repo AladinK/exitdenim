@@ -32,7 +32,6 @@ import { Route as AuthenticatedNarudzbaRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedMojePorudzbineRouteImport } from './routes/_authenticated/moje-porudzbine'
 import { Route as AuthenticatedCekanjeRouteImport } from './routes/_authenticated/cekanje'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
-import { Route as ApiLineSheetSkuRouteImport } from './routes/api/line-sheet.$sku'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -149,11 +148,6 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const ApiLineSheetSkuRoute = ApiLineSheetSkuRouteImport.update({
-  id: '/api/line-sheet/$sku',
-  path: '/api/line-sheet/$sku',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -178,7 +172,6 @@ export interface FileRoutesByFullPath {
   '/narudzba': typeof AuthenticatedNarudzbaRoute
   '/porudzbina/$number': typeof PorudzbinaNumberRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
-  '/api/line-sheet/$sku': typeof ApiLineSheetSkuRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -203,7 +196,6 @@ export interface FileRoutesByTo {
   '/narudzba': typeof AuthenticatedNarudzbaRoute
   '/porudzbina/$number': typeof PorudzbinaNumberRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
-  '/api/line-sheet/$sku': typeof ApiLineSheetSkuRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -230,7 +222,6 @@ export interface FileRoutesById {
   '/_authenticated/narudzba': typeof AuthenticatedNarudzbaRoute
   '/porudzbina/$number': typeof PorudzbinaNumberRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
-  '/api/line-sheet/$sku': typeof ApiLineSheetSkuRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -257,7 +248,6 @@ export interface FileRouteTypes {
     | '/narudzba'
     | '/porudzbina/$number'
     | '/proizvod/$slug'
-    | '/api/line-sheet/$sku'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -282,7 +272,6 @@ export interface FileRouteTypes {
     | '/narudzba'
     | '/porudzbina/$number'
     | '/proizvod/$slug'
-    | '/api/line-sheet/$sku'
   id:
     | '__root__'
     | '/'
@@ -308,7 +297,6 @@ export interface FileRouteTypes {
     | '/_authenticated/narudzba'
     | '/porudzbina/$number'
     | '/proizvod/$slug'
-    | '/api/line-sheet/$sku'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -331,7 +319,6 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   PorudzbinaNumberRoute: typeof PorudzbinaNumberRoute
   ProizvodSlugRoute: typeof ProizvodSlugRoute
-  ApiLineSheetSkuRoute: typeof ApiLineSheetSkuRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -497,13 +484,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/api/line-sheet/$sku': {
-      id: '/api/line-sheet/$sku'
-      path: '/api/line-sheet/$sku'
-      fullPath: '/api/line-sheet/$sku'
-      preLoaderRoute: typeof ApiLineSheetSkuRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -544,7 +524,6 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   PorudzbinaNumberRoute: PorudzbinaNumberRoute,
   ProizvodSlugRoute: ProizvodSlugRoute,
-  ApiLineSheetSkuRoute: ApiLineSheetSkuRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
