@@ -493,16 +493,31 @@ export type Database = {
         }
         Relationships: []
       }
+      stock_availability: {
+        Row: {
+          in_stock: boolean | null
+          product_id: string | null
+          size: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stock_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stock_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
-      get_stock_availability: {
-        Args: never
-        Returns: {
-          in_stock: boolean
-          product_id: string
-          size: string
-        }[]
-      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
