@@ -218,3 +218,35 @@ function Spec({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
+
+function LineSheetButton({ sku }: { sku: string }) {
+  const generate = useServerFn(generateLineSheet);
+  const [busy, setBusy] = useState(false);
+  const download = async () => {
+    setBusy(true);
+    try {
+      const { pdfBase64 } = await generate({ data: { sku } });
+      const bin = atob(pdfBase64);
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      const url = URL.createObjectURL(new Blob([bytes], { type: "application/pdf" }));
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${sku}-line-sheet.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 30_000);
+    } catch (e) {
+      alert((e as Error).message || "Greška pri generisanju line sheet-a.");
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <button type="button" onClick={download} disabled={busy} className="btn-outline">
+      <Download className="w-3.5 h-3.5" /> {busy ? "Генерисање…" : "Преузми Line Sheet"}
+    </button>
+  );
+}
+
