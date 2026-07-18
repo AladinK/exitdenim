@@ -135,13 +135,16 @@ export const adminListProducts = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertAdmin(context.supabase, context.userId);
-    const { data: products, error } = await context.supabase
+    // Wholesale column is not readable through the Data API by any role
+    // except service_role; use the admin client after verifying admin.
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: products, error } = await supabaseAdmin
       .from("products")
       .select("*")
       .order("sort_order", { ascending: true })
       .order("created_at", { ascending: false });
     if (error) throw new Error(error.message);
-    const { data: stock } = await context.supabase.from("stock").select("*");
+    const { data: stock } = await supabaseAdmin.from("stock").select("*");
     const stockBy: Record<string, Record<string, number>> = {};
     (stock || []).forEach((s: any) => {
       (stockBy[s.product_id] ||= {})[s.size] = s.quantity;
@@ -156,7 +159,10 @@ export const upsertProduct = createServerFn({ method: "POST" })
     await assertAdmin(context.supabase, context.userId);
     const payload = { ...data };
     if (!payload.id) delete (payload as any).id;
-    const { data: row, error } = await context.supabase
+    // Use admin client so the returning `select('*')` can read the wholesale
+    // column, which is revoked from all non-service_role roles.
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: row, error } = await supabaseAdmin
       .from("products")
       .upsert(payload, { onConflict: "id" })
       .select("*")
@@ -164,6 +170,7 @@ export const upsertProduct = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return row;
   });
+
 
 export const deleteProduct = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])

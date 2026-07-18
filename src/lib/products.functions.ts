@@ -77,6 +77,20 @@ export const getStockQuantities = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => z.object({ productId: z.string().uuid() }).parse(d))
   .handler(async ({ data, context }) => {
+    // Exact per-size inventory is reserved for approved partners and admins.
+    // Pending or rejected accounts fall back to boolean availability only.
+    const { data: profile } = await context.supabase
+      .from("profiles")
+      .select("status")
+      .eq("id", context.userId)
+      .maybeSingle();
+    const { data: isAdmin } = await context.supabase.rpc("has_role", {
+      _user_id: context.userId,
+      _role: "admin",
+    });
+    if (!isAdmin && profile?.status !== "approved") {
+      throw new Error("Forbidden: approved B2B partner required.");
+    }
     const { data: rows, error } = await context.supabase
       .from("stock")
       .select("size, quantity")
@@ -86,3 +100,4 @@ export const getStockQuantities = createServerFn({ method: "GET" })
     (rows || []).forEach((r) => { map[r.size] = r.quantity; });
     return map;
   });
+

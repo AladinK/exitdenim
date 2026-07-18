@@ -65,13 +65,17 @@ export const addToOrder = createServerFn({ method: "POST" })
       throw new Error("Tvoj B2B nalog još nije odobren.");
     }
 
-    // Load product wholesale price
-    const { data: product, error: pErr } = await supabase
+    // Load product wholesale price via the admin client — the wholesale
+    // column is not readable through the Data API by non-admin roles, and we
+    // have already verified the caller is an approved partner above.
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: product, error: pErr } = await supabaseAdmin
       .from("products")
       .select("id, wholesale, moq")
       .eq("id", data.productId)
       .maybeSingle();
     if (pErr || !product) throw new Error("Proizvod nije pronađen.");
+
 
     const total = Object.values(data.sizes).reduce((a, b) => a + b, 0);
     if (total < product.moq) {
