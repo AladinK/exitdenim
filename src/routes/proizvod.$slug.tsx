@@ -180,11 +180,12 @@ function ProductDetail() {
             <Spec label="SKU" value={product.sku} />
           </dl>
 
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a href={`/api/line-sheet/${product.sku}`} target="_blank" rel="noopener" className="btn-outline">
-              <Download className="w-3.5 h-3.5" /> Преузми Line Sheet
-            </a>
-          </div>
+          {approved && (
+            <div className="mt-8 flex flex-wrap gap-3">
+              <LineSheetButton sku={product.sku} />
+            </div>
+          )}
+
 
           {approved && (
             <div className="mt-10 border-t border-border pt-8">
