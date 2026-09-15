@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
+import { useEffect } from "react";
 import { Layout } from "@/components/Layout";
 import { useCart, CART_CONSTANTS } from "@/hooks/useCart";
+import { ecommerce } from "@/lib/analytics";
 
 export const Route = createFileRoute("/korpa")({
   head: () => ({
