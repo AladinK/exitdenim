@@ -14,7 +14,13 @@ export function StickyMobileCta() {
     pathname.startsWith("/admin") ||
     pathname.startsWith("/narudzba") ||
     pathname.startsWith("/postani-partner") ||
-    pathname.startsWith("/proizvod/");
+    pathname.startsWith("/proizvod/") ||
+    pathname.startsWith("/katalog") ||
+    pathname.startsWith("/korpa") ||
+    pathname.startsWith("/kasa") ||
+    pathname.startsWith("/porudzbina") ||
+    pathname.startsWith("/moje-porudzbine") ||
+    pathname.startsWith("/reset-password");
   if (hide) return null;
 
   return (
