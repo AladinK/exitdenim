@@ -83,6 +83,12 @@ function CheckoutPage() {
           note: form.note || null,
         },
       });
+      ecommerce.purchase(
+        res.orderNumber,
+        items.map((i) => ({ item_id: i.sku, item_name: i.name, item_variant: i.size, price: i.unitPrice, quantity: i.quantity })),
+        total,
+        shipping,
+      );
       clear();
       navigate({ to: "/porudzbina/$number", params: { number: res.orderNumber }, search: { email: form.email } });
     } catch (err: any) {
