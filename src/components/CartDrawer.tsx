@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { X, Minus, Plus, ShoppingBag } from "lucide-react";
 import { useEffect } from "react";
 import { useCart, CART_CONSTANTS } from "@/hooks/useCart";
+import { ecommerce } from "@/lib/analytics";
 
 export function CartDrawer() {
   const { items, subtotal, shipping, total, open, setOpen, update, remove } = useCart();
@@ -97,9 +98,22 @@ export function CartDrawer() {
               )}
               <div className="flex justify-between pt-2 border-t border-border text-base font-semibold"><span>Укупно</span><span className="tabular-nums">{total.toLocaleString("sr-RS")} дин</span></div>
             </div>
-            <Link to="/kasa" onClick={() => setOpen(false)} className="btn-primary w-full justify-center">
-              Настави на касу
+            <Link
+              to="/kasa"
+              onClick={() => {
+                ecommerce.beginCheckout(
+                  items.map((i) => ({ item_id: i.sku, item_name: i.name, item_variant: i.size, price: i.unitPrice, quantity: i.quantity })),
+                  total,
+                );
+                setOpen(false);
+              }}
+              className="btn-primary w-full justify-center"
+            >
+              Настави на плаћање
             </Link>
+            <button onClick={() => setOpen(false)} className="btn-outline w-full justify-center">
+              Настави куповину
+            </button>
             <p className="text-[11px] text-center text-muted-foreground">Плаћање поузећем при испоруци</p>
           </div>
         )}
