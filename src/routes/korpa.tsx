@@ -91,13 +91,39 @@ function CartPage() {
                   )}
                   <div className="flex justify-between pt-3 mt-3 border-t border-border text-base font-semibold"><span>Укупно</span><span className="tabular-nums">{total.toLocaleString("sr-RS")} дин</span></div>
                 </div>
-                <Link to="/kasa" className="btn-primary w-full justify-center mt-6">Настави на касу</Link>
+                <Link
+                  to="/kasa"
+                  onClick={() => ecommerce.beginCheckout(items.map((i) => ({ item_id: i.sku, item_name: i.name, item_variant: i.size, price: i.unitPrice, quantity: i.quantity })), total)}
+                  className="btn-primary w-full justify-center mt-6"
+                >
+                  Настави на плаћање
+                </Link>
                 <p className="text-[11px] text-center text-muted-foreground mt-3">Плаћање поузећем при испоруци</p>
+                <Link to="/katalog" className="btn-outline w-full justify-center mt-3">Настави куповину</Link>
               </div>
             </aside>
           </div>
         )}
       </section>
+
+      {items.length > 0 && (
+        <div
+          className="lg:hidden fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/97 backdrop-blur-xl px-4 pt-3 pb-3 flex items-center gap-3"
+          style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))" }}
+        >
+          <div className="shrink-0">
+            <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Укупно</div>
+            <div className="text-[15px] font-semibold tabular-nums leading-tight">{total.toLocaleString("sr-RS")} дин</div>
+          </div>
+          <Link
+            to="/kasa"
+            onClick={() => ecommerce.beginCheckout(items.map((i) => ({ item_id: i.sku, item_name: i.name, item_variant: i.size, price: i.unitPrice, quantity: i.quantity })), total)}
+            className="flex-1 inline-flex items-center justify-center bg-foreground text-background py-3.5 text-[12.5px] uppercase tracking-[0.18em] font-semibold"
+          >
+            Настави на плаћање
+          </Link>
+        </div>
+      )}
     </Layout>
   );
 }
