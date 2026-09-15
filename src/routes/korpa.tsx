@@ -18,6 +18,21 @@ export const Route = createFileRoute("/korpa")({
 function CartPage() {
   const { items, subtotal, shipping, total, update, remove } = useCart();
 
+  useEffect(() => {
+    if (items.length === 0) return;
+    ecommerce.viewCart(
+      items.map((i) => ({
+        item_id: i.sku,
+        item_name: i.name,
+        item_variant: i.size,
+        price: i.unitPrice,
+        quantity: i.quantity,
+      })),
+      total,
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items.length]);
+
   return (
     <Layout>
       <section className="container-x py-12 md:py-16">
