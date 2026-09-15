@@ -198,12 +198,30 @@ function CheckoutPage() {
                 )}
                 <div className="flex justify-between pt-3 mt-2 border-t border-border font-semibold text-base"><span>Укупно</span><span className="tabular-nums">{total.toLocaleString("sr-RS")} дин</span></div>
               </div>
-              <button type="submit" disabled={submitting} className="btn-primary w-full justify-center">
-                {submitting ? "Слање..." : "Пошаљи поруџбину"}
+              <button type="submit" disabled={submitting} className="btn-primary w-full justify-center hidden lg:inline-flex">
+                {submitting ? "Слање..." : "Потврди поруџбину"}
               </button>
-              <p className="text-[11px] text-center text-muted-foreground">Слањем прихватате Услове коришћења.</p>
+              <p className="text-[11px] text-center text-muted-foreground">Плаћање поузећем · Слањем прихватате Услове коришћења.</p>
             </div>
           </aside>
+
+          {/* Mobile sticky confirm */}
+          <div
+            className="lg:hidden fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/97 backdrop-blur-xl px-4 pt-3 flex items-center gap-3"
+            style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))" }}
+          >
+            <div className="shrink-0">
+              <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Укупно</div>
+              <div className="text-[15px] font-semibold tabular-nums leading-tight">{total.toLocaleString("sr-RS")} дин</div>
+            </div>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="flex-1 inline-flex items-center justify-center bg-foreground text-background py-3.5 text-[12.5px] uppercase tracking-[0.18em] font-semibold disabled:opacity-60"
+            >
+              {submitting ? "Слање…" : "Потврди поруџбину"}
+            </button>
+          </div>
         </form>
       </section>
     </Layout>
