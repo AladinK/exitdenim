@@ -6,6 +6,7 @@ import { Layout } from "@/components/Layout";
 import { useCart, CART_CONSTANTS } from "@/hooks/useCart";
 import { createCustomerOrder } from "@/lib/customer-orders.functions";
 import { useAuth } from "@/hooks/useAuth";
+import { ecommerce } from "@/lib/analytics";
 
 export const Route = createFileRoute("/kasa")({
   head: () => ({

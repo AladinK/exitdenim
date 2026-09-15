@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { X, Minus, Plus, ShoppingBag } from "lucide-react";
 import { useEffect } from "react";
 import { useCart, CART_CONSTANTS } from "@/hooks/useCart";
+import { ecommerce } from "@/lib/analytics";
 
 export function CartDrawer() {
   const { items, subtotal, shipping, total, open, setOpen, update, remove } = useCart();
