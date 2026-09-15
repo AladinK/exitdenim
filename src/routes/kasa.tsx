@@ -60,6 +60,14 @@ function CheckoutPage() {
     }
   }, [items.length, submitting]); // eslint-disable-line
 
+  const gaItems = () =>
+    items.map((i) => ({ item_id: i.sku, item_name: i.name, item_variant: i.size, price: i.unitPrice, quantity: i.quantity }));
+
+  useEffect(() => {
+    if (items.length > 0) ecommerce.beginCheckout(gaItems(), total);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const set = (k: keyof Form, v: string) => setForm((f) => ({ ...f, [k]: v }));
 
   const onSubmit = async (e: React.FormEvent) => {
