@@ -81,6 +81,8 @@ function CheckoutPage() {
       return;
     }
     setErrors({});
+    ecommerce.addShippingInfo(gaItems(), total);
+    ecommerce.addPaymentInfo(gaItems(), total);
     setSubmitting(true);
     try {
       const res = await submit({
