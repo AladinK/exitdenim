@@ -32,9 +32,9 @@ export function Hero() {
               className="serif text-[color:var(--ivory)] font-normal tracking-[-0.02em] leading-[0.94] text-[clamp(3.25rem,10vw,9rem)]"
             >
               {[
-                <span key="1">Деним</span>,
+                <span key="1">Крој који</span>,
                 <span key="2">
-                  за <em className="italic serif-accent text-[color:var(--ivory)]/85">бутике</em>.
+                  <em className="italic serif-accent text-[color:var(--ivory)]/85">стоји</em>.
                 </span>,
               ]}
             </RevealLines>
@@ -42,23 +42,23 @@ export function Hero() {
           <div className="md:col-span-4 md:pl-6 md:border-l md:border-[color:var(--ivory)]/15">
             <FadeUp delay={0.35}>
               <p className="text-[15px] leading-[1.55] text-[color:var(--ivory)]/75 max-w-sm">
-                Мала породична производња из Новог Пазара. Стабилан крој, поштен рок, марже 2.4–2.8×.
+                Мушке фармерке, чино и карго из сопствене производње у Новом Пазару. Плаћање поузећем.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
                 <Magnetic strength={0.28}>
                   <Link
-                    to="/postani-partner"
+                    to="/katalog"
                     className="group inline-flex items-center gap-3 px-6 py-4 bg-[color:var(--ivory)] text-[color:var(--ink)] text-[11px] uppercase tracking-[0.24em] font-medium rounded-none hover:bg-white transition-colors"
                   >
-                    Затражите приступ
+                    Купи колекцију
                     <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1" />
                   </Link>
                 </Magnetic>
                 <Link
-                  to="/katalog"
+                  to="/jeans"
                   className="text-[11px] uppercase tracking-[0.24em] font-medium text-[color:var(--ivory)]/90 link-underline"
                 >
-                  Каталог
+                  Фармерке
                 </Link>
               </div>
             </FadeUp>
