@@ -245,12 +245,12 @@ function HomePage() {
       <Hero />
 
       {/* ───────── КАТЕГОРИЈЕ ───────── */}
-      <section className="relative py-10 md:py-14">
+      <section className="relative pt-6 pb-2 md:py-14">
         <div className="container-x">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
             {[
               { to: "/jeans", label: "ФАРМЕРКЕ", sub: "Кројеви који стоје како треба.", img: img("category_jeans"), tone: "dark" as const },
-              { to: "/chino", label: "ЧИНО", sub: "Чист изглед за сваки дан.", img: img("category_chino"), tone: "light" as const },
+              { to: "/chino", label: "ЧИНО", sub: "Чист изглед за сваки дан.", img: img("category_chino"), tone: "dark" as const },
               { to: "/cargo", label: "КАРГО", sub: "Функционалан модел са јачим карактером.", img: img("category_cargo"), tone: "dark" as const },
               { to: "/katalog", label: "СВИ МОДЕЛИ", sub: "Цела колекција на једном месту.", img: null, tone: "green" as const, cta: "ПЛАЋАЊЕ ПОУЗЕЋЕМ" },
             ].map((c) => (
@@ -268,7 +268,7 @@ function HomePage() {
                         decoding="async"
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.05]"
                       />
-                      <div className={`absolute inset-0 ${c.tone === "dark" ? "bg-gradient-to-t from-black/70 via-black/25 to-black/10" : "bg-gradient-to-t from-black/25 via-white/0 to-white/10"}`} />
+                      <div className={`absolute inset-0 ${c.tone === "dark" ? "bg-gradient-to-b from-black/65 via-black/10 to-black/35" : "bg-gradient-to-t from-black/25 via-white/0 to-white/10"}`} />
                     </>
                   ) : (
                     <div className="absolute inset-0 bg-[color:var(--brand-green-deep,#4a5a2f)]" />
@@ -300,7 +300,7 @@ function HomePage() {
 
       {/* ───────── BEST SELLERS ───────── */}
       {bestSellers.length > 0 && (
-        <section className="section-pad">
+        <section className="py-10 md:py-20">
           <div className="container-x">
             <Reveal>
               <div className="flex items-end justify-between gap-6 flex-wrap">
@@ -313,13 +313,13 @@ function HomePage() {
                     Модели који најбрже одлазе — изаберите величину и додајте у корпу у једном клику.
                   </p>
                 </div>
-                <Link to="/katalog" className="btn-outline">
+                <Link to="/katalog" className="btn-outline hidden md:inline-flex">
                   Цео каталог <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
             </Reveal>
 
-            <div className="mt-10 -mx-[1.125rem] px-[1.125rem] flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-none md:mx-0 md:px-0 md:grid md:grid-cols-4 md:gap-6 md:overflow-visible">
+            <div className="mt-8 -mx-[1.125rem] px-[1.125rem] scroll-px-[1.125rem] flex gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-none md:mx-0 md:px-0 md:grid md:grid-cols-4 md:gap-6 md:overflow-visible">
               {bestSellers.map((p, i) => (
                 <Reveal key={p.id} delay={Math.min(4, i + 1) as 1 | 2 | 3 | 4} className="snap-start shrink-0 w-[70%] sm:w-[45%] md:w-auto">
                   <div className="group flex flex-col h-full">
