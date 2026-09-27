@@ -10,10 +10,11 @@ import { getMyProfile } from "@/lib/orders.functions";
 
 
 const NAV: Array<{ to: any; label: string }> = [
-  { to: "/", label: "Почетна" },
-  { to: "/katalog", label: "Продавница" },
-  { to: "/postani-partner", label: "Постаните партнер" },
-  { to: "/proizvodnja", label: "Производња" },
+  { to: "/katalog", label: "Сви модели" },
+  { to: "/jeans", label: "Фармерке" },
+  { to: "/chino", label: "Чино" },
+  { to: "/cargo", label: "Карго" },
+  { to: "/proizvodnja", label: "О нама" },
   { to: "/kontakt", label: "Контакт" },
 ];
 
@@ -173,7 +174,7 @@ export function Navbar() {
               <Link to="/auth" className="text-[14px] font-medium text-muted-foreground hover:text-foreground px-3 py-2">
                 Пријава
               </Link>
-              <Link to="/postani-partner" className="btn-primary">B2B Приступ</Link>
+              <Link to="/katalog" className="btn-primary">Купи сада</Link>
             </>
           )}
         </div>
@@ -248,8 +249,8 @@ export function Navbar() {
             </div>
           ) : (
             <div className="flex flex-col gap-2">
-              <Link to="/postani-partner" onClick={() => setOpen(false)} className="btn-primary w-full">
-                Затражите B2B приступ
+              <Link to="/katalog" onClick={() => setOpen(false)} className="btn-primary w-full">
+                Купи сада
               </Link>
               <Link to="/auth" onClick={() => setOpen(false)} className="btn-outline w-full">
                 Пријава
