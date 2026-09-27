@@ -273,10 +273,10 @@ function HomePage() {
                   ) : (
                     <div className="absolute inset-0 bg-[color:var(--brand-green-deep,#4a5a2f)]" />
                   )}
-                  <div className={`absolute inset-0 flex flex-col justify-between p-5 md:p-6 ${c.tone === "light" ? "text-[color:var(--ink)]" : "text-white"}`}>
+                  <div className={`absolute inset-0 flex flex-col justify-between p-5 md:p-6 ${(c.tone as string) === "light" ? "text-[color:var(--ink)]" : "text-white"}`}>
                     <div>
                       <h3 className="text-xl md:text-2xl font-bold tracking-tight">{c.label}</h3>
-                      <p className={`mt-2 text-[13px] md:text-sm leading-snug max-w-[220px] ${c.tone === "light" ? "text-[color:var(--ink)]/75" : "text-white/85"}`}>
+                      <p className={`mt-2 text-[13px] md:text-sm leading-snug max-w-[220px] ${(c.tone as string) === "light" ? "text-[color:var(--ink)]/75" : "text-white/85"}`}>
                         {c.sub}
                       </p>
                     </div>
