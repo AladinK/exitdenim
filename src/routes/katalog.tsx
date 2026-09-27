@@ -13,7 +13,7 @@ export const Route = createFileRoute("/katalog")({
   head: () => ({
     meta: [
       { title: "Каталог · Деним, чино и карго — EXIT Denim" },
-      { name: "description", content: "Комплетан B2B каталог EXIT Denim — премијум мушки деним, чино и карго. Величине, тканина и велепродајне цене за одобрене партнере." },
+      { name: "description", content: "Мушке фармерке, чино и карго панталоне EXIT Denim. Филтрирајте по кроју и величини. Плаћање поузећем." },
       { property: "og:title", content: "Каталог · Деним, чино и карго — EXIT Denim" },
       { property: "og:url", content: "https://exitdenim.shop/katalog" },
     ],
@@ -211,16 +211,6 @@ function Katalog() {
         </div>
       </section>
 
-      {!approved && (
-        <section className="bg-secondary/60 border-b border-border">
-          <div className="container-x py-3.5 flex items-center justify-between flex-wrap gap-3 text-xs">
-            <span className="text-muted-foreground uppercase tracking-[0.2em]">Ви сте бутик? Затражите B2B приступ за велепродајне цене и матрицу величина.</span>
-            <Link to="/postani-partner" className="link-underline uppercase tracking-[0.2em] font-medium">
-              Постаните партнер →
-            </Link>
-          </div>
-        </section>
-      )}
 
       {/* Toolbar — sticky */}
       <div className="sticky top-[64px] z-30 bg-background/85 backdrop-blur-md border-b border-border">
