@@ -268,7 +268,7 @@ function HomePage() {
                         decoding="async"
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.05]"
                       />
-                      <div className={`absolute inset-0 ${c.tone === "dark" ? "bg-gradient-to-t from-black/70 via-black/25 to-black/10" : "bg-gradient-to-t from-black/25 via-white/0 to-white/10"}`} />
+                      <div className={`absolute inset-0 ${c.tone === "dark" ? "bg-gradient-to-b from-black/65 via-black/10 to-black/35" : "bg-gradient-to-t from-black/25 via-white/0 to-white/10"}`} />
                     </>
                   ) : (
                     <div className="absolute inset-0 bg-[color:var(--brand-green-deep,#4a5a2f)]" />
