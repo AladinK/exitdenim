@@ -15,10 +15,10 @@ import { listProducts, type ProductWithStock } from "@/lib/products.functions";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "EXIT Denim — B2B деним, чино и карго за бутике" },
-      { name: "description", content: "Затворена B2B платформа из Новог Пазара. Премијум мушке панталоне — деним, чино и карго. Стабилни кројеви, поуздана испорука и марже за бутике у региону." },
-      { property: "og:title", content: "EXIT Denim — B2B деним, чино и карго за бутике" },
-      { property: "og:description", content: "Затворена B2B платформа из Новог Пазара. Премијум мушке панталоне — деним, чино и карго. Стабилни кројеви, поуздана испорука и марже за бутике у региону." },
+      { title: "EXIT Denim — мушке фармерке, чино и карго панталоне" },
+      { name: "description", content: "Премијум мушке фармерке, чино и карго панталоне из Новог Пазара. Плаћање поузећем, достава широм Србије." },
+      { property: "og:title", content: "EXIT Denim — мушке фармерке, чино и карго панталоне" },
+      { property: "og:description", content: "Премијум мушке фармерке, чино и карго панталоне из Новог Пазара. Плаћање поузећем, достава широм Србије." },
       { property: "og:url", content: "https://exitdenim.shop/" },
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/" }],
@@ -198,7 +198,7 @@ function HomePage() {
   const [bestSellers, setBestSellers] = useState<ProductWithStock[]>([]);
   useEffect(() => {
     fetchAssets({}).then(setAssets).catch(() => {});
-    fetchProducts({}).then((p) => setBestSellers(p.slice(0, 4))).catch(() => {});
+    fetchProducts({}).then((p) => setBestSellers(p.slice(0, 8))).catch(() => {});
   }, []); // eslint-disable-line
   const img = (k: string) => assets[k]?.url || "";
   const alt = (k: string, fb: string) => assets[k]?.alt || fb;
@@ -249,10 +249,10 @@ function HomePage() {
         <div className="container-x">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
             {[
-              { to: "/jeans", label: "ФАРМЕРКЕ", sub: "Стабилан крој. Брз обрт.", img: img("category_jeans"), tone: "dark" as const },
+              { to: "/jeans", label: "ФАРМЕРКЕ", sub: "Кројеви који стоје како треба.", img: img("category_jeans"), tone: "dark" as const },
               { to: "/chino", label: "ЧИНО", sub: "Чист изглед за сваки дан.", img: img("category_chino"), tone: "light" as const },
               { to: "/cargo", label: "КАРГО", sub: "Функционалан модел са јачим карактером.", img: img("category_cargo"), tone: "dark" as const },
-              { to: "/postani-partner", label: "B2B САРАДЊА", sub: "Веле­продаја за бутике.", img: null, tone: "green" as const, cta: "ПОСТАНИТЕ ДЕО EXIT DENIM ПРИЧЕ." },
+              { to: "/katalog", label: "СВИ МОДЕЛИ", sub: "Цела колекција на једном месту.", img: null, tone: "green" as const, cta: "ПЛАЋАЊЕ ПОУЗЕЋЕМ" },
             ].map((c) => (
               <Reveal key={c.label}>
                 <Link
@@ -319,9 +319,9 @@ function HomePage() {
               </div>
             </Reveal>
 
-            <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="mt-10 -mx-[1.125rem] px-[1.125rem] flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-none md:mx-0 md:px-0 md:grid md:grid-cols-4 md:gap-6 md:overflow-visible">
               {bestSellers.map((p, i) => (
-                <Reveal key={p.id} delay={Math.min(4, i + 1) as 1 | 2 | 3 | 4}>
+                <Reveal key={p.id} delay={Math.min(4, i + 1) as 1 | 2 | 3 | 4} className="snap-start shrink-0 w-[70%] sm:w-[45%] md:w-auto">
                   <div className="group flex flex-col h-full">
                     <Link
                       to="/proizvod/$slug"
@@ -368,192 +368,49 @@ function HomePage() {
       )}
 
 
-      {/* ───────── EDITORIAL BENTO ───────── */}
-      <section className="relative">
-        <div className="container-x pb-10 md:pb-16">
-          <div className="grid grid-cols-1 md:grid-cols-12 md:grid-rows-6 gap-3 md:gap-4 md:h-[820px] lg:h-[880px]">
-
-            {/* 1. LOOK 01 */}
-            <Reveal delay={1} className="md:col-span-7 md:row-span-4 h-full min-h-[420px]">
-              <div className="relative overflow-hidden rounded-sm bg-secondary group h-full w-full">
-                {img("hero") && (
-                  <img
-                    src={img("hero")}
-                    alt={alt("hero", "EXIT Denim SS кампања")}
-                    fetchPriority="high"
-                    decoding="async"
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/0 to-black/0" />
-                <div className="absolute bottom-6 left-6 right-6 text-white">
-                  <h3 className="text-3xl md:text-5xl serif-accent italic leading-[1.02]">
-                    Нови стандард <br className="hidden md:block" />за бутике.
-                  </h3>
-                </div>
-              </div>
-            </Reveal>
-
-            {/* 2. PRINCIP */}
-            <Reveal delay={2} className="md:col-span-5 md:row-span-2 h-full min-h-[200px]">
-              <div className="relative overflow-hidden rounded-sm border border-border bg-background p-8 md:p-10 flex items-center h-full w-full">
-                <p className="serif-accent text-[22px] md:text-[28px] leading-[1.22] text-foreground">
-                  Крој који не мора да се брани сваке сезоне.
-                </p>
-              </div>
-            </Reveal>
-
-            {/* 3. STAT */}
-            <Reveal delay={2} className="md:col-span-2 md:row-span-2 h-full min-h-[200px]">
-              <div className="relative overflow-hidden rounded-sm bg-accent text-accent-foreground p-6 md:p-7 flex flex-col justify-between h-full w-full">
-                <div className="w-8 h-px bg-accent-foreground/40" />
-                <div>
-                  <div className="text-5xl md:text-6xl font-bold tracking-tight tabular-nums leading-none">
-                    <CountUp to={10} />
-                  </div>
-                  <p className="mt-3 text-[10px] uppercase tracking-[0.22em] leading-relaxed opacity-85 mono">
-                    MOQ
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-
-            {/* 4. LOOKBOOK */}
-            <Reveal delay={3} className="md:col-span-3 md:row-span-2 h-full min-h-[200px]">
-              <div className="relative overflow-hidden rounded-sm bg-secondary group h-full w-full">
-                {img("lookbook") && (
-                  <img
-                    src={img("lookbook")}
-                    alt={alt("lookbook", "Карго крој — лукбук")}
-                    loading="lazy"
-                    decoding="async"
-                    className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-[900ms] ease-out group-hover:scale-[1.05]"
-                  />
-                )}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <span className="bg-background/90 backdrop-blur-md border border-border px-4 py-2 text-[11px] uppercase tracking-[0.25em] font-semibold serif-accent italic">
-                    Лукбук
-                  </span>
-                </div>
-              </div>
-            </Reveal>
-
-            {/* 5. CATEGORIES */}
-            <Reveal delay={3} className="md:col-span-8 md:row-span-2 h-full min-h-[200px]">
-              <div className="relative overflow-hidden rounded-sm bg-[var(--surface)] border border-border p-8 md:p-10 flex items-center h-full w-full">
-                <div className="flex flex-wrap gap-x-8 md:gap-x-12 gap-y-2">
-                  <Link to="/katalog" className="group relative text-3xl md:text-4xl serif-accent transition-all hover:italic">
-                    Фармерке
-                    <span className="absolute -bottom-1 left-0 w-0 h-px bg-accent transition-all duration-500 group-hover:w-full" />
-                  </Link>
-                  <Link to="/katalog" className="group relative text-3xl md:text-4xl serif-accent transition-all hover:italic">
-                    Чино
-                    <span className="absolute -bottom-1 left-0 w-0 h-px bg-accent transition-all duration-500 group-hover:w-full" />
-                  </Link>
-                  <Link to="/katalog" className="group relative text-3xl md:text-4xl serif-accent italic text-accent">
-                    Карго
-                    <span className="absolute -bottom-1 left-0 w-full h-px bg-accent" />
-                  </Link>
-                </div>
-              </div>
-            </Reveal>
-
-            {/* 6. CTA B2B */}
-            <Reveal delay={4} className="md:col-span-4 md:row-span-2 h-full min-h-[200px]">
-              <Link
-                to="/postani-partner"
-                className="relative overflow-hidden rounded-sm bg-[var(--ink)] text-white p-8 md:p-10 flex flex-col justify-between group h-full w-full"
-              >
-                <div className="absolute -top-6 -right-6 opacity-[0.06] group-hover:opacity-[0.12] transition-opacity duration-700">
-                  <svg width="180" height="180" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4.5 20.29L5.21 21L12 18L18.79 21L19.5 20.29L12 2Z" /></svg>
-                </div>
-                <div className="relative z-10 flex items-start justify-end">
-                  <div className="w-11 h-11 border border-white/20 flex items-center justify-center group-hover:bg-accent group-hover:border-accent transition-all duration-500">
-                    <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-0.5" />
-                  </div>
-                </div>
-                <div className="relative z-10">
-                  <h4 className="text-2xl md:text-[28px] serif-accent leading-[1.1]">
-                    Отворите <span className="italic text-accent">B2B</span> налог
-                  </h4>
-                  <p className="mt-3 text-[13px] text-white/60 leading-relaxed max-w-[240px]">
-                    Одговор у 24h.
-                  </p>
+      {/* ───────── ИЗАБЕРИ КРОЈ ───────── */}
+      <section className="py-12 md:py-20 border-t border-border">
+        <div className="container-x">
+          <div className="eyebrow">Пронађи свој крој</div>
+          <h2 className="mt-3 h2-editorial">Прво крој. Онда модел.</h2>
+          <div className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-3">
+            {[
+              { t: "Slim", d: "Уже кроз бутину и ногавицу." },
+              { t: "Regular Slim", d: "Удобно горе, сужено доле." },
+              { t: "Relaxed", d: "Више простора, опуштен пад." },
+              { t: "Cargo", d: "Функционални џепови, јачи карактер." },
+            ].map((f) => (
+              <Link key={f.t} to="/katalog" className="group border border-border p-5 hover:border-foreground transition-colors">
+                <div className="text-lg font-semibold">{f.t}</div>
+                <p className="mt-2 text-[13px] text-muted-foreground leading-snug">{f.d}</p>
+                <div className="mt-4 inline-flex items-center gap-1 text-[11px] uppercase tracking-[0.18em] font-medium">
+                  Погледај <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                 </div>
               </Link>
-            </Reveal>
-
-          </div>
-        </div>
-      </section>
-
-
-      {/* ───────── TRUST PROOF ───────── */}
-      <TrustProof />
-
-
-      {/* ───────── KAKO RADI ───────── */}
-      <section className="section-pad">
-        <div className="container-x">
-          <Reveal>
-            <div className="max-w-2xl">
-              <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
-                Од пријаве до испоруке — четири корака.
-              </h2>
-            </div>
-          </Reveal>
-
-          <div className="mt-14 grid md:grid-cols-4 gap-x-10 gap-y-12">
-            {[
-              { n: "01", t: "Пријава", d: "Кратка форма. Одговор у 24h." },
-              { n: "02", t: "Одобрење", d: "Активирамо B2B налог и цене." },
-              { n: "03", t: "Поруџбина", d: "Бирате моделе и величине." },
-              { n: "04", t: "Испорука", d: "Достава 15–25 дана." },
-            ].map((s, i) => (
-              <Reveal key={s.n} delay={Math.min(4, i + 1) as 1 | 2 | 3 | 4}>
-                <div className="border-t border-foreground/15 pt-5">
-                  <div className="mono text-[11px] tracking-[0.2em] text-muted-foreground">{s.n}</div>
-                  <h3 className="mt-6 text-xl font-medium tracking-tight">{s.t}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.d}</p>
-                </div>
-              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ───────── ATELIER ───────── */}
-      <section className="section-pad bg-[var(--surface)]">
-        <div className="container-x grid lg:grid-cols-2 gap-12 items-center">
-          <Reveal>
-            <div className="rounded-2xl overflow-hidden border border-border aspect-[4/5]">
-              {img("workshop") ? (
-                <img src={img("workshop")} alt={alt("workshop", "EXIT Denim атеље у Новом Пазару")} loading="lazy" decoding="async" className="w-full h-full object-cover" />
-              ) : (
-                <div className="w-full h-full bg-secondary" />
-              )}
+      {/* ───────── ЗАШТО EXIT ───────── */}
+      <section className="py-12 md:py-20 bg-[var(--surface)]">
+        <div className="container-x grid md:grid-cols-3 gap-8">
+          {[
+            { t: "Плаћање поузећем", d: "Плаћате курiру тек када примите пакет." },
+            { t: "Достава широм Србије", d: "500 дин · бесплатна за поруџбине преко 15.000 дин." },
+            { t: "Произведено у Србији", d: "Сопствени погон у Новом Пазару." },
+          ].map((s) => (
+            <div key={s.t} className="border-t border-foreground/20 pt-5">
+              <Check className="w-4 h-4 text-accent" />
+              <h3 className="mt-3 text-lg">{s.t}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{s.d}</p>
             </div>
-          </Reveal>
-          <Reveal delay={1}>
-            <div>
-              <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
-                Атеље у Новом Пазару.
-              </h2>
-              <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-                Породични погон. Мале серије, стални тим, директно из погона у бутик.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-x-8 gap-y-2 text-sm text-muted-foreground">
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-accent" /> MOQ 10</div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-accent" /> 15–25 дана</div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-accent" /> Made in Serbia</div>
-              </div>
-              <div className="mt-8">
-                <Link to="/proizvodnja" className="btn-outline">
-                  Производња <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </div>
-          </Reveal>
+          ))}
+        </div>
+        <div className="container-x mt-10">
+          <Link to="/katalog" className="btn-primary w-full sm:w-auto">
+            Купи колекцију <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </section>
       </div>
