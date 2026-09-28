@@ -20,6 +20,8 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "EXIT Denim — farmerke, bootcut, flare, chino i cargo" },
       { property: "og:description", content: "Muške farmerke — slim, relaxed, bootcut i flare, plus chino i cargo iz Novog Pazara. Plaćanje pouzećem, dostava po celoj Srbiji." },
       { property: "og:url", content: "https://exitdenim.shop/" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/" }],
   }),
@@ -273,10 +275,10 @@ function HomePage() {
                   ) : (
                     <div className="absolute inset-0 bg-[color:var(--acid)]" />
                   )}
-                  <div className={`absolute inset-0 flex flex-col justify-between p-5 md:p-6 ${(c.tone as string) === "light" ? "text-[color:var(--ink)]" : "text-white"}`}>
+                  <div className={`absolute inset-0 flex flex-col justify-between p-5 md:p-6 ${(c.tone as string) === "green" ? "text-[color:var(--ink)]" : "text-white"}`}>
                     <div>
                       <h3 className="text-xl md:text-2xl font-bold tracking-tight">{c.label}</h3>
-                      <p className={`mt-2 text-[13px] md:text-sm leading-snug max-w-[220px] ${(c.tone as string) === "light" ? "text-[color:var(--ink)]/75" : "text-white/85"}`}>
+                      <p className={`mt-2 text-[13px] md:text-sm leading-snug max-w-[220px] ${(c.tone as string) === "green" ? "text-[color:var(--ink)]/75" : "text-white/85"}`}>
                         {c.sub}
                       </p>
                     </div>
@@ -286,7 +288,7 @@ function HomePage() {
                           {c.cta}
                         </p>
                       ) : <span />}
-                      <span className="w-9 h-9 flex items-center justify-center text-[color:var(--brand-green,#8aa35a)] transition-transform duration-500 group-hover:translate-x-1">
+                      <span className="w-9 h-9 flex items-center justify-center text-current transition-transform duration-500 group-hover:translate-x-1">
                         <ArrowRight className="w-5 h-5" strokeWidth={2.25} />
                       </span>
                     </div>
