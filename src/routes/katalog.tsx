@@ -19,8 +19,14 @@ export const Route = createFileRoute("/katalog")({
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/katalog" }],
   }),
+  validateSearch: (s: Record<string, unknown>) => ({
+    fit: typeof s.fit === "string" ? s.fit : undefined,
+    group: s.group === "wide" ? ("wide" as const) : undefined,
+  }),
   component: Katalog,
 });
+
+const WIDE_FITS = ["Relaxed", "Bootcut", "Flare"];
 
 type Cat = "all" | "jeans" | "chino" | "cargo";
 type FitFilter = "all" | "Slim" | "Regular Slim" | "Relaxed" | "Bootcut" | "Flare" | "Cargo";
@@ -44,7 +50,11 @@ function Katalog() {
   const [approved, setApproved] = useState(false);
 
   const [cat, setCat] = useState<Cat>("all");
-  const [fit, setFit] = useState<FitFilter>("all");
+  const search = Route.useSearch();
+  const [fit, setFit] = useState<FitFilter>(
+    (FITS as string[]).includes(search.fit ?? "") ? (search.fit as FitFilter) : "all",
+  );
+  const [wide, setWide] = useState(search.group === "wide");
   const [sizes, setSizes] = useState<string[]>([]);
   const [query, setQuery] = useState("");
   const [inStock, setInStock] = useState(false);
@@ -60,7 +70,7 @@ function Katalog() {
     setSizes((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]));
 
   const clearAll = () => {
-    setCat("all"); setFit("all"); setSizes([]); setQuery(""); setInStock(false); setSort("featured");
+    setCat("all"); setFit("all"); setWide(false); setSizes([]); setQuery(""); setInStock(false); setSort("featured");
   };
 
   const filtered = useMemo(() => {
@@ -68,6 +78,7 @@ function Katalog() {
     let list = products.filter((p) => {
       if (cat !== "all" && p.category !== cat) return false;
       if (fit !== "all" && p.fit !== fit) return false;
+      if (wide && !WIDE_FITS.includes(p.fit as string)) return false;
       if (q && !(`${p.name} ${p.sku} ${p.fabric ?? ""}`.toLowerCase().includes(q))) return false;
       if (sizes.length && !sizes.some((s) => (p.stock?.[s] ?? 0) > 0)) return false;
       if (inStock && !Object.values(p.stock || {}).some((n) => n > 0)) return false;
@@ -77,10 +88,10 @@ function Katalog() {
     if (sort === "price-desc") list = [...list].sort((a, b) => Number(b.retail) - Number(a.retail));
     if (sort === "name") list = [...list].sort((a, b) => a.name.localeCompare(b.name, "sr"));
     return list;
-  }, [products, cat, fit, sizes, query, inStock, sort]);
+  }, [products, cat, fit, wide, sizes, query, inStock, sort]);
 
   const activeCount =
-    (cat !== "all" ? 1 : 0) + (fit !== "all" ? 1 : 0) + sizes.length + (query ? 1 : 0) + (inStock ? 1 : 0);
+    (cat !== "all" ? 1 : 0) + (fit !== "all" ? 1 : 0) + (wide ? 1 : 0) + sizes.length + (query ? 1 : 0) + (inStock ? 1 : 0);
 
   const Sidebar = (
     <aside className="space-y-8">
@@ -246,6 +257,7 @@ function Katalog() {
           <div className="container-x pb-3 flex flex-wrap gap-1.5">
             {cat !== "all" && <Chip onRemove={() => setCat("all")}>{CATS.find((c) => c.key === cat)?.label}</Chip>}
             {fit !== "all" && <Chip onRemove={() => setFit("all")}>{fit}</Chip>}
+            {wide && <Chip onRemove={() => setWide(false)}>Wide & Flare</Chip>}
             {sizes.map((s) => <Chip key={s} onRemove={() => toggleSize(s)}>Величина {s}</Chip>)}
             {inStock && <Chip onRemove={() => setInStock(false)}>На стању</Chip>}
             {query && <Chip onRemove={() => setQuery("")}>„{query}"</Chip>}
