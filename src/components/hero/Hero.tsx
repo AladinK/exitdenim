@@ -25,10 +25,10 @@ export function Hero() {
           Širi krojevi, jači vibe. Farmerke iz naše radionice u Novom Pazaru — plaćaš tek kad stignu.
         </p>
         <div className="mt-7 flex flex-wrap items-center gap-4">
-          <Link to="/wide-flare" onClick={() => ecommerce.cta("hero_wide_flare")} className="btn-street">
+          <Link to="/wide-flare" onClick={() => ecommerce.cta("wide_flare", "hero")} className="btn-street">
             Shop Wide & Flare <ArrowRight className="w-4 h-4" />
           </Link>
-          <Link to="/katalog" onClick={() => ecommerce.cta("hero_shop_all")} className="font-semibold uppercase text-sm underline underline-offset-4 decoration-2 decoration-[color:var(--acid)]">
+          <Link to="/katalog" onClick={() => ecommerce.cta("shop_all", "hero")} className="font-semibold uppercase text-sm underline underline-offset-4 decoration-2 decoration-[color:var(--acid)]">
             Vidi sve
           </Link>
         </div>
