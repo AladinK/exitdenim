@@ -16,40 +16,40 @@ export function Footer() {
           <div className="md:col-span-5">
             <Logo variant="light" className="h-10" />
             <p className="text-lg md:text-xl mt-6 max-w-md leading-snug text-white/80">
-              Премијум мушке фармерке, чино и карго. Произведено у Новом Пазару. Плаћање поузећем широм Србије.
+              Denim koji nosiš, ne koji nosi tebe. Pravljeno u Novom Pazaru. Plaćaš kad stigne.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link to="/katalog" className="btn-accent">Купи сада</Link>
+              <Link to="/katalog" className="btn-accent">Uzmi sad</Link>
               <Link to="/jeans" className="btn-outline border-white/30 text-white hover:bg-white/10 hover:border-white">
-                Фармерке
+                Farmerke
               </Link>
             </div>
           </div>
 
           <div className="md:col-span-2">
-            <div className="text-xs uppercase tracking-[0.16em] text-white/55 font-semibold">Продавница</div>
+            <div className="text-xs uppercase tracking-[0.16em] text-white/55 font-semibold">Shop</div>
             <ul className="mt-4 space-y-2.5 text-sm">
-              <li><Link to="/katalog" className="hover:text-accent transition-colors">Сви модели</Link></li>
-              <li><Link to="/jeans" className="hover:text-accent transition-colors">Фармерке</Link></li><li><Link to="/chino" className="hover:text-accent transition-colors">Чино</Link></li><li><Link to="/cargo" className="hover:text-accent transition-colors">Карго</Link></li>
+              <li><Link to="/katalog" className="hover:text-accent transition-colors">Shop all</Link></li><li><Link to="/wide-flare" className="hover:text-accent transition-colors">Wide & Flare</Link></li>
+              <li><Link to="/jeans" className="hover:text-accent transition-colors">Farmerke</Link></li><li><Link to="/chino" className="hover:text-accent transition-colors">Chino</Link></li><li><Link to="/cargo" className="hover:text-accent transition-colors">Cargo</Link></li>
             </ul>
           </div>
 
           <div className="md:col-span-2">
-            <div className="text-xs uppercase tracking-[0.16em] text-white/55 font-semibold">Кућа</div>
+            <div className="text-xs uppercase tracking-[0.16em] text-white/55 font-semibold">EXIT</div>
             <ul className="mt-4 space-y-2.5 text-sm">
-              <li><Link to="/postani-partner" className="hover:text-accent transition-colors">Велепродаја (B2B)</Link></li>
-              <li><Link to="/proizvodnja" className="hover:text-accent transition-colors">Производња</Link></li>
-              <li><Link to="/media-kit" className="hover:text-accent transition-colors">Медиа кит</Link></li>
-              <li><Link to="/faq" className="hover:text-accent transition-colors">Често постављана питања</Link></li>
+              <li><Link to="/postani-partner" className="hover:text-accent transition-colors">Veleprodaja (B2B)</Link></li>
+              <li><Link to="/proizvodnja" className="hover:text-accent transition-colors">Proizvodnja</Link></li>
+              <li><Link to="/media-kit" className="hover:text-accent transition-colors">Media kit</Link></li>
+              <li><Link to="/faq" className="hover:text-accent transition-colors">FAQ</Link></li>
             </ul>
           </div>
 
           <div className="md:col-span-3">
-            <div className="text-xs uppercase tracking-[0.16em] text-white/55 font-semibold">Контакт</div>
+            <div className="text-xs uppercase tracking-[0.16em] text-white/55 font-semibold">Kontakt</div>
             <ul className="mt-4 space-y-2.5 text-sm">
-              <li>Беким Куртановић</li>
+              <li>Bekim Kurtanović</li>
               <li className="text-white/60">EXIT Denim — TRI-B DOO</li>
-              <li>Нови Пазар, Србија</li>
+              <li>Novi Pazar, Srbija</li>
               <li className="tabular-nums"><a href="https://wa.me/381653701701" className="hover:text-accent transition-colors">+381 65 370 1701</a></li>
               <li className="text-white/60">WhatsApp · Viber</li>
               <li><a href="https://instagram.com/exit.denim" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors">@exit.denim</a></li>

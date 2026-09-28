@@ -33,8 +33,8 @@
   --color-teal: var(--teal);
   --color-violet: var(--violet);
   --color-surface: var(--surface);
-  --font-display: "Instrument Serif", "Times New Roman", Georgia, serif;
-  --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Archivo Black", "Arial Black", system-ui, sans-serif;
+  --font-sans: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
 }
 
@@ -53,13 +53,15 @@
   --ivory-deep: #EDE6D6;
   --taupe: #8C8377;
   --gold: #B89968;
-  --brand-green: #6B7F4A;
-  --brand-green-deep: #4F6135;
+  --brand-green: #C6F432;
+  --acid: #C6F432;
+  --denim-blue: #2F4BFF;
+  --brand-green-deep: #A8D11C;
   --teal: var(--indigo);
   --violet: var(--indigo);
   --surface: var(--ivory);
 
-  --background: #FBF8F2;
+  --background: #F2F0EA;
   --foreground: var(--ink);
   --card: #FFFFFF;
   --card-foreground: var(--ink);
@@ -72,11 +74,11 @@
   --muted: var(--ivory-deep);
   --muted-foreground: #5A5449;
   --accent: var(--brand-green);
-  --accent-foreground: var(--ivory);
+  --accent-foreground: var(--ink);
   --destructive: #9B3A2A;
   --destructive-foreground: #FFFFFF;
-  --border: #DFD7C7;
-  --input: #DFD7C7;
+  --border: #0D0D0C;
+  --input: #0D0D0C;
   --ring: var(--indigo);
 }
 
@@ -115,6 +117,7 @@
   h1, h2, h3, h4 {
     font-family: var(--font-display);
     font-weight: 400;
+    text-transform: uppercase;
     letter-spacing: -0.02em;
     line-height: 1.02;
     color: var(--color-foreground);
@@ -123,7 +126,7 @@
   h1 { letter-spacing: -0.028em; }
   h2 { letter-spacing: -0.022em; }
   h3, h4 { font-family: var(--font-sans); font-weight: 600; letter-spacing: -0.015em; }
-  .serif-accent { font-family: var(--font-display); font-weight: 400; font-style: italic; letter-spacing: -0.015em; }
+  .serif-accent { font-family: var(--font-display); font-weight: 400; font-style: normal; letter-spacing: -0.015em; }
   ::selection { background: color-mix(in oklab, var(--color-accent) 30%, transparent); color: var(--color-foreground); }
 
   /* Custom cursor mode — hide native cursor on interactive elements too */
@@ -397,4 +400,20 @@
     background: color-mix(in oklab, var(--color-foreground) 34%, transparent);
     background-clip: padding-box;
   }
+}
+
+/* === Gen-Z streetwear layer === */
+@utility btn-street {
+  display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
+  font-family: var(--font-display); font-size: .9rem; text-transform: uppercase; letter-spacing: .02em;
+  padding: 1rem 1.5rem; background: var(--acid); color: var(--ink);
+  border: 2px solid var(--ink); box-shadow: 4px 4px 0 var(--ink);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  &:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--ink); }
+  &:active { transform: translate(4px,4px); box-shadow: 0 0 0 var(--ink); }
+}
+@utility sticker {
+  display: inline-flex; align-items: center; padding: .3rem .7rem;
+  font-family: var(--font-display); font-size: .7rem; text-transform: uppercase;
+  border: 2px solid var(--ink); background: var(--acid); color: var(--ink);
 }

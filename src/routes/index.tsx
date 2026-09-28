@@ -15,11 +15,13 @@ import { listProducts, type ProductWithStock } from "@/lib/products.functions";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "EXIT Denim — мушке фармерке, чино и карго панталоне" },
-      { name: "description", content: "Премијум мушке фармерке, чино и карго панталоне из Новог Пазара. Плаћање поузећем, достава широм Србије." },
-      { property: "og:title", content: "EXIT Denim — мушке фармерке, чино и карго панталоне" },
-      { property: "og:description", content: "Премијум мушке фармерке, чино и карго панталоне из Новог Пазара. Плаћање поузећем, достава широм Србије." },
+      { title: "EXIT Denim — farmerke, bootcut, flare, chino i cargo" },
+      { name: "description", content: "Muške farmerke — slim, relaxed, bootcut i flare, plus chino i cargo iz Novog Pazara. Plaćanje pouzećem, dostava po celoj Srbiji." },
+      { property: "og:title", content: "EXIT Denim — farmerke, bootcut, flare, chino i cargo" },
+      { property: "og:description", content: "Muške farmerke — slim, relaxed, bootcut i flare, plus chino i cargo iz Novog Pazara. Plaćanje pouzećem, dostava po celoj Srbiji." },
       { property: "og:url", content: "https://exitdenim.shop/" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/" }],
   }),
@@ -249,10 +251,10 @@ function HomePage() {
         <div className="container-x">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
             {[
-              { to: "/jeans", label: "ФАРМЕРКЕ", sub: "Кројеви који стоје како треба.", img: img("category_jeans"), tone: "dark" as const },
-              { to: "/chino", label: "ЧИНО", sub: "Чист изглед за сваки дан.", img: img("category_chino"), tone: "dark" as const },
-              { to: "/cargo", label: "КАРГО", sub: "Функционалан модел са јачим карактером.", img: img("category_cargo"), tone: "dark" as const },
-              { to: "/katalog", label: "СВИ МОДЕЛИ", sub: "Цела колекција на једном месту.", img: null, tone: "green" as const, cta: "ПЛАЋАЊЕ ПОУЗЕЋЕМ" },
+              { to: "/jeans", label: "FARMERKE", sub: "Od slim do flare.", img: img("category_jeans"), tone: "dark" as const },
+              { to: "/chino", label: "CHINO", sub: "Clean fit za svaki dan.", img: img("category_chino"), tone: "dark" as const },
+              { to: "/cargo", label: "CARGO", sub: "Džepovi. Stav. Gotovo.", img: img("category_cargo"), tone: "dark" as const },
+              { to: "/wide-flare", label: "WIDE & FLARE", sub: "Bootcut, relaxed i flare — novi drop.", img: null, tone: "green" as const, cta: "NOVI DROP" },
             ].map((c) => (
               <Reveal key={c.label}>
                 <Link
@@ -271,12 +273,12 @@ function HomePage() {
                       <div className={`absolute inset-0 ${c.tone === "dark" ? "bg-gradient-to-b from-black/65 via-black/10 to-black/35" : "bg-gradient-to-t from-black/25 via-white/0 to-white/10"}`} />
                     </>
                   ) : (
-                    <div className="absolute inset-0 bg-[color:var(--brand-green-deep,#4a5a2f)]" />
+                    <div className="absolute inset-0 bg-[color:var(--acid)]" />
                   )}
-                  <div className={`absolute inset-0 flex flex-col justify-between p-5 md:p-6 ${(c.tone as string) === "light" ? "text-[color:var(--ink)]" : "text-white"}`}>
+                  <div className={`absolute inset-0 flex flex-col justify-between p-5 md:p-6 ${(c.tone as string) === "green" ? "text-[color:var(--ink)]" : "text-white"}`}>
                     <div>
                       <h3 className="text-xl md:text-2xl font-bold tracking-tight">{c.label}</h3>
-                      <p className={`mt-2 text-[13px] md:text-sm leading-snug max-w-[220px] ${(c.tone as string) === "light" ? "text-[color:var(--ink)]/75" : "text-white/85"}`}>
+                      <p className={`mt-2 text-[13px] md:text-sm leading-snug max-w-[220px] ${(c.tone as string) === "green" ? "text-[color:var(--ink)]/75" : "text-white/85"}`}>
                         {c.sub}
                       </p>
                     </div>
@@ -286,7 +288,7 @@ function HomePage() {
                           {c.cta}
                         </p>
                       ) : <span />}
-                      <span className="w-9 h-9 flex items-center justify-center text-[color:var(--brand-green,#8aa35a)] transition-transform duration-500 group-hover:translate-x-1">
+                      <span className="w-9 h-9 flex items-center justify-center text-current transition-transform duration-500 group-hover:translate-x-1">
                         <ArrowRight className="w-5 h-5" strokeWidth={2.25} />
                       </span>
                     </div>
@@ -306,15 +308,15 @@ function HomePage() {
               <div className="flex items-end justify-between gap-6 flex-wrap">
                 <div className="max-w-xl">
                   <div className="eyebrow flex items-center gap-2">
-                    <Flame className="w-3.5 h-3.5 text-accent" /> Најпродаванији модели
+                    <Flame className="w-3.5 h-3.5 text-accent" /> Najprodavanije
                   </div>
-                  <h2 className="mt-4 h2-editorial">Топ избор ове сезоне</h2>
+                  <h2 className="mt-4 h2-editorial">Svi ovo nose</h2>
                   <p className="mt-4 text-muted-foreground leading-relaxed">
-                    Модели који најбрже одлазе — изаберите величину и додајте у корпу у једном клику.
+                    Top modeli ove sezone. Izaberi veličinu, ubaci u korpu, gotovo.
                   </p>
                 </div>
                 <Link to="/katalog" className="btn-outline hidden md:inline-flex">
-                  Цео каталог <ArrowRight className="w-4 h-4" />
+                  Vidi sve <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
             </Reveal>
@@ -371,20 +373,23 @@ function HomePage() {
       {/* ───────── ИЗАБЕРИ КРОЈ ───────── */}
       <section className="py-12 md:py-20 border-t border-border">
         <div className="container-x">
-          <div className="eyebrow">Пронађи свој крој</div>
-          <h2 className="mt-3 h2-editorial">Прво крој. Онда модел.</h2>
-          <div className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="eyebrow">Nađi svoj fit</div>
+          <h2 className="mt-3 h2-editorial">Koji si ti fit?</h2>
+          <div className="mt-8 grid grid-cols-2 lg:grid-cols-3 gap-3">
             {[
-              { t: "Slim", d: "Уже кроз бутину и ногавицу." },
-              { t: "Regular Slim", d: "Удобно горе, сужено доле." },
-              { t: "Relaxed", d: "Више простора, опуштен пад." },
-              { t: "Cargo", d: "Функционални џепови, јачи карактер." },
+              { t: "Slim", d: "Uzak kroz butinu i nogavicu.", tag: "" },
+              { t: "Regular Slim", d: "Komotno gore, suženo dole.", tag: "" },
+              { t: "Relaxed", d: "Više prostora, opušten pad.", tag: "NOVO" },
+              { t: "Bootcut", d: "Pripijeno do kolena, širi se ka patikama.", tag: "NOVO" },
+              { t: "Flare", d: "Y2K vibe — široka nogavica, jak stav.", tag: "NOVO" },
+              { t: "Cargo", d: "Džepovi, jači karakter.", tag: "" },
             ].map((f) => (
-              <Link key={f.t} to="/katalog" className="group border border-border p-5 hover:border-foreground transition-colors">
-                <div className="text-lg font-semibold">{f.t}</div>
+              <Link key={f.t} to="/katalog" search={{ fit: f.t }} className="group relative border-2 border-foreground bg-background p-5 shadow-[4px_4px_0_var(--ink)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0_var(--ink)] transition-all">
+                {f.tag && <span className="sticker absolute -top-3 right-3 rotate-3">{f.tag}</span>}
+                <div className="text-lg font-[family-name:var(--font-display)] uppercase">{f.t}</div>
                 <p className="mt-2 text-[13px] text-muted-foreground leading-snug">{f.d}</p>
                 <div className="mt-4 inline-flex items-center gap-1 text-[11px] uppercase tracking-[0.18em] font-medium">
-                  Погледај <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                  Vidi <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                 </div>
               </Link>
             ))}
@@ -396,9 +401,9 @@ function HomePage() {
       <section className="py-12 md:py-20 bg-[var(--surface)]">
         <div className="container-x grid md:grid-cols-3 gap-8">
           {[
-            { t: "Плаћање поузећем", d: "Плаћате куриру тек када примите пакет." },
-            { t: "Достава широм Србије", d: "500 дин · бесплатна за поруџбине преко 15.000 дин." },
-            { t: "Произведено у Србији", d: "Сопствени погон у Новом Пазару." },
+            { t: "Plaćaš kad stigne", d: "Pare daješ kuriru tek kad dobiješ paket." },
+            { t: "Dostava po celoj Srbiji", d: "500 din · besplatno preko 15.000 din." },
+            { t: "Made in Srbija", d: "Naša radionica u Novom Pazaru." },
           ].map((s) => (
             <div key={s.t} className="border-t border-foreground/20 pt-5">
               <Check className="w-4 h-4 text-accent" />
@@ -408,8 +413,8 @@ function HomePage() {
           ))}
         </div>
         <div className="container-x mt-10">
-          <Link to="/katalog" className="btn-primary w-full sm:w-auto">
-            Купи колекцију <ArrowRight className="w-4 h-4" />
+          <Link to="/katalog" className="btn-street w-full sm:w-auto">
+            Uzmi svoj par <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </section>

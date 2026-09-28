@@ -527,7 +527,13 @@ export type Database = {
         | "cancelled"
       partner_status: "pending" | "approved" | "rejected"
       product_category: "jeans" | "chino" | "cargo"
-      product_fit: "Slim" | "Regular Slim" | "Relaxed" | "Cargo"
+      product_fit:
+        | "Slim"
+        | "Regular Slim"
+        | "Relaxed"
+        | "Cargo"
+        | "Bootcut"
+        | "Flare"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -666,7 +672,14 @@ export const Constants = {
       order_status: ["draft", "submitted", "confirmed", "shipped", "cancelled"],
       partner_status: ["pending", "approved", "rejected"],
       product_category: ["jeans", "chino", "cargo"],
-      product_fit: ["Slim", "Regular Slim", "Relaxed", "Cargo"],
+      product_fit: [
+        "Slim",
+        "Regular Slim",
+        "Relaxed",
+        "Cargo",
+        "Bootcut",
+        "Flare",
+      ],
     },
   },
 } as const
