@@ -16,7 +16,7 @@ type AdminProduct = {
   id: string;
   slug: string; sku: string; name: string;
   category: "jeans" | "chino" | "cargo";
-  fit: "Slim" | "Regular Slim" | "Relaxed" | "Cargo";
+  fit: "Slim" | "Regular Slim" | "Relaxed" | "Bootcut" | "Flare" | "Cargo";
   fabric: string; weight: string; color: string;
   sizes: string[];
   wholesale: number; retail: number; moq: number;
@@ -534,7 +534,7 @@ function ProductForm({
             <Field label="Slug (URL)" v={p.slug} onChange={(v) => set("slug", v.toLowerCase().replace(/[^a-z0-9-]/g, "-"))} />
             <Field label="Boja" v={p.color} onChange={(v) => set("color", v)} />
             <Select label="Kategorija" v={p.category} options={["jeans","chino","cargo"]} onChange={(v) => set("category", v as any)} />
-            <Select label="Fit" v={p.fit} options={["Slim","Regular Slim","Relaxed","Cargo"]} onChange={(v) => set("fit", v as any)} />
+            <Select label="Fit" v={p.fit} options={["Slim","Regular Slim","Relaxed","Bootcut","Flare","Cargo"]} onChange={(v) => set("fit", v as any)} />
             <Field label="Materijal" v={p.fabric} onChange={(v) => set("fabric", v)} />
             <Field label="Težina (oz)" v={p.weight} onChange={(v) => set("weight", v)} />
             <Field label="Rok isporuke" v={p.delivery} onChange={(v) => set("delivery", v)} />
