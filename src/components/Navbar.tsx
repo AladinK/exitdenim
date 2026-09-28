@@ -10,12 +10,12 @@ import { getMyProfile } from "@/lib/orders.functions";
 
 
 const NAV: Array<{ to: any; label: string }> = [
-  { to: "/katalog", label: "Сви модели" },
-  { to: "/jeans", label: "Фармерке" },
-  { to: "/chino", label: "Чино" },
-  { to: "/cargo", label: "Карго" },
-  { to: "/proizvodnja", label: "О нама" },
-  { to: "/kontakt", label: "Контакт" },
+  { to: "/katalog", label: "Shop all" },
+  { to: "/wide-flare", label: "Wide & Flare 🔥" },
+  { to: "/jeans", label: "Farmerke" },
+  { to: "/chino", label: "Chino" },
+  { to: "/cargo", label: "Cargo" },
+  { to: "/proizvodnja", label: "O nama" },
 ];
 
 export function Navbar() {
@@ -81,7 +81,7 @@ export function Navbar() {
       }`}
     >
       <div className={`container-x flex items-center justify-between transition-all duration-500 ${scrolled ? "h-14" : "h-20"}`}>
-        <Link to="/" className="flex items-center" onClick={() => setOpen(false)} aria-label="EXIT Denim — Почетна">
+        <Link to="/" className="flex items-center" onClick={() => setOpen(false)} aria-label="EXIT Denim — Početna">
           <Logo className={`transition-all duration-500 ${scrolled ? "h-6" : "h-8"}`} />
         </Link>
 
@@ -103,7 +103,7 @@ export function Navbar() {
           <button
             onClick={() => setCartOpen(true)}
             className="relative inline-flex items-center justify-center w-10 h-10 rounded-md hover:bg-secondary text-foreground"
-            aria-label={`Корпа (${cartCount})`}
+            aria-label={`Korpa (${cartCount})`}
           >
             <ShoppingBag className="w-5 h-5" />
             {cartCount > 0 && (
@@ -172,9 +172,9 @@ export function Navbar() {
           ) : (
             <>
               <Link to="/auth" className="text-[14px] font-medium text-muted-foreground hover:text-foreground px-3 py-2">
-                Пријава
+                Prijava
               </Link>
-              <Link to="/katalog" className="btn-primary">Купи сада</Link>
+              <Link to="/katalog" className="btn-primary">Uzmi sad</Link>
             </>
           )}
         </div>
@@ -183,7 +183,7 @@ export function Navbar() {
           <button
             onClick={() => setCartOpen(true)}
             className="relative inline-flex items-center justify-center w-10 h-10 rounded-md hover:bg-secondary text-foreground"
-            aria-label={`Корпа (${cartCount})`}
+            aria-label={`Korpa (${cartCount})`}
           >
             <ShoppingBag className="w-5 h-5" />
             {cartCount > 0 && (
@@ -195,7 +195,7 @@ export function Navbar() {
           <button
             className="inline-flex items-center justify-center w-10 h-10 rounded-md hover:bg-secondary text-foreground"
             onClick={() => setOpen((o) => !o)}
-            aria-label={open ? "Затвори мени" : "Отвори мени"}
+            aria-label={open ? "Zatvori meni" : "Otvori meni"}
             aria-expanded={open}
             aria-controls="mobile-menu"
           >
@@ -250,10 +250,10 @@ export function Navbar() {
           ) : (
             <div className="flex flex-col gap-2">
               <Link to="/katalog" onClick={() => setOpen(false)} className="btn-primary w-full">
-                Купи сада
+                Uzmi sad
               </Link>
               <Link to="/auth" onClick={() => setOpen(false)} className="btn-outline w-full">
-                Пријава
+                Prijava
               </Link>
             </div>
           )}

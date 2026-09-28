@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WideFlareRouteImport } from './routes/wide-flare'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
@@ -33,6 +34,11 @@ import { Route as AuthenticatedMojePorudzbineRouteImport } from './routes/_authe
 import { Route as AuthenticatedCekanjeRouteImport } from './routes/_authenticated/cekanje'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 
+const WideFlareRoute = WideFlareRouteImport.update({
+  id: '/wide-flare',
+  path: '/wide-flare',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -166,6 +172,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/wide-flare': typeof WideFlareRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/cekanje': typeof AuthenticatedCekanjeRoute
   '/moje-porudzbine': typeof AuthenticatedMojePorudzbineRoute
@@ -190,6 +197,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/wide-flare': typeof WideFlareRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/cekanje': typeof AuthenticatedCekanjeRoute
   '/moje-porudzbine': typeof AuthenticatedMojePorudzbineRoute
@@ -216,6 +224,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/wide-flare': typeof WideFlareRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/cekanje': typeof AuthenticatedCekanjeRoute
   '/_authenticated/moje-porudzbine': typeof AuthenticatedMojePorudzbineRoute
@@ -242,6 +251,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/shop'
     | '/sitemap.xml'
+    | '/wide-flare'
     | '/admin'
     | '/cekanje'
     | '/moje-porudzbine'
@@ -266,6 +276,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/shop'
     | '/sitemap.xml'
+    | '/wide-flare'
     | '/admin'
     | '/cekanje'
     | '/moje-porudzbine'
@@ -291,6 +302,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/shop'
     | '/sitemap.xml'
+    | '/wide-flare'
     | '/_authenticated/admin'
     | '/_authenticated/cekanje'
     | '/_authenticated/moje-porudzbine'
@@ -317,12 +329,20 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   ShopRoute: typeof ShopRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  WideFlareRoute: typeof WideFlareRoute
   PorudzbinaNumberRoute: typeof PorudzbinaNumberRoute
   ProizvodSlugRoute: typeof ProizvodSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/wide-flare': {
+      id: '/wide-flare'
+      path: '/wide-flare'
+      fullPath: '/wide-flare'
+      preLoaderRoute: typeof WideFlareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -522,6 +542,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   ShopRoute: ShopRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  WideFlareRoute: WideFlareRoute,
   PorudzbinaNumberRoute: PorudzbinaNumberRoute,
   ProizvodSlugRoute: ProizvodSlugRoute,
 }

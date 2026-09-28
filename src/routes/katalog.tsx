@@ -19,7 +19,7 @@ export const Route = createFileRoute("/katalog")({
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/katalog" }],
   }),
-  validateSearch: (s: Record<string, unknown>) => ({
+  validateSearch: (s: Record<string, unknown>): { fit?: string; group?: "wide" } => ({
     fit: typeof s.fit === "string" ? s.fit : undefined,
     group: s.group === "wide" ? ("wide" as const) : undefined,
   }),
