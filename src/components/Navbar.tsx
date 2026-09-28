@@ -11,7 +11,7 @@ import { getMyProfile } from "@/lib/orders.functions";
 
 const NAV: Array<{ to: any; label: string }> = [
   { to: "/katalog", label: "Shop all" },
-  { to: "/wide-flare", label: "Wide & Flare 🔥" },
+  { to: "/wide-flare", label: "Wide & Flare" },
   { to: "/jeans", label: "Farmerke" },
   { to: "/chino", label: "Chino" },
   { to: "/cargo", label: "Cargo" },

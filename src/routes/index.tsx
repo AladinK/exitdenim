@@ -254,7 +254,7 @@ function HomePage() {
               { to: "/jeans", label: "FARMERKE", sub: "Od slim do flare.", img: img("category_jeans"), tone: "dark" as const },
               { to: "/chino", label: "CHINO", sub: "Clean fit za svaki dan.", img: img("category_chino"), tone: "dark" as const },
               { to: "/cargo", label: "CARGO", sub: "Džepovi. Stav. Gotovo.", img: img("category_cargo"), tone: "dark" as const },
-              { to: "/wide-flare", label: "WIDE & FLARE", sub: "Bootcut, relaxed i flare — novi drop.", img: null, tone: "green" as const, cta: "NOVO 🔥" },
+              { to: "/wide-flare", label: "WIDE & FLARE", sub: "Bootcut, relaxed i flare — novi drop.", img: null, tone: "green" as const, cta: "NOVI DROP" },
             ].map((c) => (
               <Reveal key={c.label}>
                 <Link
