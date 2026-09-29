@@ -10,6 +10,7 @@ import { getProductBySlug, listProducts, type ProductWithStock } from "@/lib/pro
 import { getMyProfile } from "@/lib/orders.functions";
 import { generateLineSheet } from "@/lib/line-sheet.functions";
 import { useAuth } from "@/hooks/useAuth";
+import { B2BSpecs } from "@/components/B2BSpecs";
 
 
 
@@ -186,6 +187,12 @@ function ProductDetail() {
             </div>
           )}
 
+
+          {approved && (
+            <div className="mt-8">
+              <B2BSpecs productId={product.id} sizes={product.sizes} />
+            </div>
+          )}
 
           {approved && (
             <div className="mt-10 border-t border-border pt-8">
