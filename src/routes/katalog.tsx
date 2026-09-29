@@ -12,9 +12,9 @@ import { useAuth } from "@/hooks/useAuth";
 export const Route = createFileRoute("/katalog")({
   head: () => ({
     meta: [
-      { title: "Каталог · Деним, чино и карго — EXIT Denim" },
-      { name: "description", content: "Мушке фармерке, чино и карго панталоне EXIT Denim. Филтрирајте по кроју и величини. Плаћање поузећем." },
-      { property: "og:title", content: "Каталог · Деним, чино и карго — EXIT Denim" },
+      { title: "Shop · Muške farmerke, chino i cargo — EXIT Denim" },
+      { name: "description", content: "Muške farmerke, chino i cargo pantalone EXIT Denim. Filtriraj po kroju i veličini. Plaćaš pouzećem." },
+      { property: "og:title", content: "Shop · Muške farmerke, chino i cargo — EXIT Denim" },
       { property: "og:url", content: "https://exitdenim.shop/katalog" },
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/katalog" }],
@@ -33,10 +33,10 @@ type FitFilter = "all" | "Slim" | "Regular Slim" | "Relaxed" | "Bootcut" | "Flar
 type SortKey = "featured" | "price-asc" | "price-desc" | "name";
 
 const CATS: { key: Cat; label: string }[] = [
-  { key: "all", label: "Све" },
-  { key: "jeans", label: "Фармерке" },
-  { key: "chino", label: "Чино" },
-  { key: "cargo", label: "Карго" },
+  { key: "all", label: "Sve" },
+  { key: "jeans", label: "Farmerke" },
+  { key: "chino", label: "Chino" },
+  { key: "cargo", label: "Cargo" },
 ];
 const FITS: FitFilter[] = ["all", "Slim", "Regular Slim", "Relaxed", "Bootcut", "Flare", "Cargo"];
 const SIZES = ["31", "32", "33", "34", "36", "38", "40"];
@@ -97,19 +97,19 @@ function Katalog() {
     <aside className="space-y-8">
       {/* Search */}
       <div>
-        <div className="eyebrow mb-3">Претрага</div>
+        <div className="eyebrow mb-3">Pretraga</div>
         <div className="relative">
           <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Име, SKU, материјал…"
+            placeholder="Model, fit, materijal…"
             className="w-full bg-background/60 border border-border pl-9 pr-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
           />
         </div>
       </div>
 
-      <FilterBlock title="Категорија">
+      <FilterBlock title="Kategorija">
         <ul className="space-y-2">
           {CATS.map((c) => {
             const count = c.key === "all" ? products.length : products.filter((p) => p.category === c.key).length;
@@ -134,7 +134,7 @@ function Katalog() {
         </ul>
       </FilterBlock>
 
-      <FilterBlock title="Крој">
+      <FilterBlock title="Fit">
         <div className="flex flex-wrap gap-1.5">
           {FITS.map((f) => {
             const active = fit === f;
@@ -148,14 +148,14 @@ function Katalog() {
                     : "bg-transparent text-muted-foreground border-border hover:border-foreground hover:text-foreground"
                 }`}
               >
-                {f === "all" ? "Сви" : f}
+                {f === "all" ? "Svi" : f}
               </button>
             );
           })}
         </div>
       </FilterBlock>
 
-      <FilterBlock title="Величина">
+      <FilterBlock title="Veličina">
         <div className="grid grid-cols-4 gap-1.5">
           {SIZES.map((s) => {
             const active = sizes.includes(s);
@@ -176,7 +176,7 @@ function Katalog() {
         </div>
       </FilterBlock>
 
-      <FilterBlock title="Доступност">
+      <FilterBlock title="Dostupnost">
         <label className="flex items-center gap-2.5 text-sm cursor-pointer group">
           <span className="relative inline-flex items-center">
             <input
@@ -188,13 +188,13 @@ function Katalog() {
             <span className="w-4 h-4 border border-border peer-checked:bg-foreground peer-checked:border-foreground transition-colors" />
             <span className="absolute left-1 top-1 w-2 h-2 bg-background scale-0 peer-checked:scale-100 transition-transform" />
           </span>
-          <span className="text-foreground/80 group-hover:text-foreground transition-colors">Само на стању</span>
+          <span className="text-foreground/80 group-hover:text-foreground transition-colors">Samo na stanju</span>
         </label>
       </FilterBlock>
 
       {activeCount > 0 && (
         <button onClick={clearAll} className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground hover:text-foreground link-underline">
-          Обриши све ({activeCount})
+          Obriši sve ({activeCount})
         </button>
       )}
     </aside>
@@ -203,19 +203,19 @@ function Katalog() {
   return (
     <Layout>
       {/* Header — denim texture */}
-      <section className="denim-texture border-b border-border">
-        <div className="container-x py-14 md:py-20">
-          <div className="eyebrow">Продавница · SS / FW</div>
+      <section className="bg-[var(--ink)] text-[color:var(--ivory)] border-b-2 border-[color:var(--ink)]">
+        <div className="container-x py-10 md:py-16">
+          <span className="sticker -rotate-2">Shop all · 2027</span>
           <div className="mt-5 grid lg:grid-cols-12 gap-6 items-end">
             <div className="lg:col-span-8">
               <h1 className="text-[clamp(2.25rem,5.5vw,4.25rem)] leading-[1.02] max-w-[14ch]">
-                Комплетан <span className="serif-accent italic text-accent">каталог</span>
-                {approved && <span className="block text-accent mt-3 text-2xl md:text-3xl serif-accent italic">— B2B приступ одобрен</span>}
+                Svi <span className="text-[color:var(--acid)]">modeli.</span>
+                {approved && <span className="block text-accent mt-3 text-2xl md:text-3xl serif-accent italic">— B2B pristup odobren</span>}
               </h1>
             </div>
             <div className="lg:col-span-4 lg:text-right">
-              <p className="text-sm text-muted-foreground max-w-sm lg:ml-auto leading-relaxed">
-                Фармерке, чино и карго линије. Величине 31–40. Плаћање поузећем, достава широм Србије.
+              <p className="text-sm text-[color:var(--ivory)]/75 max-w-sm lg:ml-auto leading-relaxed">
+                Farmerke, chino i cargo. Veličine 31–40. Plaćaš kad stigne, dostava po celoj Srbiji.
               </p>
             </div>
           </div>
@@ -231,23 +231,23 @@ function Katalog() {
               onClick={() => setDrawer(true)}
               className="lg:hidden inline-flex items-center gap-2 px-3 py-2 border border-border text-[11px] uppercase tracking-[0.2em] hover:border-foreground transition-colors"
             >
-              <SlidersHorizontal className="w-3.5 h-3.5" /> Филтери{activeCount > 0 && ` · ${activeCount}`}
+              <SlidersHorizontal className="w-3.5 h-3.5" /> Filteri{activeCount > 0 && ` · ${activeCount}`}
             </button>
             <div className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground tabular-nums">
-              {filtered.length} <span className="hidden sm:inline">артикала</span>
+              {filtered.length} <span className="hidden sm:inline">modela</span>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <label className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground hidden sm:inline">Сортирај</label>
+            <label className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground hidden sm:inline">Sortiraj</label>
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as SortKey)}
               className="bg-transparent border border-border py-2 pl-3 pr-8 text-xs uppercase tracking-[0.14em] focus:outline-none focus:border-foreground appearance-none cursor-pointer"
             >
-              <option value="featured">Препоручено</option>
-              <option value="price-asc">Цена ↑</option>
-              <option value="price-desc">Цена ↓</option>
-              <option value="name">Име A–Ш</option>
+              <option value="featured">Preporučeno</option>
+              <option value="price-asc">Cena ↑</option>
+              <option value="price-desc">Cena ↓</option>
+              <option value="name">Naziv A–Ž</option>
             </select>
           </div>
         </div>
@@ -258,15 +258,15 @@ function Katalog() {
             {cat !== "all" && <Chip onRemove={() => setCat("all")}>{CATS.find((c) => c.key === cat)?.label}</Chip>}
             {fit !== "all" && <Chip onRemove={() => setFit("all")}>{fit}</Chip>}
             {wide && <Chip onRemove={() => setWide(false)}>Wide & Flare</Chip>}
-            {sizes.map((s) => <Chip key={s} onRemove={() => toggleSize(s)}>Величина {s}</Chip>)}
-            {inStock && <Chip onRemove={() => setInStock(false)}>На стању</Chip>}
+            {sizes.map((s) => <Chip key={s} onRemove={() => toggleSize(s)}>Veličina {s}</Chip>)}
+            {inStock && <Chip onRemove={() => setInStock(false)}>Na stanju</Chip>}
             {query && <Chip onRemove={() => setQuery("")}>„{query}"</Chip>}
           </div>
         )}
       </div>
 
       {/* Main grid */}
-      <section className="section-pad">
+      <section className="py-8 md:py-12">
         <div className="container-x grid lg:grid-cols-[240px_1fr] gap-10 lg:gap-14">
           <div className="hidden lg:block">
             <div className="sticky top-[140px]">{Sidebar}</div>
@@ -275,9 +275,9 @@ function Katalog() {
           <div>
             {filtered.length === 0 ? (
               <div className="text-center py-24 border border-dashed border-border">
-                <div className="serif text-2xl">Нема резултата</div>
-                <p className="text-sm text-muted-foreground mt-2">Покушајте да смањите број филтера.</p>
-                <button onClick={clearAll} className="btn-outline mt-6">Обриши филтере</button>
+                <div className="serif text-2xl">Nema rezultata</div>
+                <p className="text-sm text-muted-foreground mt-2">Probaj sa manje filtera.</p>
+                <button onClick={clearAll} className="btn-outline mt-6">Obriši filtere</button>
               </div>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-x-5 gap-y-14">
@@ -294,12 +294,12 @@ function Katalog() {
           <div className="absolute inset-0 bg-foreground/40 backdrop-blur-sm" onClick={() => setDrawer(false)} />
           <div className="absolute right-0 top-0 h-full w-[86%] max-w-sm bg-background border-l border-border overflow-y-auto">
             <div className="flex items-center justify-between p-5 border-b border-border sticky top-0 bg-background">
-              <div className="eyebrow">Филтери</div>
+              <div className="eyebrow">Filteri</div>
               <button onClick={() => setDrawer(false)} className="p-1 hover:text-accent"><X className="w-5 h-5" /></button>
             </div>
             <div className="p-6">{Sidebar}</div>
             <div className="p-5 border-t border-border sticky bottom-0 bg-background">
-              <button onClick={() => setDrawer(false)} className="btn-primary w-full">Прикажи {filtered.length} артикала</button>
+              <button onClick={() => setDrawer(false)} className="btn-primary w-full">Prikaži {filtered.length} modela</button>
             </div>
           </div>
         </div>
