@@ -220,21 +220,25 @@ export type Database = {
           active: boolean
           category: Database["public"]["Enums"]["product_category"]
           color: string
+          composition: string | null
           created_at: string
           delivery: string
           description: string | null
           fabric: string
+          fabric_oz: number | null
           fit: Database["public"]["Enums"]["product_fit"]
           id: string
           image_url: string | null
           moq: number
           name: string
+          pack_distribution: Json | null
           retail: number
           sizes: string[]
           sku: string
           slug: string
           sort_order: number
           updated_at: string
+          wash_finish: string | null
           weight: string
           wholesale: number
         }
@@ -242,21 +246,25 @@ export type Database = {
           active?: boolean
           category: Database["public"]["Enums"]["product_category"]
           color: string
+          composition?: string | null
           created_at?: string
           delivery?: string
           description?: string | null
           fabric: string
+          fabric_oz?: number | null
           fit: Database["public"]["Enums"]["product_fit"]
           id?: string
           image_url?: string | null
           moq?: number
           name: string
+          pack_distribution?: Json | null
           retail: number
           sizes?: string[]
           sku: string
           slug: string
           sort_order?: number
           updated_at?: string
+          wash_finish?: string | null
           weight: string
           wholesale: number
         }
@@ -264,21 +272,25 @@ export type Database = {
           active?: boolean
           category?: Database["public"]["Enums"]["product_category"]
           color?: string
+          composition?: string | null
           created_at?: string
           delivery?: string
           description?: string | null
           fabric?: string
+          fabric_oz?: number | null
           fit?: Database["public"]["Enums"]["product_fit"]
           id?: string
           image_url?: string | null
           moq?: number
           name?: string
+          pack_distribution?: Json | null
           retail?: number
           sizes?: string[]
           sku?: string
           slug?: string
           sort_order?: number
           updated_at?: string
+          wash_finish?: string | null
           weight?: string
           wholesale?: number
         }
@@ -340,6 +352,51 @@ export type Database = {
           website?: string | null
         }
         Relationships: []
+      }
+      sample_requests: {
+        Row: {
+          created_at: string
+          id: string
+          note: string | null
+          product_id: string
+          size: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          note?: string | null
+          product_id: string
+          size: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          note?: string | null
+          product_id?: string
+          size?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sample_requests_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sample_requests_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products_public"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       site_assets: {
         Row: {
