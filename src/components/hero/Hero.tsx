@@ -15,9 +15,9 @@ export function Hero() {
         <div className="absolute inset-0 bg-gradient-to-t from-[var(--ink)] via-[var(--ink)]/30 to-transparent" />
       </div>
 
-      <div className="container-x relative min-h-[78svh] md:min-h-[86svh] flex flex-col justify-end pt-28 pb-10 md:pb-16">
+      <div className="container-x relative min-h-[62svh] md:min-h-[82svh] flex flex-col justify-end pt-28 pb-10 md:pb-16">
         <span className="sticker -rotate-3 self-start">Novo · Bootcut / Relaxed / Flare</span>
-        <h1 className="mt-5 text-[color:var(--ivory)] leading-[0.86] tracking-[-0.03em] text-[clamp(3.4rem,15vw,11rem)]">
+        <h1 className="mt-5 text-[color:var(--ivory)] leading-[0.86] tracking-[-0.03em] text-[clamp(3rem,13vw,10rem)]">
           Wide<br />
           <span className="text-[color:var(--acid)]">leg</span> szn.
         </h1>

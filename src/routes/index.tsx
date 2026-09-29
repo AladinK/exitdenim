@@ -259,7 +259,7 @@ function HomePage() {
               <Reveal key={c.label}>
                 <Link
                   to={c.to}
-                  className="group relative block overflow-hidden rounded-sm aspect-[3/4] w-full"
+                  className="group relative block overflow-hidden border-2 border-[color:var(--ink)] aspect-[3/4] w-full"
                 >
                   {c.img ? (
                     <>
@@ -270,14 +270,14 @@ function HomePage() {
                         decoding="async"
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.05]"
                       />
-                      <div className={`absolute inset-0 ${c.tone === "dark" ? "bg-gradient-to-b from-black/65 via-black/10 to-black/35" : "bg-gradient-to-t from-black/25 via-white/0 to-white/10"}`} />
+                      <div className={`absolute inset-0 ${c.tone === "dark" ? "bg-gradient-to-t from-[var(--ink)]/90 via-[var(--ink)]/20 to-transparent" : "bg-gradient-to-t from-black/25 via-white/0 to-white/10"}`} />
                     </>
                   ) : (
                     <div className="absolute inset-0 bg-[color:var(--acid)]" />
                   )}
-                  <div className={`absolute inset-0 flex flex-col justify-between p-5 md:p-6 ${(c.tone as string) === "green" ? "text-[color:var(--ink)]" : "text-white"}`}>
+                  <div className={`absolute inset-0 flex flex-col justify-end gap-3 p-4 md:p-6 ${(c.tone as string) === "green" ? "text-[color:var(--ink)]" : "text-white"}`}>
                     <div>
-                      <h3 className="text-xl md:text-2xl font-bold tracking-tight">{c.label}</h3>
+                      <h3 style={{ color: "inherit" }} className="font-[family-name:var(--font-display)] text-lg md:text-2xl leading-none">{c.label}</h3>
                       <p className={`mt-2 text-[13px] md:text-sm leading-snug max-w-[220px] ${(c.tone as string) === "green" ? "text-[color:var(--ink)]/75" : "text-white/85"}`}>
                         {c.sub}
                       </p>
