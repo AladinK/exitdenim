@@ -8,6 +8,13 @@
       "when": 1790610326620,
       "tag": "0000_add_bootcut_flare_fits",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790697714264,
+      "tag": "0001_b2b_specs_and_samples",
+      "breakpoints": true
     }
   ]
 }
