@@ -277,7 +277,7 @@ function HomePage() {
                   )}
                   <div className={`absolute inset-0 flex flex-col justify-end gap-3 p-4 md:p-6 ${(c.tone as string) === "green" ? "text-[color:var(--ink)]" : "text-white"}`}>
                     <div>
-                      <h3 className="font-[family-name:var(--font-display)] text-lg md:text-2xl leading-none">{c.label}</h3>
+                      <h3 style={{ color: "inherit" }} className="font-[family-name:var(--font-display)] text-lg md:text-2xl leading-none">{c.label}</h3>
                       <p className={`mt-2 text-[13px] md:text-sm leading-snug max-w-[220px] ${(c.tone as string) === "green" ? "text-[color:var(--ink)]/75" : "text-white/85"}`}>
                         {c.sub}
                       </p>

@@ -208,7 +208,7 @@ function Katalog() {
           <span className="sticker -rotate-2">Shop all · 2027</span>
           <div className="mt-5 grid lg:grid-cols-12 gap-6 items-end">
             <div className="lg:col-span-8">
-              <h1 className="mt-4 text-[color:var(--ivory)] text-[clamp(2.75rem,8vw,5.5rem)] leading-[0.9] max-w-[14ch]">
+              <h1 className="mt-4 !text-[color:var(--ivory)] text-[clamp(2.75rem,8vw,5.5rem)] leading-[0.9] max-w-[14ch]">
                 Svi <span className="text-[color:var(--acid)]">modeli.</span>
                 {approved && <span className="block text-accent mt-3 text-2xl md:text-3xl serif-accent italic">— B2B pristup odobren</span>}
               </h1>
