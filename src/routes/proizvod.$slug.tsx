@@ -1,28 +1,36 @@
 import { createFileRoute, useParams, Link, notFound } from "@tanstack/react-router";
-import { Download, ChevronLeft } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Download, ChevronLeft, Truck, Wallet, RefreshCw, ShieldCheck } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { Layout } from "@/components/Layout";
 import { SizeMatrix } from "@/components/SizeMatrix";
 import { ProductCard } from "@/components/ProductCard";
 import { AddToCart } from "@/components/AddToCart";
-import { getProductBySlug, listProducts, type ProductWithStock } from "@/lib/products.functions";
 import { getMyProfile } from "@/lib/orders.functions";
 import { generateLineSheet } from "@/lib/line-sheet.functions";
+import { productQuery, productsQuery } from "@/lib/product-queries";
+import { ecommerce, itemFromProduct } from "@/lib/analytics";
 import { useAuth } from "@/hooks/useAuth";
 import { B2BSpecs } from "@/components/B2BSpecs";
 
-
-
 export const Route = createFileRoute("/proizvod/$slug")({
-  head: ({ params }) => {
-    const name = params.slug
-      .split("-")
-      .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-      .join(" ");
-    const title = `${name} — EXIT Denim B2B`.slice(0, 60);
-    const desc = `${name} — premijum muške pantalone iz Novog Pazara. Veličine, tkanina, MOQ i veleprodajne cene za odobrene B2B partnere.`;
+  loader: async ({ params, context }) => {
+    const product = await context.queryClient.ensureQueryData(productQuery(params.slug));
+    if (!product) throw notFound();
+    // Related products load in the background; never block first paint.
+    context.queryClient.prefetchQuery(productsQuery());
+    return { product };
+  },
+  head: ({ params, loaderData }) => {
+    const p = loaderData?.product;
+    const name = p?.name ?? params.slug.split("-").map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join(" ");
+    const title = `${name} — EXIT Denim`.slice(0, 60);
+    const desc = p
+      ? `${p.name}, ${p.fit} fit, ${p.color}. ${Number(p.retail).toLocaleString("sr-RS")} RSD. Plaćanje pouzećem, dostava po celoj Srbiji.`.slice(0, 160)
+      : `${name} — muške pantalone EXIT Denim iz Novog Pazara.`;
     const url = `https://exitdenim.shop/proizvod/${params.slug}`;
+    const img = p?.image_url && /^https:\/\//.test(p.image_url) ? p.image_url : null;
     return {
       meta: [
         { title },
@@ -31,8 +39,36 @@ export const Route = createFileRoute("/proizvod/$slug")({
         { property: "og:description", content: desc },
         { property: "og:type", content: "product" },
         { property: "og:url", content: url },
+        { name: "twitter:card", content: "summary_large_image" },
+        ...(img ? [{ property: "og:image", content: img }, { name: "twitter:image", content: img }] : []),
       ],
-      links: [{ rel: "canonical", href: url }],
+      links: [
+        { rel: "canonical", href: url },
+        ...(img ? [{ rel: "preload", as: "image", href: img, fetchPriority: "high" } as const] : []),
+      ],
+      scripts: p
+        ? [{
+            type: "application/ld+json",
+            children: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Product",
+              name: p.name,
+              sku: p.sku,
+              description: p.description,
+              color: p.color,
+              brand: { "@type": "Brand", name: "EXIT Denim" },
+              ...(img ? { image: img } : {}),
+              offers: {
+                "@type": "Offer",
+                url,
+                priceCurrency: "RSD",
+                price: Number(p.retail),
+                availability: Object.values(p.stock || {}).some((n) => n > 0) || !Object.keys(p.stock || {}).length
+                  ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+              },
+            }),
+          }]
+        : [],
     };
   },
   notFoundComponent: () => (
@@ -47,53 +83,31 @@ export const Route = createFileRoute("/proizvod/$slug")({
   errorComponent: () => (
     <Layout><div className="container-x py-32 text-center">Greška pri učitavanju artikla.</div></Layout>
   ),
-
   component: ProductDetail,
 });
 
 function ProductDetail() {
   const { slug } = useParams({ from: "/proizvod/$slug" });
-  const fetchProduct = useServerFn(getProductBySlug);
-  const fetchProducts = useServerFn(listProducts);
+  const { data: product } = useSuspenseQuery(productQuery(slug));
+  const { data: all = [] } = useQuery(productsQuery());
   const fetchProfile = useServerFn(getMyProfile);
   const { user } = useAuth();
-  const [product, setProduct] = useState<ProductWithStock | null>(null);
-  const [related, setRelated] = useState<ProductWithStock[]>([]);
   const [approved, setApproved] = useState(false);
-  const [loading, setLoading] = useState(true);
+
+  const related = useMemo(() => {
+    if (!product) return [];
+    const same = all.filter((x) => x.id !== product.id && x.category === product.category);
+    const rest = all.filter((x) => x.id !== product.id && x.category !== product.category && x.fit === product.fit);
+    return [...same, ...rest].slice(0, 4);
+  }, [all, product]);
 
   useEffect(() => {
-    setLoading(true);
-    Promise.all([fetchProduct({ data: { slug } }), fetchProducts({})]).then(([p, all]) => {
-      setProduct(p);
-      if (p) setRelated(all.filter((x) => x.category === p.category && x.id !== p.id).slice(0, 4));
-      setLoading(false);
-    });
-  }, [slug]); // eslint-disable-line
+    if (product) ecommerce.viewItem(itemFromProduct(product));
+  }, [product?.id]); // eslint-disable-line
   useEffect(() => {
     if (user) fetchProfile({}).then((r) => setApproved(r.profile?.status === "approved"));
   }, [user]); // eslint-disable-line
 
-  if (loading) {
-    return (
-      <Layout>
-        <div className="container-x py-10">
-          <div className="h-3 w-40 bg-secondary animate-pulse" />
-          <div className="mt-8 grid lg:grid-cols-12 gap-10 lg:gap-16">
-            <div className="lg:col-span-7 aspect-[4/5] bg-secondary animate-pulse" />
-            <div className="lg:col-span-5 space-y-4">
-              <div className="h-3 w-32 bg-secondary animate-pulse" />
-              <div className="h-10 w-3/4 bg-secondary animate-pulse" />
-              <div className="h-4 w-full bg-secondary animate-pulse" />
-              <div className="h-4 w-5/6 bg-secondary animate-pulse" />
-              <div className="h-24 w-full bg-secondary animate-pulse mt-8" />
-              <div className="h-40 w-full bg-secondary animate-pulse" />
-            </div>
-          </div>
-        </div>
-      </Layout>
-    );
-  }
   if (!product) throw notFound();
 
   return (
