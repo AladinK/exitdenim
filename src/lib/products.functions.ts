@@ -40,14 +40,21 @@ export const listProducts = createServerFn({ method: "GET" }).handler(async () =
     if (!stockBy[s.product_id]) stockBy[s.product_id] = {};
     stockBy[s.product_id][s.size] = s.in_stock ? 1 : 0;
   });
-  const resolved = await Promise.all(
-    (products || []).map(async (p) => ({
-      ...p,
-      image_url: await signIfPath(sb, p.image_url),
-      stock: (p.id && stockBy[p.id]) || {},
-    })),
-  );
-  return resolved as ProductWithStock[];
+  // Batch-sign storage paths in one request instead of one call per product.
+  const list = products || [];
+  const paths = list
+    .map((p) => p.image_url)
+    .filter((u): u is string => !!u && !/^https?:\/\//i.test(u) && !u.startsWith("/"));
+  const signed: Record<string, string> = {};
+  if (paths.length) {
+    const { data } = await sb.storage.from("product-images").createSignedUrls(paths, 60 * 60 * 24 * 7);
+    (data || []).forEach((d) => { if (d.path && d.signedUrl) signed[d.path] = d.signedUrl; });
+  }
+  return list.map((p) => ({
+    ...p,
+    image_url: p.image_url ? signed[p.image_url] ?? (paths.includes(p.image_url) ? null : p.image_url) : null,
+    stock: (p.id && stockBy[p.id]) || {},
+  })) as ProductWithStock[];
 });
 
 export const getProductBySlug = createServerFn({ method: "GET" })
