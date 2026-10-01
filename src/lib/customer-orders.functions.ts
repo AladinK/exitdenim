@@ -28,7 +28,7 @@ const shippingSchema = z.object({
   address: z.string().trim().min(3).max(200),
   city: z.string().trim().min(2).max(80),
   postal: z.string().trim().min(3).max(12),
-  country: z.string().trim().min(2).max(80).default("Србија"),
+  country: z.string().trim().min(2).max(80).default("Srbija"),
 });
 
 const orderInput = z.object({
@@ -72,8 +72,8 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
     let subtotal = 0;
     const items = data.items.map((i) => {
       const p = products?.find((x) => x.id === i.productId);
-      if (!p || !p.active) throw new Error(`Артикал није доступан (${i.productId})`);
-      if (!p.sizes?.includes(i.size)) throw new Error(`Величина ${i.size} није доступна за ${p.name}`);
+      if (!p || !p.active) throw new Error(`Artikal nije dostupan (${i.productId})`);
+      if (!p.sizes?.includes(i.size)) throw new Error(`Veličina ${i.size} nije dostupna za ${p.name}`);
       const price = Number(p.retail);
       subtotal += price * i.quantity;
       return {
@@ -105,7 +105,7 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
         shipping_address: data.shipping.address,
         shipping_city: data.shipping.city,
         shipping_postal: data.shipping.postal,
-        shipping_country: data.shipping.country || "Србија",
+        shipping_country: data.shipping.country || "Srbija",
         shipping_method: "courier",
         shipping_cost,
         subtotal,
@@ -116,7 +116,7 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
       })
       .select("id, order_number")
       .single();
-    if (oErr || !order) throw new Error(oErr?.message || "Грешка при креирању поруџбине");
+    if (oErr || !order) throw new Error(oErr?.message || "Greška pri kreiranju porudžbine");
 
     const { error: iErr } = await insertClient
       .from("customer_order_items")

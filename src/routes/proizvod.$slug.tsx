@@ -21,7 +21,7 @@ export const Route = createFileRoute("/proizvod/$slug")({
       .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
       .join(" ");
     const title = `${name} — EXIT Denim B2B`.slice(0, 60);
-    const desc = `${name} — премијум мушке панталоне из Новог Пазара. Величине, тканина, MOQ и велепродајне цене за одобрене B2B партнере.`;
+    const desc = `${name} — premijum muške pantalone iz Novog Pazara. Veličine, tkanina, MOQ i veleprodajne cene za odobrene B2B partnere.`;
     const url = `https://exitdenim.shop/proizvod/${params.slug}`;
     return {
       meta: [
@@ -39,13 +39,13 @@ export const Route = createFileRoute("/proizvod/$slug")({
     <Layout>
       <div className="container-x py-32 text-center">
         <div className="eyebrow">404</div>
-        <h1 className="text-5xl mt-4">Артикал није пронађен</h1>
-        <Link to="/katalog" className="btn-outline mt-8 inline-flex">Назад на каталог</Link>
+        <h1 className="text-5xl mt-4">Artikal nije pronađen</h1>
+        <Link to="/katalog" className="btn-outline mt-8 inline-flex">Nazad na katalog</Link>
       </div>
     </Layout>
   ),
   errorComponent: () => (
-    <Layout><div className="container-x py-32 text-center">Грешка при учитавању артикла.</div></Layout>
+    <Layout><div className="container-x py-32 text-center">Greška pri učitavanju artikla.</div></Layout>
   ),
 
   component: ProductDetail,
@@ -100,7 +100,7 @@ function ProductDetail() {
     <Layout>
       <div className="container-x pt-10">
         <Link to="/katalog" className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 transition-colors">
-          <ChevronLeft className="w-3.5 h-3.5" /> Назад на каталог
+          <ChevronLeft className="w-3.5 h-3.5" /> Nazad na katalog
         </Link>
 
       </div>
@@ -129,15 +129,15 @@ function ProductDetail() {
 
           <div className="mt-3 grid grid-cols-3 gap-2 text-[11px]">
             <div className="border border-border p-3">
-              <div className="eyebrow">Тканина</div>
+              <div className="eyebrow">Tkanina</div>
               <div className="mt-1.5 font-medium">{product.fabric}</div>
             </div>
             <div className="border border-border p-3">
-              <div className="eyebrow">Тежина</div>
+              <div className="eyebrow">Težina</div>
               <div className="mt-1.5 font-medium">{product.weight}</div>
             </div>
             <div className="border border-border p-3">
-              <div className="eyebrow">Крој</div>
+              <div className="eyebrow">Kroj</div>
               <div className="mt-1.5 font-medium">{product.fit}</div>
             </div>
           </div>
@@ -146,15 +146,15 @@ function ProductDetail() {
         {/* Info Panel */}
         <div className="lg:col-span-5 lg:sticky lg:top-32 lg:self-start">
           <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-            {product.category} · Артикал {product.sku}
+            {product.category} · Artikal {product.sku}
           </div>
           <h1 className="mt-4 text-[clamp(2.25rem,4vw,3.5rem)]">{product.name}</h1>
           <p className="mt-5 text-foreground/75 leading-[1.75]">{product.description}</p>
 
           <div className="mt-10 flex items-end justify-between gap-8 border-t border-foreground/20 pt-6">
             <div>
-              <div className="eyebrow">Малопродаја</div>
-              <div className="serif text-5xl mt-2 tabular-nums">{Number(product.retail).toLocaleString("sr-RS")} <span className="text-2xl text-muted-foreground">дин</span></div>
+              <div className="eyebrow">Maloprodaja</div>
+              <div className="serif text-5xl mt-2 tabular-nums">{Number(product.retail).toLocaleString("sr-RS")} <span className="text-2xl text-muted-foreground">din</span></div>
             </div>
             {approved && (
               <div className="text-right">
@@ -171,13 +171,13 @@ function ProductDetail() {
 
 
           <dl className="mt-10 grid grid-cols-2 gap-y-5 gap-x-8 text-sm">
-            <Spec label="Крој" value={product.fit} />
-            <Spec label="Састав" value={product.fabric} />
-            <Spec label="Тежина" value={product.weight} />
-            <Spec label="Боја" value={product.color} />
-            <Spec label="Величине" value={product.sizes.join(" · ")} />
-            <Spec label="MOQ" value={`${product.moq} ком`} />
-            <Spec label="Испорука" value={product.delivery} />
+            <Spec label="Kroj" value={product.fit} />
+            <Spec label="Sastav" value={product.fabric} />
+            <Spec label="Težina" value={product.weight} />
+            <Spec label="Boja" value={product.color} />
+            <Spec label="Veličine" value={product.sizes.join(" · ")} />
+            <Spec label="MOQ" value={`${product.moq} kom`} />
+            <Spec label="Isporuka" value={product.delivery} />
             <Spec label="SKU" value={product.sku} />
           </dl>
 
@@ -196,7 +196,7 @@ function ProductDetail() {
 
           {approved && (
             <div className="mt-10 border-t border-border pt-8">
-              <div className="eyebrow mb-4">B2B велепродаја — по величинама</div>
+              <div className="eyebrow mb-4">B2B veleprodaja — po veličinama</div>
               <SizeMatrix product={product} />
             </div>
           )}
@@ -206,7 +206,7 @@ function ProductDetail() {
 
       <section className="border-t border-border section-pad bg-secondary/50">
         <div className="container-x">
-          <div className="eyebrow">Још из линије {product.category}</div>
+          <div className="eyebrow">Još iz linije {product.category}</div>
           <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-12">
             {related.map((p) => <ProductCard key={p.id} product={p} showB2B={approved} />)}
           </div>
@@ -252,7 +252,7 @@ function LineSheetButton({ sku }: { sku: string }) {
   };
   return (
     <button type="button" onClick={download} disabled={busy} className="btn-outline">
-      <Download className="w-3.5 h-3.5" /> {busy ? "Генерисање…" : "Преузми Line Sheet"}
+      <Download className="w-3.5 h-3.5" /> {busy ? "Generisanje…" : "Preuzmi Line Sheet"}
     </button>
   );
 }

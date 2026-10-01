@@ -31,17 +31,17 @@ export function StickyMobileCta() {
       >
         <div className="flex-1 min-w-0 leading-tight">
           <div className="text-[9.5px] uppercase tracking-[0.24em] text-muted-foreground font-medium">
-            EXIT Denim · Велепродаја
+            EXIT Denim · Veleprodaja
           </div>
           <div className="text-[13px] font-semibold text-foreground truncate">
-            {user ? "Моја поруџбина" : "Затражите B2B приступ"}
+            {user ? "Moja porudžbina" : "Zatražite B2B pristup"}
           </div>
         </div>
         <Link
           to={user ? "/narudzba" : "/postani-partner"}
           className="shrink-0 inline-flex items-center gap-1.5 rounded-full bg-foreground text-background pl-4 pr-3.5 py-2.5 text-[11.5px] font-semibold tracking-[0.1em] uppercase"
         >
-          {user ? "Отвори" : "Пријава"} <ArrowRight className="w-3.5 h-3.5" />
+          {user ? "Otvori" : "Prijava"} <ArrowRight className="w-3.5 h-3.5" />
         </Link>
       </div>
     </div>

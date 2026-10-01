@@ -48,33 +48,33 @@ function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
 function TrustProof() {
   const groups = [
     {
-      label: "За квалитет робе",
+      label: "Za kvalitet robe",
       items: [
-        "Материјал делује озбиљно, види се да није класична јефтина роба.",
-        "Ово је оно што бутицима треба — добар крој, стабилан модел и реална цена.",
-        "Џинс изгледа јако квалитетно, поготово обрада и штеп.",
-        "Код оваквих панталона најбитније је да купац проба и врати се опет. Ово делује као тај ниво.",
-        "Модели су комерцијални, баш за радњу која хоће брзу ротацију.",
+        "Materijal deluje ozbiljno, vidi se da nije klasična jeftina roba.",
+        "Ovo je ono što buticima treba — dobar kroj, stabilan model i realna cena.",
+        "Džins izgleda jako kvalitetno, pogotovo obrada i štep.",
+        "Kod ovakvih pantalona najbitnije je da kupac proba i vrati se opet. Ovo deluje kao taj nivo.",
+        "Modeli su komercijalni, baš za radnju koja hoće brzu rotaciju.",
       ],
     },
     {
-      label: "Велепродаја / B2B поверење",
+      label: "Veleprodaja / B2B poverenje",
       items: [
-        "Одлично за бутике који траже робу са добром маржом и брзим обртом.",
-        "Ово је добра понуда за радње које не желе да ризикују са непознатим моделима.",
-        "Битно је што имате више линија — jeans, chino и cargo. Лакше је направити комплетну поруџбину.",
-        "За велепродају је најважније да су величине стабилне и да може да се допуни роба.",
-        "Ако је испорука брза и модели доступни по величинама, ово може лепо да ради у бутику.",
+        "Odlično za butike koji traže robu sa dobrom maržom i brzim obrtom.",
+        "Ovo je dobra ponuda za radnje koje ne žele da rizikuju sa nepoznatim modelima.",
+        "Bitno je što imate više linija — jeans, chino i cargo. Lakše je napraviti kompletnu porudžbinu.",
+        "Za veleprodaju je najvažnije da su veličine stabilne i da može da se dopuni roba.",
+        "Ako je isporuka brza i modeli dostupni po veličinama, ovo može lepo da radi u butiku.",
       ],
     },
     {
-      label: "Хитност и продаја",
+      label: "Hitnost i prodaja",
       items: [
-        "Овакви модели обично брзо оду у величинама 32, 33 и 34.",
-        "Ко ради мушку гардеробу, ово не треба много да чека.",
-        "Добар тренутак за бутике да попуне лагер пре сезоне.",
-        "Ако је цена велепродајна добра, ово је роба која може одмах у излог.",
-        "Cargo и jeans тренутно најбоље иду, поготово овакви неутрални модели.",
+        "Ovakvi modeli obično brzo odu u veličinama 32, 33 i 34.",
+        "Ko radi mušku garderobu, ovo ne treba mnogo da čeka.",
+        "Dobar trenutak za butike da popune lager pre sezone.",
+        "Ako je cena veleprodajna dobra, ovo je roba koja može odmah u izlog.",
+        "Cargo i jeans trenutno najbolje idu, pogotovo ovakvi neutralni modeli.",
       ],
     },
   ];
@@ -113,10 +113,10 @@ function TrustProof() {
       <div className="container-x">
         <Reveal>
           <div className="max-w-2xl">
-            <div className="eyebrow">Поверење са тржишта</div>
-            <h2 className="mt-4 h2-editorial">Шта кажу бутици и купци</h2>
+            <div className="eyebrow">Poverenje sa tržišta</div>
+            <h2 className="mt-4 h2-editorial">Šta kažu butici i kupci</h2>
             <p className="mt-4 text-muted-foreground leading-relaxed">
-              Реакције са Instagram и Facebook објава — од квалитета материјала до брзине обрта у радњи.
+              Reakcije sa Instagram i Facebook objava — od kvaliteta materijala do brzine obrta u radnji.
             </p>
           </div>
         </Reveal>
@@ -157,7 +157,7 @@ function TrustProof() {
                 <button
                   key={g.label}
                   onClick={() => goTo(i)}
-                  aria-label={`Прикажи групу ${g.label}`}
+                  aria-label={`Prikaži grupu ${g.label}`}
                   className={`h-1.5 rounded-full transition-all duration-300 ${
                     i === activeGroup ? "w-8 bg-accent" : "w-1.5 bg-foreground/20 hover:bg-foreground/40"
                   }`}
@@ -173,14 +173,14 @@ function TrustProof() {
                   style={{ animationName: "scale-x" }}
                 />
               </span>
-              <span>Картице се мењају сваких 4.5s</span>
+              <span>Kartice se menjaju svakih 4.5s</span>
             </div>
 
             <div className="flex items-center gap-2 text-[12px] text-muted-foreground mono">
               <span className="md:hidden">{String(quoteIndex + 1).padStart(2, "0")}/{String(groups[0].items.length).padStart(2, "0")}</span>
               <button
                 onClick={() => setQuoteIndex((i) => (i + 1) % groups[0].items.length)}
-                aria-label="Следећи коментар"
+                aria-label="Sledeći komentar"
                 className="w-10 h-10 flex items-center justify-center rounded-full border border-border bg-background text-foreground/70 hover:text-foreground hover:border-foreground/30 transition-colors"
               >
                 <ChevronRight className="w-4 h-4" />
@@ -246,7 +246,7 @@ function HomePage() {
 
       <Hero />
 
-      {/* ───────── КАТЕГОРИЈЕ ───────── */}
+      {/* ───────── KATEGORIJE ───────── */}
       <section className="relative pt-6 pb-2 md:py-14">
         <div className="container-x">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
@@ -355,7 +355,7 @@ function HomePage() {
                         </Link>
                       </div>
                       <div className="serif text-lg tabular-nums shrink-0">
-                        {Number(p.retail).toLocaleString("sr-RS")} <span className="text-xs text-muted-foreground">дин</span>
+                        {Number(p.retail).toLocaleString("sr-RS")} <span className="text-xs text-muted-foreground">din</span>
                       </div>
                     </div>
                     <div className="mt-4">
@@ -370,7 +370,7 @@ function HomePage() {
       )}
 
 
-      {/* ───────── ИЗАБЕРИ КРОЈ ───────── */}
+      {/* ───────── IZABERI KROJ ───────── */}
       <section className="py-12 md:py-20 border-t border-border">
         <div className="container-x">
           <div className="eyebrow">Nađi svoj fit</div>
@@ -397,7 +397,7 @@ function HomePage() {
         </div>
       </section>
 
-      {/* ───────── ЗАШТО EXIT ───────── */}
+      {/* ───────── ZAŠTO EXIT ───────── */}
       <section className="py-12 md:py-20 bg-[var(--surface)]">
         <div className="container-x grid md:grid-cols-3 gap-8">
           {[

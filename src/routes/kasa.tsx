@@ -11,20 +11,20 @@ import { ecommerce } from "@/lib/analytics";
 export const Route = createFileRoute("/kasa")({
   head: () => ({
     meta: [
-      { title: "Каса — EXIT Denim" },
-      { name: "description", content: "Завршите наруџбину. Плаћање поузећем, брза достава." },
+      { title: "Kasa — EXIT Denim" },
+      { name: "description", content: "Završite narudžbinu. Plaćanje pouzećem, brza dostava." },
     ],
   }),
   component: CheckoutPage,
 });
 
 const schema = z.object({
-  name: z.string().trim().min(2, "Име је обавезно").max(120),
-  email: z.string().trim().email("Неисправан email").max(255),
-  phone: z.string().trim().min(6, "Телефон је обавезан").max(40),
-  address: z.string().trim().min(3, "Адреса је обавезна").max(200),
-  city: z.string().trim().min(2, "Град је обавезан").max(80),
-  postal: z.string().trim().min(3, "Поштански број").max(12),
+  name: z.string().trim().min(2, "Ime je obavezno").max(120),
+  email: z.string().trim().email("Neispravan email").max(255),
+  phone: z.string().trim().min(6, "Telefon je obavezan").max(40),
+  address: z.string().trim().min(3, "Adresa je obavezna").max(200),
+  city: z.string().trim().min(2, "Grad je obavezan").max(80),
+  postal: z.string().trim().min(3, "Poštanski broj").max(12),
   country: z.string().trim().min(2).max(80),
   note: z.string().trim().max(500).optional(),
 });
@@ -43,7 +43,7 @@ function CheckoutPage() {
     address: "",
     city: "",
     postal: "",
-    country: "Србија",
+    country: "Srbija",
     note: "",
   });
   const [errors, setErrors] = useState<Partial<Record<keyof Form, string>>>({});
@@ -102,7 +102,7 @@ function CheckoutPage() {
       clear();
       navigate({ to: "/porudzbina/$number", params: { number: res.orderNumber }, search: { email: form.email } });
     } catch (err: any) {
-      setServerError(err?.message || "Дошло је до грешке. Покушајте поново.");
+      setServerError(err?.message || "Došlo je do greške. Pokušajte ponovo.");
       setSubmitting(false);
     }
   };
@@ -112,60 +112,60 @@ function CheckoutPage() {
   return (
     <Layout>
       <section className="container-x py-12 md:py-16">
-        <div className="eyebrow">Каса</div>
-        <h1 className="mt-4 text-4xl md:text-5xl">Завршите поруџбину</h1>
+        <div className="eyebrow">Kasa</div>
+        <h1 className="mt-4 text-4xl md:text-5xl">Završite porudžbinu</h1>
 
         <form onSubmit={onSubmit} className="mt-10 grid lg:grid-cols-12 gap-10">
           {/* LEFT: form */}
           <div className="lg:col-span-8 space-y-8">
             <fieldset className="border border-border p-6">
-              <legend className="px-2 text-[11px] uppercase tracking-[0.22em] font-medium">Контакт</legend>
+              <legend className="px-2 text-[11px] uppercase tracking-[0.22em] font-medium">Kontakt</legend>
               <div className="grid md:grid-cols-2 gap-4 mt-2">
-                <Field label="Име и презиме" name="name" value={form.name} onChange={(v) => set("name", v)} error={errors.name} required />
+                <Field label="Ime i prezime" name="name" value={form.name} onChange={(v) => set("name", v)} error={errors.name} required />
                 <Field label="Email" name="email" type="email" value={form.email} onChange={(v) => set("email", v)} error={errors.email} required />
-                <Field label="Телефон" name="phone" type="tel" value={form.phone} onChange={(v) => set("phone", v)} error={errors.phone} required />
+                <Field label="Telefon" name="phone" type="tel" value={form.phone} onChange={(v) => set("phone", v)} error={errors.phone} required />
               </div>
               {!user && (
                 <p className="mt-4 text-[12px] text-muted-foreground">
-                  Куповина без налога. <Link to="/auth" className="link-underline">Пријавите се</Link> да сачувате поруџбине.
+                  Kupovina bez naloga. <Link to="/auth" className="link-underline">Prijavite se</Link> da sačuvate porudžbine.
                 </p>
               )}
             </fieldset>
 
             <fieldset className="border border-border p-6">
-              <legend className="px-2 text-[11px] uppercase tracking-[0.22em] font-medium">Адреса за испоруку</legend>
+              <legend className="px-2 text-[11px] uppercase tracking-[0.22em] font-medium">Adresa za isporuku</legend>
               <div className="grid md:grid-cols-2 gap-4 mt-2">
                 <div className="md:col-span-2">
-                  <Field label="Улица и број" name="address" value={form.address} onChange={(v) => set("address", v)} error={errors.address} required />
+                  <Field label="Ulica i broj" name="address" value={form.address} onChange={(v) => set("address", v)} error={errors.address} required />
                 </div>
-                <Field label="Град" name="city" value={form.city} onChange={(v) => set("city", v)} error={errors.city} required />
-                <Field label="Поштански број" name="postal" value={form.postal} onChange={(v) => set("postal", v)} error={errors.postal} required />
+                <Field label="Grad" name="city" value={form.city} onChange={(v) => set("city", v)} error={errors.city} required />
+                <Field label="Poštanski broj" name="postal" value={form.postal} onChange={(v) => set("postal", v)} error={errors.postal} required />
                 <div className="md:col-span-2">
-                  <Field label="Држава" name="country" value={form.country} onChange={(v) => set("country", v)} error={errors.country} required />
+                  <Field label="Država" name="country" value={form.country} onChange={(v) => set("country", v)} error={errors.country} required />
                 </div>
               </div>
             </fieldset>
 
             <fieldset className="border border-border p-6">
-              <legend className="px-2 text-[11px] uppercase tracking-[0.22em] font-medium">Начин плаћања</legend>
+              <legend className="px-2 text-[11px] uppercase tracking-[0.22em] font-medium">Način plaćanja</legend>
               <label className="flex items-start gap-3 mt-2 p-4 border border-foreground bg-secondary/40 cursor-pointer">
                 <input type="radio" checked readOnly className="mt-1" />
                 <div>
-                  <div className="font-medium">Плаћање поузећем (COD)</div>
-                  <p className="text-sm text-muted-foreground mt-1">Плаћате готовином курир при испоруци. Достава 2–5 радних дана.</p>
+                  <div className="font-medium">Plaćanje pouzećem (COD)</div>
+                  <p className="text-sm text-muted-foreground mt-1">Plaćate gotovinom kurir pri isporuci. Dostava 2–5 radnih dana.</p>
                 </div>
               </label>
             </fieldset>
 
             <div>
-              <label className="block text-[11px] uppercase tracking-[0.22em] font-medium mb-2">Напомена (опционо)</label>
+              <label className="block text-[11px] uppercase tracking-[0.22em] font-medium mb-2">Napomena (opciono)</label>
               <textarea
                 value={form.note}
                 onChange={(e) => set("note", e.target.value)}
                 rows={3}
                 maxLength={500}
                 className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground"
-                placeholder="Инструкције за курира, спрат, интерфон..."
+                placeholder="Instrukcije za kurira, sprat, interfon..."
               />
             </div>
 
@@ -175,7 +175,7 @@ function CheckoutPage() {
           {/* RIGHT: summary */}
           <aside className="lg:col-span-4">
             <div className="border border-border p-6 lg:sticky lg:top-24 space-y-5">
-              <div className="eyebrow">Ваша поруџбина</div>
+              <div className="eyebrow">Vaša porudžbina</div>
               <ul className="space-y-3 max-h-72 overflow-y-auto">
                 {items.map((it) => (
                   <li key={`${it.productId}-${it.size}`} className="flex gap-3 text-sm">
@@ -184,24 +184,24 @@ function CheckoutPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="truncate">{it.name}</div>
-                      <div className="text-[11px] text-muted-foreground">Вел. {it.size} · {it.quantity}×</div>
+                      <div className="text-[11px] text-muted-foreground">Vel. {it.size} · {it.quantity}×</div>
                     </div>
                     <div className="tabular-nums text-sm">{(it.unitPrice * it.quantity).toLocaleString("sr-RS")}</div>
                   </li>
                 ))}
               </ul>
               <div className="pt-4 border-t border-border space-y-2 text-sm">
-                <div className="flex justify-between"><span className="text-muted-foreground">Међузбир</span><span className="tabular-nums">{subtotal.toLocaleString("sr-RS")} дин</span></div>
-                <div className="flex justify-between"><span className="text-muted-foreground">Достава</span><span className="tabular-nums">{shipping === 0 ? "Бесплатна" : `${shipping.toLocaleString("sr-RS")} дин`}</span></div>
+                <div className="flex justify-between"><span className="text-muted-foreground">Međuzbir</span><span className="tabular-nums">{subtotal.toLocaleString("sr-RS")} din</span></div>
+                <div className="flex justify-between"><span className="text-muted-foreground">Dostava</span><span className="tabular-nums">{shipping === 0 ? "Besplatna" : `${shipping.toLocaleString("sr-RS")} din`}</span></div>
                 {subtotal < CART_CONSTANTS.FREE_SHIPPING_OVER && (
-                  <div className="text-[11px] text-muted-foreground">До бесплатне доставе: {(CART_CONSTANTS.FREE_SHIPPING_OVER - subtotal).toLocaleString("sr-RS")} дин</div>
+                  <div className="text-[11px] text-muted-foreground">Do besplatne dostave: {(CART_CONSTANTS.FREE_SHIPPING_OVER - subtotal).toLocaleString("sr-RS")} din</div>
                 )}
-                <div className="flex justify-between pt-3 mt-2 border-t border-border font-semibold text-base"><span>Укупно</span><span className="tabular-nums">{total.toLocaleString("sr-RS")} дин</span></div>
+                <div className="flex justify-between pt-3 mt-2 border-t border-border font-semibold text-base"><span>Ukupno</span><span className="tabular-nums">{total.toLocaleString("sr-RS")} din</span></div>
               </div>
               <button type="submit" disabled={submitting} className="btn-primary w-full justify-center hidden lg:inline-flex">
-                {submitting ? "Слање..." : "Потврди поруџбину"}
+                {submitting ? "Slanje..." : "Potvrdi porudžbinu"}
               </button>
-              <p className="text-[11px] text-center text-muted-foreground">Плаћање поузећем · Слањем прихватате Услове коришћења.</p>
+              <p className="text-[11px] text-center text-muted-foreground">Plaćanje pouzećem · Slanjem prihvatate Uslove korišćenja.</p>
             </div>
           </aside>
 
@@ -211,15 +211,15 @@ function CheckoutPage() {
             style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))" }}
           >
             <div className="shrink-0">
-              <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Укупно</div>
-              <div className="text-[15px] font-semibold tabular-nums leading-tight">{total.toLocaleString("sr-RS")} дин</div>
+              <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Ukupno</div>
+              <div className="text-[15px] font-semibold tabular-nums leading-tight">{total.toLocaleString("sr-RS")} din</div>
             </div>
             <button
               type="submit"
               disabled={submitting}
               className="flex-1 inline-flex items-center justify-center bg-foreground text-background py-3.5 text-[12.5px] uppercase tracking-[0.18em] font-semibold disabled:opacity-60"
             >
-              {submitting ? "Слање…" : "Потврди поруџбину"}
+              {submitting ? "Slanje…" : "Potvrdi porudžbinu"}
             </button>
           </div>
         </form>

@@ -8,7 +8,7 @@ import { listMyCustomerOrders } from "@/lib/customer-orders.functions";
 export const Route = createFileRoute("/_authenticated/moje-porudzbine")({
   head: () => ({
     meta: [
-      { title: "Моје поруџбине — EXIT Denim" },
+      { title: "Moje porudžbine — EXIT Denim" },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -16,11 +16,11 @@ export const Route = createFileRoute("/_authenticated/moje-porudzbine")({
 });
 
 const STATUS: Record<string, { label: string; cls: string }> = {
-  pending: { label: "На чекању", cls: "text-muted-foreground bg-secondary" },
-  confirmed: { label: "Потврђена", cls: "text-accent bg-accent/10" },
-  shipped: { label: "Послата", cls: "text-blue-700 bg-blue-100" },
-  delivered: { label: "Испоручена", cls: "text-green-700 bg-green-100" },
-  cancelled: { label: "Отказана", cls: "text-destructive bg-destructive/10" },
+  pending: { label: "Na čekanju", cls: "text-muted-foreground bg-secondary" },
+  confirmed: { label: "Potvrđena", cls: "text-accent bg-accent/10" },
+  shipped: { label: "Poslata", cls: "text-blue-700 bg-blue-100" },
+  delivered: { label: "Isporučena", cls: "text-green-700 bg-green-100" },
+  cancelled: { label: "Otkazana", cls: "text-destructive bg-destructive/10" },
 };
 
 function MyOrders() {
@@ -33,17 +33,17 @@ function MyOrders() {
   return (
     <Layout>
       <section className="container-x py-12 md:py-16">
-        <div className="eyebrow">Кориснички налог</div>
-        <h1 className="mt-4 text-3xl md:text-4xl">Моје поруџбине</h1>
+        <div className="eyebrow">Korisnički nalog</div>
+        <h1 className="mt-4 text-3xl md:text-4xl">Moje porudžbine</h1>
 
         {loading ? (
-          <div className="mt-10 text-muted-foreground">Учитавање...</div>
+          <div className="mt-10 text-muted-foreground">Učitavanje...</div>
         ) : orders.length === 0 ? (
           <div className="mt-12 border border-border p-16 text-center">
             <Package className="w-8 h-8 mx-auto text-muted-foreground" strokeWidth={1.2} />
-            <div className="mt-6 serif text-2xl">Још нема поруџбина</div>
-            <p className="mt-3 text-muted-foreground">Када поручите, статус ће се појавити овде.</p>
-            <Link to="/katalog" className="btn-primary mt-8 inline-flex">Отвори каталог</Link>
+            <div className="mt-6 serif text-2xl">Još nema porudžbina</div>
+            <p className="mt-3 text-muted-foreground">Kada poručite, status će se pojaviti ovde.</p>
+            <Link to="/katalog" className="btn-primary mt-8 inline-flex">Otvori katalog</Link>
           </div>
         ) : (
           <div className="mt-10 space-y-4">
@@ -58,8 +58,8 @@ function MyOrders() {
                     </div>
                     <span className={`text-[11px] uppercase tracking-[0.18em] px-3 py-1.5 ${s.cls}`}>{s.label}</span>
                     <div className="text-right">
-                      <div className="text-sm text-muted-foreground">Укупно</div>
-                      <div className="text-lg font-semibold tabular-nums">{Number(o.total).toLocaleString("sr-RS")} дин</div>
+                      <div className="text-sm text-muted-foreground">Ukupno</div>
+                      <div className="text-lg font-semibold tabular-nums">{Number(o.total).toLocaleString("sr-RS")} din</div>
                     </div>
                   </div>
                   <ul className="mt-4 divide-y divide-border border-t border-border">
@@ -67,9 +67,9 @@ function MyOrders() {
                       <li key={it.id} className="py-2.5 flex justify-between text-sm">
                         <div>
                           <div>{it.product_name}</div>
-                          <div className="text-[11px] text-muted-foreground">{it.product_sku} · Вел. {it.size} · {it.quantity}×</div>
+                          <div className="text-[11px] text-muted-foreground">{it.product_sku} · Vel. {it.size} · {it.quantity}×</div>
                         </div>
-                        <div className="tabular-nums">{(Number(it.unit_price) * it.quantity).toLocaleString("sr-RS")} дин</div>
+                        <div className="tabular-nums">{(Number(it.unit_price) * it.quantity).toLocaleString("sr-RS")} din</div>
                       </li>
                     ))}
                   </ul>

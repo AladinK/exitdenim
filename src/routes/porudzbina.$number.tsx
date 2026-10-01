@@ -12,8 +12,8 @@ export const Route = createFileRoute("/porudzbina/$number")({
   validateSearch: (s) => search.parse(s),
   head: () => ({
     meta: [
-      { title: "Ваша поруџбина — EXIT Denim" },
-      { name: "description", content: "Статус ваше поруџбине." },
+      { title: "Vaša porudžbina — EXIT Denim" },
+      { name: "description", content: "Status vaše porudžbine." },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -21,11 +21,11 @@ export const Route = createFileRoute("/porudzbina/$number")({
 });
 
 const STATUS_LABEL: Record<string, string> = {
-  pending: "На чекању",
-  confirmed: "Потврђена",
-  shipped: "Послата",
-  delivered: "Испоручена",
-  cancelled: "Отказана",
+  pending: "Na čekanju",
+  confirmed: "Potvrđena",
+  shipped: "Poslata",
+  delivered: "Isporučena",
+  cancelled: "Otkazana",
 };
 
 function OrderPage() {
@@ -43,11 +43,11 @@ function OrderPage() {
     setLoading(true); setError(null);
     try {
       const r = await lookup({ data: { orderNumber: number, email: e } });
-      if (!r) setError("Поруџбина није пронађена. Проверите број и email.");
+      if (!r) setError("Porudžbina nije pronađena. Proverite broj i email.");
       setOrder(r);
       setTried(true);
     } catch (err: any) {
-      setError(err?.message || "Грешка при учитавању.");
+      setError(err?.message || "Greška pri učitavanju.");
     } finally {
       setLoading(false);
     }
@@ -72,19 +72,19 @@ function OrderPage() {
                 <CheckCircle2 className="w-6 h-6" />
               </div>
               <div>
-                <div className="eyebrow">Хвала на поверењу</div>
-                <h1 className="mt-3 text-3xl md:text-4xl">Поруџбина је примљена</h1>
+                <div className="eyebrow">Hvala na poverenju</div>
+                <h1 className="mt-3 text-3xl md:text-4xl">Porudžbina je primljena</h1>
                 <p className="mt-3 text-muted-foreground">
-                  Број поруџбине: <span className="mono font-semibold text-foreground">{order.order_number}</span> · Статус:{" "}
+                  Broj porudžbine: <span className="mono font-semibold text-foreground">{order.order_number}</span> · Status:{" "}
                   <span className="font-semibold text-foreground">{STATUS_LABEL[order.status] || order.status}</span>
                 </p>
-                <p className="mt-1 text-sm text-muted-foreground">Позваћемо вас на телефон да потврдимо испоруку.</p>
+                <p className="mt-1 text-sm text-muted-foreground">Pozvaćemo vas na telefon da potvrdimo isporuku.</p>
               </div>
             </div>
 
             <div className="mt-10 grid md:grid-cols-2 gap-6">
               <div className="border border-border p-5">
-                <div className="flex items-center gap-2 eyebrow"><MapPin className="w-3.5 h-3.5" /> Испорука</div>
+                <div className="flex items-center gap-2 eyebrow"><MapPin className="w-3.5 h-3.5" /> Isporuka</div>
                 <div className="mt-4 text-sm space-y-0.5">
                   <div className="font-medium">{order.customer_name}</div>
                   <div>{order.shipping_address}</div>
@@ -93,39 +93,39 @@ function OrderPage() {
                 </div>
               </div>
               <div className="border border-border p-5">
-                <div className="flex items-center gap-2 eyebrow"><Package className="w-3.5 h-3.5" /> Резиме</div>
+                <div className="flex items-center gap-2 eyebrow"><Package className="w-3.5 h-3.5" /> Rezime</div>
                 <div className="mt-4 space-y-1.5 text-sm">
-                  <div className="flex justify-between"><span className="text-muted-foreground">Међузбир</span><span className="tabular-nums">{Number(order.subtotal).toLocaleString("sr-RS")} дин</span></div>
-                  <div className="flex justify-between"><span className="text-muted-foreground">Достава</span><span className="tabular-nums">{Number(order.shipping_cost) === 0 ? "Бесплатна" : `${Number(order.shipping_cost).toLocaleString("sr-RS")} дин`}</span></div>
-                  <div className="flex justify-between pt-2 mt-2 border-t border-border font-semibold"><span>Укупно</span><span className="tabular-nums">{Number(order.total).toLocaleString("sr-RS")} дин</span></div>
+                  <div className="flex justify-between"><span className="text-muted-foreground">Međuzbir</span><span className="tabular-nums">{Number(order.subtotal).toLocaleString("sr-RS")} din</span></div>
+                  <div className="flex justify-between"><span className="text-muted-foreground">Dostava</span><span className="tabular-nums">{Number(order.shipping_cost) === 0 ? "Besplatna" : `${Number(order.shipping_cost).toLocaleString("sr-RS")} din`}</span></div>
+                  <div className="flex justify-between pt-2 mt-2 border-t border-border font-semibold"><span>Ukupno</span><span className="tabular-nums">{Number(order.total).toLocaleString("sr-RS")} din</span></div>
                 </div>
               </div>
             </div>
 
             <div className="mt-6 border border-border">
-              <div className="px-5 py-3 border-b border-border eyebrow">Артикли</div>
+              <div className="px-5 py-3 border-b border-border eyebrow">Artikli</div>
               <ul className="divide-y divide-border">
                 {order.customer_order_items?.map((it: any) => (
                   <li key={it.id} className="px-5 py-3 flex justify-between text-sm">
                     <div>
                       <div className="font-medium">{it.product_name}</div>
-                      <div className="text-[11px] text-muted-foreground">{it.product_sku} · Вел. {it.size} · {it.quantity}×</div>
+                      <div className="text-[11px] text-muted-foreground">{it.product_sku} · Vel. {it.size} · {it.quantity}×</div>
                     </div>
-                    <div className="tabular-nums">{(Number(it.unit_price) * it.quantity).toLocaleString("sr-RS")} дин</div>
+                    <div className="tabular-nums">{(Number(it.unit_price) * it.quantity).toLocaleString("sr-RS")} din</div>
                   </li>
                 ))}
               </ul>
             </div>
 
             <div className="mt-8 flex gap-3">
-              <Link to="/katalog" className="btn-outline">Настави са куповином</Link>
+              <Link to="/katalog" className="btn-outline">Nastavi sa kupovinom</Link>
             </div>
           </>
         ) : (
           <>
-            <div className="eyebrow">Праћење поруџбине</div>
-            <h1 className="mt-4 text-3xl md:text-4xl">Поруџбина {number}</h1>
-            <p className="mt-3 text-muted-foreground">Унесите email којим сте поручили да видите статус.</p>
+            <div className="eyebrow">Praćenje porudžbine</div>
+            <h1 className="mt-4 text-3xl md:text-4xl">Porudžbina {number}</h1>
+            <p className="mt-3 text-muted-foreground">Unesite email kojim ste poručili da vidite status.</p>
             <form onSubmit={onSubmit} className="mt-8 flex flex-col sm:flex-row gap-3 max-w-md">
               <input
                 type="email"
@@ -136,7 +136,7 @@ function OrderPage() {
                 className="flex-1 border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground"
               />
               <button type="submit" disabled={loading} className="btn-primary">
-                {loading ? "..." : "Прикажи"}
+                {loading ? "..." : "Prikaži"}
               </button>
             </form>
             {tried && error && <p className="mt-4 text-sm text-destructive">{error}</p>}
