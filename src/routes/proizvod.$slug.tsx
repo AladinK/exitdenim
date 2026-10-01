@@ -119,15 +119,16 @@ function ProductDetail() {
 
       </div>
 
-      <section className="container-x py-10 grid lg:grid-cols-12 gap-10 lg:gap-16">
+      <section className="md:container-x pt-3 md:py-8 pb-10 grid lg:grid-cols-12 gap-6 lg:gap-16">
         {/* Gallery */}
         <div className="lg:col-span-7">
           <div className="aspect-[4/5] overflow-hidden bg-secondary relative">
             {product.image_url ? (
               <img
                 src={product.image_url}
-                alt={product.name}
+                alt={`${product.name} — ${product.fit} fit, ${product.color}`}
                 fetchPriority="high"
+                loading="eager"
                 decoding="async"
                 onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
                 className="w-full h-full object-cover"
@@ -139,61 +140,81 @@ function ProductDetail() {
                 {product.sku}
               </div>
             )}
-          </div>
-
-          <div className="mt-3 grid grid-cols-3 gap-2 text-[11px]">
-            <div className="border border-border p-3">
-              <div className="eyebrow">Tkanina</div>
-              <div className="mt-1.5 font-medium">{product.fabric}</div>
-            </div>
-            <div className="border border-border p-3">
-              <div className="eyebrow">Težina</div>
-              <div className="mt-1.5 font-medium">{product.weight}</div>
-            </div>
-            <div className="border border-border p-3">
-              <div className="eyebrow">Kroj</div>
-              <div className="mt-1.5 font-medium">{product.fit}</div>
-            </div>
+            <span className="absolute left-3 top-3 bg-background text-foreground px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em]">
+              {product.fit} fit
+            </span>
           </div>
         </div>
 
         {/* Info Panel */}
-        <div className="lg:col-span-5 lg:sticky lg:top-32 lg:self-start">
-          <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-            {product.category} · Artikal {product.sku}
+        <div className="px-5 md:px-0 lg:col-span-5 lg:sticky lg:top-28 lg:self-start">
+          <div className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
+            {product.category} · {product.fit} fit
           </div>
-          <h1 className="mt-4 text-[clamp(2.25rem,4vw,3.5rem)]">{product.name}</h1>
-          <p className="mt-5 text-foreground/75 leading-[1.75]">{product.description}</p>
+          <h1 className="mt-2 text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[1.05]">{product.name}</h1>
+          <div className="mt-1.5 text-sm text-muted-foreground">{product.color}</div>
 
-          <div className="mt-10 flex items-end justify-between gap-8 border-t border-foreground/20 pt-6">
-            <div>
-              <div className="eyebrow">Maloprodaja</div>
-              <div className="serif text-5xl mt-2 tabular-nums">{Number(product.retail).toLocaleString("sr-RS")} <span className="text-2xl text-muted-foreground">din</span></div>
+          <div className="mt-4 flex items-end justify-between gap-6">
+            <div className="text-3xl font-semibold tabular-nums">
+              {Number(product.retail).toLocaleString("sr-RS")} <span className="text-base font-normal text-muted-foreground">RSD</span>
             </div>
             {approved && (
               <div className="text-right">
                 <div className="eyebrow">B2B</div>
-                <div className="serif text-3xl mt-2 tabular-nums text-accent">€{Number(product.wholesale).toFixed(0)}</div>
+                <div className="text-2xl mt-1 tabular-nums text-accent">€{Number(product.wholesale).toFixed(0)}</div>
               </div>
             )}
           </div>
 
-          {/* Retail purchase — anyone */}
-          <div className="mt-6">
+          <div className="mt-5">
             <AddToCart product={product} />
           </div>
 
+          <ul className="mt-6 grid grid-cols-2 gap-px bg-border border border-border text-[12px]">
+            {[
+              { icon: Wallet, t: "Plaćaš kad stigne", d: "Pouzećem kuriru" },
+              { icon: Truck, t: "Dostava po Srbiji", d: "Besplatno preko 15.000 RSD" },
+              { icon: RefreshCw, t: "Pogrešna veličina?", d: "Javi nam, rešavamo" },
+              { icon: ShieldCheck, t: "Made in Srbija", d: "Šijemo u Novom Pazaru" },
+            ].map(({ icon: I, t, d }) => (
+              <li key={t} className="bg-background p-3 flex gap-2.5">
+                <I className="w-4 h-4 mt-0.5 shrink-0" strokeWidth={1.5} />
+                <div><div className="font-semibold">{t}</div><div className="text-muted-foreground">{d}</div></div>
+              </li>
+            ))}
+          </ul>
 
-          <dl className="mt-10 grid grid-cols-2 gap-y-5 gap-x-8 text-sm">
-            <Spec label="Kroj" value={product.fit} />
-            <Spec label="Sastav" value={product.fabric} />
-            <Spec label="Težina" value={product.weight} />
-            <Spec label="Boja" value={product.color} />
-            <Spec label="Veličine" value={product.sizes.join(" · ")} />
-            <Spec label="MOQ" value={`${product.moq} kom`} />
-            <Spec label="Isporuka" value={product.delivery} />
-            <Spec label="SKU" value={product.sku} />
-          </dl>
+          <div className="mt-6 border-t border-border">
+            <Section title="Opis" open>
+              <p className="leading-relaxed text-foreground/80">{product.description}</p>
+            </Section>
+            <Section title="Kroj i veličine">
+              <dl className="grid grid-cols-2 gap-4">
+                <Spec label="Kroj" value={`${product.fit} fit`} />
+                <Spec label="Veličine" value={product.sizes.join(" · ")} />
+              </dl>
+            </Section>
+            <Section title="Tkanina i nega">
+              <dl className="grid grid-cols-2 gap-4">
+                <Spec label="Sastav" value={product.fabric} />
+                <Spec label="Težina" value={product.weight} />
+                <Spec label="Boja / wash" value={product.color} />
+                <Spec label="Šifra" value={product.sku} />
+              </dl>
+            </Section>
+            <Section title="Dostava i plaćanje">
+              <p className="leading-relaxed text-foreground/80">
+                Plaćanje pouzećem pri preuzimanju paketa. Dostava 500 RSD, besplatna za porudžbine preko 15.000 RSD.
+              </p>
+            </Section>
+          </div>
+
+          {approved && (
+            <dl className="mt-6 grid grid-cols-2 gap-4 text-sm">
+              <Spec label="MOQ" value={`${product.moq} kom`} />
+              <Spec label="Isporuka B2B" value={product.delivery} />
+            </dl>
+          )}
 
           {approved && (
             <div className="mt-8 flex flex-wrap gap-3">
