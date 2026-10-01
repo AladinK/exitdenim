@@ -1,3 +1,4 @@
+import type React from "react";
 import { createFileRoute, useParams, Link, notFound } from "@tanstack/react-router";
 import { Download, ChevronLeft, Truck, Wallet, RefreshCw, ShieldCheck } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
@@ -174,7 +175,7 @@ function ProductDetail() {
             {[
               { icon: Wallet, t: "Plaćaš kad stigne", d: "Pouzećem kuriru" },
               { icon: Truck, t: "Dostava po Srbiji", d: "Besplatno preko 15.000 RSD" },
-              { icon: RefreshCw, t: "Pogrešna veličina?", d: "Javi nam, rešavamo" },
+              { icon: RefreshCw, t: "Nisi siguran za broj?", d: "Pitaj nas pre porudžbine" },
               { icon: ShieldCheck, t: "Made in Srbija", d: "Šijemo u Novom Pazaru" },
             ].map(({ icon: I, t, d }) => (
               <li key={t} className="bg-background p-3 flex gap-2.5">
@@ -241,14 +242,27 @@ function ProductDetail() {
 
       <section className="border-t border-border section-pad bg-secondary/50">
         <div className="container-x">
-          <div className="eyebrow">Još iz linije {product.category}</div>
+          <div className="eyebrow">Možda ti se svidi i</div>
           <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-12">
+            {related.length === 0 && [0,1,2,3].map((i) => <div key={i} className="aspect-[4/5] bg-secondary animate-pulse" />)}
             {related.map((p) => <ProductCard key={p.id} product={p} showB2B={approved} />)}
           </div>
         </div>
       </section>
 
     </Layout>
+  );
+}
+
+function Section({ title, open, children }: { title: string; open?: boolean; children: React.ReactNode }) {
+  return (
+    <details open={open} className="group border-b border-border">
+      <summary className="flex cursor-pointer list-none items-center justify-between py-4 text-[12px] font-semibold uppercase tracking-[0.16em]">
+        {title}
+        <span className="text-lg leading-none transition-transform group-open:rotate-45">+</span>
+      </summary>
+      <div className="pb-5 text-sm">{children}</div>
+    </details>
   );
 }
 
