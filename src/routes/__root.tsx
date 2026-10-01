@@ -82,7 +82,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { name: "theme-color", content: "#FBF8F2" },
+      { name: "theme-color", content: "#FAF9F6" },
       { name: "format-detection", content: "telephone=no" },
       { title: "EXIT Denim — muške farmerke, čino i kargo pantalone" },
       { name: "description", content: "Premijum muške farmerke, čino i kargo pantalone iz Novog Pazara. Plaćanje pouzećem, dostava širom Srbije." },
