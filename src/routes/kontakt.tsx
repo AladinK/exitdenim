@@ -5,9 +5,9 @@ import { Layout } from "@/components/Layout";
 export const Route = createFileRoute("/kontakt")({
   head: () => ({
     meta: [
-      { title: "Контакт — EXIT Denim Wholesale" },
-      { name: "description", content: "Контактирајте EXIT Denim wholesale тим у Новом Пазару. E-mail, WhatsApp и Viber за B2B партнере из региона." },
-      { property: "og:title", content: "Контакт — EXIT Denim Wholesale" },
+      { title: "Kontakt — EXIT Denim Wholesale" },
+      { name: "description", content: "Kontaktirajte EXIT Denim wholesale tim u Novom Pazaru. E-mail, WhatsApp i Viber za B2B partnere iz regiona." },
+      { property: "og:title", content: "Kontakt — EXIT Denim Wholesale" },
       { property: "og:url", content: "https://exitdenim.shop/kontakt" },
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/kontakt" }],
@@ -22,11 +22,11 @@ function Kontakt() {
         <div className="container-x py-20 md:py-32">
           <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Wholesale Desk</div>
           <h1 className="mt-7 h1-editorial text-background">
-            Разговор о <span className="italic">сарадњи</span>.
+            Razgovor o <span className="italic">saradnji</span>.
           </h1>
           <p className="mt-7 text-background/75 max-w-xl leading-relaxed">
-            Најбржи пут: <Link to="/postani-partner" className="text-accent border-b border-accent/60 hover:border-accent transition-colors">B2B пријава</Link>.
-            За све остало — јавите се директно wholesale тиму.
+            Najbrži put: <Link to="/postani-partner" className="text-accent border-b border-accent/60 hover:border-accent transition-colors">B2B prijava</Link>.
+            Za sve ostalo — javite se direktno wholesale timu.
           </p>
         </div>
       </section>
@@ -35,10 +35,10 @@ function Kontakt() {
         <div className="container-x grid lg:grid-cols-12 gap-12">
           <div className="lg:col-span-7 space-y-px">
             {[
-              { icon: Phone, label: "Беким Куртановић · Wholesale", value: "+381 65 370 1701", href: "tel:+381653701701" },
+              { icon: Phone, label: "Bekim Kurtanović · Wholesale", value: "+381 65 370 1701", href: "tel:+381653701701" },
               { icon: MessageCircle, label: "WhatsApp · Viber", value: "+381 65 370 1701", href: "https://wa.me/381653701701" },
               { icon: Instagram, label: "Instagram", value: "@exit.denim", href: "https://instagram.com/exit.denim" },
-              { icon: MapPin, label: "Шоурум · TRI-B DOO", value: "Нови Пазар, Србија", href: "#" },
+              { icon: MapPin, label: "Šourum · TRI-B DOO", value: "Novi Pazar, Srbija", href: "#" },
             ].map((c) => (
               <a key={c.label} href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="flex items-center gap-6 border border-border bg-card p-6 md:p-7 hover:bg-secondary hover:border-foreground/40 transition-colors group">
                 <c.icon className="w-5 h-5 text-accent shrink-0" strokeWidth={1.25} />
@@ -57,29 +57,29 @@ function Kontakt() {
                 EXIT Denim — TRI-B DOO
               </p>
               <p className="text-sm text-muted-foreground mt-2">
-                Direct manufacturer of denim, chino and cargo trousers. Нови Пазар, Србија.
+                Direct manufacturer of denim, chino and cargo trousers. Novi Pazar, Srbija.
               </p>
 
               <div className="mt-8 pt-6 border-t border-border">
-                <div className="eyebrow">Радно време</div>
+                <div className="eyebrow">Radno vreme</div>
                 <dl className="mt-4 space-y-3 text-sm">
                   <div className="flex justify-between border-b border-border pb-2">
-                    <dt className="text-muted-foreground">Пон — Пет</dt><dd className="serif text-lg">09:00 — 18:00</dd>
+                    <dt className="text-muted-foreground">Pon — Pet</dt><dd className="serif text-lg">09:00 — 18:00</dd>
                   </div>
                   <div className="flex justify-between border-b border-border pb-2">
-                    <dt className="text-muted-foreground">Субота</dt><dd className="serif text-lg">10:00 — 14:00</dd>
+                    <dt className="text-muted-foreground">Subota</dt><dd className="serif text-lg">10:00 — 14:00</dd>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-muted-foreground">Недеља</dt><dd className="serif text-lg text-muted-foreground">Затворено</dd>
+                    <dt className="text-muted-foreground">Nedelja</dt><dd className="serif text-lg text-muted-foreground">Zatvoreno</dd>
                   </div>
                 </dl>
               </div>
 
               <div className="mt-8 pt-6 border-t border-border">
-                <div className="eyebrow">Језици</div>
-                <div className="mt-3 text-sm text-foreground/80">Српски · Босански · Хрватски · English</div>
+                <div className="eyebrow">Jezici</div>
+                <div className="mt-3 text-sm text-foreground/80">Srpski · Bosanski · Hrvatski · English</div>
               </div>
-              <Link to="/postani-partner" className="btn-primary w-full mt-10">Пријава за партнерство</Link>
+              <Link to="/postani-partner" className="btn-primary w-full mt-10">Prijava za partnerstvo</Link>
             </div>
           </aside>
         </div>

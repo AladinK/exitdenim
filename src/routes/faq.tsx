@@ -6,9 +6,9 @@ import { Layout } from "@/components/Layout";
 export const Route = createFileRoute("/faq")({
   head: () => ({
     meta: [
-      { title: "Често постављана питања — EXIT Denim B2B" },
-      { name: "description", content: "Одговори на најчешћа питања B2B партнера: MOQ, испорука, начини плаћања, повраћај робе и поновне сезонске поруџбине." },
-      { property: "og:title", content: "Често постављана питања — EXIT Denim B2B" },
+      { title: "Često postavljana pitanja — EXIT Denim B2B" },
+      { name: "description", content: "Odgovori na najčešća pitanja B2B partnera: MOQ, isporuka, načini plaćanja, povraćaj robe i ponovne sezonske porudžbine." },
+      { property: "og:title", content: "Često postavljana pitanja — EXIT Denim B2B" },
       { property: "og:url", content: "https://exitdenim.shop/faq" },
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/faq" }],
@@ -17,14 +17,14 @@ export const Route = createFileRoute("/faq")({
 });
 
 const QA: Array<[string, string]> = [
-  ["Који је минимални износ прве поруџбине?", "Минимална прва поруџбина је 60 комада (Стартер пакет). MOQ по артиклу је 10–12 комада, зависно од модела."],
-  ["Како функционишу цене?", "Велепродајне цене видљиве су тек након одобрења B2B налога. Цене су фиксне по сезони — без скривених трошкова."],
-  ["Колико траје испорука?", "5–10 дана до Србије, БиХ, Црне Горе, Северне Македоније, Хрватске и Словеније. Грчка и остатак ЕУ 7–14 дана."],
-  ["Могу ли поручити само једну боју у свим величинама?", "Да. Матрица величина омогућава да поручите тачно колико комада по свакој величини желите, до расположивог стања."],
-  ["Радите ли custom брендинг?", "За партнере са волуменом 500+ ком месечно радимо custom етикете и амбалажу. Детаље договарамо директно."],
-  ["Како функционише плаћање?", "Прва поруџбина: 50% аванс, 50% пре слања. Након 3 успешне сарадње прелазимо на флексибилније услове."],
-  ["Да ли је могућ повраћај робе?", "Повраћај само у случају производног недостатка, пријава у року 7 дана од пријема. Stock повраћаји нису могући."],
-  ["Имате ли представника у мојој земљи?", "Тренутно радимо директно из Новог Пазара. Сва комуникација иде преко wholesale тима на српском, босанском, хрватском и енглеском."],
+  ["Koji je minimalni iznos prve porudžbine?", "Minimalna prva porudžbina je 60 komada (Starter paket). MOQ po artiklu je 10–12 komada, zavisno od modela."],
+  ["Kako funkcionišu cene?", "Veleprodajne cene vidljive su tek nakon odobrenja B2B naloga. Cene su fiksne po sezoni — bez skrivenih troškova."],
+  ["Koliko traje isporuka?", "5–10 dana do Srbije, BiH, Crne Gore, Severne Makedonije, Hrvatske i Slovenije. Grčka i ostatak EU 7–14 dana."],
+  ["Mogu li poručiti samo jednu boju u svim veličinama?", "Da. Matrica veličina omogućava da poručite tačno koliko komada po svakoj veličini želite, do raspoloživog stanja."],
+  ["Radite li custom brending?", "Za partnere sa volumenom 500+ kom mesečno radimo custom etikete i ambalažu. Detalje dogovaramo direktno."],
+  ["Kako funkcioniše plaćanje?", "Prva porudžbina: 50% avans, 50% pre slanja. Nakon 3 uspešne saradnje prelazimo na fleksibilnije uslove."],
+  ["Da li je moguć povraćaj robe?", "Povraćaj samo u slučaju proizvodnog nedostatka, prijava u roku 7 dana od prijema. Stock povraćaji nisu mogući."],
+  ["Imate li predstavnika u mojoj zemlji?", "Trenutno radimo direktno iz Novog Pazara. Sva komunikacija ide preko wholesale tima na srpskom, bosanskom, hrvatskom i engleskom."],
 ];
 
 function Faq() {
@@ -33,9 +33,9 @@ function Faq() {
     <Layout>
       <section className="bg-foreground text-background">
         <div className="container-x py-20 md:py-28">
-          <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Често постављана питања</div>
+          <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Često postavljana pitanja</div>
           <h1 className="mt-7 h1-editorial text-background">
-            Wholesale <span className="italic">питања</span>.
+            Wholesale <span className="italic">pitanja</span>.
           </h1>
         </div>
       </section>
@@ -44,11 +44,11 @@ function Faq() {
         <div className="container-x grid lg:grid-cols-12 gap-12">
           <aside className="lg:col-span-4">
             <div className="lg:sticky lg:top-32">
-              <div className="eyebrow">Треба вам више детаља?</div>
+              <div className="eyebrow">Treba vam više detalja?</div>
               <p className="mt-5 serif text-2xl leading-tight">
-                Wholesale тим одговара на сва питања у <span className="italic">24h</span>.
+                Wholesale tim odgovara na sva pitanja u <span className="italic">24h</span>.
               </p>
-              <Link to="/kontakt" className="btn-outline mt-7">Контактирајте нас</Link>
+              <Link to="/kontakt" className="btn-outline mt-7">Kontaktirajte nas</Link>
             </div>
           </aside>
 

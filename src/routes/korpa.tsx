@@ -8,8 +8,8 @@ import { ecommerce } from "@/lib/analytics";
 export const Route = createFileRoute("/korpa")({
   head: () => ({
     meta: [
-      { title: "Корпа — EXIT Denim" },
-      { name: "description", content: "Ваша корпа. Плаћање поузећем, достава широм Србије." },
+      { title: "Korpa — EXIT Denim" },
+      { name: "description", content: "Vaša korpa. Plaćanje pouzećem, dostava širom Srbije." },
     ],
   }),
   component: CartPage,
@@ -36,15 +36,15 @@ function CartPage() {
   return (
     <Layout>
       <section className="container-x py-12 md:py-16">
-        <div className="eyebrow">Корпа</div>
-        <h1 className="mt-4 text-4xl md:text-5xl">Ваша корпа</h1>
+        <div className="eyebrow">Korpa</div>
+        <h1 className="mt-4 text-4xl md:text-5xl">Vaša korpa</h1>
 
         {items.length === 0 ? (
           <div className="mt-16 border border-border p-16 text-center">
             <ShoppingBag className="w-8 h-8 mx-auto text-muted-foreground" strokeWidth={1.2} />
-            <div className="mt-6 serif text-2xl">Корпа је празна</div>
-            <p className="mt-3 text-muted-foreground max-w-sm mx-auto">Погледајте наш каталог и додајте артикле.</p>
-            <Link to="/katalog" className="btn-primary mt-8 inline-flex">Отвори каталог</Link>
+            <div className="mt-6 serif text-2xl">Korpa je prazna</div>
+            <p className="mt-3 text-muted-foreground max-w-sm mx-auto">Pogledajte naš katalog i dodajte artikle.</p>
+            <Link to="/katalog" className="btn-primary mt-8 inline-flex">Otvori katalog</Link>
           </div>
         ) : (
           <div className="mt-10 grid lg:grid-cols-12 gap-10">
@@ -55,22 +55,22 @@ function CartPage() {
                     {it.image ? <img src={it.image} alt={it.name} className="w-full h-full object-cover" /> : null}
                   </div>
                   <div className="flex-1 min-w-0 flex flex-col">
-                    <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{it.sku} · вел. {it.size}</div>
+                    <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{it.sku} · vel. {it.size}</div>
                     <div className="serif text-xl mt-1">{it.name}</div>
-                    <div className="text-sm text-muted-foreground mt-1 tabular-nums">{it.unitPrice.toLocaleString("sr-RS")} дин / ком</div>
+                    <div className="text-sm text-muted-foreground mt-1 tabular-nums">{it.unitPrice.toLocaleString("sr-RS")} din / kom</div>
                     <div className="mt-auto flex items-center justify-between pt-3">
                       <div className="inline-flex items-center border border-border">
-                        <button onClick={() => update(it.productId, it.size, it.quantity - 1)} className="w-9 h-9 inline-flex items-center justify-center hover:bg-secondary" aria-label="Смањи">
+                        <button onClick={() => update(it.productId, it.size, it.quantity - 1)} className="w-9 h-9 inline-flex items-center justify-center hover:bg-secondary" aria-label="Smanji">
                           <Minus className="w-3.5 h-3.5" />
                         </button>
                         <span className="w-10 text-center text-sm tabular-nums">{it.quantity}</span>
-                        <button onClick={() => update(it.productId, it.size, it.quantity + 1)} className="w-9 h-9 inline-flex items-center justify-center hover:bg-secondary" aria-label="Повећај">
+                        <button onClick={() => update(it.productId, it.size, it.quantity + 1)} className="w-9 h-9 inline-flex items-center justify-center hover:bg-secondary" aria-label="Povećaj">
                           <Plus className="w-3.5 h-3.5" />
                         </button>
                       </div>
                       <div className="flex items-center gap-5">
-                        <div className="text-sm font-semibold tabular-nums">{(it.unitPrice * it.quantity).toLocaleString("sr-RS")} дин</div>
-                        <button onClick={() => remove(it.productId, it.size)} className="text-muted-foreground hover:text-foreground" aria-label="Уклони">
+                        <div className="text-sm font-semibold tabular-nums">{(it.unitPrice * it.quantity).toLocaleString("sr-RS")} din</div>
+                        <button onClick={() => remove(it.productId, it.size)} className="text-muted-foreground hover:text-foreground" aria-label="Ukloni">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -82,24 +82,24 @@ function CartPage() {
 
             <aside className="lg:col-span-4">
               <div className="border border-border p-6 lg:sticky lg:top-24">
-                <div className="eyebrow">Резиме</div>
+                <div className="eyebrow">Rezime</div>
                 <div className="mt-5 space-y-2 text-sm">
-                  <div className="flex justify-between"><span className="text-muted-foreground">Међузбир</span><span className="tabular-nums">{subtotal.toLocaleString("sr-RS")} дин</span></div>
-                  <div className="flex justify-between"><span className="text-muted-foreground">Достава</span><span className="tabular-nums">{shipping === 0 ? "Бесплатна" : `${shipping.toLocaleString("sr-RS")} дин`}</span></div>
+                  <div className="flex justify-between"><span className="text-muted-foreground">Međuzbir</span><span className="tabular-nums">{subtotal.toLocaleString("sr-RS")} din</span></div>
+                  <div className="flex justify-between"><span className="text-muted-foreground">Dostava</span><span className="tabular-nums">{shipping === 0 ? "Besplatna" : `${shipping.toLocaleString("sr-RS")} din`}</span></div>
                   {subtotal < CART_CONSTANTS.FREE_SHIPPING_OVER && (
-                    <div className="text-[11px] text-muted-foreground">Још {(CART_CONSTANTS.FREE_SHIPPING_OVER - subtotal).toLocaleString("sr-RS")} дин до бесплатне доставе.</div>
+                    <div className="text-[11px] text-muted-foreground">Još {(CART_CONSTANTS.FREE_SHIPPING_OVER - subtotal).toLocaleString("sr-RS")} din do besplatne dostave.</div>
                   )}
-                  <div className="flex justify-between pt-3 mt-3 border-t border-border text-base font-semibold"><span>Укупно</span><span className="tabular-nums">{total.toLocaleString("sr-RS")} дин</span></div>
+                  <div className="flex justify-between pt-3 mt-3 border-t border-border text-base font-semibold"><span>Ukupno</span><span className="tabular-nums">{total.toLocaleString("sr-RS")} din</span></div>
                 </div>
                 <Link
                   to="/kasa"
                   onClick={() => ecommerce.beginCheckout(items.map((i) => ({ item_id: i.sku, item_name: i.name, item_variant: i.size, price: i.unitPrice, quantity: i.quantity })), total)}
                   className="btn-primary w-full justify-center mt-6"
                 >
-                  Настави на плаћање
+                  Nastavi na plaćanje
                 </Link>
-                <p className="text-[11px] text-center text-muted-foreground mt-3">Плаћање поузећем при испоруци</p>
-                <Link to="/katalog" className="btn-outline w-full justify-center mt-3">Настави куповину</Link>
+                <p className="text-[11px] text-center text-muted-foreground mt-3">Plaćanje pouzećem pri isporuci</p>
+                <Link to="/katalog" className="btn-outline w-full justify-center mt-3">Nastavi kupovinu</Link>
               </div>
             </aside>
           </div>
@@ -112,15 +112,15 @@ function CartPage() {
           style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))" }}
         >
           <div className="shrink-0">
-            <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Укупно</div>
-            <div className="text-[15px] font-semibold tabular-nums leading-tight">{total.toLocaleString("sr-RS")} дин</div>
+            <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Ukupno</div>
+            <div className="text-[15px] font-semibold tabular-nums leading-tight">{total.toLocaleString("sr-RS")} din</div>
           </div>
           <Link
             to="/kasa"
             onClick={() => ecommerce.beginCheckout(items.map((i) => ({ item_id: i.sku, item_name: i.name, item_variant: i.size, price: i.unitPrice, quantity: i.quantity })), total)}
             className="flex-1 inline-flex items-center justify-center bg-foreground text-background py-3.5 text-[12.5px] uppercase tracking-[0.18em] font-semibold"
           >
-            Настави на плаћање
+            Nastavi na plaćanje
           </Link>
         </div>
       )}

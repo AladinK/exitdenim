@@ -263,7 +263,7 @@ function Admin() {
                     </div>
                     <div className="flex items-center gap-4">
                       <span className="text-sm tabular-nums">
-                        {(o.customer_order_items || []).reduce((s: number, i: any) => s + i.quantity, 0)} kom · {Number(o.total).toLocaleString("sr-RS")} дин
+                        {(o.customer_order_items || []).reduce((s: number, i: any) => s + i.quantity, 0)} kom · {Number(o.total).toLocaleString("sr-RS")} din
                       </span>
                       <CustomerOrderStatusPill status={o.status} />
                     </div>
@@ -280,8 +280,8 @@ function Admin() {
                       <div>
                         <div className="text-xs uppercase text-muted-foreground mb-1">Plaćanje</div>
                         <div className="uppercase">{o.payment_method === "cod" ? "Pouzećem" : o.payment_method}</div>
-                        <div className="text-xs text-muted-foreground mt-2">Dostava: {Number(o.shipping).toLocaleString("sr-RS")} дин</div>
-                        <div className="text-xs text-muted-foreground">Ukupno: <b className="text-foreground">{Number(o.total).toLocaleString("sr-RS")} дин</b></div>
+                        <div className="text-xs text-muted-foreground mt-2">Dostava: {Number(o.shipping).toLocaleString("sr-RS")} din</div>
+                        <div className="text-xs text-muted-foreground">Ukupno: <b className="text-foreground">{Number(o.total).toLocaleString("sr-RS")} din</b></div>
                       </div>
                     </div>
                     <table className="w-full text-sm mt-4">
@@ -295,7 +295,7 @@ function Admin() {
                             <td>{i.product_name}</td>
                             <td className="text-center">{i.size}</td>
                             <td className="text-center tabular-nums">{i.quantity}</td>
-                            <td className="text-right tabular-nums">{Number(i.unit_price).toLocaleString("sr-RS")} дин</td>
+                            <td className="text-right tabular-nums">{Number(i.unit_price).toLocaleString("sr-RS")} din</td>
                           </tr>
                         ))}
                       </tbody>

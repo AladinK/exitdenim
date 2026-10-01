@@ -53,15 +53,15 @@
   --ivory-deep: #EDE6D6;
   --taupe: #8C8377;
   --gold: #B89968;
-  --brand-green: #C6F432;
-  --acid: #C6F432;
+  --brand-green: #1A2A48;
+  --acid: #F5F0E7;
   --denim-blue: #2F4BFF;
-  --brand-green-deep: #A8D11C;
+  --brand-green-deep: #0F1B33;
   --teal: var(--indigo);
   --violet: var(--indigo);
   --surface: var(--ivory);
 
-  --background: #F2F0EA;
+  --background: #FAF9F6;
   --foreground: var(--ink);
   --card: #FFFFFF;
   --card-foreground: var(--ink);
@@ -74,11 +74,11 @@
   --muted: var(--ivory-deep);
   --muted-foreground: #5A5449;
   --accent: var(--brand-green);
-  --accent-foreground: var(--ink);
+  --accent-foreground: var(--ivory);
   --destructive: #9B3A2A;
   --destructive-foreground: #FFFFFF;
-  --border: #0D0D0C;
-  --input: #0D0D0C;
+  --border: #E2DED5;
+  --input: #D4CFC4;
   --ring: var(--indigo);
 }
 
@@ -115,15 +115,15 @@
     letter-spacing: -0.011em;
   }
   h1, h2, h3, h4 {
-    font-family: var(--font-display);
-    font-weight: 400;
-    text-transform: uppercase;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    text-transform: none;
     letter-spacing: -0.02em;
     line-height: 1.02;
     color: var(--color-foreground);
     text-wrap: balance;
   }
-  h1 { letter-spacing: -0.028em; }
+  h1 { letter-spacing: -0.04em; }
   h2 { letter-spacing: -0.022em; }
   h3, h4 { font-family: var(--font-sans); font-weight: 600; letter-spacing: -0.015em; }
   .serif-accent { font-family: var(--font-display); font-weight: 400; font-style: normal; letter-spacing: -0.015em; }
@@ -402,18 +402,16 @@
   }
 }
 
-/* === Gen-Z streetwear layer === */
+/* === Minimal layer (legacy utility names kept) === */
 @utility btn-street {
   display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
-  font-family: var(--font-display); font-size: .9rem; text-transform: uppercase; letter-spacing: .02em;
-  padding: 1rem 1.5rem; background: var(--acid); color: var(--ink);
-  border: 2px solid var(--ink); box-shadow: 4px 4px 0 var(--ink);
-  transition: transform 120ms ease, box-shadow 120ms ease;
-  &:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--ink); }
-  &:active { transform: translate(4px,4px); box-shadow: 0 0 0 var(--ink); }
+  font-family: var(--font-sans); font-weight: 500; font-size: .78rem; text-transform: uppercase; letter-spacing: .18em;
+  padding: 1rem 1.6rem; background: var(--ivory); color: var(--ink); border: 1px solid var(--ivory);
+  transition: background 200ms ease, color 200ms ease;
+  &:hover { background: transparent; color: var(--ivory); }
 }
 @utility sticker {
-  display: inline-flex; align-items: center; padding: .3rem .7rem;
-  font-family: var(--font-display); font-size: .7rem; text-transform: uppercase;
-  border: 2px solid var(--ink); background: var(--acid); color: var(--ink);
+  display: inline-flex; align-items: center; padding: .25rem 0;
+  font-family: var(--font-sans); font-weight: 500; font-size: .68rem; letter-spacing: .24em; text-transform: uppercase;
+  color: currentColor; border-bottom: 1px solid currentColor; background: transparent;
 }

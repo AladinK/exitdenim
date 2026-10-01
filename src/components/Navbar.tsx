@@ -118,7 +118,7 @@ export function Navbar() {
               <button
                 onClick={() => setMenuOpen((o) => !o)}
                 className="flex items-center gap-2 pl-1 pr-2 py-1 rounded-full border border-border hover:border-foreground/40 transition-colors"
-                aria-label="Кориснички мени"
+                aria-label="Korisnički meni"
               >
                 {avatarUrl ? (
                   <img src={avatarUrl} alt="" className="w-7 h-7 rounded-full object-cover" />
@@ -131,40 +131,40 @@ export function Navbar() {
               {menuOpen && (
                 <div className="absolute right-0 mt-2 w-64 bg-background border border-border rounded-md shadow-lg overflow-hidden">
                   <div className="px-4 py-3 border-b border-border">
-                    <div className="text-[11px] uppercase tracking-wider text-muted-foreground">Пријављени сте као</div>
+                    <div className="text-[11px] uppercase tracking-wider text-muted-foreground">Prijavljeni ste kao</div>
                     <div className="text-sm font-semibold truncate mt-0.5">{displayName}</div>
                     {user.email && displayName !== user.email && (
                       <div className="text-xs text-muted-foreground truncate">{user.email}</div>
                     )}
                     <div className="mt-2">
                       {isApproved ? (
-                        <span className="chip text-accent"><span className="w-1.5 h-1.5 rounded-full bg-accent" /> B2B одобрен</span>
+                        <span className="chip text-accent"><span className="w-1.5 h-1.5 rounded-full bg-accent" /> B2B odobren</span>
                       ) : (
-                        <span className="chip text-muted-foreground">На чекању</span>
+                        <span className="chip text-muted-foreground">Na čekanju</span>
                       )}
                     </div>
                   </div>
                   <div className="py-1">
                     {profile?.isAdmin && (
                       <Link to="/admin" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-secondary">
-                        <Shield className="w-4 h-4 text-accent" /> Админ панел
+                        <Shield className="w-4 h-4 text-accent" /> Admin panel
                       </Link>
                     )}
                     {isApproved && (
                       <Link to="/narudzba" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-secondary">
-                        <ShoppingBag className="w-4 h-4" /> Моја поруџбина
+                        <ShoppingBag className="w-4 h-4" /> Moja porudžbina
                       </Link>
                     )}
                     <Link to="/moje-porudzbine" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-secondary">
-                      <Package className="w-4 h-4" /> Моје поруџбине
+                      <Package className="w-4 h-4" /> Moje porudžbine
                     </Link>
                     <Link to="/katalog" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-secondary">
-                      <UserIcon className="w-4 h-4" /> Каталог
+                      <UserIcon className="w-4 h-4" /> Katalog
                     </Link>
 
                   </div>
                   <button onClick={signOut} className="w-full flex items-center gap-2 px-4 py-2.5 text-sm border-t border-border hover:bg-secondary text-muted-foreground hover:text-foreground">
-                    <LogOut className="w-4 h-4" /> Одјава
+                    <LogOut className="w-4 h-4" /> Odjava
                   </button>
                 </div>
               )}
@@ -227,12 +227,12 @@ export function Navbar() {
           ))}
           {user && profile?.isAdmin && (
             <Link to="/admin" onClick={() => setOpen(false)} className="text-[15px] font-medium py-3 px-2 border-b border-border/60 text-accent hover:bg-secondary rounded-sm flex items-center gap-2">
-              <Shield className="w-4 h-4" /> Админ панел
+              <Shield className="w-4 h-4" /> Admin panel
             </Link>
           )}
           {user && isApproved && (
             <Link to="/narudzba" onClick={() => setOpen(false)} className="text-[15px] font-medium py-3 px-2 border-b border-border/60 hover:bg-secondary rounded-sm flex items-center gap-2">
-              <ShoppingBag className="w-4 h-4" /> Моја поруџбина
+              <ShoppingBag className="w-4 h-4" /> Moja porudžbina
             </Link>
           )}
         </nav>
@@ -240,11 +240,11 @@ export function Navbar() {
           {user ? (
             <div className="flex items-center justify-between gap-3">
               <div className="min-w-0">
-                <div className="text-[11px] uppercase tracking-wider text-muted-foreground">Пријављени</div>
+                <div className="text-[11px] uppercase tracking-wider text-muted-foreground">Prijavljeni</div>
                 <div className="text-sm font-semibold truncate">{displayName}</div>
               </div>
               <button onClick={() => { signOut(); setOpen(false); }} className="btn-outline shrink-0">
-                <LogOut className="w-4 h-4" /> Одјава
+                <LogOut className="w-4 h-4" /> Odjava
               </button>
             </div>
           ) : (

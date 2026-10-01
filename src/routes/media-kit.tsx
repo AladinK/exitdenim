@@ -5,9 +5,9 @@ import { Layout } from "@/components/Layout";
 export const Route = createFileRoute("/media-kit")({
   head: () => ({
     meta: [
-      { title: "Медија кит — EXIT Denim за B2B партнере" },
-      { name: "description", content: "Фото материјал производа, Instagram story шаблони и готови caption-и за EXIT Denim B2B партнере. Освежавање сваке сезоне." },
-      { property: "og:title", content: "Медија кит — EXIT Denim за B2B партнере" },
+      { title: "Medija kit — EXIT Denim za B2B partnere" },
+      { name: "description", content: "Foto materijal proizvoda, Instagram story šabloni i gotovi caption-i za EXIT Denim B2B partnere. Osvežavanje svake sezone." },
+      { property: "og:title", content: "Medija kit — EXIT Denim za B2B partnere" },
       { property: "og:url", content: "https://exitdenim.shop/media-kit" },
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/media-kit" }],
@@ -17,9 +17,9 @@ export const Route = createFileRoute("/media-kit")({
 
 function MediaKit() {
   const packs = [
-    { icon: ImageIcon, title: "Фотографије производа", desc: "Студио + lifestyle. Висока резолуција, спремно за објаву.", count: "120 фајлова" },
-    { icon: Instagram, title: "Instagram пакет", desc: "Story шаблони, reels насловне и feed grid mock-up.", count: "40 шаблона" },
-    { icon: FileText, title: "Библиотека caption-а", desc: "Готови caption-и на српском и енглеском, оптимизовани за конверзију.", count: "60 caption-а" },
+    { icon: ImageIcon, title: "Fotografije proizvoda", desc: "Studio + lifestyle. Visoka rezolucija, spremno za objavu.", count: "120 fajlova" },
+    { icon: Instagram, title: "Instagram paket", desc: "Story šabloni, reels naslovne i feed grid mock-up.", count: "40 šablona" },
+    { icon: FileText, title: "Biblioteka caption-a", desc: "Gotovi caption-i na srpskom i engleskom, optimizovani za konverziju.", count: "60 caption-a" },
   ];
 
   return (
@@ -27,11 +27,11 @@ function MediaKit() {
       <section className="bg-foreground text-background">
         <div className="container-x py-16 md:py-24 grid md:grid-cols-2 gap-10 items-end">
           <div>
-            <div className="eyebrow text-accent">Медија кит за партнере</div>
-            <h1 className="mt-3 h1-editorial text-background">Све што бутику треба за продају</h1>
+            <div className="eyebrow text-accent">Medija kit za partnere</div>
+            <h1 className="mt-3 h1-editorial text-background">Sve što butiku treba za prodaju</h1>
           </div>
           <p className="text-background/70 max-w-md leading-relaxed">
-            Фотографије, Instagram материјал и готови caption-и. Преузмете, објавите, продате. Освежавање сваке сезоне.
+            Fotografije, Instagram materijal i gotovi caption-i. Preuzmete, objavite, prodate. Osvežavanje svake sezone.
           </p>
         </div>
       </section>
@@ -48,16 +48,16 @@ function MediaKit() {
                 type="button"
                 disabled
                 className="btn-outline mt-5 opacity-60 cursor-not-allowed"
-                aria-label={`${p.title} — ускоро доступно за преузимање`}
+                aria-label={`${p.title} — uskoro dostupno za preuzimanje`}
               >
-                <Download className="w-4 h-4" /> Ускоро
+                <Download className="w-4 h-4" /> Uskoro
               </button>
             </div>
           ))}
         </div>
 
         <div className="container-x mt-16">
-          <div className="eyebrow">Брендинг · паста бојâ</div>
+          <div className="eyebrow">Brending · pasta bojâ</div>
           <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
             {[
               ["#1B1A17", "Ink"],

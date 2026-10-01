@@ -16,10 +16,10 @@ export function Hero() {
       </div>
 
       <div className="container-x relative min-h-[62svh] md:min-h-[82svh] flex flex-col justify-end pt-28 pb-10 md:pb-16">
-        <span className="sticker -rotate-3 self-start">Novo · Bootcut / Relaxed / Flare</span>
-        <h1 className="mt-5 text-[color:var(--ivory)] leading-[0.86] tracking-[-0.03em] text-[clamp(3rem,13vw,10rem)]">
+        <span className="sticker self-start">Novo · Bootcut / Relaxed / Flare</span>
+        <h1 className="mt-5 text-[color:var(--ivory)] font-semibold normal-case leading-[0.95] tracking-[-0.045em] text-[clamp(2.75rem,9vw,7rem)]">
           Wide<br />
-          <span className="text-[color:var(--acid)]">leg</span> szn.
+          <span className="text-[color:var(--ivory)]/60">leg</span> szn.
         </h1>
         <p className="mt-5 text-[16px] leading-snug text-[color:var(--ivory)]/80 max-w-sm">
           Širi krojevi, jači vibe. Farmerke iz naše radionice u Novom Pazaru — plaćaš tek kad stignu.
@@ -28,17 +28,17 @@ export function Hero() {
           <Link to="/wide-flare" onClick={() => ecommerce.cta("wide_flare", "hero")} className="btn-street">
             Shop Wide & Flare <ArrowRight className="w-4 h-4" />
           </Link>
-          <Link to="/katalog" onClick={() => ecommerce.cta("shop_all", "hero")} className="font-semibold uppercase text-sm underline underline-offset-4 decoration-2 decoration-[color:var(--acid)]">
+          <Link to="/katalog" onClick={() => ecommerce.cta("shop_all", "hero")} className="font-semibold uppercase text-sm underline underline-offset-4 decoration-1">
             Vidi sve
           </Link>
         </div>
       </div>
 
-      <div className="border-y-2 border-[color:var(--ink)] bg-[color:var(--acid)] text-[color:var(--ink)] overflow-hidden">
+      <div className="border-t border-white/10 text-[color:var(--ivory)]/70 overflow-hidden">
         <div className="flex w-max animate-marquee py-2.5" style={{ animationDuration: "22s" }}>
           {[...TICKER, ...TICKER].map((t, i) => (
-            <span key={i} className="px-5 font-[family-name:var(--font-display)] text-sm uppercase whitespace-nowrap">
-              {t} <span className="ml-5">✦</span>
+            <span key={i} className="px-5 text-[11px] tracking-[0.24em] uppercase whitespace-nowrap">
+              {t} <span className="ml-5 opacity-40">·</span>
             </span>
           ))}
         </div>

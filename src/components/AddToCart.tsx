@@ -74,7 +74,7 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
                 : "border-border hover:border-foreground"
           }`}
           aria-pressed={active}
-          aria-label={`Величина ${s}${disabled ? " (нема на стању)" : ""}`}
+          aria-label={`Veličina ${s}${disabled ? " (nema na stanju)" : ""}`}
         >
           {s}
         </button>
@@ -84,17 +84,17 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
   return (
     <div ref={rootRef} className="border border-foreground/20 p-5">
       <div className="flex items-baseline justify-between">
-        <div className="eyebrow">Изаберите величину</div>
-        <div className="text-[11px] text-muted-foreground">Малопродаја</div>
+        <div className="eyebrow">Izaberite veličinu</div>
+        <div className="text-[11px] text-muted-foreground">Maloprodaja</div>
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">{sizeButtons()}</div>
 
       <div className="mt-5 flex items-center justify-between text-sm">
         <div>
-          <div className="eyebrow">Цена</div>
+          <div className="eyebrow">Cena</div>
           <div className="serif text-3xl mt-1 tabular-nums">
-            {Number(product.retail).toLocaleString("sr-RS")} <span className="text-base text-muted-foreground">дин</span>
+            {Number(product.retail).toLocaleString("sr-RS")} <span className="text-base text-muted-foreground">din</span>
           </div>
         </div>
       </div>
@@ -107,23 +107,23 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
       >
         {added ? (
           <>
-            <Check className="w-4 h-4" /> Додато у корпу
+            <Check className="w-4 h-4" /> Dodato u korpu
           </>
         ) : size ? (
           <>
-            <ShoppingBag className="w-4 h-4" /> Додај у корпу
+            <ShoppingBag className="w-4 h-4" /> Dodaj u korpu
           </>
         ) : (
-          "Изабери величину"
+          "Izaberi veličinu"
         )}
       </button>
 
       <ul className="mt-5 space-y-2 text-[12px] text-muted-foreground">
         <li className="flex items-center gap-2">
-          <BadgeCheck className="w-3.5 h-3.5 shrink-0" /> Плаћање поузећем при испоруци
+          <BadgeCheck className="w-3.5 h-3.5 shrink-0" /> Plaćanje pouzećem pri isporuci
         </li>
         <li className="flex items-center gap-2">
-          <Truck className="w-3.5 h-3.5 shrink-0" /> Достава 500 дин · бесплатна преко 15.000 дин
+          <Truck className="w-3.5 h-3.5 shrink-0" /> Dostava 500 din · besplatna preko 15.000 din
         </li>
       </ul>
 
@@ -140,9 +140,9 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
               <div className="flex gap-1.5 overflow-x-auto scrollbar-none pb-2">{sizeButtons(true)}</div>
               <div className="flex items-center gap-3">
                 <div className="shrink-0">
-                  <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Цена</div>
+                  <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Cena</div>
                   <div className="text-[15px] font-semibold tabular-nums leading-tight">
-                    {Number(product.retail).toLocaleString("sr-RS")} дин
+                    {Number(product.retail).toLocaleString("sr-RS")} din
                   </div>
                 </div>
                 <button
@@ -153,14 +153,14 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
                 >
                   {added ? (
                     <>
-                      <Check className="w-4 h-4" /> Додато
+                      <Check className="w-4 h-4" /> Dodato
                     </>
                   ) : size ? (
                     <>
-                      <ShoppingBag className="w-4 h-4" /> Додај у корпу
+                      <ShoppingBag className="w-4 h-4" /> Dodaj u korpu
                     </>
                   ) : (
-                    "Изабери величину"
+                    "Izaberi veličinu"
                   )}
                 </button>
               </div>

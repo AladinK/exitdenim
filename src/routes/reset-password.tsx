@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Layout } from "@/components/Layout";
 
 export const Route = createFileRoute("/reset-password")({
-  head: () => ({ meta: [{ title: "Нова лозинка — EXIT Denim" }] }),
+  head: () => ({ meta: [{ title: "Nova lozinka — EXIT Denim" }] }),
   component: ResetPassword,
 });
 
@@ -30,8 +30,8 @@ function ResetPassword() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    if (password.length < 8) { setError("Минимум 8 карактера."); return; }
-    if (password !== confirm) { setError("Лозинке се не поклапају."); return; }
+    if (password.length < 8) { setError("Minimum 8 karaktera."); return; }
+    if (password !== confirm) { setError("Lozinke se ne poklapaju."); return; }
     setLoading(true);
     const { error } = await supabase.auth.updateUser({ password });
     setLoading(false);
@@ -46,27 +46,27 @@ function ResetPassword() {
     <Layout>
       <section className="min-h-[70vh] flex items-center justify-center p-6">
         <form onSubmit={submit} className="w-full max-w-sm space-y-4">
-          <div className="eyebrow text-accent">B2B Портал</div>
-          <h1 className="text-3xl">Поставите нову лозинку</h1>
-          {!ready && <p className="text-sm text-muted-foreground">Отварам сесију за ресет...</p>}
-          {done && <p className="text-sm text-accent">Лозинка ажурирана. Преусмеравам...</p>}
+          <div className="eyebrow text-accent">B2B Portal</div>
+          <h1 className="text-3xl">Postavite novu lozinku</h1>
+          {!ready && <p className="text-sm text-muted-foreground">Otvaram sesiju za reset...</p>}
+          {done && <p className="text-sm text-accent">Lozinka ažurirana. Preusmeravam...</p>}
           {ready && !done && (
             <>
               <input
                 type="password" required minLength={8}
-                placeholder="Нова лозинка"
+                placeholder="Nova lozinka"
                 value={password} onChange={(e) => setPassword(e.target.value)}
                 className="w-full border border-input bg-background rounded-sm px-3 py-2.5 text-sm focus:outline-none focus:border-foreground"
               />
               <input
                 type="password" required minLength={8}
-                placeholder="Потврдите лозинку"
+                placeholder="Potvrdite lozinku"
                 value={confirm} onChange={(e) => setConfirm(e.target.value)}
                 className="w-full border border-input bg-background rounded-sm px-3 py-2.5 text-sm focus:outline-none focus:border-foreground"
               />
               {error && <div className="text-sm text-destructive">{error}</div>}
               <button type="submit" disabled={loading} className="btn-primary w-full">
-                {loading ? "..." : "Сачувај"}
+                {loading ? "..." : "Sačuvaj"}
               </button>
             </>
           )}

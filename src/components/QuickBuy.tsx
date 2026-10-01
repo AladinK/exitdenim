@@ -11,7 +11,7 @@ import type { ProductWithStock } from "@/lib/products.functions";
  *
  * - Desktop: inline hairline size row + ghost CTA that inverts on selection.
  * - Mobile: single CTA opens a bottom-sheet (Tom Ford style) with size grid
- *   and a "Купи одмах" action that adds to cart and jumps straight to /kasa.
+ *   and a "Kupi odmah" action that adds to cart and jumps straight to /kasa.
  */
 export function QuickBuy({ product }: { product: ProductWithStock }) {
   const { add, setOpen } = useCart();
@@ -77,7 +77,7 @@ export function QuickBuy({ product }: { product: ProductWithStock }) {
           onClick={openSheet}
           className="group/cta relative w-full inline-flex items-center justify-between px-4 py-3 text-[10px] uppercase tracking-[0.28em] font-medium border border-foreground bg-foreground text-background transition-all duration-300 active:bg-accent active:border-accent"
         >
-          <span>Брза куповина</span>
+          <span>Brza kupovina</span>
           <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-active/cta:translate-x-0.5" />
         </button>
 
@@ -101,7 +101,7 @@ export function QuickBuy({ product }: { product: ProductWithStock }) {
                 type="button"
                 onClick={closeSheet}
                 className="absolute top-3 right-3 p-2 text-muted-foreground hover:text-foreground"
-                aria-label="Затвори"
+                aria-label="Zatvori"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -121,7 +121,7 @@ export function QuickBuy({ product }: { product: ProductWithStock }) {
                     <div className="serif text-lg leading-tight mt-1 truncate">{product.name}</div>
                     <div className="serif text-lg tabular-nums mt-1">
                       {Number(product.retail).toLocaleString("sr-RS")}
-                      <span className="text-xs text-muted-foreground ml-1">дин</span>
+                      <span className="text-xs text-muted-foreground ml-1">din</span>
                     </div>
                   </div>
                 </div>
@@ -129,14 +129,14 @@ export function QuickBuy({ product }: { product: ProductWithStock }) {
                 {/* Sizes */}
                 <div className="mt-6">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">Величина</span>
+                    <span className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">Veličina</span>
                     <Link
                       to="/proizvod/$slug"
                       params={{ slug: product.slug! }}
                       className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground underline underline-offset-4 hover:text-foreground"
                       onClick={closeSheet}
                     >
-                      Водич за величине
+                      Vodič za veličine
                     </Link>
                   </div>
                   <div className="mt-3 grid grid-cols-6 gap-1.5">
@@ -177,7 +177,7 @@ export function QuickBuy({ product }: { product: ProductWithStock }) {
                         : "bg-secondary text-muted-foreground cursor-not-allowed"
                     }`}
                   >
-                    <span>Купи одмах</span>
+                    <span>Kupi odmah</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                   <button
@@ -191,12 +191,12 @@ export function QuickBuy({ product }: { product: ProductWithStock }) {
                     }`}
                   >
                     <ShoppingBag className="w-3.5 h-3.5" />
-                    Додај у корпу
+                    Dodaj u korpu
                   </button>
                 </div>
 
                 <p className="mt-4 text-center text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                  Плаћање поузећем · Достава 500 дин
+                  Plaćanje pouzećem · Dostava 500 din
                 </p>
               </div>
             </div>
@@ -212,7 +212,7 @@ export function QuickBuy({ product }: { product: ProductWithStock }) {
     <div className="flex flex-col gap-3" onClick={(e) => e.preventDefault()}>
       <div className="flex items-center gap-px border-t border-b border-foreground/10">
         <span className="text-[9px] uppercase tracking-[0.24em] text-muted-foreground pr-3 py-2 border-r border-foreground/10">
-          Величина
+          Veličina
         </span>
         <div className="flex-1 flex flex-wrap">
           {product.sizes.map((s) => {
@@ -232,7 +232,7 @@ export function QuickBuy({ product }: { product: ProductWithStock }) {
                     ? "text-muted-foreground/40 line-through cursor-not-allowed"
                     : "text-foreground hover:text-accent"
                 }`}
-                aria-label={`Величина ${s}${disabled ? " — распродато" : ""}`}
+                aria-label={`Veličina ${s}${disabled ? " — rasprodato" : ""}`}
               >
                 {s}
               </button>
@@ -253,7 +253,7 @@ export function QuickBuy({ product }: { product: ProductWithStock }) {
             : "border-foreground/15 text-muted-foreground cursor-not-allowed"
         }`}
       >
-        <span>{added ? "У корпи" : size ? "Додај у корпу" : "Изаберите величину"}</span>
+        <span>{added ? "U korpi" : size ? "Dodaj u korpu" : "Izaberite veličinu"}</span>
         {added ? (
           <Check className="w-3.5 h-3.5" />
         ) : (

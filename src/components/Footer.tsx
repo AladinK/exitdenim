@@ -59,10 +59,10 @@ export function Footer() {
         </div>
 
         <div className="border-t border-white/10 mt-14 pt-6 flex flex-col md:flex-row justify-between gap-3 text-xs text-white/55">
-          <div>© {new Date().getFullYear()} EXIT Denim · Произведено у Србији</div>
+          <div>© {new Date().getFullYear()} EXIT Denim · Proizvedeno u Srbiji</div>
           <div className="flex gap-6">
-            <Link to="/faq" className="hover:text-white">Услови коришћења</Link>
-            <Link to="/faq" className="hover:text-white">Политика приватности</Link>
+            <Link to="/faq" className="hover:text-white">Uslovi korišćenja</Link>
+            <Link to="/faq" className="hover:text-white">Politika privatnosti</Link>
           </div>
         </div>
       </div>

@@ -35,13 +35,13 @@ export function CartDrawer() {
           open ? "translate-x-0" : "translate-x-full"
         }`}
         role="dialog"
-        aria-label="Корпа"
+        aria-label="Korpa"
       >
         <div className="flex items-center justify-between h-16 px-5 border-b border-border">
           <div className="flex items-center gap-2 text-sm uppercase tracking-[0.2em] font-medium">
-            <ShoppingBag className="w-4 h-4" /> Корпа ({items.length})
+            <ShoppingBag className="w-4 h-4" /> Korpa ({items.length})
           </div>
-          <button onClick={() => setOpen(false)} aria-label="Затвори корпу" className="w-9 h-9 inline-flex items-center justify-center rounded-md hover:bg-secondary">
+          <button onClick={() => setOpen(false)} aria-label="Zatvori korpu" className="w-9 h-9 inline-flex items-center justify-center rounded-md hover:bg-secondary">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -50,9 +50,9 @@ export function CartDrawer() {
           {items.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center px-6 text-center gap-4">
               <ShoppingBag className="w-8 h-8 text-muted-foreground" strokeWidth={1.2} />
-              <div className="serif text-2xl">Корпа је празна</div>
-              <p className="text-sm text-muted-foreground max-w-xs">Додајте артикле из каталога да наставите ка каси.</p>
-              <Link to="/katalog" onClick={() => setOpen(false)} className="btn-primary mt-2">Отвори каталог</Link>
+              <div className="serif text-2xl">Korpa je prazna</div>
+              <p className="text-sm text-muted-foreground max-w-xs">Dodajte artikle iz kataloga da nastavite ka kasi.</p>
+              <Link to="/katalog" onClick={() => setOpen(false)} className="btn-primary mt-2">Otvori katalog</Link>
             </div>
           ) : (
             <ul className="divide-y divide-border">
@@ -62,21 +62,21 @@ export function CartDrawer() {
                     {it.image ? <img src={it.image} alt={it.name} className="w-full h-full object-cover" /> : null}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{it.sku} · вел. {it.size}</div>
+                    <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{it.sku} · vel. {it.size}</div>
                     <div className="mt-1 text-sm font-medium truncate">{it.name}</div>
-                    <div className="mt-1 text-sm tabular-nums">{Number(it.unitPrice).toLocaleString("sr-RS")} дин</div>
+                    <div className="mt-1 text-sm tabular-nums">{Number(it.unitPrice).toLocaleString("sr-RS")} din</div>
                     <div className="mt-3 flex items-center justify-between">
                       <div className="inline-flex items-center border border-border">
-                        <button onClick={() => update(it.productId, it.size, it.quantity - 1)} className="w-8 h-8 inline-flex items-center justify-center hover:bg-secondary" aria-label="Смањи">
+                        <button onClick={() => update(it.productId, it.size, it.quantity - 1)} className="w-8 h-8 inline-flex items-center justify-center hover:bg-secondary" aria-label="Smanji">
                           <Minus className="w-3.5 h-3.5" />
                         </button>
                         <span className="w-8 text-center text-sm tabular-nums">{it.quantity}</span>
-                        <button onClick={() => update(it.productId, it.size, it.quantity + 1)} className="w-8 h-8 inline-flex items-center justify-center hover:bg-secondary" aria-label="Повећај">
+                        <button onClick={() => update(it.productId, it.size, it.quantity + 1)} className="w-8 h-8 inline-flex items-center justify-center hover:bg-secondary" aria-label="Povećaj">
                           <Plus className="w-3.5 h-3.5" />
                         </button>
                       </div>
                       <button onClick={() => remove(it.productId, it.size)} className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground">
-                        Уклони
+                        Ukloni
                       </button>
                     </div>
                   </div>
@@ -89,14 +89,14 @@ export function CartDrawer() {
         {items.length > 0 && (
           <div className="border-t border-border p-5 space-y-4">
             <div className="space-y-1.5 text-sm">
-              <div className="flex justify-between"><span className="text-muted-foreground">Међузбир</span><span className="tabular-nums">{subtotal.toLocaleString("sr-RS")} дин</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Достава</span><span className="tabular-nums">{shipping === 0 ? "Бесплатна" : `${shipping.toLocaleString("sr-RS")} дин`}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Međuzbir</span><span className="tabular-nums">{subtotal.toLocaleString("sr-RS")} din</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Dostava</span><span className="tabular-nums">{shipping === 0 ? "Besplatna" : `${shipping.toLocaleString("sr-RS")} din`}</span></div>
               {subtotal < CART_CONSTANTS.FREE_SHIPPING_OVER && (
                 <div className="text-[11px] text-muted-foreground">
-                  Још {(CART_CONSTANTS.FREE_SHIPPING_OVER - subtotal).toLocaleString("sr-RS")} дин до бесплатне доставе.
+                  Još {(CART_CONSTANTS.FREE_SHIPPING_OVER - subtotal).toLocaleString("sr-RS")} din do besplatne dostave.
                 </div>
               )}
-              <div className="flex justify-between pt-2 border-t border-border text-base font-semibold"><span>Укупно</span><span className="tabular-nums">{total.toLocaleString("sr-RS")} дин</span></div>
+              <div className="flex justify-between pt-2 border-t border-border text-base font-semibold"><span>Ukupno</span><span className="tabular-nums">{total.toLocaleString("sr-RS")} din</span></div>
             </div>
             <Link
               to="/kasa"
@@ -109,12 +109,12 @@ export function CartDrawer() {
               }}
               className="btn-primary w-full justify-center"
             >
-              Настави на плаћање
+              Nastavi na plaćanje
             </Link>
             <button onClick={() => setOpen(false)} className="btn-outline w-full justify-center">
-              Настави куповину
+              Nastavi kupovinu
             </button>
-            <p className="text-[11px] text-center text-muted-foreground">Плаћање поузећем при испоруци</p>
+            <p className="text-[11px] text-center text-muted-foreground">Plaćanje pouzećem pri isporuci</p>
           </div>
         )}
       </aside>
