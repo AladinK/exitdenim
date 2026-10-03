@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { FitSilhouette } from "@/components/FitSilhouette";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { ArrowRight, Check, Quote, ChevronRight, Flame } from "lucide-react";
