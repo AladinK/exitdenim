@@ -1,5 +1,6 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Menu, X, LogOut, ShoppingBag, Shield, User as UserIcon, ChevronDown, Package, ArrowRight, Wallet, Truck } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { Logo } from "./Logo";
@@ -27,6 +28,8 @@ export function Navbar() {
   const { count: cartCount, setOpen: setCartOpen } = useCart();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const [menuOpen, setMenuOpen] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -225,6 +228,7 @@ export function Navbar() {
 
       </div>
 
+      {mounted && createPortal(
       <div
         id="mobile-menu"
         aria-hidden={!open}
@@ -313,7 +317,9 @@ export function Navbar() {
             </div>
           )}
         </div>
-      </div>
+      </div>,
+        document.body,
+      )}
     </header>
   );
 }
