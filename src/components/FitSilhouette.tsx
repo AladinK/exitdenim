@@ -1,11 +1,11 @@
 // Front-view trouser silhouette per fit: thigh (t), knee (k), hem (e) widths per leg.
 const SHAPES: Record<string, { t: number; k: number; e: number }> = {
-  Slim: { t: 28, k: 18, e: 15 },
-  "Regular Slim": { t: 30, k: 21, e: 18 },
-  Relaxed: { t: 34, k: 25, e: 25 },
-  Bootcut: { t: 28, k: 19, e: 27 },
-  Flare: { t: 28, k: 17, e: 30 },
-  Cargo: { t: 32, k: 24, e: 21 },
+  Slim: { t: 24, k: 13, e: 11 },
+  "Regular Slim": { t: 28, k: 18, e: 15 },
+  Relaxed: { t: 34, k: 27, e: 27 },
+  Bootcut: { t: 25, k: 15, e: 28 },
+  Flare: { t: 25, k: 13, e: 30 },
+  Cargo: { t: 32, k: 24, e: 22 },
 };
 
 export function FitSilhouette({ fit, className }: { fit: string; className?: string }) {
