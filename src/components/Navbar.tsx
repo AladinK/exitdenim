@@ -1,13 +1,17 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Menu, X, LogOut, ShoppingBag, Shield, User as UserIcon, ChevronDown, Package } from "lucide-react";
+import { createPortal } from "react-dom";
+import { Menu, X, LogOut, ShoppingBag, Shield, User as UserIcon, ChevronDown, Package, ArrowRight, Wallet, Truck } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { Logo } from "./Logo";
+import { FitSilhouette } from "./FitSilhouette";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/hooks/useCart";
 import { supabase } from "@/integrations/supabase/client";
 import { getMyProfile } from "@/lib/orders.functions";
+import { ecommerce } from "@/lib/analytics";
 
+const FITS = ["Slim", "Regular Slim", "Relaxed", "Bootcut", "Flare", "Cargo"];
 
 const NAV: Array<{ to: any; label: string }> = [
   { to: "/katalog", label: "Shop all" },
@@ -22,7 +26,10 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { count: cartCount, setOpen: setCartOpen } = useCart();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const [menuOpen, setMenuOpen] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -50,15 +57,30 @@ export function Navbar() {
     return () => document.removeEventListener("mousedown", onClick);
   }, []);
 
-  // Close on Escape and on route change
+  // Close on route change
+  useEffect(() => { setOpen(false); setMenuOpen(false); }, [pathname]);
+
+  // Escape closes; lock page scroll while the mobile menu is open
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setMenuOpen(false); };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [menuOpen]);
 
 
   const signOut = async () => {
@@ -206,59 +228,98 @@ export function Navbar() {
 
       </div>
 
+      {mounted && createPortal(
       <div
         id="mobile-menu"
-        className={`lg:hidden overflow-hidden border-t bg-background transition-[max-height,opacity] duration-300 ease-out ${
-          open ? "max-h-[80vh] opacity-100 border-border" : "max-h-0 opacity-0 border-transparent"
+        aria-hidden={!open}
+        className={`lg:hidden fixed inset-x-0 bottom-0 ${scrolled ? "top-14" : "top-20"} z-40 bg-background border-t border-border flex flex-col transition-[opacity,transform] duration-300 ease-out ${
+          open ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"
         }`}
       >
-        <nav className="container-x py-2 flex flex-col">
-          {NAV.map((n) => (
-            <Link
-              key={n.to}
-              to={n.to}
-              onClick={() => setOpen(false)}
-              className="text-[15px] font-medium py-3 px-2 border-b border-border/60 hover:bg-secondary rounded-sm"
-              activeProps={{ className: "text-foreground" }}
-              activeOptions={{ exact: n.to === "/" }}
-            >
-              {n.label}
+        <div className="flex-1 overflow-y-auto overscroll-contain">
+          <nav className="container-x pt-2 flex flex-col" aria-label="Glavni meni">
+            {NAV.map((n) => (
+              <Link
+                key={n.to}
+                to={n.to}
+                tabIndex={open ? 0 : -1}
+                onClick={() => { ecommerce.cta(`menu_${n.label}`, "mobile_menu"); setOpen(false); }}
+                className="flex items-center justify-between py-4 border-b border-border text-[22px] font-[family-name:var(--font-display)] uppercase active:bg-secondary"
+                activeProps={{ className: "text-accent" }}
+              >
+                {n.label}
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+            ))}
+          </nav>
+
+          <div className="container-x pt-6">
+            <div className="eyebrow mb-3">Kupuj po fitu</div>
+            <div className="grid grid-cols-3 gap-2">
+              {FITS.map((f) => (
+                <Link
+                  key={f}
+                  to="/katalog"
+                  search={{ fit: f }}
+                  tabIndex={open ? 0 : -1}
+                  onClick={() => { ecommerce.cta(`menu_fit_${f}`, "mobile_menu"); setOpen(false); }}
+                  className="border border-border py-3 flex flex-col items-center gap-1.5 active:bg-secondary"
+                >
+                  <FitSilhouette fit={f} className="h-14 w-auto" />
+                  <span className="text-[11px] font-medium uppercase tracking-[0.12em]">{f}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="container-x py-6 flex flex-col">
+            {user && profile?.isAdmin && (
+              <Link to="/admin" tabIndex={open ? 0 : -1} onClick={() => setOpen(false)} className="py-3 text-sm flex items-center gap-2 text-accent">
+                <Shield className="w-4 h-4" /> Admin panel
+              </Link>
+            )}
+            {user && isApproved && (
+              <Link to="/narudzba" tabIndex={open ? 0 : -1} onClick={() => setOpen(false)} className="py-3 text-sm flex items-center gap-2">
+                <ShoppingBag className="w-4 h-4" /> B2B porudžbina
+              </Link>
+            )}
+            {user && (
+              <Link to="/moje-porudzbine" tabIndex={open ? 0 : -1} onClick={() => setOpen(false)} className="py-3 text-sm flex items-center gap-2">
+                <Package className="w-4 h-4" /> Moje porudžbine
+              </Link>
+            )}
+            <Link to="/kontakt" tabIndex={open ? 0 : -1} onClick={() => setOpen(false)} className="py-3 text-sm flex items-center gap-2 text-muted-foreground">
+              Pomoć oko veličine i kontakt
             </Link>
-          ))}
-          {user && profile?.isAdmin && (
-            <Link to="/admin" onClick={() => setOpen(false)} className="text-[15px] font-medium py-3 px-2 border-b border-border/60 text-accent hover:bg-secondary rounded-sm flex items-center gap-2">
-              <Shield className="w-4 h-4" /> Admin panel
-            </Link>
-          )}
-          {user && isApproved && (
-            <Link to="/narudzba" onClick={() => setOpen(false)} className="text-[15px] font-medium py-3 px-2 border-b border-border/60 hover:bg-secondary rounded-sm flex items-center gap-2">
-              <ShoppingBag className="w-4 h-4" /> Moja porudžbina
-            </Link>
-          )}
-        </nav>
-        <div className="container-x py-3">
+          </div>
+        </div>
+
+        <div className="border-t border-border bg-background container-x py-4 pb-[max(1rem,env(safe-area-inset-bottom))] space-y-3">
+          <div className="flex items-center justify-center gap-4 text-[11px] text-muted-foreground">
+            <span className="inline-flex items-center gap-1"><Wallet className="w-3.5 h-3.5" /> Plaćaš kad stigne</span>
+            <span className="inline-flex items-center gap-1"><Truck className="w-3.5 h-3.5" /> Besplatno 15.000+</span>
+          </div>
           {user ? (
             <div className="flex items-center justify-between gap-3">
-              <div className="min-w-0">
-                <div className="text-[11px] uppercase tracking-wider text-muted-foreground">Prijavljeni</div>
-                <div className="text-sm font-semibold truncate">{displayName}</div>
-              </div>
-              <button onClick={() => { signOut(); setOpen(false); }} className="btn-outline shrink-0">
+              <div className="min-w-0 text-sm font-semibold truncate">{displayName}</div>
+              <button tabIndex={open ? 0 : -1} onClick={() => { signOut(); setOpen(false); }} className="btn-outline shrink-0">
                 <LogOut className="w-4 h-4" /> Odjava
               </button>
             </div>
           ) : (
-            <div className="flex flex-col gap-2">
-              <Link to="/katalog" onClick={() => setOpen(false)} className="btn-primary w-full">
-                Uzmi sad
+            <div className="grid grid-cols-[1fr_auto] gap-2">
+              <Link to="/katalog" tabIndex={open ? 0 : -1} onClick={() => { ecommerce.cta("menu_shop_cta", "mobile_menu"); setOpen(false); }} className="btn-primary w-full">
+                Pogledaj sve modele
               </Link>
-              <Link to="/auth" onClick={() => setOpen(false)} className="btn-outline w-full">
+              <Link to="/auth" tabIndex={open ? 0 : -1} onClick={() => setOpen(false)} className="btn-outline">
                 Prijava
               </Link>
             </div>
           )}
         </div>
-      </div>
+      </div>,
+        document.body,
+      )}
     </header>
   );
 }
