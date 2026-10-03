@@ -239,7 +239,7 @@ export function Navbar() {
                 key={n.to}
                 to={n.to}
                 tabIndex={open ? 0 : -1}
-                onClick={() => { ecommerce.cta(`menu_${n.label}`); setOpen(false); }}
+                onClick={() => { ecommerce.cta(`menu_${n.label}`, "mobile_menu"); setOpen(false); }}
                 className="flex items-center justify-between py-4 border-b border-border text-[22px] font-[family-name:var(--font-display)] uppercase active:bg-secondary"
                 activeProps={{ className: "text-accent" }}
               >
@@ -258,7 +258,7 @@ export function Navbar() {
                   to="/katalog"
                   search={{ fit: f }}
                   tabIndex={open ? 0 : -1}
-                  onClick={() => { ecommerce.cta(`menu_fit_${f}`); setOpen(false); }}
+                  onClick={() => { ecommerce.cta(`menu_fit_${f}`, "mobile_menu"); setOpen(false); }}
                   className="border border-border py-3 flex flex-col items-center gap-1.5 active:bg-secondary"
                 >
                   <FitSilhouette fit={f} className="h-14 w-auto" />
@@ -304,7 +304,7 @@ export function Navbar() {
             </div>
           ) : (
             <div className="grid grid-cols-[1fr_auto] gap-2">
-              <Link to="/katalog" tabIndex={open ? 0 : -1} onClick={() => { ecommerce.cta("menu_shop_cta"); setOpen(false); }} className="btn-primary w-full">
+              <Link to="/katalog" tabIndex={open ? 0 : -1} onClick={() => { ecommerce.cta("menu_shop_cta", "mobile_menu"); setOpen(false); }} className="btn-primary w-full">
                 Pogledaj sve modele
               </Link>
               <Link to="/auth" tabIndex={open ? 0 : -1} onClick={() => setOpen(false)} className="btn-outline">
