@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { FitSilhouette } from "@/components/FitSilhouette";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { ArrowRight, Check, Quote, ChevronRight, Flame } from "lucide-react";
@@ -386,7 +387,8 @@ function HomePage() {
             ].map((f) => (
               <Link key={f.t} to="/katalog" search={{ fit: f.t }} className="group relative border-2 border-foreground bg-background p-5 shadow-[4px_4px_0_var(--ink)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0_var(--ink)] transition-all">
                 {f.tag && <span className="sticker absolute -top-3 right-3 rotate-3">{f.tag}</span>}
-                <div className="text-lg font-[family-name:var(--font-display)] uppercase">{f.t}</div>
+                <FitSilhouette fit={f.t} className="mx-auto h-28 md:h-36 w-auto text-foreground transition-transform duration-300 group-hover:scale-105" />
+                <div className="mt-4 text-lg font-[family-name:var(--font-display)] uppercase">{f.t}</div>
                 <p className="mt-2 text-[13px] text-muted-foreground leading-snug">{f.d}</p>
                 <div className="mt-4 inline-flex items-center gap-1 text-[11px] uppercase tracking-[0.18em] font-medium">
                   Vidi <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
