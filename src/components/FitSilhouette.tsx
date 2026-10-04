@@ -3,8 +3,8 @@ const SHAPES: Record<string, { t: number; k: number; e: number }> = {
   Slim: { t: 24, k: 13, e: 11 },
   "Regular Slim": { t: 28, k: 18, e: 15 },
   Relaxed: { t: 34, k: 27, e: 27 },
-  Bootcut: { t: 25, k: 15, e: 28 },
-  Flare: { t: 25, k: 13, e: 30 },
+  Bootcut: { t: 28, k: 18, e: 25 },
+  Flare: { t: 25, k: 12, e: 32 },
   Cargo: { t: 32, k: 24, e: 22 },
 };
 
