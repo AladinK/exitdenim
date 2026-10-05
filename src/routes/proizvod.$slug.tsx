@@ -29,7 +29,7 @@ export const Route = createFileRoute("/proizvod/$slug")({
     const title = `${name} — EXIT Denim`.slice(0, 60);
     const desc = p
       ? `${p.name}, ${p.fit} fit, ${p.color}. ${Number(p.retail).toLocaleString("sr-RS")} RSD. Plaćanje pouzećem, dostava po celoj Srbiji.`.slice(0, 160)
-      : `${name} — muške pantalone EXIT Denim iz Novog Pazara.`;
+      : `${name} — muške pantalone EXIT Denim.`;
     const url = `https://exitdenim.shop/proizvod/${params.slug}`;
     const img = p?.image_url && /^https:\/\//.test(p.image_url) ? p.image_url : null;
     return {
@@ -176,7 +176,7 @@ function ProductDetail() {
               { icon: Wallet, t: "Plaćaš kad stigne", d: "Pouzećem kuriru" },
               { icon: Truck, t: "Dostava po Srbiji", d: "Besplatno preko 15.000 RSD" },
               { icon: RefreshCw, t: "Nisi siguran za broj?", d: "Pitaj nas pre porudžbine" },
-              { icon: ShieldCheck, t: "Made in Srbija", d: "Šijemo u Novom Pazaru" },
+              { icon: ShieldCheck, t: "Made in Srbija", d: "Šijemo u vlastitoj radionici" },
             ].map(({ icon: I, t, d }) => (
               <li key={t} className="bg-background p-3 flex gap-2.5">
                 <I className="w-4 h-4 mt-0.5 shrink-0" strokeWidth={1.5} />

@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { useSiteAssets } from "@/hooks/useSiteAsset";
 import { ecommerce } from "@/lib/analytics";
 
-const TICKER = ["NEW DROP: BOOTCUT", "RELAXED FIT", "FLARE IS BACK", "PLAĆAŠ KAD STIGNE", "MADE IN NOVI PAZAR", "BESPLATNA DOSTAVA 15.000+"];
+const TICKER = ["NEW DROP: BOOTCUT", "RELAXED FIT", "FLARE IS BACK", "PLAĆAŠ KAD STIGNE", "MADE IN SERBIA", "BESPLATNA DOSTAVA 15.000+"];
 
 export function Hero() {
   const assets = useSiteAssets();
@@ -22,7 +22,7 @@ export function Hero() {
           <span className="text-[color:var(--ivory)]/60">leg</span> szn.
         </h1>
         <p className="mt-5 text-[16px] leading-snug text-[color:var(--ivory)]/80 max-w-sm">
-          Širi krojevi, jači vibe. Farmerke iz naše radionice u Novom Pazaru — plaćaš tek kad stignu.
+          Širi krojevi, jači vibe. Farmerke iz naše radionice — plaćaš tek kad stignu.
         </p>
         <div className="mt-7 flex flex-wrap items-center gap-4">
           <Link to="/wide-flare" onClick={() => ecommerce.cta("wide_flare", "hero")} className="btn-street">

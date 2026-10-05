@@ -47,7 +47,7 @@ export const generateLineSheet = createServerFn({ method: "POST" })
     const olive = rgb(0.5, 0.62, 0.32);
 
     page.drawText("EXIT DENIM", { x: 40, y: 790, size: 22, font: bold, color: ink });
-    page.drawText("B2B LINE SHEET · NOVI PAZAR, SRBIJA", { x: 40, y: 772, size: 8, font: reg, color: muted });
+    page.drawText("B2B LINE SHEET · MADE IN SERBIA", { x: 40, y: 772, size: 8, font: reg, color: muted });
     page.drawRectangle({ x: 40, y: 766, width: 515, height: 1, color: ink });
 
     let imageY = 480;
@@ -120,7 +120,7 @@ export const generateLineSheet = createServerFn({ method: "POST" })
     }
 
     page.drawRectangle({ x: 40, y: 50, width: 515, height: 1, color: ink });
-    page.drawText("EXIT Denim — TRI-B DOO · Bekim Kurtanovic · +381 65 370 1701 · @exit.denim · Made in Serbia", { x: 40, y: 36, size: 8, font: reg, color: muted });
+    page.drawText("EXIT Denim — TRI-B DOO · Ahmed Kurtanović · +381 65 3171 6716 · @exit.denim · Made in Serbia", { x: 40, y: 36, size: 8, font: reg, color: muted });
     page.drawText(new Date().toLocaleDateString("sr-RS"), { x: 510, y: 36, size: 8, font: reg, color: muted });
 
     const bytes = await pdf.save();

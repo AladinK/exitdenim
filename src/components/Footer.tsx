@@ -16,7 +16,7 @@ export function Footer() {
           <div className="md:col-span-5">
             <Logo variant="light" className="h-10" />
             <p className="text-lg md:text-xl mt-6 max-w-md leading-snug text-white/80">
-              Denim koji nosiš, ne koji nosi tebe. Pravljeno u Novom Pazaru. Plaćaš kad stigne.
+              Denim koji nosiš, ne koji nosi tebe. Pravljeno u Srbiji. Plaćaš kad stigne.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link to="/katalog" className="btn-accent">Uzmi sad</Link>
@@ -47,10 +47,10 @@ export function Footer() {
           <div className="md:col-span-3">
             <div className="text-xs uppercase tracking-[0.16em] text-white/55 font-semibold">Kontakt</div>
             <ul className="mt-4 space-y-2.5 text-sm">
-              <li>Bekim Kurtanović</li>
+              <li>Ahmed Kurtanović</li>
               <li className="text-white/60">EXIT Denim — TRI-B DOO</li>
-              <li>Novi Pazar, Srbija</li>
-              <li className="tabular-nums"><a href="https://wa.me/381653701701" className="hover:text-accent transition-colors">+381 65 370 1701</a></li>
+              <li>Srbija</li>
+              <li className="tabular-nums"><a href="https://wa.me/3816531716716" className="hover:text-accent transition-colors">+381 65 3171 6716</a></li>
               <li className="text-white/60">WhatsApp · Viber</li>
               <li><a href="https://instagram.com/exit.denim" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors">@exit.denim</a></li>
             </ul>
