@@ -17,9 +17,9 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "EXIT Denim — farmerke, bootcut, flare, chino i cargo" },
-      { name: "description", content: "Muške farmerke — slim, relaxed, bootcut i flare, plus chino i cargo iz Novog Pazara. Plaćanje pouzećem, dostava po celoj Srbiji." },
+      { name: "description", content: "Muške farmerke — slim, relaxed, bootcut i flare, plus chino i cargo. Plaćanje pouzećem, dostava po celoj Srbiji." },
       { property: "og:title", content: "EXIT Denim — farmerke, bootcut, flare, chino i cargo" },
-      { property: "og:description", content: "Muške farmerke — slim, relaxed, bootcut i flare, plus chino i cargo iz Novog Pazara. Plaćanje pouzećem, dostava po celoj Srbiji." },
+      { property: "og:description", content: "Muške farmerke — slim, relaxed, bootcut i flare, plus chino i cargo. Plaćanje pouzećem, dostava po celoj Srbiji." },
       { property: "og:url", content: "https://exitdenim.shop/" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -405,7 +405,7 @@ function HomePage() {
           {[
             { t: "Plaćaš kad stigne", d: "Pare daješ kuriru tek kad dobiješ paket." },
             { t: "Dostava po celoj Srbiji", d: "500 din · besplatno preko 15.000 din." },
-            { t: "Made in Srbija", d: "Naša radionica u Novom Pazaru." },
+            { t: "Made in Srbija", d: "Naša vlastita radionica." },
           ].map((s) => (
             <div key={s.t} className="border-t border-foreground/20 pt-5">
               <Check className="w-4 h-4 text-accent" />

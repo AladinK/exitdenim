@@ -6,9 +6,9 @@ import { useSiteAsset } from "@/hooks/useSiteAsset";
 export const Route = createFileRoute("/proizvodnja")({
   head: () => ({
     meta: [
-      { title: "Proizvodnja · Atelje u Novom Pazaru — EXIT Denim" },
-      { name: "description", content: "Vlastita proizvodnja EXIT Denim u Novom Pazaru. Tkanine, kroj i finiš pod kontrolom kvaliteta na svakoj seriji muških pantalona." },
-      { property: "og:title", content: "Proizvodnja · Atelje u Novom Pazaru — EXIT Denim" },
+      { title: "Proizvodnja · Vlastiti atelje — EXIT Denim" },
+      { name: "description", content: "Vlastita proizvodnja EXIT Denim. Tkanine, kroj i finiš pod kontrolom kvaliteta na svakoj seriji muških pantalona." },
+      { property: "og:title", content: "Proizvodnja · Vlastiti atelje — EXIT Denim" },
       { property: "og:url", content: "https://exitdenim.shop/proizvodnja" },
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/proizvodnja" }],
@@ -22,7 +22,7 @@ function Proizvodnja() {
     <Layout>
       <section className="bg-foreground text-background">
         <div className="container-x py-20 md:py-32">
-          <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Atelje · Novi Pazar</div>
+          <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Atelje · Made in Serbia</div>
           <h1 className="mt-7 h1-editorial max-w-4xl text-background">
             Proizvodnja. <span className="italic">Poštene tkanine</span>.<br/>
             Skrojeni krojevi.
@@ -43,7 +43,7 @@ function Proizvodnja() {
             <h2 className="mt-5 h2-editorial">Šta drži kvalitet.</h2>
             <div className="mt-10 space-y-7">
               {[
-                { icon: Factory, t: "In-house proizvodnja", d: "Vlastita radionica u Novom Pazaru. Kontrola svakog koraka." },
+                { icon: Factory, t: "In-house proizvodnja", d: "Vlastita radionica. Kontrola svakog koraka." },
                 { icon: Scissors, t: "Test kroja", d: "Svaki novi model prolazi kroz tri runde testiranja kroja pre proizvodnje serije." },
                 { icon: ShieldCheck, t: "QC na svakoj seriji", d: "Šavovi, pranje, dimenzije i finiš proveravaju se pre pakovanja." },
                 { icon: Truck, t: "Logistika u regionu", d: "Direktni partner za isporuku — 5–10 dana do svih balkanskih zemalja." },

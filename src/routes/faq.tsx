@@ -24,7 +24,7 @@ const QA: Array<[string, string]> = [
   ["Radite li custom brending?", "Za partnere sa volumenom 500+ kom mesečno radimo custom etikete i ambalažu. Detalje dogovaramo direktno."],
   ["Kako funkcioniše plaćanje?", "Prva porudžbina: 50% avans, 50% pre slanja. Nakon 3 uspešne saradnje prelazimo na fleksibilnije uslove."],
   ["Da li je moguć povraćaj robe?", "Povraćaj samo u slučaju proizvodnog nedostatka, prijava u roku 7 dana od prijema. Stock povraćaji nisu mogući."],
-  ["Imate li predstavnika u mojoj zemlji?", "Trenutno radimo direktno iz Novog Pazara. Sva komunikacija ide preko wholesale tima na srpskom, bosanskom, hrvatskom i engleskom."],
+  ["Imate li predstavnika u mojoj zemlji?", "Trenutno radimo direktno iz Srbije. Sva komunikacija ide preko wholesale tima na srpskom, bosanskom, hrvatskom i engleskom."],
 ];
 
 function Faq() {

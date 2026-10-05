@@ -101,7 +101,7 @@ function Auth() {
                 : "Prijava traje 2 minuta. Naš tim proverava nalog u roku 24h."}
             </p>
           </div>
-          <div className="text-xs text-background/50">EXIT Denim · Novi Pazar, Srbija</div>
+          <div className="text-xs text-background/50">EXIT Denim</div>
 
         </div>
 

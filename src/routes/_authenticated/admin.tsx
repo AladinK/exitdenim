@@ -629,7 +629,7 @@ const HOME_SLOTS: { key: HomeAssetKey; title: string; desc: string; ratio: strin
   { key: "hero", title: "Hero (naslovna — bento)", desc: "Glavna slika u editorial bento sekciji početne strane.", ratio: "aspect-[4/5]" },
   { key: "hero_texture", title: "Hero pozadina (denim tekstura)", desc: "Denim tekstura iza velikog naslova na vrhu početne.", ratio: "aspect-[16/9]" },
   { key: "lookbook", title: "Lookbook tile", desc: "Slika u lookbook plocici na početnoj.", ratio: "aspect-[4/5]" },
-  { key: "workshop", title: "Atelier / Radionica", desc: "Slika u 'Atelier u Novom Pazaru' sekciji.", ratio: "aspect-[4/5]" },
+  { key: "workshop", title: "Atelier / Radionica", desc: "Slika u 'Atelier' sekciji.", ratio: "aspect-[4/5]" },
   { key: "category_jeans", title: "Kategorija — Farmerke", desc: "Tile za kategoriju farmerki.", ratio: "aspect-[4/5]" },
   { key: "category_chino", title: "Kategorija — Chino", desc: "Tile za kategoriju chino.", ratio: "aspect-[4/5]" },
   { key: "category_cargo", title: "Kategorija — Cargo", desc: "Tile za kategoriju cargo.", ratio: "aspect-[4/5]" },

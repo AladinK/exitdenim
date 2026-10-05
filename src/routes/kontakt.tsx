@@ -6,7 +6,7 @@ export const Route = createFileRoute("/kontakt")({
   head: () => ({
     meta: [
       { title: "Kontakt — EXIT Denim Wholesale" },
-      { name: "description", content: "Kontaktirajte EXIT Denim wholesale tim u Novom Pazaru. E-mail, WhatsApp i Viber za B2B partnere iz regiona." },
+      { name: "description", content: "Kontaktirajte EXIT Denim wholesale tim. E-mail, WhatsApp i Viber za B2B partnere iz regiona." },
       { property: "og:title", content: "Kontakt — EXIT Denim Wholesale" },
       { property: "og:url", content: "https://exitdenim.shop/kontakt" },
     ],
@@ -35,10 +35,10 @@ function Kontakt() {
         <div className="container-x grid lg:grid-cols-12 gap-12">
           <div className="lg:col-span-7 space-y-px">
             {[
-              { icon: Phone, label: "Bekim Kurtanović · Wholesale", value: "+381 65 370 1701", href: "tel:+381653701701" },
-              { icon: MessageCircle, label: "WhatsApp · Viber", value: "+381 65 370 1701", href: "https://wa.me/381653701701" },
+              { icon: Phone, label: "Ahmed Kurtanović · Wholesale", value: "+381 65 3171 6716", href: "tel:+3816531716716" },
+              { icon: MessageCircle, label: "WhatsApp · Viber", value: "+381 65 3171 6716", href: "https://wa.me/3816531716716" },
               { icon: Instagram, label: "Instagram", value: "@exit.denim", href: "https://instagram.com/exit.denim" },
-              { icon: MapPin, label: "Šourum · TRI-B DOO", value: "Novi Pazar, Srbija", href: "#" },
+              { icon: MapPin, label: "Šourum · TRI-B DOO", value: "Srbija", href: "#" },
             ].map((c) => (
               <a key={c.label} href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="flex items-center gap-6 border border-border bg-card p-6 md:p-7 hover:bg-secondary hover:border-foreground/40 transition-colors group">
                 <c.icon className="w-5 h-5 text-accent shrink-0" strokeWidth={1.25} />
@@ -57,7 +57,7 @@ function Kontakt() {
                 EXIT Denim — TRI-B DOO
               </p>
               <p className="text-sm text-muted-foreground mt-2">
-                Direct manufacturer of denim, chino and cargo trousers. Novi Pazar, Srbija.
+                Direct manufacturer of denim, chino and cargo trousers. Srbija.
               </p>
 
               <div className="mt-8 pt-6 border-t border-border">
