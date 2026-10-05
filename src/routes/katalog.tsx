@@ -19,9 +19,10 @@ export const Route = createFileRoute("/katalog")({
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/katalog" }],
   }),
-  validateSearch: (s: Record<string, unknown>): { fit?: string; group?: "wide" } => ({
+  validateSearch: (s: Record<string, unknown>): { fit?: string; group?: "wide"; cat?: "jeans" | "chino" | "cargo" } => ({
     fit: typeof s.fit === "string" ? s.fit : undefined,
     group: s.group === "wide" ? ("wide" as const) : undefined,
+    cat: s.cat === "jeans" || s.cat === "chino" || s.cat === "cargo" ? s.cat : undefined,
   }),
   component: Katalog,
 });
@@ -49,12 +50,19 @@ function Katalog() {
   const [products, setProducts] = useState<ProductWithStock[]>([]);
   const [approved, setApproved] = useState(false);
 
-  const [cat, setCat] = useState<Cat>("all");
   const search = Route.useSearch();
-  const [fit, setFit] = useState<FitFilter>(
-    (FITS as string[]).includes(search.fit ?? "") ? (search.fit as FitFilter) : "all",
-  );
+  const catFromSearch = (): Cat => (search.cat ?? "all") as Cat;
+  const fitFromSearch = (): FitFilter =>
+    (FITS as string[]).includes(search.fit ?? "") ? (search.fit as FitFilter) : "all";
+  const [cat, setCat] = useState<Cat>(catFromSearch);
+  const [fit, setFit] = useState<FitFilter>(fitFromSearch);
   const [wide, setWide] = useState(search.group === "wide");
+  // Keep filters in sync when the menu navigates within /katalog
+  useEffect(() => {
+    setCat(catFromSearch());
+    setFit(fitFromSearch());
+    setWide(search.group === "wide");
+  }, [search.cat, search.fit, search.group]); // eslint-disable-line
   const [sizes, setSizes] = useState<string[]>([]);
   const [query, setQuery] = useState("");
   const [inStock, setInStock] = useState(false);
