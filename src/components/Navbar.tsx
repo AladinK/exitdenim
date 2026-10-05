@@ -297,7 +297,7 @@ export function Navbar() {
         <div className="border-t border-border bg-background container-x py-4 pb-[max(1rem,env(safe-area-inset-bottom))] space-y-3">
           <div className="flex items-center justify-center gap-4 text-[11px] text-muted-foreground">
             <span className="inline-flex items-center gap-1"><Wallet className="w-3.5 h-3.5" /> Plaćaš kad stigne</span>
-            <span className="inline-flex items-center gap-1"><Truck className="w-3.5 h-3.5" /> Besplatno 15.000+</span>
+            <span className="inline-flex items-center gap-1"><Truck className="w-3.5 h-3.5" /> Besplatna dostava</span>
           </div>
           {user ? (
             <div className="flex items-center justify-between gap-3">

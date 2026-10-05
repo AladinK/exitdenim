@@ -38,7 +38,7 @@ const orderInput = z.object({
   note: z.string().trim().max(500).optional().nullable(),
 });
 
-const FREE_SHIPPING_OVER = 15000;
+const FREE_SHIPPING_OVER = 0;
 const SHIPPING_FLAT = 500;
 
 /**
