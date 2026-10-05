@@ -9,104 +9,38 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as WideFlareRouteImport } from './routes/wide-flare'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as ShopRouteImport } from './routes/shop'
-import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as ProizvodnjaRouteImport } from './routes/proizvodnja'
-import { Route as PostaniPartnerRouteImport } from './routes/postani-partner'
-import { Route as MediaKitRouteImport } from './routes/media-kit'
-import { Route as KorpaRouteImport } from './routes/korpa'
-import { Route as KontaktRouteImport } from './routes/kontakt'
-import { Route as KatalogRouteImport } from './routes/katalog'
-import { Route as KasaRouteImport } from './routes/kasa'
-import { Route as JeansRouteImport } from './routes/jeans'
-import { Route as FaqRouteImport } from './routes/faq'
-import { Route as ChinoRouteImport } from './routes/chino'
-import { Route as CargoRouteImport } from './routes/cargo'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ProizvodSlugRouteImport } from './routes/proizvod.$slug'
-import { Route as PorudzbinaNumberRouteImport } from './routes/porudzbina.$number'
-import { Route as AuthenticatedNarudzbaRouteImport } from './routes/_authenticated/narudzba'
-import { Route as AuthenticatedMojePorudzbineRouteImport } from './routes/_authenticated/moje-porudzbine'
-import { Route as AuthenticatedCekanjeRouteImport } from './routes/_authenticated/cekanje'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as CargoRouteImport } from './routes/cargo'
+import { Route as ChinoRouteImport } from './routes/chino'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as JeansRouteImport } from './routes/jeans'
+import { Route as KasaRouteImport } from './routes/kasa'
+import { Route as KatalogRouteImport } from './routes/katalog'
+import { Route as KontaktRouteImport } from './routes/kontakt'
+import { Route as KorpaRouteImport } from './routes/korpa'
+import { Route as MediaKitRouteImport } from './routes/media-kit'
+import { Route as PostaniPartnerRouteImport } from './routes/postani-partner'
+import { Route as ProizvodnjaRouteImport } from './routes/proizvodnja'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as ShopRouteImport } from './routes/shop'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as WideFlareRouteImport } from './routes/wide-flare'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedCekanjeRouteImport } from './routes/_authenticated/cekanje'
+import { Route as AuthenticatedMojePorudzbineRouteImport } from './routes/_authenticated/moje-porudzbine'
+import { Route as AuthenticatedNarudzbaRouteImport } from './routes/_authenticated/narudzba'
+import { Route as PorudzbinaNumberRouteImport } from './routes/porudzbina.$number'
+import { Route as ProizvodSlugRouteImport } from './routes/proizvod.$slug'
 
-const WideFlareRoute = WideFlareRouteImport.update({
-  id: '/wide-flare',
-  path: '/wide-flare',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ShopRoute = ShopRouteImport.update({
-  id: '/shop',
-  path: '/shop',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ResetPasswordRoute = ResetPasswordRouteImport.update({
-  id: '/reset-password',
-  path: '/reset-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProizvodnjaRoute = ProizvodnjaRouteImport.update({
-  id: '/proizvodnja',
-  path: '/proizvodnja',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PostaniPartnerRoute = PostaniPartnerRouteImport.update({
-  id: '/postani-partner',
-  path: '/postani-partner',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MediaKitRoute = MediaKitRouteImport.update({
-  id: '/media-kit',
-  path: '/media-kit',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const KorpaRoute = KorpaRouteImport.update({
-  id: '/korpa',
-  path: '/korpa',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const KontaktRoute = KontaktRouteImport.update({
-  id: '/kontakt',
-  path: '/kontakt',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const KatalogRoute = KatalogRouteImport.update({
-  id: '/katalog',
-  path: '/katalog',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const KasaRoute = KasaRouteImport.update({
-  id: '/kasa',
-  path: '/kasa',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const JeansRoute = JeansRouteImport.update({
-  id: '/jeans',
-  path: '/jeans',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FaqRoute = FaqRouteImport.update({
-  id: '/faq',
-  path: '/faq',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ChinoRoute = ChinoRouteImport.update({
-  id: '/chino',
-  path: '/chino',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CargoRoute = CargoRouteImport.update({
-  id: '/cargo',
-  path: '/cargo',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -114,28 +48,89 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
+const CargoRoute = CargoRouteImport.update({
+  id: '/cargo',
+  path: '/cargo',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const ChinoRoute = ChinoRouteImport.update({
+  id: '/chino',
+  path: '/chino',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProizvodSlugRoute = ProizvodSlugRouteImport.update({
-  id: '/proizvod/$slug',
-  path: '/proizvod/$slug',
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PorudzbinaNumberRoute = PorudzbinaNumberRouteImport.update({
-  id: '/porudzbina/$number',
-  path: '/porudzbina/$number',
+const JeansRoute = JeansRouteImport.update({
+  id: '/jeans',
+  path: '/jeans',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedNarudzbaRoute = AuthenticatedNarudzbaRouteImport.update({
-  id: '/narudzba',
-  path: '/narudzba',
+const KasaRoute = KasaRouteImport.update({
+  id: '/kasa',
+  path: '/kasa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KatalogRoute = KatalogRouteImport.update({
+  id: '/katalog',
+  path: '/katalog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KontaktRoute = KontaktRouteImport.update({
+  id: '/kontakt',
+  path: '/kontakt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KorpaRoute = KorpaRouteImport.update({
+  id: '/korpa',
+  path: '/korpa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MediaKitRoute = MediaKitRouteImport.update({
+  id: '/media-kit',
+  path: '/media-kit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PostaniPartnerRoute = PostaniPartnerRouteImport.update({
+  id: '/postani-partner',
+  path: '/postani-partner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProizvodnjaRoute = ProizvodnjaRouteImport.update({
+  id: '/proizvodnja',
+  path: '/proizvodnja',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShopRoute = ShopRouteImport.update({
+  id: '/shop',
+  path: '/shop',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WideFlareRoute = WideFlareRouteImport.update({
+  id: '/wide-flare',
+  path: '/wide-flare',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCekanjeRoute = AuthenticatedCekanjeRouteImport.update({
+  id: '/cekanje',
+  path: '/cekanje',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedMojePorudzbineRoute =
@@ -144,15 +139,20 @@ const AuthenticatedMojePorudzbineRoute =
     path: '/moje-porudzbine',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedCekanjeRoute = AuthenticatedCekanjeRouteImport.update({
-  id: '/cekanje',
-  path: '/cekanje',
+const AuthenticatedNarudzbaRoute = AuthenticatedNarudzbaRouteImport.update({
+  id: '/narudzba',
+  path: '/narudzba',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => AuthenticatedRouteRoute,
+const PorudzbinaNumberRoute = PorudzbinaNumberRouteImport.update({
+  id: '/porudzbina/$number',
+  path: '/porudzbina/$number',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProizvodSlugRoute = ProizvodSlugRouteImport.update({
+  id: '/proizvod/$slug',
+  path: '/proizvod/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -336,116 +336,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/wide-flare': {
-      id: '/wide-flare'
-      path: '/wide-flare'
-      fullPath: '/wide-flare'
-      preLoaderRoute: typeof WideFlareRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/shop': {
-      id: '/shop'
-      path: '/shop'
-      fullPath: '/shop'
-      preLoaderRoute: typeof ShopRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/reset-password': {
-      id: '/reset-password'
-      path: '/reset-password'
-      fullPath: '/reset-password'
-      preLoaderRoute: typeof ResetPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/proizvodnja': {
-      id: '/proizvodnja'
-      path: '/proizvodnja'
-      fullPath: '/proizvodnja'
-      preLoaderRoute: typeof ProizvodnjaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/postani-partner': {
-      id: '/postani-partner'
-      path: '/postani-partner'
-      fullPath: '/postani-partner'
-      preLoaderRoute: typeof PostaniPartnerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/media-kit': {
-      id: '/media-kit'
-      path: '/media-kit'
-      fullPath: '/media-kit'
-      preLoaderRoute: typeof MediaKitRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/korpa': {
-      id: '/korpa'
-      path: '/korpa'
-      fullPath: '/korpa'
-      preLoaderRoute: typeof KorpaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/kontakt': {
-      id: '/kontakt'
-      path: '/kontakt'
-      fullPath: '/kontakt'
-      preLoaderRoute: typeof KontaktRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/katalog': {
-      id: '/katalog'
-      path: '/katalog'
-      fullPath: '/katalog'
-      preLoaderRoute: typeof KatalogRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/kasa': {
-      id: '/kasa'
-      path: '/kasa'
-      fullPath: '/kasa'
-      preLoaderRoute: typeof KasaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/jeans': {
-      id: '/jeans'
-      path: '/jeans'
-      fullPath: '/jeans'
-      preLoaderRoute: typeof JeansRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/faq': {
-      id: '/faq'
-      path: '/faq'
-      fullPath: '/faq'
-      preLoaderRoute: typeof FaqRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/chino': {
-      id: '/chino'
-      path: '/chino'
-      fullPath: '/chino'
-      preLoaderRoute: typeof ChinoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cargo': {
-      id: '/cargo'
-      path: '/cargo'
-      fullPath: '/cargo'
-      preLoaderRoute: typeof CargoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -455,39 +350,123 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/proizvod/$slug': {
-      id: '/proizvod/$slug'
-      path: '/proizvod/$slug'
-      fullPath: '/proizvod/$slug'
-      preLoaderRoute: typeof ProizvodSlugRouteImport
+    '/cargo': {
+      id: '/cargo'
+      path: '/cargo'
+      fullPath: '/cargo'
+      preLoaderRoute: typeof CargoRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/porudzbina/$number': {
-      id: '/porudzbina/$number'
-      path: '/porudzbina/$number'
-      fullPath: '/porudzbina/$number'
-      preLoaderRoute: typeof PorudzbinaNumberRouteImport
+    '/chino': {
+      id: '/chino'
+      path: '/chino'
+      fullPath: '/chino'
+      preLoaderRoute: typeof ChinoRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/narudzba': {
-      id: '/_authenticated/narudzba'
-      path: '/narudzba'
-      fullPath: '/narudzba'
-      preLoaderRoute: typeof AuthenticatedNarudzbaRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/moje-porudzbine': {
-      id: '/_authenticated/moje-porudzbine'
-      path: '/moje-porudzbine'
-      fullPath: '/moje-porudzbine'
-      preLoaderRoute: typeof AuthenticatedMojePorudzbineRouteImport
+    '/jeans': {
+      id: '/jeans'
+      path: '/jeans'
+      fullPath: '/jeans'
+      preLoaderRoute: typeof JeansRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kasa': {
+      id: '/kasa'
+      path: '/kasa'
+      fullPath: '/kasa'
+      preLoaderRoute: typeof KasaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/katalog': {
+      id: '/katalog'
+      path: '/katalog'
+      fullPath: '/katalog'
+      preLoaderRoute: typeof KatalogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kontakt': {
+      id: '/kontakt'
+      path: '/kontakt'
+      fullPath: '/kontakt'
+      preLoaderRoute: typeof KontaktRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/korpa': {
+      id: '/korpa'
+      path: '/korpa'
+      fullPath: '/korpa'
+      preLoaderRoute: typeof KorpaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/media-kit': {
+      id: '/media-kit'
+      path: '/media-kit'
+      fullPath: '/media-kit'
+      preLoaderRoute: typeof MediaKitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/postani-partner': {
+      id: '/postani-partner'
+      path: '/postani-partner'
+      fullPath: '/postani-partner'
+      preLoaderRoute: typeof PostaniPartnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/proizvodnja': {
+      id: '/proizvodnja'
+      path: '/proizvodnja'
+      fullPath: '/proizvodnja'
+      preLoaderRoute: typeof ProizvodnjaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shop': {
+      id: '/shop'
+      path: '/shop'
+      fullPath: '/shop'
+      preLoaderRoute: typeof ShopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/wide-flare': {
+      id: '/wide-flare'
+      path: '/wide-flare'
+      fullPath: '/wide-flare'
+      preLoaderRoute: typeof WideFlareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/cekanje': {
@@ -497,12 +476,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCekanjeRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/admin': {
-      id: '/_authenticated/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+    '/_authenticated/moje-porudzbine': {
+      id: '/_authenticated/moje-porudzbine'
+      path: '/moje-porudzbine'
+      fullPath: '/moje-porudzbine'
+      preLoaderRoute: typeof AuthenticatedMojePorudzbineRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/narudzba': {
+      id: '/_authenticated/narudzba'
+      path: '/narudzba'
+      fullPath: '/narudzba'
+      preLoaderRoute: typeof AuthenticatedNarudzbaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/porudzbina/$number': {
+      id: '/porudzbina/$number'
+      path: '/porudzbina/$number'
+      fullPath: '/porudzbina/$number'
+      preLoaderRoute: typeof PorudzbinaNumberRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/proizvod/$slug': {
+      id: '/proizvod/$slug'
+      path: '/proizvod/$slug'
+      fullPath: '/proizvod/$slug'
+      preLoaderRoute: typeof ProizvodSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
