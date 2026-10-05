@@ -404,7 +404,7 @@ function HomePage() {
         <div className="container-x grid md:grid-cols-3 gap-8">
           {[
             { t: "Plaćaš kad stigne", d: "Pare daješ kuriru tek kad dobiješ paket." },
-            { t: "Dostava po celoj Srbiji", d: "500 din · besplatno preko 15.000 din." },
+            { t: "Dostava po celoj Srbiji", d: "Besplatna dostava za svaku porudžbinu." },
             { t: "Made in Srbija", d: "Naša vlastita radionica." },
           ].map((s) => (
             <div key={s.t} className="border-t border-foreground/20 pt-5">

@@ -196,7 +196,7 @@ export function QuickBuy({ product }: { product: ProductWithStock }) {
                 </div>
 
                 <p className="mt-4 text-center text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                  Plaćanje pouzećem · Dostava 500 din
+                  Plaćanje pouzećem · Besplatna dostava
                 </p>
               </div>
             </div>

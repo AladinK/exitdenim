@@ -174,7 +174,7 @@ function ProductDetail() {
           <ul className="mt-6 grid grid-cols-2 gap-px bg-border border border-border text-[12px]">
             {[
               { icon: Wallet, t: "Plaćaš kad stigne", d: "Pouzećem kuriru" },
-              { icon: Truck, t: "Dostava po Srbiji", d: "Besplatno preko 15.000 RSD" },
+              { icon: Truck, t: "Dostava po Srbiji", d: "Besplatna dostava" },
               { icon: RefreshCw, t: "Nisi siguran za broj?", d: "Pitaj nas pre porudžbine" },
               { icon: ShieldCheck, t: "Made in Srbija", d: "Šijemo u vlastitoj radionici" },
             ].map(({ icon: I, t, d }) => (
@@ -205,7 +205,7 @@ function ProductDetail() {
             </Section>
             <Section title="Dostava i plaćanje">
               <p className="leading-relaxed text-foreground/80">
-                Plaćanje pouzećem pri preuzimanju paketa. Dostava 500 RSD, besplatna za porudžbine preko 15.000 RSD.
+                Plaćanje pouzećem pri preuzimanju paketa. Dostava je besplatna za sve porudžbine.
               </p>
             </Section>
           </div>
