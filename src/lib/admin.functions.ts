@@ -105,6 +105,25 @@ export const updateOrderStatus = createServerFn({ method: "POST" })
       .update({ status: data.status })
       .eq("id", data.orderId);
     if (error) throw new Error(error.message);
+
+    if (data.status !== "pending") {
+      try {
+        const { data: o } = await context.supabase
+          .from("customer_orders")
+          .select("order_number, customer_email, customer_name")
+          .eq("id", data.orderId)
+          .single();
+        if (o?.customer_email) {
+          const { sendTemplateEmail } = await import("@/lib/email-templates/send-email");
+          await sendTemplateEmail("order-status", o.customer_email, {
+            templateData: { name: o.customer_name, orderNumber: o.order_number, status: data.status },
+            idempotencyKey: `order-status-${data.orderId}-${data.status}`,
+          });
+        }
+      } catch (e) {
+        console.error("Order status email error", e);
+      }
+    }
     return { ok: true };
   });
 
@@ -244,6 +263,25 @@ export const updateCustomerOrderStatus = createServerFn({ method: "POST" })
       .update({ status: data.status })
       .eq("id", data.orderId);
     if (error) throw new Error(error.message);
+
+    if (data.status !== "pending") {
+      try {
+        const { data: o } = await context.supabase
+          .from("customer_orders")
+          .select("order_number, customer_email, customer_name")
+          .eq("id", data.orderId)
+          .single();
+        if (o?.customer_email) {
+          const { sendTemplateEmail } = await import("@/lib/email-templates/send-email");
+          await sendTemplateEmail("order-status", o.customer_email, {
+            templateData: { name: o.customer_name, orderNumber: o.order_number, status: data.status },
+            idempotencyKey: `order-status-${data.orderId}-${data.status}`,
+          });
+        }
+      } catch (e) {
+        console.error("Order status email error", e);
+      }
+    }
     return { ok: true };
   });
 
