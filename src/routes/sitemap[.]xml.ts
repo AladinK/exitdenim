@@ -16,16 +16,18 @@ export const Route = createFileRoute("/sitemap.xml")({
         const entries: SitemapEntry[] = [
           { path: "/", changefreq: "weekly", priority: "1.0" },
           { path: "/katalog", changefreq: "weekly", priority: "0.9" },
-          { path: "/jeans", changefreq: "weekly", priority: "0.8" },
-          { path: "/chino", changefreq: "weekly", priority: "0.8" },
-          { path: "/cargo", changefreq: "weekly", priority: "0.8" },
           { path: "/postani-partner", changefreq: "monthly", priority: "0.8" },
           { path: "/proizvodnja", changefreq: "monthly", priority: "0.6" },
           { path: "/media-kit", changefreq: "monthly", priority: "0.5" },
           { path: "/faq", changefreq: "monthly", priority: "0.5" },
           { path: "/kontakt", changefreq: "monthly", priority: "0.5" },
-          { path: "/auth", changefreq: "yearly", priority: "0.3" },
         ];
+        try {
+          const { createClient } = await import("@supabase/supabase-js");
+          const sb = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_PUBLISHABLE_KEY!, { auth: { persistSession: false } });
+          const { data } = await sb.from("products").select("slug").eq("active", true);
+          for (const p of data ?? []) if (p.slug) entries.push({ path: `/proizvod/${p.slug}`, changefreq: "weekly", priority: "0.8" });
+        } catch (e) { console.error("sitemap products", e); }
 
         const urls = entries.map((e) =>
           [

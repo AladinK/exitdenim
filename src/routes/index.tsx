@@ -16,10 +16,10 @@ import { listProducts, type ProductWithStock } from "@/lib/products.functions";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "EXIT Denim — farmerke, bootcut, flare, chino i cargo" },
-      { name: "description", content: "Muške farmerke — slim, relaxed, bootcut i flare, plus chino i cargo. Plaćanje pouzećem, dostava po celoj Srbiji." },
-      { property: "og:title", content: "EXIT Denim — farmerke, bootcut, flare, chino i cargo" },
-      { property: "og:description", content: "Muške farmerke — slim, relaxed, bootcut i flare, plus chino i cargo. Plaćanje pouzećem, dostava po celoj Srbiji." },
+      { title: "EXIT Denim — Muške farmerke i jeans | Made in Srbija" },
+      { name: "description", content: "Muške farmerke, muški jeans i teksas pantalone domaće proizvodnje — slim, regular, relaxed, bootcut i flare. 4.950 din, plaćanje pouzećem, dostava po celoj Srbiji." },
+      { property: "og:title", content: "EXIT Denim — Muške farmerke i jeans | Made in Srbija" },
+      { property: "og:description", content: "Muške farmerke, muški jeans i teksas pantalone domaće proizvodnje — slim, regular, relaxed, bootcut i flare. 4.950 din, plaćanje pouzećem, dostava po celoj Srbiji." },
       { property: "og:url", content: "https://exitdenim.shop/" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
