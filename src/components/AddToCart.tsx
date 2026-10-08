@@ -123,7 +123,7 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
           <BadgeCheck className="w-3.5 h-3.5 shrink-0" /> Plaćanje pouzećem pri isporuci
         </li>
         <li className="flex items-center gap-2">
-          <Truck className="w-3.5 h-3.5 shrink-0" /> Besplatna dostava po celoj Srbiji
+          <Truck className="w-3.5 h-3.5 shrink-0" /> Besplatna dostava od 9.450 din
         </li>
       </ul>
 
