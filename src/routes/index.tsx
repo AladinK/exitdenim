@@ -6,7 +6,7 @@ import { ArrowRight, Check, Quote, ChevronRight, Flame } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Reveal } from "@/components/Reveal";
 import { Hero } from "@/components/hero/Hero";
-import { QuickBuy } from "@/components/QuickBuy";
+import { ProductCard } from "@/components/ProductCard";
 
 import { getHomeAssets } from "@/lib/site-assets.functions";
 import { listProducts, type ProductWithStock } from "@/lib/products.functions";
