@@ -16,7 +16,7 @@ export const Route = createFileRoute("/_authenticated/moje-porudzbine")({
 });
 
 const STATUS: Record<string, { label: string; cls: string }> = {
-  pending: { label: "Na čekanju", cls: "text-muted-foreground bg-secondary" },
+  pending: { label: "U pripremi", cls: "text-muted-foreground bg-secondary" },
   confirmed: { label: "Potvrđena", cls: "text-accent bg-accent/10" },
   shipped: { label: "Poslata", cls: "text-blue-700 bg-blue-100" },
   delivered: { label: "Isporučena", cls: "text-green-700 bg-green-100" },

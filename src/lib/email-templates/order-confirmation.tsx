@@ -23,7 +23,7 @@ const OrderConfirmation = ({ name, orderNumber, items = [], subtotal = 0, shippi
       <Container style={container}>
         <Text style={brand}>EXIT DENIM</Text>
         <Heading style={h1}>Hvala{name ? `, ${name}` : ''}!</Heading>
-        <Text style={text}>Primili smo tvoju porudžbinu <b>#{orderNumber}</b>. Javićemo se kada krene ka tebi. Plaćanje je pouzećem, kuriru pri preuzimanju.</Text>
+        <Text style={text}>Primili smo tvoju porudžbinu <b>#{orderNumber}</b>. Spremamo je za pakovanje i šaljemo u roku od 1–2 radna dana. Plaćanje je pouzećem, kuriru pri preuzimanju.</Text>
         <Hr style={hr} />
         <Section>
           {items.map((i, idx) => (
