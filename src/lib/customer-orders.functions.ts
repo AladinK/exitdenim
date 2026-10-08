@@ -142,6 +142,19 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
       console.error("Telegram notify error", e);
     }
 
+    try {
+      const { sendTemplateEmail } = await import("@/lib/email-templates/send-email");
+      await sendTemplateEmail("order-confirmation", data.contact.email, {
+        templateData: {
+          name: data.contact.name, orderNumber: order.order_number, items, subtotal, shipping: shipping_cost, total,
+          address: `${data.shipping.address}, ${data.shipping.postal} ${data.shipping.city}`,
+        },
+        idempotencyKey: `order-confirmation-${order.id}`,
+      });
+    } catch (e) {
+      console.error("Order email error", e);
+    }
+
     return { orderNumber: order.order_number, id: order.id, subtotal, shipping_cost, total };
   });
 
