@@ -254,7 +254,7 @@ function HomePage() {
                       <div className={`absolute inset-0 ${c.tone === "dark" ? "bg-gradient-to-t from-[var(--ink)]/90 via-[var(--ink)]/20 to-transparent" : "bg-gradient-to-t from-black/25 via-white/0 to-white/10"}`} />
                     </>
                   ) : (
-                    <div className="absolute inset-0 bg-[color:var(--ink)] flex items-center justify-center gap-1 pb-16 opacity-90">{["Relaxed","Bootcut","Flare"].map((f) => <FitSilhouette key={f} fit={f} className="h-20 md:h-28 w-auto text-[color:var(--ivory)] transition-transform duration-500 group-hover:scale-105" />)}</div>
+                    <div className="absolute inset-0 bg-[color:var(--ink)] flex items-start justify-center gap-1 pt-6 md:pt-10 opacity-80">{["Relaxed","Bootcut","Flare"].map((f) => <FitSilhouette key={f} fit={f} className="h-16 md:h-24 w-auto text-[color:var(--ivory)] transition-transform duration-500 group-hover:scale-105" />)}</div>
                   )}
                   <div className={`absolute inset-0 flex flex-col justify-end gap-3 p-4 md:p-6 ${(c.tone as string) === "green" ? "text-[color:var(--ink)]" : "text-white"}`}>
                     <div>
@@ -317,7 +317,7 @@ function HomePage() {
         <div className="container-x">
           <div className="eyebrow">Nađi svoj fit</div>
           <h2 className="mt-3 h2-editorial">Koji si ti fit?</h2>
-          <div className="mt-8 -mx-5 px-5 md:mx-0 md:px-0 flex md:grid md:grid-cols-3 lg:grid-cols-6 gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-2">
+          <div className="mt-8 flex md:grid md:grid-cols-3 lg:grid-cols-6 gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-2">
             {[
               { t: "Slim", d: "Uzak kroz butinu i nogavicu.", tag: "" },
               { t: "Regular Slim", d: "Komotno gore, suženo dole.", tag: "" },
