@@ -413,5 +413,5 @@
 @utility sticker {
   display: inline-flex; align-items: center; padding: .25rem 0;
   font-family: var(--font-sans); font-weight: 500; font-size: .68rem; letter-spacing: .24em; text-transform: uppercase;
-  color: currentColor; border-bottom: 1px solid currentColor; background: transparent;
+  color: var(--brand-green); border-bottom: 1px solid var(--brand-green); background: transparent;
 }
