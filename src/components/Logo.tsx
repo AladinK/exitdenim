@@ -25,7 +25,7 @@ export function Logo({
         src={src}
         alt="EXIT Denim"
         className="h-15 sm:h-16 w-auto shrink-0"
-        style={isLight ? { filter: "brightness(0) invert(1)", height: "60px" } : { filter: "brightness(0)", height: "60px" }}
+        style={isLight ? { filter: "invert(1) hue-rotate(180deg)", mixBlendMode: "screen", height: "56px" } : { mixBlendMode: "multiply", height: "56px" }}
       />
     </div>
   );

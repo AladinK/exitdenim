@@ -123,6 +123,25 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
       .insert(items.map((it) => ({ ...it, order_id: order.id })));
     if (iErr) throw new Error(iErr.message);
 
+    try {
+      const { notifyOrderTelegram } = await import("./telegram.server");
+      await notifyOrderTelegram({
+        orderNumber: order.order_number,
+        name: data.contact.name,
+        phone: data.contact.phone,
+        email: data.contact.email,
+        address: data.shipping.address,
+        city: data.shipping.city,
+        postal: data.shipping.postal,
+        items,
+        shipping: shipping_cost,
+        total,
+        note: data.note,
+      });
+    } catch (e) {
+      console.error("Telegram notify error", e);
+    }
+
     return { orderNumber: order.order_number, id: order.id, subtotal, shipping_cost, total };
   });
 
