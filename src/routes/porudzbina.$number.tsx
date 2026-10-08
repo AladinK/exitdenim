@@ -21,7 +21,7 @@ export const Route = createFileRoute("/porudzbina/$number")({
 });
 
 const STATUS_LABEL: Record<string, string> = {
-  pending: "Na čekanju",
+  pending: "U pripremi",
   confirmed: "Potvrđena",
   shipped: "Poslata",
   delivered: "Isporučena",
@@ -78,7 +78,7 @@ function OrderPage() {
                   Broj porudžbine: <span className="mono font-semibold text-foreground">{order.order_number}</span> · Status:{" "}
                   <span className="font-semibold text-foreground">{STATUS_LABEL[order.status] || order.status}</span>
                 </p>
-                <p className="mt-1 text-sm text-muted-foreground">Pozvaćemo vas na telefon da potvrdimo isporuku.</p>
+                <p className="mt-1 text-sm text-muted-foreground">Porudžbina je odmah spremna za pakovanje i šalje se u roku od 1–2 radna dana. Plaćaš kuriru kad stigne.</p>
               </div>
             </div>
 
