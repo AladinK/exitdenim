@@ -53,10 +53,10 @@
   --ivory-deep: #EDE6D6;
   --taupe: #8C8377;
   --gold: #B89968;
-  --brand-green: #1A2A48;
-  --acid: #F5F0E7;
+  --brand-green: #749D02;            /* EXIT logo green — signature */
+  --acid: #8DBB0A;
   --denim-blue: #2F4BFF;
-  --brand-green-deep: #0F1B33;
+  --brand-green-deep: #5C7D01;
   --teal: var(--indigo);
   --violet: var(--indigo);
   --surface: var(--ivory);
@@ -74,12 +74,12 @@
   --muted: var(--ivory-deep);
   --muted-foreground: #5A5449;
   --accent: var(--brand-green);
-  --accent-foreground: var(--ivory);
+  --accent-foreground: var(--ink);
   --destructive: #9B3A2A;
   --destructive-foreground: #FFFFFF;
   --border: #E2DED5;
   --input: #D4CFC4;
-  --ring: var(--indigo);
+  --ring: var(--brand-green);
 }
 
 
@@ -203,9 +203,9 @@
   padding: 0.95rem 1.6rem; border-radius: 2px;
   transition: background 240ms ease, color 240ms ease, border-color 240ms ease;
   white-space: nowrap;
-  background: var(--color-primary); color: var(--color-primary-foreground);
-  border: 1px solid var(--color-primary);
-  &:hover { background: transparent; color: var(--color-primary); }
+  background: var(--brand-green); color: var(--ink);
+  border: 1px solid var(--brand-green);
+  &:hover { background: var(--ink); border-color: var(--ink); color: var(--brand-green); }
 }
 
 @utility btn-accent {
@@ -406,12 +406,12 @@
 @utility btn-street {
   display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
   font-family: var(--font-sans); font-weight: 500; font-size: .78rem; text-transform: uppercase; letter-spacing: .18em;
-  padding: 1rem 1.6rem; background: var(--ivory); color: var(--ink); border: 1px solid var(--ivory);
+  padding: 1rem 1.6rem; background: var(--brand-green); color: var(--ink); border: 1px solid var(--brand-green);
   transition: background 200ms ease, color 200ms ease;
-  &:hover { background: transparent; color: var(--ivory); }
+  &:hover { background: var(--acid); border-color: var(--acid); }
 }
 @utility sticker {
   display: inline-flex; align-items: center; padding: .25rem 0;
   font-family: var(--font-sans); font-weight: 500; font-size: .68rem; letter-spacing: .24em; text-transform: uppercase;
-  color: currentColor; border-bottom: 1px solid currentColor; background: transparent;
+  color: var(--brand-green); border-bottom: 1px solid var(--brand-green); background: transparent;
 }
