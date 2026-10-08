@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { useSiteAssets } from "@/hooks/useSiteAsset";
 import { ecommerce } from "@/lib/analytics";
 
-const TICKER = ["NEW DROP: BOOTCUT", "RELAXED FIT", "FLARE IS BACK", "PLAĆAŠ KAD STIGNE", "MADE IN SERBIA", "BESPLATNA DOSTAVA"];
+const TICKER = ["NEW DROP: BOOTCUT", "RELAXED FIT", "FLARE IS BACK", "PLAĆAŠ KAD STIGNE", "MADE IN SERBIA", "BESPLATNA DOSTAVA OD 9.450 DIN"];
 
 export function Hero() {
   const assets = useSiteAssets();
