@@ -20,6 +20,7 @@ import { Route as KasaRouteImport } from './routes/kasa'
 import { Route as KatalogRouteImport } from './routes/katalog'
 import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as KorpaRouteImport } from './routes/korpa'
+import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as MediaKitRouteImport } from './routes/media-kit'
 import { Route as PostaniPartnerRouteImport } from './routes/postani-partner'
 import { Route as ProizvodnjaRouteImport } from './routes/proizvodnja'
@@ -87,6 +88,11 @@ const KontaktRoute = KontaktRouteImport.update({
 const KorpaRoute = KorpaRouteImport.update({
   id: '/korpa',
   path: '/korpa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
+  id: '/llms.txt',
+  path: '/llms.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MediaKitRoute = MediaKitRouteImport.update({
@@ -173,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/katalog': typeof KatalogRoute
   '/kontakt': typeof KontaktRoute
   '/korpa': typeof KorpaRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/proizvodnja': typeof ProizvodnjaRoute
@@ -199,6 +206,7 @@ export interface FileRoutesByTo {
   '/katalog': typeof KatalogRoute
   '/kontakt': typeof KontaktRoute
   '/korpa': typeof KorpaRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/proizvodnja': typeof ProizvodnjaRoute
@@ -227,6 +235,7 @@ export interface FileRoutesById {
   '/katalog': typeof KatalogRoute
   '/kontakt': typeof KontaktRoute
   '/korpa': typeof KorpaRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/proizvodnja': typeof ProizvodnjaRoute
@@ -255,6 +264,7 @@ export interface FileRouteTypes {
     | '/katalog'
     | '/kontakt'
     | '/korpa'
+    | '/llms.txt'
     | '/media-kit'
     | '/postani-partner'
     | '/proizvodnja'
@@ -281,6 +291,7 @@ export interface FileRouteTypes {
     | '/katalog'
     | '/kontakt'
     | '/korpa'
+    | '/llms.txt'
     | '/media-kit'
     | '/postani-partner'
     | '/proizvodnja'
@@ -308,6 +319,7 @@ export interface FileRouteTypes {
     | '/katalog'
     | '/kontakt'
     | '/korpa'
+    | '/llms.txt'
     | '/media-kit'
     | '/postani-partner'
     | '/proizvodnja'
@@ -336,6 +348,7 @@ export interface RootRouteChildren {
   KatalogRoute: typeof KatalogRoute
   KontaktRoute: typeof KontaktRoute
   KorpaRoute: typeof KorpaRoute
+  LlmsDottxtRoute: typeof LlmsDottxtRoute
   MediaKitRoute: typeof MediaKitRoute
   PostaniPartnerRoute: typeof PostaniPartnerRoute
   ProizvodnjaRoute: typeof ProizvodnjaRoute
@@ -425,6 +438,13 @@ declare module '@tanstack/react-router' {
       path: '/korpa'
       fullPath: '/korpa'
       preLoaderRoute: typeof KorpaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llms.txt': {
+      id: '/llms.txt'
+      path: '/llms.txt'
+      fullPath: '/llms.txt'
+      preLoaderRoute: typeof LlmsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/media-kit': {
@@ -557,6 +577,7 @@ const rootRouteChildren: RootRouteChildren = {
   KatalogRoute: KatalogRoute,
   KontaktRoute: KontaktRoute,
   KorpaRoute: KorpaRoute,
+  LlmsDottxtRoute: LlmsDottxtRoute,
   MediaKitRoute: MediaKitRoute,
   PostaniPartnerRoute: PostaniPartnerRoute,
   ProizvodnjaRoute: ProizvodnjaRoute,
