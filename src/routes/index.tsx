@@ -223,26 +223,6 @@ function HomePage() {
 
         }}
       />
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 z-0 opacity-[0.35]"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, color-mix(in oklab, var(--ink) 6%, transparent) 1px, transparent 1px)," +
-            "linear-gradient(to bottom, color-mix(in oklab, var(--ink) 6%, transparent) 1px, transparent 1px)",
-          backgroundSize: "72px 72px",
-          maskImage: "radial-gradient(ellipse 90% 70% at 50% 20%, black 30%, transparent 85%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 z-0 opacity-[0.5] mix-blend-multiply"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.08  0 0 0 0 0.09  0 0 0 0 0.12  0 0 0 0.18 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
-          backgroundSize: "220px 220px",
-        }}
-      />
       <div className="relative z-10">
 
       <Hero />
@@ -255,12 +235,12 @@ function HomePage() {
               { to: "/jeans", label: "FARMERKE", sub: "Od slim do flare.", img: img("category_jeans"), tone: "dark" as const },
               { to: "/chino", label: "CHINO", sub: "Clean fit za svaki dan.", img: img("category_chino"), tone: "dark" as const },
               { to: "/cargo", label: "CARGO", sub: "Džepovi. Stav. Gotovo.", img: img("category_cargo"), tone: "dark" as const },
-              { to: "/wide-flare", label: "WIDE & FLARE", sub: "Bootcut, relaxed i flare — novi drop.", img: null, tone: "green" as const, cta: "NOVI DROP" },
+              { to: "/wide-flare", label: "WIDE & FLARE", sub: "Bootcut, relaxed i flare.", img: null, tone: "dark" as const, cta: "Novi drop" },
             ].map((c) => (
               <Reveal key={c.label}>
                 <Link
                   to={c.to}
-                  className="group relative block overflow-hidden border-2 border-[color:var(--ink)] aspect-[3/4] w-full"
+                  className="group relative block overflow-hidden aspect-[3/4] w-full bg-[color:var(--ink)]"
                 >
                   {c.img ? (
                     <>
@@ -274,7 +254,7 @@ function HomePage() {
                       <div className={`absolute inset-0 ${c.tone === "dark" ? "bg-gradient-to-t from-[var(--ink)]/90 via-[var(--ink)]/20 to-transparent" : "bg-gradient-to-t from-black/25 via-white/0 to-white/10"}`} />
                     </>
                   ) : (
-                    <div className="absolute inset-0 bg-[color:var(--acid)]" />
+                    <div className="absolute inset-0 bg-[color:var(--ink)] flex items-center justify-center gap-1 pb-16 opacity-90">{["Relaxed","Bootcut","Flare"].map((f) => <FitSilhouette key={f} fit={f} className="h-20 md:h-28 w-auto text-[color:var(--ivory)] transition-transform duration-500 group-hover:scale-105" />)}</div>
                   )}
                   <div className={`absolute inset-0 flex flex-col justify-end gap-3 p-4 md:p-6 ${(c.tone as string) === "green" ? "text-[color:var(--ink)]" : "text-white"}`}>
                     <div>
@@ -337,7 +317,7 @@ function HomePage() {
         <div className="container-x">
           <div className="eyebrow">Nađi svoj fit</div>
           <h2 className="mt-3 h2-editorial">Koji si ti fit?</h2>
-          <div className="mt-8 grid grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="mt-8 -mx-5 px-5 md:mx-0 md:px-0 flex md:grid md:grid-cols-3 lg:grid-cols-6 gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-2">
             {[
               { t: "Slim", d: "Uzak kroz butinu i nogavicu.", tag: "" },
               { t: "Regular Slim", d: "Komotno gore, suženo dole.", tag: "" },
@@ -346,10 +326,10 @@ function HomePage() {
               { t: "Flare", d: "Y2K vibe — široka nogavica, jak stav.", tag: "NOVO" },
               { t: "Cargo", d: "Džepovi, jači karakter.", tag: "" },
             ].map((f) => (
-              <Link key={f.t} to="/katalog" search={{ fit: f.t }} className="group relative border-2 border-foreground bg-background p-5 shadow-[4px_4px_0_var(--ink)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0_var(--ink)] transition-all">
-                {f.tag && <span className="sticker absolute -top-3 right-3 rotate-3">{f.tag}</span>}
+              <Link key={f.t} to="/katalog" search={{ fit: f.t }} className="group relative shrink-0 w-[44%] sm:w-[30%] md:w-auto snap-start border border-border bg-background p-5 hover:border-foreground transition-colors">
+                {f.tag && <span className="absolute top-3 right-3 text-[9px] tracking-[0.2em] font-semibold bg-[color:var(--ink)] text-[color:var(--ivory)] px-1.5 py-0.5">{f.tag}</span>}
                 <FitSilhouette fit={f.t} className="mx-auto h-28 md:h-36 w-auto text-foreground transition-transform duration-300 group-hover:scale-105" />
-                <div className="mt-4 text-lg font-[family-name:var(--font-display)] uppercase">{f.t}</div>
+                <div className="mt-4 text-[15px] font-semibold uppercase tracking-[0.08em]">{f.t}</div>
                 <p className="mt-2 text-[13px] text-muted-foreground leading-snug">{f.d}</p>
                 <div className="mt-4 inline-flex items-center gap-1 text-[11px] uppercase tracking-[0.18em] font-medium">
                   Vidi <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
@@ -361,24 +341,29 @@ function HomePage() {
       </section>
 
       {/* ───────── ZAŠTO EXIT ───────── */}
-      <section className="py-12 md:py-20 bg-[var(--surface)]">
-        <div className="container-x grid md:grid-cols-3 gap-8">
-          {[
-            { t: "Plaćaš kad stigne", d: "Pare daješ kuriru tek kad dobiješ paket." },
-            { t: "Dostava po celoj Srbiji", d: "Besplatna dostava za svaku porudžbinu." },
-            { t: "Made in Srbija", d: "Naša vlastita radionica." },
-          ].map((s) => (
-            <div key={s.t} className="border-t border-foreground/20 pt-5">
-              <Check className="w-4 h-4 text-accent" />
-              <h3 className="mt-3 text-lg">{s.t}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{s.d}</p>
-            </div>
-          ))}
-        </div>
-        <div className="container-x mt-10">
-          <Link to="/katalog" className="btn-street w-full sm:w-auto">
-            Uzmi svoj par <ArrowRight className="w-4 h-4" />
-          </Link>
+      <section className="py-14 md:py-24 bg-[color:var(--ink)] text-[color:var(--ivory)]">
+        <div className="container-x">
+          <div className="eyebrow !text-[color:var(--ivory)]/60">Zašto EXIT</div>
+          <h2 className="mt-3 h2-editorial !text-[color:var(--ivory)] max-w-xl">Kupuješ bez rizika.</h2>
+          <div className="mt-10 grid md:grid-cols-4 gap-8">
+            {[
+              { n: "01", t: "Plaćaš kad stigne", d: "Pouzećem — pare daješ kuriru tek kad dobiješ paket." },
+              { n: "02", t: "Šaljemo za 1–2 dana", d: "Porudžbinu odmah pakujemo i predajemo kuriru." },
+              { n: "03", t: "Besplatna dostava", d: "Za porudžbine od 9.450 din — dva para i dostava je naša." },
+              { n: "04", t: "Made in Srbija", d: "Šijemo u našoj radionici, pod našom kontrolom." },
+            ].map((s) => (
+              <div key={s.t} className="border-t border-[color:var(--ivory)]/20 pt-5">
+                <div className="text-[11px] tracking-[0.2em] text-[color:var(--ivory)]/50 tabular-nums">{s.n}</div>
+                <h3 className="mt-3 text-lg !text-[color:var(--ivory)]">{s.t}</h3>
+                <p className="mt-1 text-sm text-[color:var(--ivory)]/65 leading-relaxed">{s.d}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-12">
+            <Link to="/katalog" className="btn-street w-full sm:w-auto">
+              Uzmi svoj par <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
       </section>
       </div>
