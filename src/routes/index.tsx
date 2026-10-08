@@ -6,7 +6,7 @@ import { ArrowRight, Check, Quote, ChevronRight, Flame } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Reveal } from "@/components/Reveal";
 import { Hero } from "@/components/hero/Hero";
-import { QuickBuy } from "@/components/QuickBuy";
+import { ProductCard } from "@/components/ProductCard";
 
 import { getHomeAssets } from "@/lib/site-assets.functions";
 import { listProducts, type ProductWithStock } from "@/lib/products.functions";
@@ -322,48 +322,9 @@ function HomePage() {
               </div>
             </Reveal>
 
-            <div className="mt-8 -mx-[1.125rem] px-[1.125rem] scroll-px-[1.125rem] flex gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-none md:mx-0 md:px-0 md:grid md:grid-cols-4 md:gap-6 md:overflow-visible">
-              {bestSellers.map((p, i) => (
-                <Reveal key={p.id} delay={Math.min(4, i + 1) as 1 | 2 | 3 | 4} className="snap-start shrink-0 w-[70%] sm:w-[45%] md:w-auto">
-                  <div className="group flex flex-col h-full">
-                    <Link
-                      to="/proizvod/$slug"
-                      params={{ slug: p.slug! }}
-                      className="relative block aspect-[3/4] overflow-hidden bg-secondary"
-                    >
-                      {p.image_url ? (
-                        <img
-                          src={p.image_url}
-                          alt={p.name!}
-                          loading="lazy"
-                          decoding="async"
-                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
-                        />
-                      ) : (
-                        <div className="absolute inset-0 bg-foreground/5" />
-                      )}
-                      {i === 0 && (
-                        <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 font-medium">
-                          №1
-                        </span>
-                      )}
-                    </Link>
-                    <div className="mt-4 flex items-start justify-between gap-3">
-                      <div className="min-w-0">
-                        <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{p.sku} · {p.fit}</div>
-                        <Link to="/proizvod/$slug" params={{ slug: p.slug! }} className="serif text-lg mt-1 leading-tight block hover:text-accent transition-colors">
-                          {p.name}
-                        </Link>
-                      </div>
-                      <div className="serif text-lg tabular-nums shrink-0">
-                        {Number(p.retail).toLocaleString("sr-RS")} <span className="text-xs text-muted-foreground">din</span>
-                      </div>
-                    </div>
-                    <div className="mt-4">
-                      <QuickBuy product={p} />
-                    </div>
-                  </div>
-                </Reveal>
+            <div className="mt-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 md:gap-x-5 gap-y-8 md:gap-y-12">
+              {bestSellers.map((p) => (
+                <ProductCard key={p.id} product={p} />
               ))}
             </div>
           </div>
