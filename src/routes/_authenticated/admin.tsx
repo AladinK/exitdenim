@@ -471,10 +471,11 @@ function ProductForm({
     setErr(null);
     setUploading(true);
     try {
-      const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+      const { compressToWebP } = await import("@/lib/image-compress");
+      const { blob, ext, type } = await compressToWebP(file, { maxEdge: 1800, quality: 0.82 });
       const path = `products/${p.slug || "untitled"}-${Date.now()}.${ext}`;
-      const { error } = await supabase.storage.from("product-images").upload(path, file, {
-        cacheControl: "3600", upsert: true, contentType: file.type,
+      const { error } = await supabase.storage.from("product-images").upload(path, blob, {
+        cacheControl: "31536000", upsert: true, contentType: type,
       });
       if (error) throw error;
       set("image_url", path);
@@ -684,10 +685,11 @@ function HomeAssetCard({
   const handleFile = async (file: File) => {
     setErr(null); setUploading(true);
     try {
-      const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+      const { compressToWebP } = await import("@/lib/image-compress");
+      const { blob, ext, type } = await compressToWebP(file, { maxEdge: 2400, quality: 0.82 });
       const path = `home/${slot.key}-${Date.now()}.${ext}`;
-      const { error } = await supabase.storage.from("site-assets").upload(path, file, {
-        cacheControl: "3600", upsert: true, contentType: file.type,
+      const { error } = await supabase.storage.from("site-assets").upload(path, blob, {
+        cacheControl: "31536000", upsert: true, contentType: type,
       });
       if (error) throw error;
       await onSave(path, altText || null);
