@@ -124,28 +124,12 @@ function ProductDetail() {
       <section className="md:container-x pt-3 md:py-8 pb-10 grid lg:grid-cols-12 gap-6 lg:gap-16">
         {/* Gallery */}
         <div className="lg:col-span-7">
-          <div className="aspect-[4/5] overflow-hidden bg-secondary relative">
-            {product.image_url ? (
-              <img
-                src={product.image_url}
-                alt={`${product.name} — ${product.fit} fit, ${product.color}`}
-                fetchPriority="high"
-                loading="eager"
-                decoding="async"
-                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-                className="w-full h-full object-cover"
-                width={1024}
-                height={1280}
-              />
-            ) : (
-              <div className="absolute inset-0 flex items-center justify-center text-xs uppercase tracking-[0.22em] text-muted-foreground">
-                {product.sku}
-              </div>
-            )}
-            <span className="absolute left-3 top-3 bg-background text-foreground px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em]">
-              {product.fit} fit
-            </span>
-          </div>
+          <Gallery
+            images={[product.image_url, ...(((product as any).gallery as string[]) || [])].filter(Boolean) as string[]}
+            alt={`${product.name} — ${product.fit} fit, ${product.color}`}
+            sku={product.sku}
+            fit={product.fit}
+          />
         </div>
 
         {/* Info Panel */}
