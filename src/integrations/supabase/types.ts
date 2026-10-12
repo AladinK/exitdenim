@@ -227,6 +227,7 @@ export type Database = {
           fabric: string
           fabric_oz: number | null
           fit: Database["public"]["Enums"]["product_fit"]
+          gallery: string[]
           id: string
           image_url: string | null
           moq: number
@@ -253,6 +254,7 @@ export type Database = {
           fabric: string
           fabric_oz?: number | null
           fit: Database["public"]["Enums"]["product_fit"]
+          gallery?: string[]
           id?: string
           image_url?: string | null
           moq?: number
@@ -279,6 +281,7 @@ export type Database = {
           fabric?: string
           fabric_oz?: number | null
           fit?: Database["public"]["Enums"]["product_fit"]
+          gallery?: string[]
           id?: string
           image_url?: string | null
           moq?: number
@@ -494,6 +497,7 @@ export type Database = {
           description: string | null
           fabric: string | null
           fit: Database["public"]["Enums"]["product_fit"] | null
+          gallery: string[] | null
           id: string | null
           image_url: string | null
           moq: number | null
@@ -515,6 +519,7 @@ export type Database = {
           description?: string | null
           fabric?: string | null
           fit?: Database["public"]["Enums"]["product_fit"] | null
+          gallery?: string[] | null
           id?: string | null
           image_url?: string | null
           moq?: number | null
@@ -536,6 +541,7 @@ export type Database = {
           description?: string | null
           fabric?: string | null
           fit?: Database["public"]["Enums"]["product_fit"] | null
+          gallery?: string[] | null
           id?: string | null
           image_url?: string | null
           moq?: number | null
