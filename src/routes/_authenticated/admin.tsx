@@ -384,6 +384,9 @@ function stripStock(p: AdminProduct) {
   out.moq = Number(out.moq) || 0;
   out.sort_order = Number(out.sort_order) || 0;
   out.sizes = (out.sizes || []).map((s: string) => s.trim()).filter(Boolean);
+  const toSlug = (v: string) => (v || "").toLowerCase().replace(/đ/g, "dj").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  out.slug = toSlug(out.slug) || toSlug(out.name) || `artikal-${Date.now().toString().slice(-6)}`;
+  if (!String(out.sku || "").trim()) out.sku = `EX-${String(out.category || "xx").slice(0, 2).toUpperCase()}-${Date.now().toString().slice(-4)}`;
   return out;
 }
 
