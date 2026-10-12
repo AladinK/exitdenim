@@ -28,19 +28,21 @@ type AdminProduct = {
   stock: Record<string, number>;
 };
 
+const STD_SIZES = ["31","32","33","34","36","38","40"];
+
 const EMPTY: AdminProduct = {
   id: "",
   slug: "", sku: "", name: "",
   category: "jeans", fit: "Slim",
   fabric: "100% pamuk, 13.5 oz selvedge denim",
   weight: "13.5 oz", color: "Indigo",
-  sizes: ["28","30","32","34","36","38"],
+  sizes: [...STD_SIZES],
   wholesale: 0, retail: 0, moq: 10,
   delivery: "5-7 dana",
   description: "",
   image_url: null,
   active: true, sort_order: 0,
-  stock: {},
+  stock: Object.fromEntries(STD_SIZES.map((s) => [s, 100])),
 };
 
 export const Route = createFileRoute("/_authenticated/admin")({
@@ -475,8 +477,9 @@ function ProductForm({
       setP((s) => {
         const slug = s.slug || s.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "dj").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
         const sku = s.sku || `EX-${r.category.slice(0, 2).toUpperCase()}-${Date.now().toString().slice(-4)}`;
-        return { ...s, ...r, slug, sku, retail: s.retail || 5450 };
+        return { ...s, ...r, slug, sku, retail: s.retail || 5450, sizes: [...STD_SIZES] };
       });
+      setStockDraft(Object.fromEntries(STD_SIZES.map((sz) => [sz, 100])));
     } catch (e: any) { setErr(e.message || "AI greška"); }
     finally { setAiBusy(false); }
   };
