@@ -13,6 +13,7 @@ import { generateLineSheet } from "@/lib/line-sheet.functions";
 import { productQuery, productsQuery } from "@/lib/product-queries";
 import { ecommerce, itemFromProduct } from "@/lib/analytics";
 import { useAuth } from "@/hooks/useAuth";
+import { oldPrice, DISCOUNT_PCT } from "@/lib/pricing";
 import { B2BSpecs } from "@/components/B2BSpecs";
 
 export const Route = createFileRoute("/proizvod/$slug")({
@@ -157,7 +158,7 @@ function ProductDetail() {
 
           <div className="mt-4 flex items-end justify-between gap-6">
             <div className="text-3xl font-semibold tabular-nums">
-              {Number(product.retail).toLocaleString("sr-RS")} <span className="text-base font-normal text-muted-foreground">RSD</span>
+              {Number(product.retail).toLocaleString("sr-RS")} <span className="text-base font-normal text-muted-foreground">RSD</span><span className="ml-2 text-[0.6em] text-muted-foreground line-through">{oldPrice(Number(product.retail)).toLocaleString("sr-RS")}</span> <span className="ml-2 text-xs font-semibold text-primary">−{DISCOUNT_PCT}%</span>
             </div>
             {approved && (
               <div className="text-right">
