@@ -11,7 +11,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { getMyProfile } from "@/lib/orders.functions";
 import { ecommerce } from "@/lib/analytics";
 
-const FITS = ["Slim", "Regular Slim", "Relaxed", "Bootcut", "Flare", "Cargo"];
+const FITS = ["Slim", "Regular Slim", "Relaxed", "Bootcut", "Flare", "Cargo", "Cropped"];
 
 const NAV: Array<{ to: any; label: string }> = [
   { to: "/katalog", label: "Shop all" },

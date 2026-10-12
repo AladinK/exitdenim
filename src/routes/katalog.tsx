@@ -30,7 +30,7 @@ export const Route = createFileRoute("/katalog")({
 const WIDE_FITS = ["Relaxed", "Bootcut", "Flare"];
 
 type Cat = "all" | "jeans" | "chino" | "cargo";
-type FitFilter = "all" | "Slim" | "Regular Slim" | "Relaxed" | "Bootcut" | "Flare" | "Cargo";
+type FitFilter = "all" | "Slim" | "Regular Slim" | "Relaxed" | "Bootcut" | "Flare" | "Cargo" | "Cropped";
 type SortKey = "featured" | "price-asc" | "price-desc" | "name";
 
 const CATS: { key: Cat; label: string }[] = [
@@ -39,7 +39,7 @@ const CATS: { key: Cat; label: string }[] = [
   { key: "chino", label: "Chino" },
   { key: "cargo", label: "Cargo" },
 ];
-const FITS: FitFilter[] = ["all", "Slim", "Regular Slim", "Relaxed", "Bootcut", "Flare", "Cargo"];
+const FITS: FitFilter[] = ["all", "Slim", "Regular Slim", "Relaxed", "Bootcut", "Flare", "Cargo", "Cropped"];
 const SIZES = ["31", "32", "33", "34", "36", "38", "40"];
 
 function Katalog() {

@@ -318,7 +318,7 @@ function HomePage() {
         <div className="container-x">
           <div className="eyebrow">Nađi svoj fit</div>
           <h2 className="mt-3 h2-editorial">Koji si ti fit?</h2>
-          <div className="mt-8 flex md:grid md:grid-cols-3 lg:grid-cols-6 gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-2">
+          <div className="mt-8 flex md:grid md:grid-cols-3 lg:grid-cols-7 gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-2">
             {[
               { t: "Slim", d: "Uzak kroz butinu i nogavicu.", tag: "" },
               { t: "Regular Slim", d: "Komotno gore, suženo dole.", tag: "" },
@@ -326,6 +326,7 @@ function HomePage() {
               { t: "Bootcut", d: "Pripijeno do kolena, širi se ka patikama.", tag: "NOVO" },
               { t: "Flare", d: "Y2K vibe — široka nogavica, jak stav.", tag: "NOVO" },
               { t: "Cargo", d: "Džepovi, jači karakter.", tag: "" },
+              { t: "Cropped", d: "Skraćena nogavica, iznad članka.", tag: "NOVO" },
             ].map((f) => (
               <Link key={f.t} to="/katalog" search={{ fit: f.t }} className="group relative shrink-0 w-[44%] sm:w-[30%] md:w-auto snap-start border border-border bg-background p-5 hover:border-foreground transition-colors">
                 {f.tag && <span className="absolute top-3 right-3 text-[9px] tracking-[0.2em] font-semibold bg-[color:var(--ink)] text-[color:var(--ivory)] px-1.5 py-0.5">{f.tag}</span>}

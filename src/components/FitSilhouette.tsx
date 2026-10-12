@@ -6,6 +6,7 @@ const SHAPES: Record<string, { t: number; k: number; e: number }> = {
   Bootcut: { t: 28, k: 18, e: 25 },
   Flare: { t: 25, k: 12, e: 32 },
   Cargo: { t: 32, k: 24, e: 22 },
+  Cropped: { t: 28, k: 18, e: 15 },
 };
 
 export function FitSilhouette({ fit, className }: { fit: string; className?: string }) {
