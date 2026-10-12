@@ -15,6 +15,20 @@
       "when": 1790697714264,
       "tag": "0001_b2b_specs_and_samples",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791797309229,
+      "tag": "0002_product_gallery",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791797321773,
+      "tag": "0003_gallery_grants",
+      "breakpoints": true
     }
   ]
 }

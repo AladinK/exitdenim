@@ -75,7 +75,10 @@ export const getProductBySlug = createServerFn({ method: "GET" })
       .filter((s) => s.product_id === product.id)
       .forEach((s) => { stockMap[s.size] = s.in_stock ? 1 : 0; });
     const image_url = await signIfPath(sb, product.image_url);
-    return { ...product, image_url, stock: stockMap } as ProductWithStock;
+    const gallery = (
+      await Promise.all(((product as any).gallery || []).map((g: string) => signIfPath(sb, g)))
+    ).filter(Boolean) as string[];
+    return { ...product, image_url, gallery, stock: stockMap } as ProductWithStock;
   });
 
 // Authenticated: returns real inventory quantities for a product.

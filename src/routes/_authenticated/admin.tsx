@@ -23,6 +23,7 @@ type AdminProduct = {
   delivery: string;
   description: string | null;
   image_url: string | null;
+  gallery?: string[];
   active: boolean; sort_order: number;
   stock: Record<string, number>;
 };
@@ -467,23 +468,40 @@ function ProductForm({
 
   const set = <K extends keyof AdminProduct>(k: K, v: AdminProduct[K]) => setP((s) => ({ ...s, [k]: v }));
 
-  const handleUpload = async (file: File) => {
+  const handleUpload = async (files: File[]) => {
     setErr(null);
     setUploading(true);
     try {
       const { compressToWebP } = await import("@/lib/image-compress");
-      const { blob, ext, type } = await compressToWebP(file, { maxEdge: 1800, quality: 0.82 });
-      const path = `products/${p.slug || "untitled"}-${Date.now()}.${ext}`;
-      const { error } = await supabase.storage.from("product-images").upload(path, blob, {
-        cacheControl: "31536000", upsert: true, contentType: type,
+      const paths: string[] = [];
+      for (const file of files) {
+        const { blob, ext, type } = await compressToWebP(file, { maxEdge: 1800, quality: 0.82 });
+        const path = `products/${p.slug || "untitled"}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}.${ext}`;
+        const { error } = await supabase.storage.from("product-images").upload(path, blob, {
+          cacheControl: "31536000", upsert: true, contentType: type,
+        });
+        if (error) throw error;
+        paths.push(path);
+      }
+      setP((s) => {
+        const all = [...(s.image_url ? [s.image_url] : []), ...(s.gallery || []), ...paths];
+        return { ...s, image_url: all[0] ?? null, gallery: all.slice(1) };
       });
-      if (error) throw error;
-      set("image_url", path);
     } catch (e: any) {
       setErr(e.message || "Upload nije uspio");
     } finally {
       setUploading(false);
     }
+  };
+
+  const images = [...(p.image_url ? [p.image_url] : []), ...(p.gallery || [])];
+  const setImages = (list: string[]) => setP((s) => ({ ...s, image_url: list[0] ?? null, gallery: list.slice(1) }));
+  const moveImage = (i: number, d: number) => {
+    const j = i + d;
+    if (j < 0 || j >= images.length) return;
+    const l = [...images];
+    [l[i], l[j]] = [l[j], l[i]];
+    setImages(l);
   };
 
   const submit = async () => {
@@ -509,22 +527,40 @@ function ProductForm({
       </div>
 
       <div className="grid md:grid-cols-[280px_1fr] gap-6 p-5">
-        {/* Image */}
+        {/* Images */}
         <div>
-          <Label>Slika proizvoda</Label>
+          <Label>Slike proizvoda ({images.length})</Label>
           <div className="aspect-[4/5] bg-secondary border border-border mt-2 grid place-items-center relative overflow-hidden">
-            {p.image_url
-              ? <ProductThumb path={p.image_url} alt={p.name} />
+            {images[0]
+              ? <ProductThumb path={images[0]} alt={p.name} />
               : <span className="text-xs text-muted-foreground uppercase tracking-wider">bez slike</span>}
+            {images[0] && <span className="absolute left-2 top-2 bg-background px-2 py-0.5 text-[10px] uppercase tracking-wider">Glavna</span>}
           </div>
-          <label className="btn-outline mt-3 w-full inline-flex items-center justify-center gap-2 text-xs px-3 py-2 cursor-pointer">
-            <Upload className="w-3 h-3" /> {uploading ? "Šaljem…" : "Učitaj sliku"}
-            <input type="file" accept="image/*" className="hidden" disabled={uploading}
-              onChange={(e) => { const f = e.target.files?.[0]; if (f) handleUpload(f); }} />
-          </label>
-          {p.image_url && (
-            <button type="button" onClick={() => set("image_url", null)} className="text-xs text-muted-foreground underline mt-2">ukloni sliku</button>
+          {images.length > 1 && (
+            <div className="grid grid-cols-3 gap-2 mt-2">
+              {images.map((img, i) => (
+                <div key={img} className="relative">
+                  <div className="aspect-[4/5] bg-secondary border border-border overflow-hidden">
+                    <ProductThumb path={img} alt={`${p.name} ${i + 1}`} />
+                  </div>
+                  <div className="flex justify-between text-[11px] mt-1">
+                    <button type="button" onClick={() => moveImage(i, -1)} disabled={i === 0} className="px-1 disabled:opacity-30" aria-label="Pomeri levo">←</button>
+                    <button type="button" onClick={() => setImages(images.filter((_, k) => k !== i))} className="px-1 text-muted-foreground underline">ukloni</button>
+                    <button type="button" onClick={() => moveImage(i, 1)} disabled={i === images.length - 1} className="px-1 disabled:opacity-30" aria-label="Pomeri desno">→</button>
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
+          <label className="btn-outline mt-3 w-full inline-flex items-center justify-center gap-2 text-xs px-3 py-2 cursor-pointer">
+            <Upload className="w-3 h-3" /> {uploading ? "Šaljem…" : "Dodaj slike"}
+            <input type="file" accept="image/*" multiple className="hidden" disabled={uploading}
+              onChange={(e) => { const f = Array.from(e.target.files || []); if (f.length) handleUpload(f); e.target.value = ""; }} />
+          </label>
+          {images.length === 1 && (
+            <button type="button" onClick={() => setImages([])} className="text-xs text-muted-foreground underline mt-2">ukloni sliku</button>
+          )}
+          <p className="text-[11px] text-muted-foreground mt-2">Možeš izabrati više slika odjednom. Prva je glavna.</p>
         </div>
 
         {/* Form fields */}
