@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { ShoppingBag, Check, Truck, BadgeCheck } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
 import { ecommerce, itemFromProduct } from "@/lib/analytics";
+import { oldPrice, DISCOUNT_PCT } from "@/lib/pricing";
 import type { ProductWithStock } from "@/lib/products.functions";
 
 export function AddToCart({ product }: { product: ProductWithStock }) {
@@ -94,7 +95,7 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
         <div>
           <div className="eyebrow">Cena</div>
           <div className="serif text-3xl mt-1 tabular-nums">
-            {Number(product.retail).toLocaleString("sr-RS")} <span className="text-base text-muted-foreground">din</span>
+            {Number(product.retail).toLocaleString("sr-RS")} <span className="text-base text-muted-foreground">din</span><span className="ml-2 text-[0.6em] text-muted-foreground line-through">{oldPrice(Number(product.retail)).toLocaleString("sr-RS")}</span> <span className="ml-2 text-xs font-semibold text-primary">−{DISCOUNT_PCT}%</span>
           </div>
         </div>
       </div>
@@ -123,7 +124,7 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
           <BadgeCheck className="w-3.5 h-3.5 shrink-0" /> Plaćanje pouzećem pri isporuci
         </li>
         <li className="flex items-center gap-2">
-          <Truck className="w-3.5 h-3.5 shrink-0" /> Besplatna dostava od 9.450 din
+          <Truck className="w-3.5 h-3.5 shrink-0" /> Besplatna dostava na sve porudžbine
         </li>
       </ul>
 
