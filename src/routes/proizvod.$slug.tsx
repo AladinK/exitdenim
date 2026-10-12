@@ -1,7 +1,8 @@
 import type React from "react";
 import { createFileRoute, useParams, Link, notFound } from "@tanstack/react-router";
 import { Download, ChevronLeft, Truck, Wallet, RefreshCw, ShieldCheck } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Gallery } from "@/components/ProductGallery";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { Layout } from "@/components/Layout";
