@@ -9,7 +9,7 @@ const productSchema = z.object({
   sku: z.string().min(1).max(60),
   name: z.string().min(1).max(160),
   category: z.enum(["jeans", "chino", "cargo"]),
-  fit: z.enum(["Slim", "Regular Slim", "Relaxed", "Bootcut", "Flare", "Cargo"]),
+  fit: z.enum(["Slim", "Regular Slim", "Relaxed", "Bootcut", "Flare", "Cargo", "Cropped"]),
   fabric: z.string().min(1).max(200),
   weight: z.string().min(1).max(40),
   sizes: z.array(z.string().min(1).max(8)).min(1),
@@ -309,7 +309,7 @@ export const aiFillProduct = createServerFn({ method: "POST" })
           required: ["category", "fit", "color", "fabric", "weight", "description"],
           properties: {
             category: { type: "string", enum: ["jeans", "chino", "cargo"] },
-            fit: { type: "string", enum: ["Slim", "Regular Slim", "Relaxed", "Bootcut", "Flare", "Cargo"] },
+            fit: { type: "string", enum: ["Slim", "Regular Slim", "Relaxed", "Bootcut", "Flare", "Cargo", "Cropped"] },
             color: { type: "string", description: "boja na srpskom, npr. Tamno plava, Crna, Bez" },
             fabric: { type: "string", description: "podrazumevano: 98% pamuk, 2% elastin" },
             weight: { type: "string", description: "podrazumevano: 12 oz" },
@@ -338,12 +338,13 @@ export const aiFillProduct = createServerFn({ method: "POST" })
     if (!args) throw new Error("AI nije vratio podatke.");
     const out = JSON.parse(args) as {
       category: "jeans" | "chino" | "cargo";
-      fit: "Slim" | "Regular Slim" | "Relaxed" | "Bootcut" | "Flare" | "Cargo";
+      fit: "Slim" | "Regular Slim" | "Relaxed" | "Bootcut" | "Flare" | "Cargo" | "Cropped";
       color: string; fabric: string; weight: string; description: string;
     };
     // The name the admin types is authoritative for fit/category.
     const n = data.name.toLowerCase();
-    if (/boot\s?cut|butkat/.test(n)) out.fit = "Bootcut";
+    if (/crop|kropovan|skraćen|skracen/.test(n)) out.fit = "Cropped";
+    else if (/boot\s?cut|butkat/.test(n)) out.fit = "Bootcut";
     else if (/flare|fler/.test(n)) out.fit = "Flare";
     else if (/relax/.test(n)) out.fit = "Relaxed";
     else if (/cargo|kargo/.test(n)) out.fit = "Cargo";
