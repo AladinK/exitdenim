@@ -289,7 +289,7 @@ export const aiFillProduct = createServerFn({ method: "POST" })
     }
     const content: any[] = [{
       type: "text",
-      text: `Naziv proizvoda: "${data.name}". Ti si copywriter za EXIT Denim, srpski brend muških farmerki. Na osnovu naziva${imageUrl ? " i fotografije" : ""} popuni podatke o proizvodu. Piši na srpskom latinicom, prirodno i premium, bez izmišljenih garancija. Opis 2-3 kratke rečenice o kroju, izgledu i nošenju.`,
+      text: `Naziv proizvoda: "${data.name}". Ti si copywriter za EXIT Denim, srpski brend muških farmerki. Na osnovu naziva${imageUrl ? " i fotografije" : ""} popuni podatke o proizvodu. Piši na srpskom latinicom, prirodno i premium, bez izmišljenih garancija. EXIT u 90% slučajeva koristi tkaninu 98% pamuk, 2% elastin, prosečne težine 12 oz — uvek koristi te vrednosti za materijal i težinu, osim ako naziv izričito kaže drugačije. Opis 2-3 kratke rečenice o kroju, izgledu i nošenju.`,
     }];
     if (imageUrl) content.push({ type: "image_url", image_url: { url: imageUrl } });
     const input = [{ role: "user", content: content.map((c: any) => c.type === "text"
@@ -311,8 +311,8 @@ export const aiFillProduct = createServerFn({ method: "POST" })
             category: { type: "string", enum: ["jeans", "chino", "cargo"] },
             fit: { type: "string", enum: ["Slim", "Regular Slim", "Relaxed", "Bootcut", "Flare", "Cargo"] },
             color: { type: "string", description: "boja na srpskom, npr. Tamno plava, Crna, Bez" },
-            fabric: { type: "string", description: "npr. 98% pamuk, 2% elastin, denim" },
-            weight: { type: "string", description: "npr. 12 oz" },
+            fabric: { type: "string", description: "podrazumevano: 98% pamuk, 2% elastin" },
+            weight: { type: "string", description: "podrazumevano: 12 oz" },
             description: { type: "string" },
           },
         } } },
