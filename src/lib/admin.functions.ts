@@ -268,3 +268,66 @@ export const updateCustomerOrderStatus = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
+
+// ===== AI autofill for product form =====
+export const aiFillProduct = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z.object({ name: z.string().min(1).max(160), imagePath: z.string().max(500).nullable() }).parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    const key = process.env.LOVABLE_API_KEY;
+    if (!key) throw new Error("AI nije podešen.");
+    let imageUrl: string | null = null;
+    if (data.imagePath) {
+      if (/^https?:\/\//i.test(data.imagePath)) imageUrl = data.imagePath;
+      else {
+        const { data: s } = await context.supabase.storage.from("product-images").createSignedUrl(data.imagePath, 600);
+        imageUrl = s?.signedUrl ?? null;
+      }
+    }
+    const content: any[] = [{
+      type: "text",
+      text: `Naziv proizvoda: "${data.name}". Ti si copywriter za EXIT Denim, srpski brend muških farmerki. Na osnovu naziva${imageUrl ? " i fotografije" : ""} popuni podatke o proizvodu. Piši na srpskom latinicom, prirodno i premium, bez izmišljenih garancija. Opis 2-3 kratke rečenice o kroju, izgledu i nošenju.`,
+    }];
+    if (imageUrl) content.push({ type: "image_url", image_url: { url: imageUrl } });
+    const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "google/gemini-2.5-flash",
+        messages: [{ role: "user", content }],
+        tools: [{
+          type: "function",
+          function: {
+            name: "fill_product",
+            parameters: {
+              type: "object",
+              properties: {
+                category: { type: "string", enum: ["jeans", "chino", "cargo"] },
+                fit: { type: "string", enum: ["Slim", "Regular Slim", "Relaxed", "Bootcut", "Flare", "Cargo"] },
+                color: { type: "string", description: "boja na srpskom, npr. Tamno plava, Crna, Bež" },
+                fabric: { type: "string", description: "npr. 98% pamuk, 2% elastin, denim" },
+                weight: { type: "string", description: "npr. 12 oz" },
+                description: { type: "string" },
+              },
+              required: ["category", "fit", "color", "fabric", "weight", "description"],
+            },
+          },
+        }],
+        tool_choice: { type: "function", function: { name: "fill_product" } },
+      }),
+    });
+    if (res.status === 429) throw new Error("Previše zahteva, pokušaj za minut.");
+    if (res.status === 402) throw new Error("Nema AI kredita u radnom prostoru.");
+    if (!res.ok) throw new Error("AI greška: " + res.status);
+    const j: any = await res.json();
+    const args = j.choices?.[0]?.message?.tool_calls?.[0]?.function?.arguments;
+    if (!args) throw new Error("AI nije vratio podatke.");
+    return JSON.parse(args) as {
+      category: "jeans" | "chino" | "cargo";
+      fit: "Slim" | "Regular Slim" | "Relaxed" | "Bootcut" | "Flare" | "Cargo";
+      color: string; fabric: string; weight: string; description: string;
+    };
+  });
