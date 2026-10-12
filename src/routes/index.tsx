@@ -349,7 +349,7 @@ function HomePage() {
             {[
               { n: "01", t: "Plaćaš kad stigne", d: "Pouzećem — pare daješ kuriru tek kad dobiješ paket." },
               { n: "02", t: "Šaljemo za 1–2 dana", d: "Porudžbinu odmah pakujemo i predajemo kuriru." },
-              { n: "03", t: "Besplatna dostava", d: "Za porudžbine od 9.450 din — dva para i dostava je naša." },
+              { n: "03", t: "Besplatna dostava", d: "Na svaku porudžbinu, bez minimalnog iznosa." },
               { n: "04", t: "Made in Srbija", d: "Šijemo u našoj radionici, pod našom kontrolom." },
             ].map((s) => (
               <div key={s.t} className="border-t border-[color:var(--ivory)]/20 pt-5">

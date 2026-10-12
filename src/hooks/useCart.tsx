@@ -26,8 +26,8 @@ type CartCtx = {
 };
 
 const STORAGE_KEY = "exit_cart_v1";
-const FREE_SHIPPING_OVER = 9450; // RSD
-const SHIPPING_FLAT = 500; // RSD
+const FREE_SHIPPING_OVER = 0; // free shipping on all orders
+const SHIPPING_FLAT = 0;
 
 const Ctx = createContext<CartCtx | null>(null);
 

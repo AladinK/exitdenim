@@ -7,7 +7,7 @@ const BODY = `# EXIT Denim
 - Proizvodi: muške farmerke / jeans / teksas pantalone, chino i cargo pantalone
 - Krojevi (fit): Slim, Regular Slim, Relaxed, Bootcut, Flare, Cargo
 - Cena: 4.950 RSD po komadu
-- Dostava: cela Srbija, 500 RSD, besplatna za porudžbine od 9.450 RSD
+- Dostava: cela Srbija, besplatna na sve porudžbine
 - Plaćanje: pouzećem (kuriru pri preuzimanju)
 - Slanje: u roku od 1–2 radna dana
 - Made in Serbia — domaća proizvodnja
