@@ -292,38 +292,49 @@ export const aiFillProduct = createServerFn({ method: "POST" })
       text: `Naziv proizvoda: "${data.name}". Ti si copywriter za EXIT Denim, srpski brend muških farmerki. Na osnovu naziva${imageUrl ? " i fotografije" : ""} popuni podatke o proizvodu. Piši na srpskom latinicom, prirodno i premium, bez izmišljenih garancija. Opis 2-3 kratke rečenice o kroju, izgledu i nošenju.`,
     }];
     if (imageUrl) content.push({ type: "image_url", image_url: { url: imageUrl } });
-    const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const input = [{ role: "user", content: content.map((c: any) => c.type === "text"
+      ? { type: "input_text", text: c.text }
+      : { type: "input_image", image_url: c.image_url.url }) }];
+    const res = await fetch("https://ai.gateway.lovable.dev/v1/responses", {
       method: "POST",
-      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+      headers: { "Lovable-API-Key": key, "Content-Type": "application/json", "X-Lovable-AIG-SDK": "fetch" },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
-        messages: [{ role: "user", content }],
-        tools: [{
-          type: "function",
-          function: {
-            name: "fill_product",
-            parameters: {
-              type: "object",
-              properties: {
-                category: { type: "string", enum: ["jeans", "chino", "cargo"] },
-                fit: { type: "string", enum: ["Slim", "Regular Slim", "Relaxed", "Bootcut", "Flare", "Cargo"] },
-                color: { type: "string", description: "boja na srpskom, npr. Tamno plava, Crna, Bež" },
-                fabric: { type: "string", description: "npr. 98% pamuk, 2% elastin, denim" },
-                weight: { type: "string", description: "npr. 12 oz" },
-                description: { type: "string" },
-              },
-              required: ["category", "fit", "color", "fabric", "weight", "description"],
-            },
+        model: "openai/gpt-6-astra",
+        stream: true,
+        store: false,
+        reasoning: { effort: "low" },
+        input,
+        text: { format: { type: "json_schema", name: "product", strict: true, schema: {
+          type: "object", additionalProperties: false,
+          required: ["category", "fit", "color", "fabric", "weight", "description"],
+          properties: {
+            category: { type: "string", enum: ["jeans", "chino", "cargo"] },
+            fit: { type: "string", enum: ["Slim", "Regular Slim", "Relaxed", "Bootcut", "Flare", "Cargo"] },
+            color: { type: "string", description: "boja na srpskom, npr. Tamno plava, Crna, Bez" },
+            fabric: { type: "string", description: "npr. 98% pamuk, 2% elastin, denim" },
+            weight: { type: "string", description: "npr. 12 oz" },
+            description: { type: "string" },
           },
-        }],
-        tool_choice: { type: "function", function: { name: "fill_product" } },
+        } } },
       }),
     });
     if (res.status === 429) throw new Error("Previše zahteva, pokušaj za minut.");
     if (res.status === 402) throw new Error("Nema AI kredita u radnom prostoru.");
-    if (!res.ok) throw new Error("AI greška: " + res.status);
-    const j: any = await res.json();
-    const args = j.choices?.[0]?.message?.tool_calls?.[0]?.function?.arguments;
+    if (!res.ok || !res.body) throw new Error("AI greška: " + res.status);
+    const reader = res.body.getReader();
+    const dec = new TextDecoder();
+    let buf = "", args = "";
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, { stream: true });
+      const lines = buf.split("\n"); buf = lines.pop() || "";
+      for (const l of lines) {
+        if (!l.startsWith("data:")) continue;
+        const d = l.slice(5).trim(); if (!d || d === "[DONE]") continue;
+        try { const ev = JSON.parse(d); if (ev.type === "response.output_text.delta") args += ev.delta; } catch {}
+      }
+    }
     if (!args) throw new Error("AI nije vratio podatke.");
     return JSON.parse(args) as {
       category: "jeans" | "chino" | "cargo";
