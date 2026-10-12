@@ -228,8 +228,9 @@ function HomePage() {
       <Hero />
 
       {/* ───────── KATEGORIJE ───────── */}
-      <section className="relative pt-6 pb-2 md:py-14">
+      <section className="relative pt-6 pb-2 md:py-14" aria-labelledby="kategorije-h">
         <div className="container-x">
+          <h2 id="kategorije-h" className="sr-only">Kategorije</h2>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
             {[
               { to: "/jeans", label: "FARMERKE", sub: "Od slim do flare.", img: img("category_jeans"), tone: "dark" as const },

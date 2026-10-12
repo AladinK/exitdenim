@@ -30,12 +30,15 @@ export function CartDrawer() {
         aria-hidden="true"
       />
       {/* Panel */}
-      <aside
+      <div
         className={`fixed top-0 right-0 z-50 h-full w-full max-w-md bg-background shadow-2xl flex flex-col transition-transform duration-300 ease-out ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
         role="dialog"
+        aria-modal="true"
         aria-label="Korpa"
+        aria-hidden={!open}
+        {...(!open ? { inert: true } : {})}
       >
         <div className="flex items-center justify-between h-16 px-5 border-b border-border">
           <div className="flex items-center gap-2 text-sm uppercase tracking-[0.2em] font-medium">
@@ -117,7 +120,7 @@ export function CartDrawer() {
             <p className="text-[11px] text-center text-muted-foreground">Plaćanje pouzećem pri isporuci</p>
           </div>
         )}
-      </aside>
+      </div>
     </>
   );
 }
