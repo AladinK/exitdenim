@@ -142,7 +142,6 @@
 
   /* Anchor jumps land below the sticky navbar */
   :where(h1, h2, h3, h4, [id]) { scroll-margin-top: 96px; }
-  img { image-rendering: -webkit-optimize-contrast; }
 }
 
 /* Editorial hero H1 — display serif, oversized */
