@@ -8,8 +8,12 @@ function headers() {
   };
 }
 
+// Owner's private chat with @exitdenimbot. getUpdates only keeps messages ~24h, so never rely on it alone.
+const OWNER_CHAT_ID = 1149811950;
+
 async function resolveChatId(): Promise<string | number | null> {
   if (process.env.TELEGRAM_CHAT_ID) return process.env.TELEGRAM_CHAT_ID;
+  return OWNER_CHAT_ID;
   const r = await fetch(`${GATEWAY_URL}/getUpdates`, { method: "POST", headers: headers(), body: "{}" });
   if (!r.ok) {
     console.error(`Telegram getUpdates failed [${r.status}]: ${await r.text()}`);
