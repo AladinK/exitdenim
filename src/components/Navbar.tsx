@@ -232,6 +232,7 @@ export function Navbar() {
       <div
         id="mobile-menu"
         aria-hidden={!open}
+        {...(!open ? { inert: true } : {})}
         className={`lg:hidden fixed inset-x-0 bottom-0 ${scrolled ? "top-14" : "top-20"} z-40 bg-background border-t border-border flex flex-col transition-[opacity,transform] duration-300 ease-out ${
           open ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"
         }`}
