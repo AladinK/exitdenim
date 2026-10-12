@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   listPartners, setPartnerStatus, listAllOrders, updateOrderStatus, adminStats,
   adminListProducts, upsertProduct, deleteProduct, upsertStock,
-  listAllCustomerOrders, updateCustomerOrderStatus,
+  listAllCustomerOrders, updateCustomerOrderStatus, aiFillProduct,
 } from "@/lib/admin.functions";
 import { adminListSiteAssets, upsertSiteAsset, deleteSiteAsset, HOME_ASSET_KEYS, type HomeAssetKey } from "@/lib/site-assets.functions";
 import { getMyProfile } from "@/lib/orders.functions";
@@ -465,6 +465,21 @@ function ProductForm({
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [aiBusy, setAiBusy] = useState(false);
+  const aiFill = useServerFn(aiFillProduct);
+  const runAi = async () => {
+    if (!p.name.trim()) { setErr("Prvo upiši naziv proizvoda."); return; }
+    setErr(null); setAiBusy(true);
+    try {
+      const r = await aiFill({ data: { name: p.name, imagePath: p.image_url } });
+      setP((s) => {
+        const slug = s.slug || s.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "dj").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+        const sku = s.sku || `EX-${r.category.slice(0, 2).toUpperCase()}-${Date.now().toString().slice(-4)}`;
+        return { ...s, ...r, slug, sku, retail: s.retail || 5450 };
+      });
+    } catch (e: any) { setErr(e.message || "AI greška"); }
+    finally { setAiBusy(false); }
+  };
 
   const set = <K extends keyof AdminProduct>(k: K, v: AdminProduct[K]) => setP((s) => ({ ...s, [k]: v }));
 
@@ -565,6 +580,12 @@ function ProductForm({
 
         {/* Form fields */}
         <div className="space-y-4">
+          <div className="border border-border bg-secondary/50 p-3 flex flex-col sm:flex-row sm:items-center gap-3">
+            <p className="text-xs text-muted-foreground flex-1">Dodaj sliku i upiši naziv, pa klikni — AI popunjava kategoriju, fit, boju, materijal, težinu i opis. Proveri pre snimanja.</p>
+            <button type="button" onClick={runAi} disabled={aiBusy || uploading} className="btn-primary text-xs px-4 py-2 disabled:opacity-50">
+              {aiBusy ? "AI popunjava…" : "✦ Popuni automatski"}
+            </button>
+          </div>
           <div className="grid sm:grid-cols-2 gap-3">
             <Field label="Naziv" v={p.name} onChange={(v) => set("name", v)} />
             <Field label="SKU" v={p.sku} onChange={(v) => set("sku", v)} />
