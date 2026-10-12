@@ -42,7 +42,7 @@ const EMPTY: AdminProduct = {
   description: "",
   image_url: null,
   active: true, sort_order: 0,
-  stock: {},
+  stock: Object.fromEntries(STD_SIZES.map((s) => [s, 100])),
 };
 
 export const Route = createFileRoute("/_authenticated/admin")({
