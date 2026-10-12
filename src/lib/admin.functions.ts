@@ -9,7 +9,7 @@ const productSchema = z.object({
   sku: z.string().min(1).max(60),
   name: z.string().min(1).max(160),
   category: z.enum(["jeans", "chino", "cargo"]),
-  fit: z.enum(["Slim", "Regular Slim", "Relaxed", "Cargo"]),
+  fit: z.enum(["Slim", "Regular Slim", "Relaxed", "Bootcut", "Flare", "Cargo"]),
   fabric: z.string().min(1).max(200),
   weight: z.string().min(1).max(40),
   sizes: z.array(z.string().min(1).max(8)).min(1),
@@ -336,9 +336,21 @@ export const aiFillProduct = createServerFn({ method: "POST" })
       }
     }
     if (!args) throw new Error("AI nije vratio podatke.");
-    return JSON.parse(args) as {
+    const out = JSON.parse(args) as {
       category: "jeans" | "chino" | "cargo";
       fit: "Slim" | "Regular Slim" | "Relaxed" | "Bootcut" | "Flare" | "Cargo";
       color: string; fabric: string; weight: string; description: string;
     };
+    // The name the admin types is authoritative for fit/category.
+    const n = data.name.toLowerCase();
+    if (/boot\s?cut|butkat/.test(n)) out.fit = "Bootcut";
+    else if (/flare|fler/.test(n)) out.fit = "Flare";
+    else if (/relax/.test(n)) out.fit = "Relaxed";
+    else if (/cargo|kargo/.test(n)) out.fit = "Cargo";
+    else if (/regular|ravna/.test(n)) out.fit = "Regular Slim";
+    else if (/\bslim\b/.test(n)) out.fit = "Slim";
+    if (/cargo|kargo/.test(n)) out.category = "cargo";
+    else if (/chino|čino|cino/.test(n)) out.category = "chino";
+    else if (/farmer|jeans|denim|teksas/.test(n)) out.category = "jeans";
+    return out;
   });
