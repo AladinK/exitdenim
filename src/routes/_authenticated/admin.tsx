@@ -12,6 +12,66 @@ import {
 import { adminListSiteAssets, upsertSiteAsset, deleteSiteAsset, HOME_ASSET_KEYS, type HomeAssetKey } from "@/lib/site-assets.functions";
 import { getMyProfile } from "@/lib/orders.functions";
 
+type CartEv = { event: string; product_name: string | null; size: string | null; device: string | null; created_at: string };
+
+function ActivityTab() {
+  const [rows, setRows] = useState<CartEv[]>([]);
+  const [orders, setOrders] = useState<string[]>([]);
+  const [days, setDays] = useState(7);
+  useEffect(() => {
+    const since = new Date(Date.now() - days * 86400000).toISOString();
+    supabase.from("cart_events").select("event, product_name, size, device, created_at")
+      .gte("created_at", since).order("created_at", { ascending: false }).limit(5000)
+      .then(({ data }) => setRows((data as CartEv[]) || []));
+    supabase.from("customer_orders").select("created_at").gte("created_at", since)
+      .then(({ data }) => setOrders((data || []).map((o) => o.created_at)));
+  }, [days]);
+  const atc = rows.filter((r) => r.event === "add_to_cart");
+  const bc = rows.filter((r) => r.event === "begin_checkout");
+  const top = (key: "product_name" | "size") => {
+    const m: Record<string, number> = {};
+    atc.forEach((r) => { const k = r[key] || "—"; m[k] = (m[k] || 0) + 1; });
+    return Object.entries(m).sort((a, b) => b[1] - a[1]).slice(0, 5);
+  };
+  const pct = (a: number, b: number) => (b ? Math.round((a / b) * 100) + "%" : "—");
+  return (
+    <div className="space-y-8">
+      <div className="flex gap-2">
+        {[[1, "Danas"], [7, "7 dana"], [30, "30 dana"]].map(([d, l]) => (
+          <button key={d} onClick={() => setDays(d as number)}
+            className={`px-4 py-2 text-sm border ${days === d ? "border-foreground" : "border-border text-muted-foreground"}`}>{l}</button>
+        ))}
+      </div>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {[["Dodato u korpu", atc.length], ["Započeta kupovina", bc.length], ["Završene porudžbine", orders.length], ["Korpa → porudžbina", pct(orders.length, atc.length)]].map(([l, v]) => (
+          <div key={l as string} className="border border-border p-6 bg-card">
+            <div className="text-4xl font-display font-bold tabular-nums">{v}</div>
+            <div className="text-xs uppercase tracking-wider text-muted-foreground mt-2">{l}</div>
+          </div>
+        ))}
+      </div>
+      <div className="grid md:grid-cols-2 gap-6">
+        {([["Najčešće dodavani modeli", top("product_name")], ["Najčešće veličine", top("size")]] as const).map(([t, list]) => (
+          <div key={t} className="border border-border p-6">
+            <div className="eyebrow mb-3">{t}</div>
+            {list.length === 0 ? <div className="text-sm text-muted-foreground">Još nema podataka.</div> :
+              list.map(([k, n]) => <div key={k} className="flex justify-between text-sm py-1"><span>{k}</span><span className="tabular-nums">{n}</span></div>)}
+          </div>
+        ))}
+      </div>
+      <div className="border border-border p-6">
+        <div className="eyebrow mb-3">Poslednja aktivnost</div>
+        {rows.slice(0, 20).map((r, i) => (
+          <div key={i} className="flex justify-between text-sm py-1 gap-3">
+            <span>{r.event === "add_to_cart" ? "Korpa" : "Kasa"} · {r.product_name || "—"} {r.size ? `· ${r.size}` : ""}</span>
+            <span className="text-muted-foreground whitespace-nowrap">{r.device} · {new Date(r.created_at).toLocaleString("sr-RS")}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 type AdminProduct = {
   id: string;
   slug: string; sku: string; name: string;
@@ -68,7 +128,7 @@ function Admin() {
   const saveSiteAsset = useServerFn(upsertSiteAsset);
   const removeSiteAsset = useServerFn(deleteSiteAsset);
 
-  const [tab, setTab] = useState<"products" | "home" | "partners" | "orders" | "kupci" | "stats">("products");
+  const [tab, setTab] = useState<"products" | "home" | "partners" | "orders" | "kupci" | "stats" | "aktivnost">("products");
   const [allowed, setAllowed] = useState<boolean | null>(null);
   const [partners, setPartners] = useState<any[]>([]);
   const [orders, setOrders] = useState<any[]>([]);
@@ -113,6 +173,7 @@ function Admin() {
             ["orders", "B2B narudžbe"],
             ["kupci", "Kupci (retail)"],
             ["stats", "Statistika"],
+            ["aktivnost", "Aktivnost"],
           ].map(([k, l]) => (
             <button
               key={k}
@@ -336,6 +397,7 @@ function Admin() {
               ))}
             </div>
           )}
+          {tab === "aktivnost" && <ActivityTab />}
         </div>
       </section>
     </Layout>

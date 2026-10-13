@@ -19,6 +19,34 @@ export function track(event: string, params: Params = {}) {
   if (typeof window.gtag === "function") window.gtag("event", event, params);
 }
 
+function sessionId() {
+  try {
+    let s = sessionStorage.getItem("exit_sid");
+    if (!s) { s = Math.random().toString(36).slice(2) + Date.now().toString(36); sessionStorage.setItem("exit_sid", s); }
+    return s;
+  } catch { return null; }
+}
+
+/** Persist key funnel events so the admin can see them. */
+function logEvent(event: "add_to_cart" | "begin_checkout", items: TrackedItem[], value: number) {
+  if (typeof window === "undefined") return;
+  if (event === "begin_checkout" && !window.location.pathname.startsWith("/kasa")) return;
+  const device = window.matchMedia("(max-width: 767px)").matches ? "telefon" : "računar";
+  const sid = sessionId();
+  import("@/integrations/supabase/client").then(({ supabase }) => {
+    const rows = (items.length ? items : [null]).map((it) => ({
+      event,
+      product_name: it?.item_name ?? null,
+      size: event === "add_to_cart" ? (it?.item_variant ?? null) : null,
+      price: it?.price ?? null,
+      value,
+      device,
+      session_id: sid,
+    }));
+    supabase.from("cart_events").insert(rows).then(() => {});
+  }).catch(() => {});
+}
+
 export type TrackedItem = {
   item_id: string;
   item_name: string;
@@ -58,14 +86,18 @@ export const ecommerce = {
     track("view_item", { ecommerce: { currency: CURRENCY, value: item.price, items: [item] } }),
   selectSize: (item: TrackedItem, size: string) =>
     track("select_size", { size, ecommerce: { items: [{ ...item, item_variant: size }] } }),
-  addToCart: (item: TrackedItem) =>
+  addToCart: (item: TrackedItem) => {
+    logEvent("add_to_cart", [item], item.price * (item.quantity ?? 1));
     track("add_to_cart", {
       ecommerce: { currency: CURRENCY, value: item.price * (item.quantity ?? 1), items: [item] },
-    }),
+    });
+  },
   viewCart: (items: TrackedItem[], value: number) =>
     track("view_cart", { ecommerce: { currency: CURRENCY, value, items } }),
-  beginCheckout: (items: TrackedItem[], value: number) =>
-    track("begin_checkout", { ecommerce: { currency: CURRENCY, value, items } }),
+  beginCheckout: (items: TrackedItem[], value: number) => {
+    logEvent("begin_checkout", items, value);
+    track("begin_checkout", { ecommerce: { currency: CURRENCY, value, items } });
+  },
   addShippingInfo: (items: TrackedItem[], value: number) =>
     track("add_shipping_info", { ecommerce: { currency: CURRENCY, value, items } }),
   addPaymentInfo: (items: TrackedItem[], value: number) =>
