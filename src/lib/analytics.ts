@@ -85,14 +85,18 @@ export const ecommerce = {
     track("view_item", { ecommerce: { currency: CURRENCY, value: item.price, items: [item] } }),
   selectSize: (item: TrackedItem, size: string) =>
     track("select_size", { size, ecommerce: { items: [{ ...item, item_variant: size }] } }),
-  addToCart: (item: TrackedItem) =>
+  addToCart: (item: TrackedItem) => {
+    logEvent("add_to_cart", [item], item.price * (item.quantity ?? 1));
     track("add_to_cart", {
       ecommerce: { currency: CURRENCY, value: item.price * (item.quantity ?? 1), items: [item] },
-    }),
+    });
+  },
   viewCart: (items: TrackedItem[], value: number) =>
     track("view_cart", { ecommerce: { currency: CURRENCY, value, items } }),
-  beginCheckout: (items: TrackedItem[], value: number) =>
-    track("begin_checkout", { ecommerce: { currency: CURRENCY, value, items } }),
+  beginCheckout: (items: TrackedItem[], value: number) => {
+    logEvent("begin_checkout", items, value);
+    track("begin_checkout", { ecommerce: { currency: CURRENCY, value, items } });
+  },
   addShippingInfo: (items: TrackedItem[], value: number) =>
     track("add_shipping_info", { ecommerce: { currency: CURRENCY, value, items } }),
   addPaymentInfo: (items: TrackedItem[], value: number) =>
