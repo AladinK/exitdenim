@@ -19,6 +19,33 @@ export function track(event: string, params: Params = {}) {
   if (typeof window.gtag === "function") window.gtag("event", event, params);
 }
 
+function sessionId() {
+  try {
+    let s = sessionStorage.getItem("exit_sid");
+    if (!s) { s = Math.random().toString(36).slice(2) + Date.now().toString(36); sessionStorage.setItem("exit_sid", s); }
+    return s;
+  } catch { return null; }
+}
+
+/** Persist key funnel events so the admin can see them. */
+function logEvent(event: "add_to_cart" | "begin_checkout", items: TrackedItem[], value: number) {
+  if (typeof window === "undefined") return;
+  const device = window.matchMedia("(max-width: 767px)").matches ? "telefon" : "računar";
+  const sid = sessionId();
+  import("@/integrations/supabase/client").then(({ supabase }) => {
+    const rows = (items.length ? items : [null]).map((it) => ({
+      event,
+      product_name: it?.item_name ?? null,
+      size: event === "add_to_cart" ? (it?.item_variant ?? null) : null,
+      price: it?.price ?? null,
+      value,
+      device,
+      session_id: sid,
+    }));
+    supabase.from("cart_events").insert(rows).then(() => {});
+  }).catch(() => {});
+}
+
 export type TrackedItem = {
   item_id: string;
   item_name: string;
