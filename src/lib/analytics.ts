@@ -30,6 +30,7 @@ function sessionId() {
 /** Persist key funnel events so the admin can see them. */
 function logEvent(event: "add_to_cart" | "begin_checkout", items: TrackedItem[], value: number) {
   if (typeof window === "undefined") return;
+  if (event === "begin_checkout" && !window.location.pathname.startsWith("/kasa")) return;
   const device = window.matchMedia("(max-width: 767px)").matches ? "telefon" : "računar";
   const sid = sessionId();
   import("@/integrations/supabase/client").then(({ supabase }) => {
