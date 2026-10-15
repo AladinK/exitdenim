@@ -24,7 +24,7 @@ const schema = z.object({
   phone: z.string().trim().min(6, "Telefon je obavezan").max(40),
   address: z.string().trim().min(3, "Adresa je obavezna").max(200),
   city: z.string().trim().min(2, "Grad je obavezan").max(80),
-  postal: z.string().trim().min(3, "Poštanski broj").max(12),
+  postal: z.string().trim().max(12),
   country: z.string().trim().min(2).max(80),
   note: z.string().trim().max(500).optional(),
 });

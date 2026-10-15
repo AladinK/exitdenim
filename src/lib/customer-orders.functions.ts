@@ -27,7 +27,7 @@ const contactSchema = z.object({
 const shippingSchema = z.object({
   address: z.string().trim().min(3).max(200),
   city: z.string().trim().min(2).max(80),
-  postal: z.string().trim().min(3).max(12),
+  postal: z.string().trim().max(12).default(""),
   country: z.string().trim().min(2).max(80).default("Srbija"),
 });
 
