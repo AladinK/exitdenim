@@ -33,23 +33,6 @@ function logEvent(event: "add_to_cart" | "begin_checkout", items: TrackedItem[],
   if (event === "begin_checkout" && !window.location.pathname.startsWith("/kasa")) return;
   const device = window.matchMedia("(max-width: 767px)").matches ? "telefon" : "računar";
   const sid = sessionId();
-  if (event === "begin_checkout") {
-    const key = "exit_co_notified";
-    try {
-      if (!sessionStorage.getItem(key)) {
-        sessionStorage.setItem(key, "1");
-        import("@/lib/checkout-notify.functions").then(({ notifyCheckoutStarted }) =>
-          notifyCheckoutStarted({
-            data: {
-              items: items.slice(0, 20).map((i) => ({ name: i.item_name.slice(0, 120), size: i.item_variant ?? null, qty: Math.max(1, Math.min(50, i.quantity ?? 1)) })),
-              value: Math.round(value),
-              device,
-            },
-          }),
-        ).catch(() => {});
-      }
-    } catch {}
-  }
   import("@/integrations/supabase/client").then(({ supabase }) => {
     const rows = (items.length ? items : [null]).map((it) => ({
       event,
