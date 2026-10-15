@@ -12,9 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BootcutFarmerkeRouteImport } from './routes/bootcut-farmerke'
 import { Route as CargoRouteImport } from './routes/cargo'
 import { Route as ChinoRouteImport } from './routes/chino'
+import { Route as CroppedFarmerkeRouteImport } from './routes/cropped-farmerke'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as FlareFarmerkeRouteImport } from './routes/flare-farmerke'
 import { Route as JeansRouteImport } from './routes/jeans'
 import { Route as KasaRouteImport } from './routes/kasa'
 import { Route as KatalogRouteImport } from './routes/katalog'
@@ -24,9 +27,12 @@ import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as MediaKitRouteImport } from './routes/media-kit'
 import { Route as PostaniPartnerRouteImport } from './routes/postani-partner'
 import { Route as ProizvodnjaRouteImport } from './routes/proizvodnja'
+import { Route as RegularSlimFarmerkeRouteImport } from './routes/regular-slim-farmerke'
+import { Route as RelaxedFarmerkeRouteImport } from './routes/relaxed-farmerke'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SlimFarmerkeRouteImport } from './routes/slim-farmerke'
 import { Route as WideFlareRouteImport } from './routes/wide-flare'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedCekanjeRouteImport } from './routes/_authenticated/cekanje'
@@ -50,6 +56,11 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BootcutFarmerkeRoute = BootcutFarmerkeRouteImport.update({
+  id: '/bootcut-farmerke',
+  path: '/bootcut-farmerke',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CargoRoute = CargoRouteImport.update({
   id: '/cargo',
   path: '/cargo',
@@ -60,9 +71,19 @@ const ChinoRoute = ChinoRouteImport.update({
   path: '/chino',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CroppedFarmerkeRoute = CroppedFarmerkeRouteImport.update({
+  id: '/cropped-farmerke',
+  path: '/cropped-farmerke',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FaqRoute = FaqRouteImport.update({
   id: '/faq',
   path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FlareFarmerkeRoute = FlareFarmerkeRouteImport.update({
+  id: '/flare-farmerke',
+  path: '/flare-farmerke',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JeansRoute = JeansRouteImport.update({
@@ -110,6 +131,16 @@ const ProizvodnjaRoute = ProizvodnjaRouteImport.update({
   path: '/proizvodnja',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RegularSlimFarmerkeRoute = RegularSlimFarmerkeRouteImport.update({
+  id: '/regular-slim-farmerke',
+  path: '/regular-slim-farmerke',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RelaxedFarmerkeRoute = RelaxedFarmerkeRouteImport.update({
+  id: '/relaxed-farmerke',
+  path: '/relaxed-farmerke',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
@@ -123,6 +154,11 @@ const ShopRoute = ShopRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SlimFarmerkeRoute = SlimFarmerkeRouteImport.update({
+  id: '/slim-farmerke',
+  path: '/slim-farmerke',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WideFlareRoute = WideFlareRouteImport.update({
@@ -171,9 +207,12 @@ const LovableEmailTransactionalPreviewRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/bootcut-farmerke': typeof BootcutFarmerkeRoute
   '/cargo': typeof CargoRoute
   '/chino': typeof ChinoRoute
+  '/cropped-farmerke': typeof CroppedFarmerkeRoute
   '/faq': typeof FaqRoute
+  '/flare-farmerke': typeof FlareFarmerkeRoute
   '/jeans': typeof JeansRoute
   '/kasa': typeof KasaRoute
   '/katalog': typeof KatalogRoute
@@ -183,9 +222,12 @@ export interface FileRoutesByFullPath {
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/proizvodnja': typeof ProizvodnjaRoute
+  '/regular-slim-farmerke': typeof RegularSlimFarmerkeRoute
+  '/relaxed-farmerke': typeof RelaxedFarmerkeRoute
   '/reset-password': typeof ResetPasswordRoute
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/slim-farmerke': typeof SlimFarmerkeRoute
   '/wide-flare': typeof WideFlareRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/cekanje': typeof AuthenticatedCekanjeRoute
@@ -198,9 +240,12 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/bootcut-farmerke': typeof BootcutFarmerkeRoute
   '/cargo': typeof CargoRoute
   '/chino': typeof ChinoRoute
+  '/cropped-farmerke': typeof CroppedFarmerkeRoute
   '/faq': typeof FaqRoute
+  '/flare-farmerke': typeof FlareFarmerkeRoute
   '/jeans': typeof JeansRoute
   '/kasa': typeof KasaRoute
   '/katalog': typeof KatalogRoute
@@ -210,9 +255,12 @@ export interface FileRoutesByTo {
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/proizvodnja': typeof ProizvodnjaRoute
+  '/regular-slim-farmerke': typeof RegularSlimFarmerkeRoute
+  '/relaxed-farmerke': typeof RelaxedFarmerkeRoute
   '/reset-password': typeof ResetPasswordRoute
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/slim-farmerke': typeof SlimFarmerkeRoute
   '/wide-flare': typeof WideFlareRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/cekanje': typeof AuthenticatedCekanjeRoute
@@ -227,9 +275,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/bootcut-farmerke': typeof BootcutFarmerkeRoute
   '/cargo': typeof CargoRoute
   '/chino': typeof ChinoRoute
+  '/cropped-farmerke': typeof CroppedFarmerkeRoute
   '/faq': typeof FaqRoute
+  '/flare-farmerke': typeof FlareFarmerkeRoute
   '/jeans': typeof JeansRoute
   '/kasa': typeof KasaRoute
   '/katalog': typeof KatalogRoute
@@ -239,9 +290,12 @@ export interface FileRoutesById {
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/proizvodnja': typeof ProizvodnjaRoute
+  '/regular-slim-farmerke': typeof RegularSlimFarmerkeRoute
+  '/relaxed-farmerke': typeof RelaxedFarmerkeRoute
   '/reset-password': typeof ResetPasswordRoute
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/slim-farmerke': typeof SlimFarmerkeRoute
   '/wide-flare': typeof WideFlareRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/cekanje': typeof AuthenticatedCekanjeRoute
@@ -256,9 +310,12 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/bootcut-farmerke'
     | '/cargo'
     | '/chino'
+    | '/cropped-farmerke'
     | '/faq'
+    | '/flare-farmerke'
     | '/jeans'
     | '/kasa'
     | '/katalog'
@@ -268,9 +325,12 @@ export interface FileRouteTypes {
     | '/media-kit'
     | '/postani-partner'
     | '/proizvodnja'
+    | '/regular-slim-farmerke'
+    | '/relaxed-farmerke'
     | '/reset-password'
     | '/shop'
     | '/sitemap.xml'
+    | '/slim-farmerke'
     | '/wide-flare'
     | '/admin'
     | '/cekanje'
@@ -283,9 +343,12 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/bootcut-farmerke'
     | '/cargo'
     | '/chino'
+    | '/cropped-farmerke'
     | '/faq'
+    | '/flare-farmerke'
     | '/jeans'
     | '/kasa'
     | '/katalog'
@@ -295,9 +358,12 @@ export interface FileRouteTypes {
     | '/media-kit'
     | '/postani-partner'
     | '/proizvodnja'
+    | '/regular-slim-farmerke'
+    | '/relaxed-farmerke'
     | '/reset-password'
     | '/shop'
     | '/sitemap.xml'
+    | '/slim-farmerke'
     | '/wide-flare'
     | '/admin'
     | '/cekanje'
@@ -311,9 +377,12 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/bootcut-farmerke'
     | '/cargo'
     | '/chino'
+    | '/cropped-farmerke'
     | '/faq'
+    | '/flare-farmerke'
     | '/jeans'
     | '/kasa'
     | '/katalog'
@@ -323,9 +392,12 @@ export interface FileRouteTypes {
     | '/media-kit'
     | '/postani-partner'
     | '/proizvodnja'
+    | '/regular-slim-farmerke'
+    | '/relaxed-farmerke'
     | '/reset-password'
     | '/shop'
     | '/sitemap.xml'
+    | '/slim-farmerke'
     | '/wide-flare'
     | '/_authenticated/admin'
     | '/_authenticated/cekanje'
@@ -340,9 +412,12 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  BootcutFarmerkeRoute: typeof BootcutFarmerkeRoute
   CargoRoute: typeof CargoRoute
   ChinoRoute: typeof ChinoRoute
+  CroppedFarmerkeRoute: typeof CroppedFarmerkeRoute
   FaqRoute: typeof FaqRoute
+  FlareFarmerkeRoute: typeof FlareFarmerkeRoute
   JeansRoute: typeof JeansRoute
   KasaRoute: typeof KasaRoute
   KatalogRoute: typeof KatalogRoute
@@ -352,9 +427,12 @@ export interface RootRouteChildren {
   MediaKitRoute: typeof MediaKitRoute
   PostaniPartnerRoute: typeof PostaniPartnerRoute
   ProizvodnjaRoute: typeof ProizvodnjaRoute
+  RegularSlimFarmerkeRoute: typeof RegularSlimFarmerkeRoute
+  RelaxedFarmerkeRoute: typeof RelaxedFarmerkeRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   ShopRoute: typeof ShopRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  SlimFarmerkeRoute: typeof SlimFarmerkeRoute
   WideFlareRoute: typeof WideFlareRoute
   PorudzbinaNumberRoute: typeof PorudzbinaNumberRoute
   ProizvodSlugRoute: typeof ProizvodSlugRoute
@@ -384,6 +462,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/bootcut-farmerke': {
+      id: '/bootcut-farmerke'
+      path: '/bootcut-farmerke'
+      fullPath: '/bootcut-farmerke'
+      preLoaderRoute: typeof BootcutFarmerkeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cargo': {
       id: '/cargo'
       path: '/cargo'
@@ -398,11 +483,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChinoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cropped-farmerke': {
+      id: '/cropped-farmerke'
+      path: '/cropped-farmerke'
+      fullPath: '/cropped-farmerke'
+      preLoaderRoute: typeof CroppedFarmerkeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/faq': {
       id: '/faq'
       path: '/faq'
       fullPath: '/faq'
       preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/flare-farmerke': {
+      id: '/flare-farmerke'
+      path: '/flare-farmerke'
+      fullPath: '/flare-farmerke'
+      preLoaderRoute: typeof FlareFarmerkeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/jeans': {
@@ -468,6 +567,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProizvodnjaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/regular-slim-farmerke': {
+      id: '/regular-slim-farmerke'
+      path: '/regular-slim-farmerke'
+      fullPath: '/regular-slim-farmerke'
+      preLoaderRoute: typeof RegularSlimFarmerkeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/relaxed-farmerke': {
+      id: '/relaxed-farmerke'
+      path: '/relaxed-farmerke'
+      fullPath: '/relaxed-farmerke'
+      preLoaderRoute: typeof RelaxedFarmerkeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
@@ -487,6 +600,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/slim-farmerke': {
+      id: '/slim-farmerke'
+      path: '/slim-farmerke'
+      fullPath: '/slim-farmerke'
+      preLoaderRoute: typeof SlimFarmerkeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/wide-flare': {
@@ -569,9 +689,12 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  BootcutFarmerkeRoute: BootcutFarmerkeRoute,
   CargoRoute: CargoRoute,
   ChinoRoute: ChinoRoute,
+  CroppedFarmerkeRoute: CroppedFarmerkeRoute,
   FaqRoute: FaqRoute,
+  FlareFarmerkeRoute: FlareFarmerkeRoute,
   JeansRoute: JeansRoute,
   KasaRoute: KasaRoute,
   KatalogRoute: KatalogRoute,
@@ -581,9 +704,12 @@ const rootRouteChildren: RootRouteChildren = {
   MediaKitRoute: MediaKitRoute,
   PostaniPartnerRoute: PostaniPartnerRoute,
   ProizvodnjaRoute: ProizvodnjaRoute,
+  RegularSlimFarmerkeRoute: RegularSlimFarmerkeRoute,
+  RelaxedFarmerkeRoute: RelaxedFarmerkeRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   ShopRoute: ShopRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  SlimFarmerkeRoute: SlimFarmerkeRoute,
   WideFlareRoute: WideFlareRoute,
   PorudzbinaNumberRoute: PorudzbinaNumberRoute,
   ProizvodSlugRoute: ProizvodSlugRoute,
