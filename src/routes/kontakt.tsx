@@ -8,9 +8,11 @@ export const Route = createFileRoute("/kontakt")({
       { title: "Kontakt — EXIT Denim Wholesale" },
       { name: "description", content: "Kontaktirajte EXIT Denim wholesale tim. E-mail, WhatsApp i Viber za B2B partnere iz regiona." },
       { property: "og:title", content: "Kontakt — EXIT Denim Wholesale" },
+      { property: "og:description", content: "Kontaktirajte EXIT Denim wholesale tim. E-mail, WhatsApp i Viber za B2B partnere iz regiona." },
       { property: "og:url", content: "https://exitdenim.shop/kontakt" },
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/kontakt" }],
+    scripts: [{ type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "ClothingStore", name: "EXIT Denim", url: "https://exitdenim.shop/kontakt", telephone: "+381653176716", address: { "@type": "PostalAddress", addressCountry: "RS" } }) }],
   }),
   component: Kontakt,
 });

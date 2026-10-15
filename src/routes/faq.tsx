@@ -9,6 +9,7 @@ export const Route = createFileRoute("/faq")({
       { title: "Često postavljana pitanja — EXIT Denim B2B" },
       { name: "description", content: "Odgovori na najčešća pitanja B2B partnera: MOQ, isporuka, načini plaćanja, povraćaj robe i ponovne sezonske porudžbine." },
       { property: "og:title", content: "Često postavljana pitanja — EXIT Denim B2B" },
+      { property: "og:description", content: "Odgovori na najčešća pitanja B2B partnera: MOQ, isporuka, načini plaćanja, povraćaj robe i ponovne sezonske porudžbine." },
       { property: "og:url", content: "https://exitdenim.shop/faq" },
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/faq" }],

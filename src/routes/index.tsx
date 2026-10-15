@@ -17,14 +17,18 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "EXIT Denim — Muške farmerke i jeans | Made in Srbija" },
-      { name: "description", content: "Muške farmerke, muški jeans i teksas pantalone domaće proizvodnje — slim, regular, relaxed, bootcut i flare. 4.950 din, plaćanje pouzećem, dostava po celoj Srbiji." },
+      { name: "description", content: "Muške farmerke, muški jeans i teksas pantalone domaće proizvodnje — slim, regular, relaxed, bootcut i flare. 5.450 din, besplatna dostava, plaćanje pouzećem, dostava po celoj Srbiji." },
       { property: "og:title", content: "EXIT Denim — Muške farmerke i jeans | Made in Srbija" },
-      { property: "og:description", content: "Muške farmerke, muški jeans i teksas pantalone domaće proizvodnje — slim, regular, relaxed, bootcut i flare. 4.950 din, plaćanje pouzećem, dostava po celoj Srbiji." },
+      { property: "og:description", content: "Muške farmerke, muški jeans i teksas pantalone domaće proizvodnje — slim, regular, relaxed, bootcut i flare. 5.450 din, besplatna dostava, plaćanje pouzećem, dostava po celoj Srbiji." },
       { property: "og:url", content: "https://exitdenim.shop/" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/" }],
+    scripts: [
+      { type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: "EXIT Denim", url: "https://exitdenim.shop/", telephone: "+381653176716" }) },
+      { type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", name: "EXIT Denim", url: "https://exitdenim.shop/" }) },
+    ],
   }),
   component: HomePage,
 });
