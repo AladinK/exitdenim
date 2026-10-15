@@ -24,7 +24,7 @@ const schema = z.object({
   phone: z.string().trim().min(6, "Telefon je obavezan").max(40),
   address: z.string().trim().min(3, "Adresa je obavezna").max(200),
   city: z.string().trim().min(2, "Grad je obavezan").max(80),
-  postal: z.string().trim().min(3, "Poštanski broj").max(12),
+  postal: z.string().trim().max(12),
   country: z.string().trim().min(2).max(80),
   note: z.string().trim().max(500).optional(),
 });
@@ -139,7 +139,7 @@ function CheckoutPage() {
                   <Field label="Ulica i broj" name="address" value={form.address} onChange={(v) => set("address", v)} error={errors.address} required />
                 </div>
                 <Field label="Grad" name="city" value={form.city} onChange={(v) => set("city", v)} error={errors.city} required />
-                <Field label="Poštanski broj" name="postal" value={form.postal} onChange={(v) => set("postal", v)} error={errors.postal} required />
+                <Field label="Poštanski broj (opciono)" name="postal" value={form.postal} onChange={(v) => set("postal", v)} error={errors.postal} />
                 <div className="md:col-span-2">
                   <Field label="Država" name="country" value={form.country} onChange={(v) => set("country", v)} error={errors.country} required />
                 </div>
