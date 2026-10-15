@@ -24,6 +24,18 @@ async function resolveChatId(): Promise<string | number | null> {
   return chats.length ? chats[chats.length - 1]!.id : null;
 }
 
+export async function sendOwnerTelegram(text: string) {
+  if (!process.env.LOVABLE_API_KEY || !process.env.TELEGRAM_API_KEY) return;
+  const chatId = await resolveChatId();
+  if (!chatId) return;
+  const r = await fetch(`${GATEWAY_URL}/sendMessage`, {
+    method: "POST",
+    headers: headers(),
+    body: JSON.stringify({ chat_id: chatId, text, parse_mode: "HTML" }),
+  });
+  if (!r.ok) console.error(`Telegram sendMessage failed [${r.status}]: ${await r.text()}`);
+}
+
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 export async function notifyOrderTelegram(o: {
