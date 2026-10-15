@@ -1,5 +1,12 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { CategoryLanding, landingHead } from "@/components/CategoryLanding";
+import { landingByPath } from "@/lib/landing-pages";
+import { productsQuery } from "@/lib/product-queries";
+
+const page = landingByPath("/cargo");
 
 export const Route = createFileRoute("/cargo")({
-  beforeLoad: () => { throw redirect({ to: "/katalog", search: { cat: "cargo" } }); },
+  loader: ({ context }) => context.queryClient.ensureQueryData(productsQuery()),
+  head: () => landingHead(page),
+  component: () => <CategoryLanding page={page} />,
 });
