@@ -30,6 +30,31 @@ const schema = z.object({
 });
 type Form = z.infer<typeof schema>;
 
+const POSTAL: Record<string, string> = {
+  beograd: "11000", "novi sad": "21000", nis: "18000", kragujevac: "34000", subotica: "24000",
+  zrenjanin: "23000", pancevo: "26000", cacak: "32000", "novi pazar": "36300", kraljevo: "36000",
+  smederevo: "11300", leskovac: "16000", valjevo: "14000", krusevac: "37000", vranje: "17500",
+  sabac: "15000", uzice: "31000", sombor: "25000", pozarevac: "12000", pirot: "18300",
+  zajecar: "19000", kikinda: "23300", "sremska mitrovica": "22000", jagodina: "35000", vrsac: "26300",
+  bor: "19210", prokuplje: "18400", loznica: "15300", "backa palanka": "21400", indjija: "22320",
+  ruma: "22400", "stara pazova": "22300", paracin: "35250", cuprija: "35230", arandjelovac: "34300",
+  "gornji milanovac": "32300", negotin: "19300", becej: "21220", vrbas: "21460", aleksinac: "18220",
+  sjenica: "36310", tutin: "36320", prijepolje: "31300", priboj: "31330", "nova varos": "31320",
+  ivanjica: "32250", raska: "36350", "vrnjacka banja": "36210", trstenik: "37240", obrenovac: "11500",
+  lazarevac: "11550", mladenovac: "11400", zemun: "11080", "novi beograd": "11070", kula: "25230",
+  apatin: "25260", senta: "24400", kanjiza: "24420", "smederevska palanka": "11420", velika_plana: "11320",
+  "velika plana": "11320", svilajnac: "35210", despotovac: "35213", knjazevac: "19350", surdulica: "17530",
+  bujanovac: "17520", presevo: "17523", "bela crkva": "26340", kovin: "26220", sid: "22240",
+  temerin: "21235", futog: "21410", "petrovaradin": "21131", "sremski karlovci": "21205", lebane: "16230",
+  vlasotince: "16210", topola: "34310", kosjeric: "31260", bajina_basta: "31250", "bajina basta": "31250",
+  zlatibor: "31315", cajetina: "31310", lucani: "32240", ljig: "14240", ub: "14210", lajkovac: "14224",
+};
+const norm = (s: string) =>
+  s.toLowerCase().trim().replace(/đ/g, "dj").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ");
+function postalFor(city: string): string | undefined {
+  return POSTAL[norm(city)];
+}
+
 function CheckoutPage() {
   const { items, subtotal, shipping, total, clear } = useCart();
   const { user } = useAuth();
@@ -69,6 +94,14 @@ function CheckoutPage() {
   }, []);
 
   const set = (k: keyof Form, v: string) => setForm((f) => ({ ...f, [k]: v }));
+
+  const onCity = (v: string) =>
+    setForm((f) => {
+      const code = postalFor(v);
+      const prevAuto = postalFor(f.city);
+      const keep = f.postal && f.postal !== prevAuto;
+      return { ...f, city: v, postal: keep ? f.postal : code ?? (f.postal === prevAuto ? "" : f.postal) };
+    });
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -138,8 +171,8 @@ function CheckoutPage() {
                 <div className="md:col-span-2">
                   <Field label="Ulica i broj" name="address" value={form.address} onChange={(v) => set("address", v)} error={errors.address} required />
                 </div>
-                <Field label="Grad" name="city" value={form.city} onChange={(v) => set("city", v)} error={errors.city} required />
-                <Field label="Poštanski broj (opciono)" name="postal" value={form.postal} onChange={(v) => set("postal", v)} error={errors.postal} />
+                <Field label="Grad" name="city" value={form.city} onChange={onCity} error={errors.city} required />
+                <Field label="Poštanski broj (popunjava se automatski)" name="postal" value={form.postal} onChange={(v) => set("postal", v)} error={errors.postal} />
                 <div className="md:col-span-2">
                   <Field label="Država" name="country" value={form.country} onChange={(v) => set("country", v)} error={errors.country} required />
                 </div>
@@ -201,7 +234,19 @@ function CheckoutPage() {
               <button type="submit" disabled={submitting} className="btn-primary w-full justify-center hidden lg:inline-flex">
                 {submitting ? "Slanje..." : "Potvrdi porudžbinu"}
               </button>
-              <p className="text-[11px] text-center text-muted-foreground">Plaćanje pouzećem · Slanjem prihvatate Uslove korišćenja.</p>
+              <ul className="space-y-2 text-[12px] text-muted-foreground">
+                {[
+                  "Besplatna dostava na sve porudžbine",
+                  "Plaćate tek kad preuzmete paket — bez kartice",
+                  "Dostava kurirskom službom za 2–5 radnih dana",
+                  "Potvrdu porudžbine dobijate na email",
+                  "98% pamuk, 2% elastin — proizvedeno u Srbiji",
+                  "Pomoć oko broja: 065 317 6716 (poziv, Viber, WhatsApp)",
+                ].map((t) => (
+                  <li key={t} className="flex gap-2"><span className="text-primary">✓</span>{t}</li>
+                ))}
+              </ul>
+              <p className="text-[11px] text-center text-muted-foreground">Slanjem porudžbine prihvatate Uslove korišćenja.</p>
             </div>
           </aside>
 
