@@ -13,8 +13,9 @@ export const Route = createFileRoute("/katalog")({
   head: () => ({
     meta: [
       { title: "Muške farmerke, jeans i teksas pantalone — EXIT Denim shop" },
-      { name: "description", content: "Kupi muške farmerke, muški jeans, teksas, chino i cargo pantalone online. Domaća proizvodnja, 4.950 din, plaćanje pouzećem, dostava po Srbiji." },
+      { name: "description", content: "Kupi muške farmerke, muški jeans, teksas, chino i cargo pantalone online. Domaća proizvodnja, 5.450 din, besplatna dostava, plaćanje pouzećem, dostava po Srbiji." },
       { property: "og:title", content: "Muške farmerke, jeans i teksas pantalone — EXIT Denim shop" },
+      { property: "og:description", content: "Kupi muške farmerke, muški jeans, teksas, chino i cargo pantalone online. Domaća proizvodnja, 5.450 din, besplatna dostava po Srbiji." },
       { property: "og:url", content: "https://exitdenim.shop/katalog" },
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/katalog" }],
