@@ -6,6 +6,16 @@ import { ecommerce, itemFromProduct } from "@/lib/analytics";
 import { oldPrice, DISCOUNT_PCT } from "@/lib/pricing";
 import type { ProductWithStock } from "@/lib/products.functions";
 
+const SIZE_GUIDE: [string, string, string][] = [
+  ["31", "79–81", "46"],
+  ["32", "81–84", "48"],
+  ["33", "84–86", "48/50"],
+  ["34", "86–89", "50"],
+  ["36", "91–94", "52"],
+  ["38", "97–99", "54"],
+  ["40", "102–104", "56"],
+];
+
 export function AddToCart({ product }: { product: ProductWithStock }) {
   const { add, setOpen } = useCart();
   const [size, setSize] = useState<string | null>(null);
@@ -91,6 +101,26 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
 
       <div className="mt-4 flex flex-wrap gap-2">{sizeButtons()}</div>
 
+      <details className="mt-4 group text-[12px]">
+        <summary className="cursor-pointer list-none text-muted-foreground hover:text-foreground underline underline-offset-4">
+          Vodič za veličine (obim struka u cm)
+        </summary>
+        <table className="mt-3 w-full text-left tabular-nums">
+          <thead className="text-muted-foreground">
+            <tr><th className="py-1 font-medium">Broj</th><th className="py-1 font-medium">Struk (cm)</th><th className="py-1 font-medium">Pantalone (EU)</th></tr>
+          </thead>
+          <tbody>
+            {SIZE_GUIDE.map(([n, w, eu]) => (
+              <tr key={n} className="border-t border-border"><td className="py-1.5">{n}</td><td>{w}</td><td>{eu}</td></tr>
+            ))}
+          </tbody>
+        </table>
+        <p className="mt-3 text-muted-foreground">
+          Niste sigurni? Pozovite ili pišite na Viber/WhatsApp{" "}
+          <a href="tel:+381653176716" className="text-foreground underline underline-offset-4">065 317 6716</a> — pomoći ćemo da izaberete broj.
+        </p>
+      </details>
+
       <div className="mt-5 flex items-center justify-between text-sm">
         <div>
           <div className="eyebrow">Cena</div>
@@ -121,7 +151,7 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
 
       <ul className="mt-5 space-y-2 text-[12px] text-muted-foreground">
         <li className="flex items-center gap-2">
-          <BadgeCheck className="w-3.5 h-3.5 shrink-0" /> Plaćanje pouzećem pri isporuci
+          <BadgeCheck className="w-3.5 h-3.5 shrink-0" /> Plaćanje pouzećem — plaćate tek kad preuzmete paket
         </li>
         <li className="flex items-center gap-2">
           <Truck className="w-3.5 h-3.5 shrink-0" /> Besplatna dostava na sve porudžbine
