@@ -2,13 +2,17 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
 import { Factory, ShieldCheck, Scissors, Truck } from "lucide-react";
 import { useSiteAsset } from "@/hooks/useSiteAsset";
+import { EcoProduction } from "@/components/EcoProduction";
 
 export const Route = createFileRoute("/proizvodnja")({
   head: () => ({
     meta: [
       { title: "Proizvodnja · Vlastiti atelje — EXIT Denim" },
-      { name: "description", content: "Vlastita proizvodnja EXIT Denim. Tkanine, kroj i finiš pod kontrolom kvaliteta na svakoj seriji muških pantalona." },
+      { name: "description", content: "EXIT Denim proizvodnja u Srbiji: ekološki pristup obradi denima uz inovativnu lasersku tehnologiju španske kompanije Jeanologia." },
       { property: "og:title", content: "Proizvodnja · Vlastiti atelje — EXIT Denim" },
+      { property: "og:description", content: "Proizvodnja u Srbiji i ekološki pristup završnoj obradi denima uz Jeanologia lasersku tehnologiju." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "https://exitdenim.shop/proizvodnja" },
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/proizvodnja" }],
@@ -28,7 +32,7 @@ function Proizvodnja() {
             Skrojeni krojevi.
           </h1>
           <p className="mt-8 text-lg text-background/75 max-w-2xl leading-relaxed">
-            EXIT Denim radi sve u vlastitom pogonu: krojenje, šivenje, pranje i kontrolu kvaliteta. Bez posrednika, bez iznenađenja.
+            EXIT Denim radi sve u vlastitom pogonu: krojenje, šivenje, pranje i kontrolu kvaliteta. Naš ekološki pristup uključuje inovativnu lasersku tehnologiju španske kompanije Jeanologia.
           </p>
         </div>
       </section>
@@ -59,6 +63,23 @@ function Proizvodnja() {
             </div>
           </div>
         </div>
+      </section>
+
+      <EcoProduction />
+
+      <section className="container-x py-12 md:py-16">
+        <h2 className="text-2xl md:text-3xl tracking-normal">Jeanologia: tehnologija za savremeni denim</h2>
+        <div className="mt-6 grid gap-8 md:grid-cols-2">
+          <div>
+            <h3 className="text-lg tracking-normal">Precizna laserska obrada</h3>
+            <p className="mt-3 leading-relaxed text-muted-foreground">Laser omogućava kreiranje efekata i detalja na teksasu preciznom obradom površine. Jeanologia ovu tehnologiju razvija kao alternativu pojedinim tradicionalnim postupcima završne obrade.</p>
+          </div>
+          <div>
+            <h3 className="text-lg tracking-normal">Odgovorniji pristup procesu</h3>
+            <p className="mt-3 leading-relaxed text-muted-foreground">Izbor ove tehnologije deo je našeg pristupa odgovornijoj proizvodnji. Prema Jeanologia, laserska obrada može zameniti pojedine agresivne postupke i poboljšati uticaj procesa na životnu sredinu. Primena i efekti zavise od konkretne obrade.</p>
+          </div>
+        </div>
+        <a href="https://www.jeanologia.com/garment/" target="_blank" rel="noopener noreferrer" className="mt-6 inline-block text-sm underline underline-offset-4">O tehnologiji na zvaničnom Jeanologia sajtu</a>
       </section>
 
       <section className="bg-foreground text-background border-t border-background/10">

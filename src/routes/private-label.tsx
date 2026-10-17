@@ -3,10 +3,11 @@ import { ArrowRight } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { useSiteAssets } from "@/hooks/useSiteAsset";
+import { EcoProduction } from "@/components/EcoProduction";
 
 const URL = "https://exitdenim.shop/private-label";
 const TITLE = "Izrada za vaš brend · Private label — EXIT Denim";
-const DESCRIPTION = "EXIT Denim nudi izradu personalizovanih brendova, završnu obradu najvišeg kvaliteta i 35 godina iskustva u poslovima vezanim za izvoz. Proizvodnja u Srbiji.";
+const DESCRIPTION = "EXIT Denim: izrada za vaš brend, završna obrada najvišeg kvaliteta, ekološki pristup uz Jeanologia laser i 35 godina iskustva u izvoznim poslovima.";
 
 export const Route = createFileRoute("/private-label")({
   head: () => ({
@@ -95,6 +96,7 @@ function PrivateLabelPage() {
           </div>
         </section>
       </article>
+      <EcoProduction />
     </Layout>
   );
 }

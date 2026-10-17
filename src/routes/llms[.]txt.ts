@@ -5,9 +5,11 @@ const BODY = `# EXIT Denim
 
 EXIT Denim — TRI-B DOO posluje u Srbiji. Ponuda obuhvata muške farmerke, chino i cargo pantalone, veleprodaju za butike i private-label proizvodnju za druge brendove. Mogućnosti personalizacije, minimalne količine, cena i rokovi za proizvodnju potvrđuju se u direktnom dogovoru. Maloprodajni uslovi nisu automatski uslovi private-label proizvodnje.
 
+EXIT u proizvodnji koristi inovativnu lasersku tehnologiju španske kompanije Jeanologia kao deo svog ekološkog pristupa obradi denima. Nisu objavljeni konkretni procenti uštede resursa, ekološki sertifikati ili tvrdnja da svaki model prolazi lasersku obradu.
+
 ## Stranice
 - [Izrada za vaš brend — private label](/private-label): Personalizovani brendovi, završna obrada najvišeg kvaliteta i 35 godina izvoznog iskustva.
-- [O proizvodnji](/proizvodnja): EXIT radionica i proizvodnja u Srbiji.
+- [O proizvodnji](/proizvodnja): EXIT radionica, ekološki pristup i Jeanologia laserska tehnologija.
 - [Veleprodaja za butike](/postani-partner): Informacije o partnerskoj saradnji.
 - [Kontakt](/kontakt): Direktan razgovor o proizvodnji i kolekciji.
 - [Katalog](/katalog): Sve muške farmerke i pantalone.

@@ -18,6 +18,9 @@ export function Footer() {
             <p className="text-lg md:text-xl mt-6 max-w-md leading-snug text-white/80">
               Denim koji nosiš, ne koji nosi tebe. Pravljeno u Srbiji. Plaćaš kad stigne.
             </p>
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-primary-foreground/70">
+              Ekološki pristup proizvodnji uz inovativnu lasersku tehnologiju španske kompanije Jeanologia.
+            </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link to="/katalog" className="btn-accent">Uzmi sad</Link>
               <Link to="/jeans" className="btn-outline border-white/30 text-white hover:bg-white/10 hover:border-white">

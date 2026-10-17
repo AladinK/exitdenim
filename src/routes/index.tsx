@@ -6,6 +6,7 @@ import { ArrowRight, Check, Quote, ChevronRight, Flame } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Reveal } from "@/components/Reveal";
 import { Hero } from "@/components/hero/Hero";
+import { EcoProduction } from "@/components/EcoProduction";
 import { ProductCard } from "@/components/ProductCard";
 
 import { getHomeAssets } from "@/lib/site-assets.functions";
@@ -345,6 +346,8 @@ function HomePage() {
           </div>
         </div>
       </section>
+
+      <EcoProduction />
 
       {/* ───────── ZAŠTO EXIT ───────── */}
       <section className="py-14 md:py-24 bg-[color:var(--ink)] text-[color:var(--ivory)]">
