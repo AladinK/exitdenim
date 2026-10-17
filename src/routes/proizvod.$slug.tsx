@@ -189,6 +189,12 @@ function ProductDetail() {
                 <Spec label="Šifra" value={product.sku} />
               </dl>
             </Section>
+            <Section title="Ekološki pristup proizvodnji">
+              <p className="leading-relaxed text-foreground/80">
+                U EXIT proizvodnji koristimo inovativnu lasersku tehnologiju španske kompanije Jeanologia kao deo našeg ekološkog pristupa obradi denima.
+              </p>
+              <Link to="/proizvodnja" className="mt-3 inline-block underline underline-offset-4">Više o našoj proizvodnji</Link>
+            </Section>
             <Section title="Dostava i plaćanje">
               <p className="leading-relaxed text-foreground/80">
                 Plaćanje pouzećem pri preuzimanju paketa. Dostava je besplatna na sve porudžbine.
