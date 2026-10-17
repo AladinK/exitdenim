@@ -41,7 +41,7 @@ function Proizvodnja() {
       <section className="section-pad">
         <div className="container-x grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
           <div className="lg:col-span-7 aspect-[4/3] overflow-hidden bg-secondary">
-            <img src={workshopSrc} alt="EXIT Denim atelje" decoding="async" className="w-full h-full object-cover" />
+            {workshopSrc && <img src={workshopSrc} alt="EXIT Denim atelje" decoding="async" className="w-full h-full object-cover" />}
           </div>
           <div className="lg:col-span-5">
             <div className="eyebrow">Čime se kvalitet drži</div>
