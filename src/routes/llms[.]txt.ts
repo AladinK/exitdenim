@@ -1,26 +1,31 @@
 import { createFileRoute } from "@tanstack/react-router";
 const BODY = `# EXIT Denim
 
-> EXIT Denim je srpski proizvođač muških farmerki (muški jeans, teksas pantalone, farmerice) iz vlastite radionice u Srbiji. Online prodaja na https://exitdenim.shop sa dostavom po celoj Srbiji i plaćanjem pouzećem.
+> EXIT Denim je srpski proizvođač muških farmerki i pantalona koji nudi i izradu za personalizovane brendove (private label), završnu obradu najvišeg kvaliteta i 35 godina iskustva u poslovima vezanim za izvoz.
 
-## Ključne informacije
-- Proizvodi: muške farmerke / jeans / teksas pantalone, chino i cargo pantalone
-- Krojevi (fit): Slim, Regular Slim, Relaxed, Bootcut, Flare, Cargo
-- Cena: 4.950 RSD po komadu
-- Dostava: cela Srbija, besplatna na sve porudžbine
-- Plaćanje: pouzećem (kuriru pri preuzimanju)
-- Slanje: u roku od 1–2 radna dana
-- Made in Serbia — domaća proizvodnja
-- Kontakt: Ahmed Kurtanović, +381 65 3171 6716
-- Veleprodaja (B2B) za butike: https://exitdenim.shop/postani-partner
+EXIT Denim — TRI-B DOO posluje u Srbiji. Ponuda obuhvata muške farmerke, chino i cargo pantalone, veleprodaju za butike i private-label proizvodnju za druge brendove. Mogućnosti personalizacije, minimalne količine, cena i rokovi za proizvodnju potvrđuju se u direktnom dogovoru. Maloprodajni uslovi nisu automatski uslovi private-label proizvodnje.
 
 ## Stranice
-- [Sve muške farmerke i pantalone](https://exitdenim.shop/katalog)
-- [Wide & Flare farmerke](https://exitdenim.shop/wide-flare)
-- [O proizvodnji](https://exitdenim.shop/proizvodnja)
-- [Česta pitanja](https://exitdenim.shop/faq)
-- [Kontakt](https://exitdenim.shop/kontakt)
-- [Sitemap](https://exitdenim.shop/sitemap.xml)
+- [Izrada za vaš brend — private label](/private-label): Personalizovani brendovi, završna obrada najvišeg kvaliteta i 35 godina izvoznog iskustva.
+- [O proizvodnji](/proizvodnja): EXIT radionica i proizvodnja u Srbiji.
+- [Veleprodaja za butike](/postani-partner): Informacije o partnerskoj saradnji.
+- [Kontakt](/kontakt): Direktan razgovor o proizvodnji i kolekciji.
+- [Katalog](/katalog): Sve muške farmerke i pantalone.
+- [Muške farmerke](/jeans): Denim modeli i izbor kroja.
+- [Chino pantalone](/chino): Muške chino pantalone.
+- [Cargo pantalone](/cargo): Muške pantalone sa bočnim džepovima.
+- [Široke farmerke](/wide-flare): Relaxed, bootcut i flare.
+- [Slim farmerke](/slim-farmerke): Uski kroj.
+- [Regular Slim farmerke](/regular-slim-farmerke): Regular slim kroj.
+- [Relaxed farmerke](/relaxed-farmerke): Opušten kroj.
+- [Bootcut farmerke](/bootcut-farmerke): Nogavica koja se blago širi od kolena.
+- [Flare farmerke](/flare-farmerke): Široka nogavica od kolena.
+- [Cropped farmerke](/cropped-farmerke): Skraćena nogavica.
+- [Česta pitanja](/faq): Pitanja o maloprodaji i poručivanju.
+
+## Optional
+- [Media kit](/media-kit): Informacije i materijali brenda.
+- [Sitemap](/sitemap.xml): Indeks javnih stranica.
 `;
 export const Route = createFileRoute("/llms.txt")({
   server: { handlers: { GET: async () => new Response(BODY, { headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600" } }) } },

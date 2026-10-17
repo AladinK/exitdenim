@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep the private-label offering on a public, server-rendered content route, linked from the footer, sitemap and AI reading index so visitors and crawlers can discover the same information.

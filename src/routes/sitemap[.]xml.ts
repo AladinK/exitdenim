@@ -19,6 +19,7 @@ export const Route = createFileRoute("/sitemap.xml")({
           ...["/jeans","/chino","/cargo","/wide-flare","/slim-farmerke","/regular-slim-farmerke","/relaxed-farmerke","/bootcut-farmerke","/flare-farmerke","/cropped-farmerke"].map((path) => ({ path, changefreq: "weekly" as const, priority: "0.9" })),
           { path: "/postani-partner", changefreq: "monthly", priority: "0.8" },
           { path: "/proizvodnja", changefreq: "monthly", priority: "0.6" },
+          { path: "/private-label", changefreq: "monthly", priority: "0.8" },
           { path: "/media-kit", changefreq: "monthly", priority: "0.5" },
           { path: "/faq", changefreq: "monthly", priority: "0.5" },
           { path: "/kontakt", changefreq: "monthly", priority: "0.5" },

@@ -39,6 +39,7 @@ export function Footer() {
             <ul className="mt-4 space-y-2.5 text-sm">
               <li><Link to="/postani-partner" className="hover:text-accent transition-colors">Veleprodaja (B2B)</Link></li>
               <li><Link to="/proizvodnja" className="hover:text-accent transition-colors">Proizvodnja</Link></li>
+               <li><Link to="/private-label" className="hover:text-accent transition-colors">Izrada za vaš brend</Link></li>
               <li><Link to="/media-kit" className="hover:text-accent transition-colors">Media kit</Link></li>
               <li><Link to="/faq" className="hover:text-accent transition-colors">FAQ</Link></li>
             </ul>
