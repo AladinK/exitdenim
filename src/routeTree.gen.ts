@@ -26,6 +26,7 @@ import { Route as KorpaRouteImport } from './routes/korpa'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as MediaKitRouteImport } from './routes/media-kit'
 import { Route as PostaniPartnerRouteImport } from './routes/postani-partner'
+import { Route as PrivateLabelRouteImport } from './routes/private-label'
 import { Route as ProizvodnjaRouteImport } from './routes/proizvodnja'
 import { Route as RegularSlimFarmerkeRouteImport } from './routes/regular-slim-farmerke'
 import { Route as RelaxedFarmerkeRouteImport } from './routes/relaxed-farmerke'
@@ -126,6 +127,11 @@ const PostaniPartnerRoute = PostaniPartnerRouteImport.update({
   path: '/postani-partner',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivateLabelRoute = PrivateLabelRouteImport.update({
+  id: '/private-label',
+  path: '/private-label',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProizvodnjaRoute = ProizvodnjaRouteImport.update({
   id: '/proizvodnja',
   path: '/proizvodnja',
@@ -221,6 +227,7 @@ export interface FileRoutesByFullPath {
   '/llms.txt': typeof LlmsDottxtRoute
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
+  '/private-label': typeof PrivateLabelRoute
   '/proizvodnja': typeof ProizvodnjaRoute
   '/regular-slim-farmerke': typeof RegularSlimFarmerkeRoute
   '/relaxed-farmerke': typeof RelaxedFarmerkeRoute
@@ -254,6 +261,7 @@ export interface FileRoutesByTo {
   '/llms.txt': typeof LlmsDottxtRoute
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
+  '/private-label': typeof PrivateLabelRoute
   '/proizvodnja': typeof ProizvodnjaRoute
   '/regular-slim-farmerke': typeof RegularSlimFarmerkeRoute
   '/relaxed-farmerke': typeof RelaxedFarmerkeRoute
@@ -289,6 +297,7 @@ export interface FileRoutesById {
   '/llms.txt': typeof LlmsDottxtRoute
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
+  '/private-label': typeof PrivateLabelRoute
   '/proizvodnja': typeof ProizvodnjaRoute
   '/regular-slim-farmerke': typeof RegularSlimFarmerkeRoute
   '/relaxed-farmerke': typeof RelaxedFarmerkeRoute
@@ -324,6 +333,7 @@ export interface FileRouteTypes {
     | '/llms.txt'
     | '/media-kit'
     | '/postani-partner'
+    | '/private-label'
     | '/proizvodnja'
     | '/regular-slim-farmerke'
     | '/relaxed-farmerke'
@@ -357,6 +367,7 @@ export interface FileRouteTypes {
     | '/llms.txt'
     | '/media-kit'
     | '/postani-partner'
+    | '/private-label'
     | '/proizvodnja'
     | '/regular-slim-farmerke'
     | '/relaxed-farmerke'
@@ -391,6 +402,7 @@ export interface FileRouteTypes {
     | '/llms.txt'
     | '/media-kit'
     | '/postani-partner'
+    | '/private-label'
     | '/proizvodnja'
     | '/regular-slim-farmerke'
     | '/relaxed-farmerke'
@@ -426,6 +438,7 @@ export interface RootRouteChildren {
   LlmsDottxtRoute: typeof LlmsDottxtRoute
   MediaKitRoute: typeof MediaKitRoute
   PostaniPartnerRoute: typeof PostaniPartnerRoute
+  PrivateLabelRoute: typeof PrivateLabelRoute
   ProizvodnjaRoute: typeof ProizvodnjaRoute
   RegularSlimFarmerkeRoute: typeof RegularSlimFarmerkeRoute
   RelaxedFarmerkeRoute: typeof RelaxedFarmerkeRoute
@@ -558,6 +571,13 @@ declare module '@tanstack/react-router' {
       path: '/postani-partner'
       fullPath: '/postani-partner'
       preLoaderRoute: typeof PostaniPartnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/private-label': {
+      id: '/private-label'
+      path: '/private-label'
+      fullPath: '/private-label'
+      preLoaderRoute: typeof PrivateLabelRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/proizvodnja': {
@@ -703,6 +723,7 @@ const rootRouteChildren: RootRouteChildren = {
   LlmsDottxtRoute: LlmsDottxtRoute,
   MediaKitRoute: MediaKitRoute,
   PostaniPartnerRoute: PostaniPartnerRoute,
+  PrivateLabelRoute: PrivateLabelRoute,
   ProizvodnjaRoute: ProizvodnjaRoute,
   RegularSlimFarmerkeRoute: RegularSlimFarmerkeRoute,
   RelaxedFarmerkeRoute: RelaxedFarmerkeRoute,
