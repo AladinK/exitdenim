@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useNavigate } from "@tanstack/react-router";
 import { ShoppingBag, Check, Truck, BadgeCheck } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
 import { ecommerce, itemFromProduct } from "@/lib/analytics";
@@ -20,6 +21,8 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
   const { add, setOpen } = useCart();
   const [size, setSize] = useState<string | null>(null);
   const [added, setAdded] = useState(false);
+  const [needSize, setNeedSize] = useState(false);
+  const navigate = useNavigate();
   const [showSticky, setShowSticky] = useState(false);
   const [mounted, setMounted] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -40,11 +43,13 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
 
   const pickSize = (s: string) => {
     setSize(s);
+    setNeedSize(false);
     ecommerce.selectSize(itemFromProduct(product), s);
   };
 
-  const onAdd = () => {
+  const onAdd = (buyNow = false) => {
     if (!size) {
+      setNeedSize(true);
       rootRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
@@ -63,7 +68,8 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
     ecommerce.addToCart(itemFromProduct(product, { item_variant: size }));
     setAdded(true);
     setTimeout(() => setAdded(false), 1400);
-    setOpen(true);
+    if (buyNow) navigate({ to: "/kasa" });
+    else setOpen(true);
   };
 
   const sizeButtons = (compact = false) =>
@@ -100,6 +106,12 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">{sizeButtons()}</div>
+      {needSize && !size && (
+        <p role="alert" className="mt-3 text-[12px] font-semibold text-primary">Izaberite broj da biste nastavili.</p>
+      )}
+      {size && (product.stock?.[size] ?? 0) > 0 && (product.stock?.[size] ?? 0) <= 5 && (
+        <p className="mt-3 text-[12px] font-semibold text-primary">Samo još {product.stock?.[size]} kom u broju {size}</p>
+      )}
 
       <details className="mt-4 group text-[12px]">
         <summary className="cursor-pointer list-none text-muted-foreground hover:text-foreground underline underline-offset-4">
@@ -131,10 +143,14 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
       </div>
 
       <button
-        onClick={onAdd}
-        className={`mt-6 w-full inline-flex items-center justify-center gap-2 py-4 text-sm uppercase tracking-[0.2em] font-medium transition-all ${
-          size ? "bg-foreground text-background hover:bg-foreground/90" : "bg-secondary text-muted-foreground"
-        }`}
+        onClick={() => onAdd(true)}
+        className="mt-6 w-full inline-flex items-center justify-center gap-2 py-4 text-sm uppercase tracking-[0.2em] font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all"
+      >
+        Naruči odmah — plaćaš pouzećem
+      </button>
+      <button
+        onClick={() => onAdd()}
+        className="mt-2 w-full inline-flex items-center justify-center gap-2 py-3.5 text-sm uppercase tracking-[0.2em] font-medium border border-foreground hover:bg-foreground hover:text-background transition-all"
       >
         {added ? (
           <>
@@ -177,10 +193,8 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
                   </div>
                 </div>
                 <button
-                  onClick={onAdd}
-                  className={`flex-1 inline-flex items-center justify-center gap-2 py-3.5 text-[12.5px] uppercase tracking-[0.18em] font-semibold ${
-                    size ? "bg-foreground text-background" : "bg-secondary text-muted-foreground"
-                  }`}
+                  onClick={() => onAdd()}
+                  className="flex-1 inline-flex items-center justify-center gap-2 py-3.5 text-[12.5px] uppercase tracking-[0.18em] font-semibold bg-primary text-primary-foreground"
                 >
                   {added ? (
                     <>
