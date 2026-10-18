@@ -4,7 +4,6 @@ import { useNavigate } from "@tanstack/react-router";
 import { ShoppingBag, Check, Truck, BadgeCheck } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
 import { ecommerce, itemFromProduct } from "@/lib/analytics";
-import { oldPrice, DISCOUNT_PCT } from "@/lib/pricing";
 import type { ProductWithStock } from "@/lib/products.functions";
 
 const SIZE_GUIDE: [string, string, string][] = [
