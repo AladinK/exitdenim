@@ -16,7 +16,7 @@ export function Hero() {
       </div>
 
       <div className="container-x relative min-h-[62svh] md:min-h-[82svh] flex flex-col justify-end pt-28 pb-10 md:pb-16">
-        <span className="sticker self-start">Novo · Bootcut / Relaxed / Flare</span>
+        <span className="self-start inline-flex items-center bg-accent text-accent-foreground px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.2em]">Novo · Bootcut / Relaxed / Flare</span>
         <h1 className="mt-5 text-[color:var(--ivory)] font-semibold normal-case leading-[0.95] tracking-[-0.045em] text-[clamp(2.75rem,9vw,7rem)]">
           Wide<br />
           <span className="text-[color:var(--ivory)]/60">leg</span> szn.

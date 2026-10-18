@@ -4,7 +4,6 @@ import { useNavigate } from "@tanstack/react-router";
 import { ShoppingBag, Check, Truck, BadgeCheck } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
 import { ecommerce, itemFromProduct } from "@/lib/analytics";
-import { oldPrice, DISCOUNT_PCT } from "@/lib/pricing";
 import type { ProductWithStock } from "@/lib/products.functions";
 
 const SIZE_GUIDE: [string, string, string][] = [
@@ -110,7 +109,7 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
         <p role="alert" className="mt-3 text-[12px] font-semibold text-primary">Izaberite broj da biste nastavili.</p>
       )}
       {size && (product.stock?.[size] ?? 0) > 0 && (product.stock?.[size] ?? 0) <= 5 && (
-        <p className="mt-3 text-[12px] font-semibold text-primary">Samo još {product.stock?.[size]} kom u broju {size}</p>
+        <p className="mt-3 text-[12px] font-semibold text-accent">Samo još {product.stock?.[size]} kom u broju {size}</p>
       )}
 
       <details className="mt-4 group text-[12px]">
@@ -132,15 +131,6 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
           <a href="tel:+381653176716" className="text-foreground underline underline-offset-4">065 317 6716</a> — pomoći ćemo da izaberete broj.
         </p>
       </details>
-
-      <div className="mt-5 flex items-center justify-between text-sm">
-        <div>
-          <div className="eyebrow">Cena</div>
-          <div className="serif text-3xl mt-1 tabular-nums">
-            {Number(product.retail).toLocaleString("sr-RS")} <span className="text-base text-muted-foreground">din</span><span className="ml-2 text-[0.6em] text-muted-foreground line-through">{oldPrice(Number(product.retail)).toLocaleString("sr-RS")}</span> <span className="ml-2 text-xs font-semibold text-primary">−{DISCOUNT_PCT}%</span>
-          </div>
-        </div>
-      </div>
 
       <button
         onClick={() => onAdd(true)}
