@@ -153,6 +153,8 @@ function ProductDetail() {
             )}
           </div>
 
+          <FreeShippingBanner />
+
           <div className="mt-5">
             <AddToCart product={product} />
           </div>
@@ -298,3 +300,38 @@ function LineSheetButton({ sku }: { sku: string }) {
   );
 }
 
+
+function FreeShippingBanner() {
+  const [left, setLeft] = useState<string | null>(null);
+  useEffect(() => {
+    const tick = () => {
+      const now = new Date();
+      const end = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+      const ms = end.getTime() - now.getTime();
+      const d = Math.floor(ms / 86400000);
+      const h = Math.floor((ms % 86400000) / 3600000);
+      const m = Math.floor((ms % 3600000) / 60000);
+      setLeft(d > 0 ? `${d}d ${h}h ${m}m` : `${h}h ${m}m`);
+    };
+    tick();
+    const id = setInterval(tick, 30_000);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <div className="mt-5 relative overflow-hidden border border-primary/40 bg-primary/10 px-4 py-3">
+      <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-primary">
+        <span className="relative flex h-2 w-2">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+        </span>
+        Ekskluzivno · Samo ovog meseca
+      </div>
+      <div className="mt-1.5 text-lg font-semibold leading-tight text-foreground">
+        Dostava gratis do kraja meseca
+      </div>
+      <div className="mt-1 text-xs text-muted-foreground">
+        Ponuda ističe za <span className="font-semibold tabular-nums text-foreground">{left ?? "—"}</span>
+      </div>
+    </div>
+  );
+}
