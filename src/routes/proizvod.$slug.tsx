@@ -318,11 +318,11 @@ function FreeShippingBanner() {
     return () => clearInterval(id);
   }, []);
   return (
-    <div className="mt-5 relative overflow-hidden border border-primary/40 bg-primary/10 px-4 py-3">
-      <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-primary">
+    <div className="mt-5 relative overflow-hidden border border-accent/50 bg-accent/10 px-4 py-3">
+      <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-accent">
         <span className="relative flex h-2 w-2">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
         </span>
         Ekskluzivno · Samo ovog meseca
       </div>
