@@ -98,10 +98,9 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
     });
 
   return (
-    <div ref={rootRef} className="border border-foreground/20 p-5">
+    <div ref={rootRef}>
       <div className="flex items-baseline justify-between">
         <div className="eyebrow">Izaberite veličinu</div>
-        <div className="text-[11px] text-muted-foreground">Maloprodaja</div>
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">{sizeButtons()}</div>
@@ -136,7 +135,7 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
         onClick={() => onAdd(true)}
         className="mt-6 w-full inline-flex items-center justify-center gap-2 py-4 text-sm uppercase tracking-[0.2em] font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all"
       >
-        Naruči odmah — plaćaš pouzećem
+        Naruči odmah
       </button>
       <button
         onClick={() => onAdd()}
@@ -160,7 +159,10 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
           <BadgeCheck className="w-3.5 h-3.5 shrink-0" /> Plaćanje pouzećem — plaćate tek kad preuzmete paket
         </li>
         <li className="flex items-center gap-2">
-          <Truck className="w-3.5 h-3.5 shrink-0" /> Besplatna dostava na sve porudžbine
+          <Truck className="w-3.5 h-3.5 shrink-0" /> Besplatna dostava · 2–5 radnih dana
+        </li>
+        <li className="flex items-center gap-2">
+          <Check className="w-3.5 h-3.5 shrink-0" /> Proizvedeno u Srbiji, u našoj radionici
         </li>
       </ul>
 
