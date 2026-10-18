@@ -153,6 +153,8 @@ function ProductDetail() {
             )}
           </div>
 
+          <FreeShippingBanner />
+
           <div className="mt-5">
             <AddToCart product={product} />
           </div>
