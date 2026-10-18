@@ -1,6 +1,6 @@
 import type React from "react";
 import { createFileRoute, useParams, Link, notFound } from "@tanstack/react-router";
-import { Download, ChevronLeft, Truck, Wallet, RefreshCw, ShieldCheck } from "lucide-react";
+import { Download, ChevronLeft } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Gallery } from "@/components/ProductGallery";
 import { useServerFn } from "@tanstack/react-start";
@@ -159,35 +159,15 @@ function ProductDetail() {
             <AddToCart product={product} />
           </div>
 
-          <ul className="mt-6 grid grid-cols-2 gap-px bg-border border border-border text-[12px]">
-            {[
-              { icon: Wallet, t: "Plaćaš kad stigne", d: "Pouzećem kuriru" },
-              { icon: Truck, t: "Dostava po Srbiji", d: "Besplatna na sve porudžbine" },
-              { icon: RefreshCw, t: "Nisi siguran za broj?", d: "Pitaj nas pre porudžbine" },
-              { icon: ShieldCheck, t: "Made in Srbija", d: "Šijemo u vlastitoj radionici" },
-            ].map(({ icon: I, t, d }) => (
-              <li key={t} className="bg-background p-3 flex gap-2.5">
-                <I className="w-4 h-4 mt-0.5 shrink-0" strokeWidth={1.5} />
-                <div><div className="font-semibold">{t}</div><div className="text-muted-foreground">{d}</div></div>
-              </li>
-            ))}
-          </ul>
-
           <div className="mt-6 border-t border-border">
             <Section title="Opis" open>
               <p className="leading-relaxed text-foreground/80">{product.description}</p>
             </Section>
-            <Section title="Kroj i veličine">
+            <Section title="Detalji i materijal">
               <dl className="grid grid-cols-2 gap-4">
                 <Spec label="Kroj" value={`${product.fit} fit`} />
-                <Spec label="Veličine" value={product.sizes.join(" · ")} />
-              </dl>
-            </Section>
-            <Section title="Tkanina i nega">
-              <dl className="grid grid-cols-2 gap-4">
                 <Spec label="Sastav" value={product.fabric} />
                 <Spec label="Težina" value={product.weight} />
-                <Spec label="Boja / wash" value={product.color} />
                 <Spec label="Šifra" value={product.sku} />
               </dl>
             </Section>
@@ -318,20 +298,10 @@ function FreeShippingBanner() {
     return () => clearInterval(id);
   }, []);
   return (
-    <div className="mt-5 relative overflow-hidden border border-accent/50 bg-accent/10 px-4 py-3">
-      <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-accent">
-        <span className="relative flex h-2 w-2">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-        </span>
-        Ekskluzivno · Samo ovog meseca
-      </div>
-      <div className="mt-1.5 text-lg font-semibold leading-tight text-foreground">
-        Dostava gratis do kraja meseca
-      </div>
-      <div className="mt-1 text-xs text-muted-foreground">
-        Ponuda ističe za <span className="font-semibold tabular-nums text-foreground">{left ?? "—"}</span>
-      </div>
+    <div className="mt-4 flex items-center gap-2 text-[13px]">
+      <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
+      <span className="font-medium">Besplatna dostava do kraja meseca</span>
+      <span className="text-muted-foreground tabular-nums">· još {left ?? "—"}</span>
     </div>
   );
 }
