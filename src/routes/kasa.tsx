@@ -7,6 +7,7 @@ import { useCart, CART_CONSTANTS } from "@/hooks/useCart";
 import { createCustomerOrder } from "@/lib/customer-orders.functions";
 import { useAuth } from "@/hooks/useAuth";
 import { ecommerce } from "@/lib/analytics";
+import { reportPurchaseConversion } from "@/lib/google-ads";
 
 export const Route = createFileRoute("/kasa")({
   head: () => ({
@@ -132,6 +133,7 @@ function CheckoutPage() {
         total,
         shipping,
       );
+      void reportPurchaseConversion(res.orderNumber, total);
       clear();
       navigate({ to: "/porudzbina/$number", params: { number: res.orderNumber }, search: { email: form.email } });
     } catch (err: any) {
