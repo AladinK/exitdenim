@@ -16,7 +16,7 @@ const fitIs = (...f: string[]) => (p: ProductWithStock) => f.includes(String(p.f
 const catIs = (c: string) => (p: ProductWithStock) => String(p.category ?? "").toLowerCase() === c;
 
 const COMMON_FAQ = [
-  { q: "Koliko košta i kako se plaća?", a: "Svi modeli koštaju 5.990 din. Plaćaš pouzećem, kuriru kad paket stigne, bez kartice i bez avansa." },
+  { q: "Koliko košta i kako se plaća?", a: "Farmerke i chino koštaju 5.990 din, cargo džeparke 7.500 din. Plaćaš pouzećem, kuriru kad paket stigne, bez kartice i bez avansa." },
   { q: "Koliko košta dostava i kada stiže?", a: "Dostava je besplatna na sve porudžbine po celoj Srbiji. Porudžbinu šaljemo u roku od 1–2 radna dana." },
   { q: "Koje veličine postoje?", a: "Šijemo veličine 31, 32, 33, 34, 36, 38 i 40. Ako nisi siguran za broj, javi nam se pre porudžbine." },
 ];
@@ -54,7 +54,7 @@ export const LANDING_PAGES: LandingPage[] = [
   {
     path: "/cargo", label: "Cargo pantalone",
     title: "Muške cargo pantalone | EXIT Denim",
-    description: "Muške cargo pantalone sa bočnim džepovima. 5.990 din, plaćanje pouzećem, besplatna dostava po Srbiji.",
+    description: "Muške cargo pantalone sa bočnim džepovima. 7.500 din, plaćanje pouzećem, besplatna dostava po Srbiji.",
     h1: "Muške cargo pantalone",
     intro: "Cargo sa bočnim džepovima, opušten kroj i čvrst materijal za svakodnevno nošenje.",
     match: (p) => catIs("cargo")(p) || fitIs("Cargo")(p),
