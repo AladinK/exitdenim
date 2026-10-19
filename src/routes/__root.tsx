@@ -16,6 +16,7 @@ import { CartProvider } from "@/hooks/useCart";
 import { CartDrawer } from "@/components/CartDrawer";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Cursor } from "@/components/Cursor";
+import { CookieBanner } from "@/components/CookieBanner";
 
 
 function NotFoundComponent() {
@@ -104,6 +105,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Archivo+Black&display=swap" },
       { rel: "stylesheet", href: appCss },
     ],
+    scripts: [
+      { children: "window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted'});gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500,region:['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH','CA-QC']});" },
+    ],
+
 
   }),
   shellComponent: RootShell,
@@ -137,6 +142,7 @@ function RootComponent() {
           </SmoothScroll>
           <CartDrawer />
           <Cursor />
+          <CookieBanner />
         </CartProvider>
       </AuthProvider>
     </QueryClientProvider>
