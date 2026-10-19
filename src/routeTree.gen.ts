@@ -27,6 +27,7 @@ import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as MediaKitRouteImport } from './routes/media-kit'
 import { Route as PostaniPartnerRouteImport } from './routes/postani-partner'
 import { Route as PrivateLabelRouteImport } from './routes/private-label'
+import { Route as PrivatnostRouteImport } from './routes/privatnost'
 import { Route as ProizvodnjaRouteImport } from './routes/proizvodnja'
 import { Route as RegularSlimFarmerkeRouteImport } from './routes/regular-slim-farmerke'
 import { Route as RelaxedFarmerkeRouteImport } from './routes/relaxed-farmerke'
@@ -132,6 +133,11 @@ const PrivateLabelRoute = PrivateLabelRouteImport.update({
   path: '/private-label',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivatnostRoute = PrivatnostRouteImport.update({
+  id: '/privatnost',
+  path: '/privatnost',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProizvodnjaRoute = ProizvodnjaRouteImport.update({
   id: '/proizvodnja',
   path: '/proizvodnja',
@@ -228,6 +234,7 @@ export interface FileRoutesByFullPath {
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/private-label': typeof PrivateLabelRoute
+  '/privatnost': typeof PrivatnostRoute
   '/proizvodnja': typeof ProizvodnjaRoute
   '/regular-slim-farmerke': typeof RegularSlimFarmerkeRoute
   '/relaxed-farmerke': typeof RelaxedFarmerkeRoute
@@ -262,6 +269,7 @@ export interface FileRoutesByTo {
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/private-label': typeof PrivateLabelRoute
+  '/privatnost': typeof PrivatnostRoute
   '/proizvodnja': typeof ProizvodnjaRoute
   '/regular-slim-farmerke': typeof RegularSlimFarmerkeRoute
   '/relaxed-farmerke': typeof RelaxedFarmerkeRoute
@@ -298,6 +306,7 @@ export interface FileRoutesById {
   '/media-kit': typeof MediaKitRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/private-label': typeof PrivateLabelRoute
+  '/privatnost': typeof PrivatnostRoute
   '/proizvodnja': typeof ProizvodnjaRoute
   '/regular-slim-farmerke': typeof RegularSlimFarmerkeRoute
   '/relaxed-farmerke': typeof RelaxedFarmerkeRoute
@@ -334,6 +343,7 @@ export interface FileRouteTypes {
     | '/media-kit'
     | '/postani-partner'
     | '/private-label'
+    | '/privatnost'
     | '/proizvodnja'
     | '/regular-slim-farmerke'
     | '/relaxed-farmerke'
@@ -368,6 +378,7 @@ export interface FileRouteTypes {
     | '/media-kit'
     | '/postani-partner'
     | '/private-label'
+    | '/privatnost'
     | '/proizvodnja'
     | '/regular-slim-farmerke'
     | '/relaxed-farmerke'
@@ -403,6 +414,7 @@ export interface FileRouteTypes {
     | '/media-kit'
     | '/postani-partner'
     | '/private-label'
+    | '/privatnost'
     | '/proizvodnja'
     | '/regular-slim-farmerke'
     | '/relaxed-farmerke'
@@ -439,6 +451,7 @@ export interface RootRouteChildren {
   MediaKitRoute: typeof MediaKitRoute
   PostaniPartnerRoute: typeof PostaniPartnerRoute
   PrivateLabelRoute: typeof PrivateLabelRoute
+  PrivatnostRoute: typeof PrivatnostRoute
   ProizvodnjaRoute: typeof ProizvodnjaRoute
   RegularSlimFarmerkeRoute: typeof RegularSlimFarmerkeRoute
   RelaxedFarmerkeRoute: typeof RelaxedFarmerkeRoute
@@ -578,6 +591,13 @@ declare module '@tanstack/react-router' {
       path: '/private-label'
       fullPath: '/private-label'
       preLoaderRoute: typeof PrivateLabelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privatnost': {
+      id: '/privatnost'
+      path: '/privatnost'
+      fullPath: '/privatnost'
+      preLoaderRoute: typeof PrivatnostRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/proizvodnja': {
@@ -724,6 +744,7 @@ const rootRouteChildren: RootRouteChildren = {
   MediaKitRoute: MediaKitRoute,
   PostaniPartnerRoute: PostaniPartnerRoute,
   PrivateLabelRoute: PrivateLabelRoute,
+  PrivatnostRoute: PrivatnostRoute,
   ProizvodnjaRoute: ProizvodnjaRoute,
   RegularSlimFarmerkeRoute: RegularSlimFarmerkeRoute,
   RelaxedFarmerkeRoute: RelaxedFarmerkeRoute,
