@@ -16,7 +16,7 @@ const fitIs = (...f: string[]) => (p: ProductWithStock) => f.includes(String(p.f
 const catIs = (c: string) => (p: ProductWithStock) => String(p.category ?? "").toLowerCase() === c;
 
 const COMMON_FAQ = [
-  { q: "Koliko košta i kako se plaća?", a: "Svi modeli koštaju 5.450 din. Plaćaš pouzećem, kuriru kad paket stigne, bez kartice i bez avansa." },
+  { q: "Koliko košta i kako se plaća?", a: "Svi modeli koštaju 5.990 din. Plaćaš pouzećem, kuriru kad paket stigne, bez kartice i bez avansa." },
   { q: "Koliko košta dostava i kada stiže?", a: "Dostava je besplatna na sve porudžbine po celoj Srbiji. Porudžbinu šaljemo u roku od 1–2 radna dana." },
   { q: "Koje veličine postoje?", a: "Šijemo veličine 31, 32, 33, 34, 36, 38 i 40. Ako nisi siguran za broj, javi nam se pre porudžbine." },
 ];
@@ -28,7 +28,7 @@ export const LANDING_PAGES: LandingPage[] = [
   {
     path: "/jeans", label: "Muške farmerke",
     title: "Muške farmerke i jeans — teksas pantalone | EXIT Denim",
-    description: "Muške farmerke od teksasa: slim, regular, relaxed, bootcut, flare. 5.450 din, plaćanje pouzećem, besplatna dostava po Srbiji.",
+    description: "Muške farmerke od teksasa: slim, regular, relaxed, bootcut, flare. 5.990 din, plaćanje pouzećem, besplatna dostava po Srbiji.",
     h1: "Muške farmerke",
     intro: "Farmerke od pravog teksasa, u krojevima od uskog slim do širokog flare. Domaća proizvodnja, plaćaš kad stigne.",
     match: catIs("jeans"),
@@ -41,7 +41,7 @@ export const LANDING_PAGES: LandingPage[] = [
   {
     path: "/chino", label: "Chino pantalone",
     title: "Muške chino pantalone | EXIT Denim",
-    description: "Muške chino pantalone za posao i svaki dan. 5.450 din, plaćanje pouzećem, besplatna dostava po Srbiji.",
+    description: "Muške chino pantalone za posao i svaki dan. 5.990 din, plaćanje pouzećem, besplatna dostava po Srbiji.",
     h1: "Muške chino pantalone",
     intro: "Chino je mirnija alternativa farmerkama: uredan izgled za posao, a udobnost za ceo dan.",
     match: catIs("chino"),
@@ -54,7 +54,7 @@ export const LANDING_PAGES: LandingPage[] = [
   {
     path: "/cargo", label: "Cargo pantalone",
     title: "Muške cargo pantalone | EXIT Denim",
-    description: "Muške cargo pantalone sa bočnim džepovima. 5.450 din, plaćanje pouzećem, besplatna dostava po Srbiji.",
+    description: "Muške cargo pantalone sa bočnim džepovima. 5.990 din, plaćanje pouzećem, besplatna dostava po Srbiji.",
     h1: "Muške cargo pantalone",
     intro: "Cargo sa bočnim džepovima, opušten kroj i čvrst materijal za svakodnevno nošenje.",
     match: (p) => catIs("cargo")(p) || fitIs("Cargo")(p),
@@ -67,7 +67,7 @@ export const LANDING_PAGES: LandingPage[] = [
   {
     path: "/wide-flare", label: "Široke farmerke",
     title: "Široke muške farmerke — relaxed, bootcut i flare | EXIT Denim",
-    description: "Široke muške farmerke: relaxed, bootcut i flare kroj. 5.450 din, pouzećem, besplatna dostava.",
+    description: "Široke muške farmerke: relaxed, bootcut i flare kroj. 5.990 din, pouzećem, besplatna dostava.",
     h1: "Široke farmerke",
     intro: "Relaxed, Bootcut i Flare: tri načina da nogavica bude šira.",
     match: fitIs("Relaxed", "Bootcut", "Flare"),
@@ -87,7 +87,7 @@ export const LANDING_PAGES: LandingPage[] = [
   ] as const).map(([slug, fit, text]): LandingPage => ({
     path: `/${slug}-farmerke`, label: `${fit} farmerke`,
     title: `${fit} farmerke za muškarce | EXIT Denim`,
-    description: `Muške ${fit.toLowerCase()} farmerke od teksasa. 5.450 din, plaćanje pouzećem, besplatna dostava po Srbiji.`,
+    description: `Muške ${fit.toLowerCase()} farmerke od teksasa. 5.990 din, plaćanje pouzećem, besplatna dostava po Srbiji.`,
     h1: `${fit} farmerke`,
     intro: text,
     match: fitIs(fit),
