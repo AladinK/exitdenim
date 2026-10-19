@@ -542,7 +542,7 @@ function ProductForm({
       setP((s) => {
         const slug = s.slug || s.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "dj").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
         const sku = s.sku || `EX-${r.category.slice(0, 2).toUpperCase()}-${Date.now().toString().slice(-4)}`;
-        return { ...s, ...r, slug, sku, retail: s.retail || 5450, sizes: [...STD_SIZES] };
+        return { ...s, ...r, slug, sku, retail: s.retail || 5990, sizes: [...STD_SIZES] };
       });
       setStockDraft(Object.fromEntries(STD_SIZES.map((sz) => [sz, 100])));
     } catch (e: any) { setErr(e.message || "AI greška"); }
