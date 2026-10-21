@@ -48,6 +48,8 @@ export async function notifyOrderTelegram(o: {
   postal: string;
   items: { product_name: string; size: string; quantity: number; unit_price: number }[];
   shipping: number;
+  discount?: number;
+  promoCode?: string | null;
   total: number;
   note?: string | null;
 }) {
@@ -60,7 +62,9 @@ export async function notifyOrderTelegram(o: {
   const lines = o.items.map((i) => `• ${esc(i.product_name)} — vel. ${esc(i.size)} × ${i.quantity} (${i.unit_price} din)`).join("\n");
   const text =
     `🛒 <b>Nova porudžbina #${o.orderNumber}</b>\n\n${lines}\n\n` +
-    `Dostava: ${o.shipping} din\n<b>Ukupno: ${o.total} din</b> (pouzećem)\n\n` +
+    `Dostava: ${o.shipping} din\n` +
+    (o.discount && o.discount > 0 ? `🎡 Točak sreće ${esc(o.promoCode || "")}: −${o.discount} din\n` : "") +
+    `<b>Ukupno: ${o.total} din</b> (pouzećem)\n\n` +
     `👤 ${esc(o.name)}\n📞 ${esc(o.phone)}\n✉️ ${esc(o.email)}\n📍 ${esc(o.address)}, ${esc(o.postal)} ${esc(o.city)}` +
     (o.note ? `\n📝 ${esc(o.note)}` : "");
   const r = await fetch(`${GATEWAY_URL}/sendMessage`, {
