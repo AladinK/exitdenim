@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "@/hooks/useAuth";
 import { CartProvider } from "@/hooks/useCart";
 import { CartDrawer } from "@/components/CartDrawer";
+import { SpinWheel } from "@/components/SpinWheel";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Cursor } from "@/components/Cursor";
 import { CookieBanner } from "@/components/CookieBanner";
@@ -141,6 +142,7 @@ function RootComponent() {
             <Outlet />
           </SmoothScroll>
           <CartDrawer />
+          <SpinWheel />
           <Cursor />
           <CookieBanner />
         </CartProvider>

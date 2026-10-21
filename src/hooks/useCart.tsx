@@ -92,8 +92,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
         setItems((cur) => cur.filter((x) => !(x.productId === productId && x.size === size)));
       },
       clear: () => setItems([]),
+      applyPromo: (p) => setPromo(p),
+      clearPromo: () => {
+        setPromo(null);
+        clearStoredPromo();
+      },
     };
-  }, [items, open]);
+  }, [items, open, promo]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
