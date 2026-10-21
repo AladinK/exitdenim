@@ -98,23 +98,25 @@ export function SpinWheel() {
 
   return createPortal(
     <>
-      {/* Floating trigger */}
+      {/* Floating trigger — quiet, minimal */}
       {!open && (
         <button
           onClick={() => {
             setOpen(true);
             track("spin_wheel_open");
           }}
-          className="fixed bottom-4 left-4 z-40 inline-flex items-center gap-2 bg-accent text-accent-foreground px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.16em] shadow-lg hover:brightness-110 transition-all"
+          aria-label={promo ? `Aktivan popust −${promo.pct}%` : "Zavrti točak sreće"}
+          title={promo ? `Popust −${promo.pct}% aktivan` : "Osvoji popust"}
+          className="fixed bottom-4 left-4 z-40 inline-flex items-center gap-1.5 rounded-full border border-border bg-background/90 backdrop-blur-sm px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground shadow-sm hover:text-foreground hover:border-foreground/40 transition-colors"
           style={{ marginBottom: "env(safe-area-inset-bottom)" }}
         >
           {promo ? (
             <>
-              <Gift className="w-4 h-4" /> Popust −{promo.pct}% aktivan
+              <Gift className="w-3.5 h-3.5 text-accent" /> −{promo.pct}%
             </>
           ) : (
             <>
-              <Sparkles className="w-4 h-4" /> Zavrti točak — osvoji popust
+              <Sparkles className="w-3.5 h-3.5 text-accent" /> Popust
             </>
           )}
         </button>
