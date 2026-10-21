@@ -1,6 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 
 export const HOME_ASSET_KEYS = [
@@ -17,27 +16,29 @@ export const HOME_ASSET_KEYS = [
 ] as const;
 export type HomeAssetKey = (typeof HOME_ASSET_KEYS)[number];
 
-function publicClient() {
-  return createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_PUBLISHABLE_KEY!, {
-    auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
-  });
+// Reads and signed URLs go through the privileged server client so the
+// site_assets table and site-assets bucket need no public/anon read policy.
+async function adminClient() {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  return supabaseAdmin;
 }
 
-async function signIfPath(sb: any, value: string): Promise<string> {
+async function signIfPath(value: string): Promise<string> {
   if (/^https?:\/\//i.test(value) || value.startsWith("/")) return value;
+  const sb = await adminClient();
   const { data } = await sb.storage.from("site-assets").createSignedUrl(value, 60 * 60 * 24 * 7);
   return data?.signedUrl ?? value;
 }
 
 /** Public — returns map of key -> resolved URL (signed for private storage paths). */
 export const getHomeAssets = createServerFn({ method: "GET" }).handler(async () => {
-  const sb = publicClient();
+  const sb = await adminClient();
   const { data, error } = await sb.from("site_assets").select("key,url,alt");
   if (error) throw new Error(error.message);
   const out: Record<string, { url: string; alt: string | null }> = {};
   await Promise.all(
     (data ?? []).map(async (r: any) => {
-      out[r.key] = { url: await signIfPath(sb, r.url), alt: r.alt };
+      out[r.key] = { url: await signIfPath(r.url), alt: r.alt };
     }),
   );
   return out;
@@ -57,7 +58,7 @@ export const adminListSiteAssets = createServerFn({ method: "GET" })
     const map: Record<string, { url: string; alt: string | null; signed: string }> = {};
     await Promise.all(
       (data ?? []).map(async (r: any) => {
-        const signed = await signIfPath(context.supabase, r.url);
+        const signed = await signIfPath(r.url);
         map[r.key] = { url: r.url, alt: r.alt, signed };
       }),
     );

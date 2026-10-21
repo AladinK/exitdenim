@@ -50,6 +50,13 @@
       "when": 1792602608292,
       "tag": "0006_add_promo_to_customer_orders",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1792603673060,
+      "tag": "0007_restrict_storage_and_site_assets_public_read",
+      "breakpoints": true
     }
   ]
 }
