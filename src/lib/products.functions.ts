@@ -16,9 +16,17 @@ function publicClient() {
   );
 }
 
-async function signIfPath(sb: ReturnType<typeof publicClient>, image_url: string | null) {
+// Signed URLs are minted with the privileged server client so the storage
+// buckets need no public/anon read policy at all.
+async function signClient() {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  return supabaseAdmin;
+}
+
+async function signIfPath(image_url: string | null) {
   if (!image_url) return null;
   if (/^https?:\/\//i.test(image_url) || image_url.startsWith("/")) return image_url;
+  const sb = await signClient();
   const { data } = await sb.storage.from("product-images").createSignedUrl(image_url, 60 * 60 * 24 * 7);
   return data?.signedUrl ?? null;
 }
@@ -47,7 +55,7 @@ export const listProducts = createServerFn({ method: "GET" }).handler(async () =
     .filter((u): u is string => !!u && !/^https?:\/\//i.test(u) && !u.startsWith("/"));
   const signed: Record<string, string> = {};
   if (paths.length) {
-    const { data } = await sb.storage.from("product-images").createSignedUrls(paths, 60 * 60 * 24 * 7);
+    const { data } = await (await signClient()).storage.from("product-images").createSignedUrls(paths, 60 * 60 * 24 * 7);
     (data || []).forEach((d) => { if (d.path && d.signedUrl) signed[d.path] = d.signedUrl; });
   }
   return list.map((p) => ({
@@ -74,9 +82,9 @@ export const getProductBySlug = createServerFn({ method: "GET" })
     (availability || [])
       .filter((s) => s.product_id === product.id)
       .forEach((s) => { stockMap[s.size] = s.in_stock ? 1 : 0; });
-    const image_url = await signIfPath(sb, product.image_url);
+    const image_url = await signIfPath(product.image_url);
     const gallery = (
-      await Promise.all(((product as any).gallery || []).map((g: string) => signIfPath(sb, g)))
+      await Promise.all(((product as any).gallery || []).map((g: string) => signIfPath(g)))
     ).filter(Boolean) as string[];
     return { ...product, image_url, gallery, stock: stockMap } as ProductWithStock;
   });
