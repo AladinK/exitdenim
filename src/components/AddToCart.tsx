@@ -107,9 +107,17 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
       {needSize && !size && (
         <p role="alert" className="mt-3 text-[12px] font-semibold text-primary">Izaberite broj da biste nastavili.</p>
       )}
-      {size && (product.stock?.[size] ?? 0) > 0 && (product.stock?.[size] ?? 0) <= 5 && (
-        <p className="mt-3 text-[12px] font-semibold text-accent">Samo još {product.stock?.[size]} kom u broju {size}</p>
-      )}
+      {(() => {
+        const available = product.sizes.filter((s) => (product.stock?.[s] ?? 0) > 0).length;
+        if (available > 0 && available <= 2 && product.sizes.length >= 3) {
+          return (
+            <p className="mt-3 text-[12px] font-semibold text-accent">
+              Brzo nestaje — {available === 1 ? "ostala je još 1 veličina" : `ostale su još ${available} veličine`}
+            </p>
+          );
+        }
+        return null;
+      })()}
 
       <details className="mt-4 group text-[12px]">
         <summary className="cursor-pointer list-none text-muted-foreground hover:text-foreground underline underline-offset-4">
