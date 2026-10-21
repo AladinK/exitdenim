@@ -36,6 +36,10 @@ const orderInput = z.object({
   contact: contactSchema,
   shipping: shippingSchema,
   note: z.string().trim().max(500).optional().nullable(),
+  promo: z
+    .object({ code: z.string().trim().min(4).max(40), pct: z.number().int() })
+    .optional()
+    .nullable(),
 });
 
 const FREE_SHIPPING_OVER = 0; // free shipping on all orders
@@ -87,7 +91,10 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
     });
 
     const shipping_cost = subtotal >= FREE_SHIPPING_OVER ? 0 : SHIPPING_FLAT;
-    const total = subtotal + shipping_cost;
+    // Spin-wheel discount: re-validated server-side, only 5/10/15% allowed.
+    const pct = data.promo && [5, 10, 15].includes(data.promo.pct) ? data.promo.pct : 0;
+    const discount = pct > 0 ? Math.round((subtotal * pct) / 100 / 10) * 10 : 0;
+    const total = subtotal - discount + shipping_cost;
 
     // Use admin client for the write path: everything is validated & priced server-side.
     // This avoids RLS EXISTS-subquery blocking guests from inserting order items.
@@ -109,6 +116,9 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
         shipping_method: "courier",
         shipping_cost,
         subtotal,
+        discount,
+        promo_code: pct > 0 ? data.promo!.code : null,
+        promo_pct: pct,
         total,
         payment_method: "cod",
         status: "pending",
@@ -135,6 +145,8 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
         postal: data.shipping.postal,
         items,
         shipping: shipping_cost,
+        discount,
+        promoCode: pct > 0 ? data.promo!.code : null,
         total,
         note: data.note,
       });
@@ -146,7 +158,7 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
       const { sendTemplateEmail } = await import("@/lib/email-templates/send-email");
       await sendTemplateEmail("order-confirmation", data.contact.email, {
         templateData: {
-          name: data.contact.name, orderNumber: order.order_number, items, subtotal, shipping: shipping_cost, total,
+          name: data.contact.name, orderNumber: order.order_number, items, subtotal, shipping: shipping_cost, discount, promoCode: pct > 0 ? data.promo!.code : null, total,
           address: `${data.shipping.address}, ${data.shipping.postal} ${data.shipping.city}`,
         },
         idempotencyKey: `order-confirmation-${order.id}`,
