@@ -1,7 +1,8 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Menu, X, LogOut, ShoppingBag, Shield, User as UserIcon, ChevronDown, Package, ArrowRight, Wallet, Truck } from "lucide-react";
+import { Menu, X, LogOut, ShoppingBag, Shield, User as UserIcon, ChevronDown, Package, ArrowRight, Wallet, Truck, Sparkles } from "lucide-react";
+import { openSpinWheel } from "./SpinWheel";
 import { useServerFn } from "@tanstack/react-start";
 import { Logo } from "./Logo";
 import { FitSilhouette } from "./FitSilhouette";

@@ -31,6 +31,12 @@ function pickSegment(): number {
 
 const SEG_COLORS = ["#0D0D0C", "#1A2A48", "#0D0D0C", "#749D02", "#0D0D0C", "#1A2A48", "#0D0D0C", "#B89968"];
 
+/** Opens the spin-wheel modal from anywhere (e.g. the navbar link). */
+export function openSpinWheel() {
+  window.dispatchEvent(new Event("exit:open-wheel"));
+  track("spin_wheel_open");
+}
+
 export function SpinWheel() {
   const { promo, applyPromo } = useCart();
   const [mounted, setMounted] = useState(false);
