@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { X, Sparkles, Gift } from "lucide-react";
+import { X } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
 import { readPromo, savePromo, makeCode, ALLOWED_PCT } from "@/lib/promo";
 import { track } from "@/lib/analytics";
@@ -31,6 +31,12 @@ function pickSegment(): number {
 
 const SEG_COLORS = ["#0D0D0C", "#1A2A48", "#0D0D0C", "#749D02", "#0D0D0C", "#1A2A48", "#0D0D0C", "#B89968"];
 
+/** Opens the spin-wheel modal from anywhere (e.g. the navbar link). */
+export function openSpinWheel() {
+  window.dispatchEvent(new Event("exit:open-wheel"));
+  track("spin_wheel_open");
+}
+
 export function SpinWheel() {
   const { promo, applyPromo } = useCart();
   const [mounted, setMounted] = useState(false);
@@ -40,6 +46,12 @@ export function SpinWheel() {
   const [result, setResult] = useState<{ pct: number; code: string } | null>(null);
   const [hasSpun, setHasSpun] = useState(false);
   const autoOpened = useRef(false);
+
+  useEffect(() => {
+    const onOpen = () => setOpen(true);
+    window.addEventListener("exit:open-wheel", onOpen);
+    return () => window.removeEventListener("exit:open-wheel", onOpen);
+  }, []);
 
   useEffect(() => {
     setMounted(true);
@@ -98,30 +110,6 @@ export function SpinWheel() {
 
   return createPortal(
     <>
-      {/* Floating trigger — quiet, minimal */}
-      {!open && (
-        <button
-          onClick={() => {
-            setOpen(true);
-            track("spin_wheel_open");
-          }}
-          aria-label={promo ? `Aktivan popust −${promo.pct}%` : "Zavrti točak sreće"}
-          title={promo ? `Popust −${promo.pct}% aktivan` : "Osvoji popust"}
-          className="fixed bottom-4 left-4 z-40 inline-flex items-center gap-1.5 rounded-full border border-border bg-background/90 backdrop-blur-sm px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground shadow-sm hover:text-foreground hover:border-foreground/40 transition-colors"
-          style={{ marginBottom: "env(safe-area-inset-bottom)" }}
-        >
-          {promo ? (
-            <>
-              <Gift className="w-3.5 h-3.5 text-accent" /> −{promo.pct}%
-            </>
-          ) : (
-            <>
-              <Sparkles className="w-3.5 h-3.5 text-accent" /> Popust
-            </>
-          )}
-        </button>
-      )}
-
       {/* Modal */}
       {open && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Točak sreće">
