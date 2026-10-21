@@ -120,6 +120,12 @@ export function Navbar() {
               {n.label}
             </Link>
           ))}
+          <button
+            onClick={openSpinWheel}
+            className="ml-1 inline-flex items-center gap-1.5 px-3 py-2 text-[13.5px] font-medium text-accent hover:brightness-110 transition-all"
+          >
+            <Sparkles className="w-3.5 h-3.5" /> Osvoji popust
+          </button>
         </nav>
 
         <div className="hidden lg:flex items-center gap-2">
@@ -290,6 +296,13 @@ export function Navbar() {
                 <Package className="w-4 h-4" /> Moje porudžbine
               </Link>
             )}
+            <button
+              tabIndex={open ? 0 : -1}
+              onClick={() => { setOpen(false); openSpinWheel(); }}
+              className="py-3 text-sm flex items-center gap-2 text-accent"
+            >
+              <Sparkles className="w-4 h-4" /> Osvoji popust — zavrti točak sreće
+            </button>
             <Link to="/kontakt" tabIndex={open ? 0 : -1} onClick={() => setOpen(false)} className="py-3 text-sm flex items-center gap-2 text-muted-foreground">
               Pomoć oko veličine i kontakt
             </Link>
