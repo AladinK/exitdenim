@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { readPromo, clearStoredPromo, discountFor, type Promo } from "@/lib/promo";
 
 export type CartItem = {
   productId: string;
@@ -16,6 +17,8 @@ type CartCtx = {
   count: number;
   subtotal: number;
   shipping: number;
+  promo: Promo | null;
+  discount: number;
   total: number;
   open: boolean;
   setOpen: (v: boolean) => void;
@@ -23,6 +26,8 @@ type CartCtx = {
   update: (productId: string, size: string, qty: number) => void;
   remove: (productId: string, size: string) => void;
   clear: () => void;
+  applyPromo: (p: Promo) => void;
+  clearPromo: () => void;
 };
 
 const STORAGE_KEY = "exit_cart_v1";
