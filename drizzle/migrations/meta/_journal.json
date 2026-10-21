@@ -43,6 +43,13 @@
       "when": 1791935457007,
       "tag": "0005_cart_events",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1792602608292,
+      "tag": "0006_add_promo_to_customer_orders",
+      "breakpoints": true
     }
   ]
 }
