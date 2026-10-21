@@ -39,6 +39,7 @@ const Ctx = createContext<CartCtx | null>(null);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [open, setOpen] = useState(false);
+  const [promo, setPromo] = useState<Promo | null>(null);
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
@@ -46,6 +47,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) setItems(JSON.parse(raw));
     } catch {}
+    setPromo(readPromo());
     setHydrated(true);
   }, []);
 
@@ -57,12 +59,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const value = useMemo<CartCtx>(() => {
     const subtotal = items.reduce((s, i) => s + i.unitPrice * i.quantity, 0);
     const shipping = subtotal === 0 || subtotal >= FREE_SHIPPING_OVER ? 0 : SHIPPING_FLAT;
+    const discount = promo ? discountFor(subtotal, promo.pct) : 0;
     return {
       items,
       count: items.reduce((s, i) => s + i.quantity, 0),
       subtotal,
       shipping,
-      total: subtotal + shipping,
+      promo,
+      discount,
+      total: subtotal - discount + shipping,
       open,
       setOpen,
       add: (item, qty = 1) => {
