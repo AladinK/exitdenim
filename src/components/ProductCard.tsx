@@ -7,6 +7,8 @@ export function ProductCard({ product, showB2B }: { product: ProductWithStock; s
   const stock = (product.stock || {}) as Record<string, number>;
   const sizes = Object.keys(stock).sort((a, b) => Number(a) - Number(b) || a.localeCompare(b));
   const soldOut = sizes.length > 0 && !sizes.some((s) => stock[s] > 0);
+  const available = sizes.filter((s) => stock[s] > 0).length;
+  const lowStock = !soldOut && sizes.length >= 3 && available > 0 && available <= 2;
 
   return (
     <Link
@@ -38,6 +40,11 @@ export function ProductCard({ product, showB2B }: { product: ProductWithStock; s
           {soldOut && (
             <span className="bg-foreground px-2 py-1 text-[9.5px] md:text-[10px] font-medium uppercase tracking-[0.22em] text-background">
               Rasprodato
+            </span>
+          )}
+          {lowStock && (
+            <span className="bg-accent px-2 py-1 text-[9.5px] md:text-[10px] font-semibold uppercase tracking-[0.22em] text-accent-foreground">
+              Poslednji komadi
             </span>
           )}
         </div>

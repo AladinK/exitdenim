@@ -5,7 +5,7 @@ import { useCart, CART_CONSTANTS } from "@/hooks/useCart";
 import { ecommerce } from "@/lib/analytics";
 
 export function CartDrawer() {
-  const { items, subtotal, shipping, total, open, setOpen, update, remove } = useCart();
+  const { items, subtotal, shipping, promo, discount, total, open, setOpen, update, remove, clearPromo } = useCart();
 
   useEffect(() => {
     if (!open) return;
@@ -94,6 +94,17 @@ export function CartDrawer() {
             <div className="space-y-1.5 text-sm">
               <div className="flex justify-between"><span className="text-muted-foreground">Međuzbir</span><span className="tabular-nums">{subtotal.toLocaleString("sr-RS")} din</span></div>
               <div className="flex justify-between"><span className="text-muted-foreground">Dostava</span><span className="tabular-nums">{shipping === 0 ? "Besplatna" : `${shipping.toLocaleString("sr-RS")} din`}</span></div>
+              {promo && discount > 0 && (
+                <div className="flex justify-between items-center text-accent font-medium">
+                  <span>Točak sreće −{promo.pct}% ({promo.code})</span>
+                  <span className="flex items-center gap-2">
+                    <span className="tabular-nums">−{discount.toLocaleString("sr-RS")} din</span>
+                    <button onClick={clearPromo} className="text-muted-foreground hover:text-foreground" aria-label="Ukloni popust">
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </span>
+                </div>
+              )}
               {subtotal < CART_CONSTANTS.FREE_SHIPPING_OVER && (
                 <div className="text-[11px] text-muted-foreground">
                   Još {(CART_CONSTANTS.FREE_SHIPPING_OVER - subtotal).toLocaleString("sr-RS")} din do besplatne dostave.

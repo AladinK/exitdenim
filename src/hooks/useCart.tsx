@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { readPromo, clearStoredPromo, discountFor, type Promo } from "@/lib/promo";
 
 export type CartItem = {
   productId: string;
@@ -16,6 +17,8 @@ type CartCtx = {
   count: number;
   subtotal: number;
   shipping: number;
+  promo: Promo | null;
+  discount: number;
   total: number;
   open: boolean;
   setOpen: (v: boolean) => void;
@@ -23,6 +26,8 @@ type CartCtx = {
   update: (productId: string, size: string, qty: number) => void;
   remove: (productId: string, size: string) => void;
   clear: () => void;
+  applyPromo: (p: Promo) => void;
+  clearPromo: () => void;
 };
 
 const STORAGE_KEY = "exit_cart_v1";
@@ -34,6 +39,7 @@ const Ctx = createContext<CartCtx | null>(null);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [open, setOpen] = useState(false);
+  const [promo, setPromo] = useState<Promo | null>(null);
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
@@ -41,6 +47,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) setItems(JSON.parse(raw));
     } catch {}
+    setPromo(readPromo());
     setHydrated(true);
   }, []);
 
@@ -52,12 +59,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const value = useMemo<CartCtx>(() => {
     const subtotal = items.reduce((s, i) => s + i.unitPrice * i.quantity, 0);
     const shipping = subtotal === 0 || subtotal >= FREE_SHIPPING_OVER ? 0 : SHIPPING_FLAT;
+    const discount = promo ? discountFor(subtotal, promo.pct) : 0;
     return {
       items,
       count: items.reduce((s, i) => s + i.quantity, 0),
       subtotal,
       shipping,
-      total: subtotal + shipping,
+      promo,
+      discount,
+      total: subtotal - discount + shipping,
       open,
       setOpen,
       add: (item, qty = 1) => {
@@ -82,8 +92,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
         setItems((cur) => cur.filter((x) => !(x.productId === productId && x.size === size)));
       },
       clear: () => setItems([]),
+      applyPromo: (p) => setPromo(p),
+      clearPromo: () => {
+        setPromo(null);
+        clearStoredPromo();
+      },
     };
-  }, [items, open]);
+  }, [items, open, promo]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

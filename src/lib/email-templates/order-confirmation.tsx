@@ -9,13 +9,15 @@ interface Props {
   items?: Item[]
   subtotal?: number
   shipping?: number
+  discount?: number
+  promoCode?: string | null
   total?: number
   address?: string
 }
 
 const fmt = (n: number) => `${Number(n).toLocaleString('sr-RS')} din`
 
-const OrderConfirmation = ({ name, orderNumber, items = [], subtotal = 0, shipping = 0, total = 0, address }: Props) => (
+const OrderConfirmation = ({ name, orderNumber, items = [], subtotal = 0, shipping = 0, discount = 0, promoCode, total = 0, address }: Props) => (
   <Html lang="sr" dir="ltr">
     <Head />
     <Preview>Porudžbina #{String(orderNumber ?? '')} je primljena — plaćaš kad stigne.</Preview>
@@ -33,6 +35,7 @@ const OrderConfirmation = ({ name, orderNumber, items = [], subtotal = 0, shippi
         <Hr style={hr} />
         <Text style={row}>Međuzbir: {fmt(subtotal)}</Text>
         <Text style={row}>Dostava: {shipping === 0 ? 'Besplatna' : fmt(shipping)}</Text>
+        {discount > 0 ? <Text style={row}>Točak sreće{promoCode ? ` (${promoCode})` : ''}: −{fmt(discount)}</Text> : null}
         <Text style={total_}>Ukupno: {fmt(total)}</Text>
         {address ? <Text style={muted}>Adresa dostave: {address}</Text> : null}
         <Hr style={hr} />
