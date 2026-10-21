@@ -57,7 +57,7 @@ function postalFor(city: string): string | undefined {
 }
 
 function CheckoutPage() {
-  const { items, subtotal, shipping, total, clear } = useCart();
+  const { items, subtotal, shipping, promo, discount, total, clear, clearPromo } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
   const submit = useServerFn(createCustomerOrder);
@@ -125,6 +125,7 @@ function CheckoutPage() {
           contact: { email: form.email, name: form.name, phone: form.phone },
           shipping: { address: form.address, city: form.city, postal: form.postal, country: form.country },
           note: form.note || null,
+          promo: promo && discount > 0 ? { code: promo.code, pct: promo.pct } : null,
         },
       });
       ecommerce.purchase(
@@ -135,6 +136,7 @@ function CheckoutPage() {
       );
       void reportPurchaseConversion(res.orderNumber, total);
       clear();
+      clearPromo();
       navigate({ to: "/porudzbina/$number", params: { number: res.orderNumber }, search: { email: form.email } });
     } catch (err: any) {
       setServerError(err?.message || "Došlo je do greške. Pokušajte ponovo.");
@@ -228,6 +230,12 @@ function CheckoutPage() {
               <div className="pt-4 border-t border-border space-y-2 text-sm">
                 <div className="flex justify-between"><span className="text-muted-foreground">Međuzbir</span><span className="tabular-nums">{subtotal.toLocaleString("sr-RS")} din</span></div>
                 <div className="flex justify-between"><span className="text-muted-foreground">Dostava</span><span className="tabular-nums">{shipping === 0 ? "Besplatna" : `${shipping.toLocaleString("sr-RS")} din`}</span></div>
+                {promo && discount > 0 && (
+                  <div className="flex justify-between text-accent font-medium">
+                    <span>Točak sreće −{promo.pct}%</span>
+                    <span className="tabular-nums">−{discount.toLocaleString("sr-RS")} din</span>
+                  </div>
+                )}
                 {subtotal < CART_CONSTANTS.FREE_SHIPPING_OVER && (
                   <div className="text-[11px] text-muted-foreground">Do besplatne dostave: {(CART_CONSTANTS.FREE_SHIPPING_OVER - subtotal).toLocaleString("sr-RS")} din</div>
                 )}
