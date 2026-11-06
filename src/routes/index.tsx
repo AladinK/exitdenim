@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { FitSilhouette } from "@/components/FitSilhouette";
 import { useEffect, useState } from "react";
-import { useServerFn } from "@tanstack/react-start";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowRight, Check, Quote, ChevronRight, Flame } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Reveal } from "@/components/Reveal";
@@ -9,8 +9,7 @@ import { Hero } from "@/components/hero/Hero";
 import { EcoProduction } from "@/components/EcoProduction";
 import { ProductCard } from "@/components/ProductCard";
 
-import { getHomeAssets } from "@/lib/site-assets.functions";
-import { listProducts, type ProductWithStock } from "@/lib/products.functions";
+import { homeAssetsQuery, productsQuery } from "@/lib/product-queries";
 
 
 
@@ -31,6 +30,11 @@ export const Route = createFileRoute("/")({
       { type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", name: "EXIT Denim", url: "https://exitdenim.shop/" }) },
     ],
   }),
+  loader: ({ context }) =>
+    Promise.all([
+      context.queryClient.ensureQueryData(productsQuery()),
+      context.queryClient.ensureQueryData(homeAssetsQuery()),
+    ]),
   component: HomePage,
 });
 
@@ -200,14 +204,9 @@ function TrustProof() {
 }
 
 function HomePage() {
-  const fetchAssets = useServerFn(getHomeAssets);
-  const fetchProducts = useServerFn(listProducts);
-  const [assets, setAssets] = useState<Record<string, { url: string; alt: string | null }>>({});
-  const [bestSellers, setBestSellers] = useState<ProductWithStock[]>([]);
-  useEffect(() => {
-    fetchAssets({}).then(setAssets).catch(() => {});
-    fetchProducts({}).then((p) => setBestSellers(p.slice(0, 8))).catch(() => {});
-  }, []); // eslint-disable-line
+  const { data: assets } = useSuspenseQuery(homeAssetsQuery());
+  const { data: products } = useSuspenseQuery(productsQuery());
+  const bestSellers = products.slice(0, 8);
   const img = (k: string) => assets[k]?.url || "";
   const alt = (k: string, fb: string) => assets[k]?.alt || fb;
 

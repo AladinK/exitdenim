@@ -1,12 +1,13 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { useSiteAssets } from "@/hooks/useSiteAsset";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { homeAssetsQuery } from "@/lib/product-queries";
 import { ecommerce } from "@/lib/analytics";
 
 const TICKER = ["−40% NA SVE MODELE", "NEW DROP: BOOTCUT", "RELAXED FIT", "FLARE IS BACK", "PLAĆAŠ KAD STIGNE", "MADE IN SERBIA", "BESPLATNA DOSTAVA NA SVE"];
 
 export function Hero() {
-  const assets = useSiteAssets();
+  const { data: assets } = useSuspenseQuery(homeAssetsQuery());
   const bg = assets["hero"]?.url || assets["hero_texture"]?.url || "";
   return (
     <section className="relative isolate overflow-hidden bg-[var(--ink)] text-[color:var(--ivory)]">

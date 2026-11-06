@@ -15,8 +15,6 @@ import { AuthProvider } from "@/hooks/useAuth";
 import { CartProvider } from "@/hooks/useCart";
 import { CartDrawer } from "@/components/CartDrawer";
 import { SpinWheel } from "@/components/SpinWheel";
-import { SmoothScroll } from "@/components/SmoothScroll";
-import { Cursor } from "@/components/Cursor";
 import { CookieBanner } from "@/components/CookieBanner";
 
 
@@ -138,12 +136,9 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <CartProvider>
-          <SmoothScroll>
-            <Outlet />
-          </SmoothScroll>
+          <Outlet />
           <CartDrawer />
           <SpinWheel />
-          <Cursor />
           <CookieBanner />
         </CartProvider>
       </AuthProvider>

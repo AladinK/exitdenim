@@ -5,7 +5,9 @@ import { Search, SlidersHorizontal, X } from "lucide-react";
 
 import { Layout } from "@/components/Layout";
 import { ProductCard } from "@/components/ProductCard";
-import { listProducts, type ProductWithStock } from "@/lib/products.functions";
+import { type ProductWithStock } from "@/lib/products.functions";
+import { productsQuery } from "@/lib/product-queries";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { getMyProfile } from "@/lib/orders.functions";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -20,6 +22,7 @@ export const Route = createFileRoute("/katalog")({
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/katalog" }],
   }),
+  loader: ({ context }) => context.queryClient.ensureQueryData(productsQuery()),
   validateSearch: (s: Record<string, unknown>): { fit?: string; group?: "wide"; cat?: "jeans" | "chino" | "cargo" } => ({
     fit: typeof s.fit === "string" ? s.fit : undefined,
     group: s.group === "wide" ? ("wide" as const) : undefined,
@@ -44,11 +47,10 @@ const FITS: FitFilter[] = ["all", "Slim", "Regular Slim", "Relaxed", "Bootcut", 
 const SIZES = ["31", "32", "33", "34", "36", "38", "40"];
 
 function Katalog() {
-  const fetchProducts = useServerFn(listProducts);
   const fetchProfile = useServerFn(getMyProfile);
   const { user } = useAuth();
 
-  const [products, setProducts] = useState<ProductWithStock[]>([]);
+  const { data: products } = useSuspenseQuery(productsQuery());
   const [approved, setApproved] = useState(false);
 
   const search = Route.useSearch();
@@ -70,7 +72,6 @@ function Katalog() {
   const [sort, setSort] = useState<SortKey>("featured");
   const [drawer, setDrawer] = useState(false);
 
-  useEffect(() => { fetchProducts({}).then(setProducts); }, []); // eslint-disable-line
   useEffect(() => {
     if (user) fetchProfile({}).then((r) => setApproved(r.profile?.status === "approved"));
   }, [user]); // eslint-disable-line
