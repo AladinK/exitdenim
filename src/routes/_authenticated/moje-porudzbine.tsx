@@ -8,6 +8,12 @@ import { listMyCustomerOrders } from "@/lib/customer-orders.functions";
 export const Route = createFileRoute("/_authenticated/moje-porudzbine")({
   head: () => ({
     meta: [
+      { name: "description", content: "Pregled vaših EXIT Denim porudžbina i njihovog statusa." },
+      { property: "og:title", content: "Moje porudžbine — EXIT Denim" },
+      { property: "og:description", content: "Pregled vaših EXIT Denim porudžbina i njihovog statusa." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+
       { title: "Moje porudžbine — EXIT Denim" },
       { name: "robots", content: "noindex" },
     ],

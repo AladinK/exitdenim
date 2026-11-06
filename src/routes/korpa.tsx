@@ -8,6 +8,11 @@ import { ecommerce } from "@/lib/analytics";
 export const Route = createFileRoute("/korpa")({
   head: () => ({
     meta: [
+      { property: "og:title", content: "Korpa — EXIT Denim" },
+      { property: "og:description", content: "Vaša korpa. Plaćanje pouzećem, dostava širom Srbije." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+
       { title: "Korpa — EXIT Denim" },
       { name: "description", content: "Vaša korpa. Plaćanje pouzećem, dostava širom Srbije." },
     ],

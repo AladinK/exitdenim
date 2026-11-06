@@ -12,6 +12,11 @@ export const Route = createFileRoute("/auth")({
   validateSearch: search,
   head: () => ({
     meta: [
+      { property: "og:title", content: "B2B Prijava — EXIT Denim" },
+      { property: "og:description", content: "Prijavi se na EXIT Denim B2B portal." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+
       { title: "B2B Prijava — EXIT Denim" },
       { name: "description", content: "Prijavi se na EXIT Denim B2B portal." },
     ],

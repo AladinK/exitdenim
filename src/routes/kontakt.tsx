@@ -5,6 +5,9 @@ import { Layout } from "@/components/Layout";
 export const Route = createFileRoute("/kontakt")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+
       { title: "Kontakt — EXIT Denim Wholesale" },
       { name: "description", content: "Kontaktirajte EXIT Denim wholesale tim. E-mail, WhatsApp i Viber za B2B partnere iz regiona." },
       { property: "og:title", content: "Kontakt — EXIT Denim Wholesale" },

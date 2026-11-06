@@ -23,6 +23,8 @@ export function Seal({ className = "w-10 h-10", tone = "green", opacity = 1, tit
   return (
     <img
       src={src}
+      loading="lazy"
+      decoding="async"
       alt={title ?? "EXIT brand mark"}
       aria-hidden={title ? undefined : true}
       className={className}

@@ -12,6 +12,11 @@ export const Route = createFileRoute("/porudzbina/$number")({
   validateSearch: (s) => search.parse(s),
   head: () => ({
     meta: [
+      { property: "og:title", content: "Vaša porudžbina — EXIT Denim" },
+      { property: "og:description", content: "Status vaše porudžbine." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+
       { title: "Vaša porudžbina — EXIT Denim" },
       { name: "description", content: "Status vaše porudžbine." },
       { name: "robots", content: "noindex" },

@@ -1,5 +1,11 @@
 # Roadmap
 
+## Page-speed refinement
+- [x] Share site-image queries to avoid duplicate downloads after the first display.
+- [x] Reduce logo size and prioritize the homepage photograph.
+- [x] Batch image signing and parallelize public catalog reads.
+- [x] Verify images and navigation on desktop/mobile; size selection reaches checkout with the correct price and no browser errors.
+
 ## Casino effect + scarcity (conversion boost) — DONE
 - [x] Spin-to-win wheel (5/10/15%, weighted, once per device, auto-open after 18s)
 - [x] Discount applied in cart drawer, /korpa, /kasa; recorded on order (promo_code, promo_pct, discount) + Telegram + email

@@ -12,6 +12,11 @@ import { reportPurchaseConversion } from "@/lib/google-ads";
 export const Route = createFileRoute("/kasa")({
   head: () => ({
     meta: [
+      { property: "og:title", content: "Kasa — EXIT Denim" },
+      { property: "og:description", content: "Završite narudžbinu. Plaćanje pouzećem, brza dostava." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+
       { title: "Kasa — EXIT Denim" },
       { name: "description", content: "Završite narudžbinu. Plaćanje pouzećem, brza dostava." },
     ],

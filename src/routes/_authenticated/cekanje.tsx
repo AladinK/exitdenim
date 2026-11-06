@@ -7,7 +7,13 @@ import { Layout } from "@/components/Layout";
 import { getMyProfile } from "@/lib/orders.functions";
 
 export const Route = createFileRoute("/_authenticated/cekanje")({
-  head: () => ({ meta: [{ title: "Nalog na čekanju — EXIT Denim" }] }),
+  head: () => ({ meta: [
+      { name: "description", content: "Status odobravanja vašeg EXIT Denim partnerskog naloga." },
+      { property: "og:title", content: "Nalog na čekanju — EXIT Denim" },
+      { property: "og:description", content: "Status odobravanja vašeg EXIT Denim partnerskog naloga." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+{ title: "Nalog na čekanju — EXIT Denim" }] }),
   component: Cekanje,
 });
 

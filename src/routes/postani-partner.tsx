@@ -5,6 +5,10 @@ import { Check, ArrowRight } from "lucide-react";
 export const Route = createFileRoute("/postani-partner")({
   head: () => ({
     meta: [
+      { property: "og:description", content: "Prijavite butik za EXIT Denim B2B partnerstvo. Odobravamo veleprodaju buticima, onlajn prodavcima i distributerima u regionu." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+
       { title: "Partnerski program — EXIT Denim B2B" },
       { name: "description", content: "Prijavite butik za EXIT Denim B2B partnerstvo. Odobravamo veleprodaju buticima, onlajn prodavcima i distributerima u regionu." },
       { property: "og:title", content: "Partnerski program — EXIT Denim B2B" },

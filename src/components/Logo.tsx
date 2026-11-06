@@ -1,4 +1,4 @@
-import logoAsset from "@/assets/exit-logo.png.asset.json";
+import logoAsset from "@/assets/exit-logo.webp.asset.json";
 import { useSiteAsset } from "@/hooks/useSiteAsset";
 
 type Variant = "dark" | "light";
@@ -24,6 +24,9 @@ export function Logo({
       <img
         src={src}
         alt="EXIT Denim"
+        width={360}
+        height={202}
+        decoding="async"
         className="h-15 sm:h-16 w-auto shrink-0"
         style={isLight ? { filter: "invert(1) hue-rotate(180deg)", mixBlendMode: "screen", height: "56px" } : { mixBlendMode: "multiply", height: "56px" }}
       />

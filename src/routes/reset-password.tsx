@@ -4,7 +4,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { Layout } from "@/components/Layout";
 
 export const Route = createFileRoute("/reset-password")({
-  head: () => ({ meta: [{ title: "Nova lozinka — EXIT Denim" }] }),
+  head: () => ({ meta: [
+      { name: "description", content: "Postavite novu lozinku za EXIT Denim nalog." },
+      { property: "og:title", content: "Nova lozinka — EXIT Denim" },
+      { property: "og:description", content: "Postavite novu lozinku za EXIT Denim nalog." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+{ title: "Nova lozinka — EXIT Denim" }] }),
   component: ResetPassword,
 });
 

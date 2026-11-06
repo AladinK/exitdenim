@@ -6,7 +6,13 @@ import { Layout } from "@/components/Layout";
 import { getMyDraftOrder, removeOrderItem, submitOrder, getMyProfile } from "@/lib/orders.functions";
 
 export const Route = createFileRoute("/_authenticated/narudzba")({
-  head: () => ({ meta: [{ title: "Moja B2B narudžba — EXIT Denim" }] }),
+  head: () => ({ meta: [
+      { name: "description", content: "Pripremite svoju veleprodajnu EXIT Denim narudžbu." },
+      { property: "og:title", content: "Moja B2B narudžba — EXIT Denim" },
+      { property: "og:description", content: "Pripremite svoju veleprodajnu EXIT Denim narudžbu." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+{ title: "Moja B2B narudžba — EXIT Denim" }] }),
   component: Narudzba,
 });
 

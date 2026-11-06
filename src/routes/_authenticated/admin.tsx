@@ -106,7 +106,13 @@ const EMPTY: AdminProduct = {
 };
 
 export const Route = createFileRoute("/_authenticated/admin")({
-  head: () => ({ meta: [{ title: "Admin — EXIT Denim B2B" }] }),
+  head: () => ({ meta: [
+      { name: "description", content: "Upravljanje EXIT Denim proizvodima i porudžbinama." },
+      { property: "og:title", content: "Admin — EXIT Denim B2B" },
+      { property: "og:description", content: "Upravljanje EXIT Denim proizvodima i porudžbinama." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+{ title: "Admin — EXIT Denim B2B" }] }),
   component: Admin,
 });
 

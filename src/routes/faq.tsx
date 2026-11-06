@@ -6,6 +6,9 @@ import { Layout } from "@/components/Layout";
 export const Route = createFileRoute("/faq")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+
       { title: "Često postavljana pitanja — EXIT Denim B2B" },
       { name: "description", content: "Odgovori na najčešća pitanja B2B partnera: MOQ, isporuka, načini plaćanja, povraćaj robe i ponovne sezonske porudžbine." },
       { property: "og:title", content: "Često postavljana pitanja — EXIT Denim B2B" },

@@ -11,3 +11,6 @@
 
 - Keep the private-label offering on a public, server-rendered content route, linked from the footer, sitemap and AI reading index so visitors and crawlers can discover the same information.
 - Use the shared EcoProduction section for company-level manufacturing claims; keep product-specific finishing claims separate to avoid implying unverified processes for every model.
+- Share dynamic site assets through the home-assets Query cache across loaders and branding so hydration does not request a second set of signed URLs.
+- Batch private image signing and keep public stock reads live; never prerender visitor-specific or inventory-dependent content for performance.
+- Dehydrate the per-request QueryClient into the router and hydrate it before rendering so initial public reads and signed image URLs are reused without duplicate requests.

@@ -5,6 +5,10 @@ import { Layout } from "@/components/Layout";
 export const Route = createFileRoute("/media-kit")({
   head: () => ({
     meta: [
+      { property: "og:description", content: "Foto materijal proizvoda, Instagram story šabloni i gotovi caption-i za EXIT Denim B2B partnere. Osvežavanje svake sezone." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+
       { title: "Medija kit — EXIT Denim za B2B partnere" },
       { name: "description", content: "Foto materijal proizvoda, Instagram story šabloni i gotovi caption-i za EXIT Denim B2B partnere. Osvežavanje svake sezone." },
       { property: "og:title", content: "Medija kit — EXIT Denim za B2B partnere" },

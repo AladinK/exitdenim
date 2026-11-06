@@ -35,12 +35,18 @@ export const getHomeAssets = createServerFn({ method: "GET" }).handler(async () 
   const sb = await adminClient();
   const { data, error } = await sb.from("site_assets").select("key,url,alt");
   if (error) throw new Error(error.message);
+  const rows = data ?? [];
+  const paths = [...new Set(rows.map((r) => r.url).filter((url) => !/^https?:\/\//i.test(url) && !url.startsWith("/")))];
+  const signed: Record<string, string> = {};
+  if (paths.length) {
+    const { data: urls, error: signingError } = await sb.storage.from("site-assets").createSignedUrls(paths, 60 * 60 * 24 * 7);
+    if (signingError) throw new Error(signingError.message);
+    for (const item of urls ?? []) {
+      if (item.path && item.signedUrl) signed[item.path] = item.signedUrl;
+    }
+  }
   const out: Record<string, { url: string; alt: string | null }> = {};
-  await Promise.all(
-    (data ?? []).map(async (r: any) => {
-      out[r.key] = { url: await signIfPath(r.url), alt: r.alt };
-    }),
-  );
+  for (const row of rows) out[row.key] = { url: signed[row.url] ?? row.url, alt: row.alt };
   return out;
 });
 

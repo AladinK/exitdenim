@@ -14,6 +14,9 @@ import { useAuth } from "@/hooks/useAuth";
 export const Route = createFileRoute("/katalog")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+
       { title: "Muške farmerke, jeans i teksas pantalone — EXIT Denim shop" },
       { name: "description", content: "Kupi muške farmerke, muški jeans, teksas, chino i cargo pantalone online. Domaća proizvodnja, 5.990 din, besplatna dostava, plaćanje pouzećem, dostava po Srbiji." },
       { property: "og:title", content: "Muške farmerke, jeans i teksas pantalone — EXIT Denim shop" },

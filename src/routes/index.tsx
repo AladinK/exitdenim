@@ -14,7 +14,15 @@ import { homeAssetsQuery, productsQuery } from "@/lib/product-queries";
 
 
 export const Route = createFileRoute("/")({
-  head: () => ({
+  loader: async ({ context }) => {
+    await Promise.all([
+      context.queryClient.ensureQueryData(productsQuery()),
+      context.queryClient.ensureQueryData(homeAssetsQuery()),
+    ]);
+    const assets = context.queryClient.getQueryData<Record<string, { url: string; alt: string | null }>>(["home-assets"]);
+    return { heroUrl: assets?.hero?.url ?? assets?.hero_texture?.url ?? "" };
+  },
+  head: ({ loaderData }) => ({
     meta: [
       { title: "EXIT Denim — Muške farmerke i jeans | Made in Srbija" },
       { name: "description", content: "Muške farmerke, muški jeans i teksas pantalone domaće proizvodnje — slim, regular, relaxed, bootcut i flare. 5.990 din, besplatna dostava, plaćanje pouzećem, dostava po celoj Srbiji." },
@@ -23,18 +31,20 @@ export const Route = createFileRoute("/")({
       { property: "og:url", content: "https://exitdenim.shop/" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      ...(/^https:\/\//.test(loaderData?.heroUrl ?? "") ? [
+        { property: "og:image", content: loaderData?.heroUrl },
+        { name: "twitter:image", content: loaderData?.heroUrl },
+      ] : []),
     ],
-    links: [{ rel: "canonical", href: "https://exitdenim.shop/" }],
+    links: [
+      { rel: "canonical", href: "https://exitdenim.shop/" },
+      ...(loaderData?.heroUrl ? [{ rel: "preload", as: "image", href: loaderData.heroUrl, fetchPriority: "high" } as const] : []),
+    ],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: "EXIT Denim", url: "https://exitdenim.shop/", telephone: "+381653176716" }) },
       { type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", name: "EXIT Denim", url: "https://exitdenim.shop/" }) },
     ],
   }),
-  loader: ({ context }) =>
-    Promise.all([
-      context.queryClient.ensureQueryData(productsQuery()),
-      context.queryClient.ensureQueryData(homeAssetsQuery()),
-    ]),
   component: HomePage,
 });
 

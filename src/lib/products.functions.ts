@@ -9,10 +9,21 @@ type ProductRow = Database["public"]["Tables"]["products"]["Row"];
 export type ProductWithStock = ProductRow & { stock: Record<string, number> };
 
 function publicClient() {
+  const url = process.env["SUPABASE_URL"];
+  const key = process.env["SUPABASE_PUBLISHABLE_KEY"];
+  if (!url || !key) throw new Error("Public catalog configuration unavailable.");
   return createClient<Database>(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_PUBLISHABLE_KEY!,
-    { auth: { storage: undefined, persistSession: false, autoRefreshToken: false } },
+    url,
+    key,
+    {
+      auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
+      global: { fetch: (input, init) => {
+        const headers = new Headers(init?.headers);
+        if (key.startsWith("sb_") && headers.get("Authorization") === `Bearer ${key}`) headers.delete("Authorization");
+        headers.set("apikey", key);
+        return fetch(input, { ...init, headers });
+      } },
+    },
   );
 }
 
@@ -23,25 +34,16 @@ async function signClient() {
   return supabaseAdmin;
 }
 
-async function signIfPath(image_url: string | null) {
-  if (!image_url) return null;
-  if (/^https?:\/\//i.test(image_url) || image_url.startsWith("/")) return image_url;
-  const sb = await signClient();
-  const { data } = await sb.storage.from("product-images").createSignedUrl(image_url, 60 * 60 * 24 * 7);
-  return data?.signedUrl ?? null;
-}
-
 export const listProducts = createServerFn({ method: "GET" }).handler(async () => {
   const sb = publicClient();
-  const { data: products, error } = await sb
+  const [{ data: products, error }, { data: availability }] = await Promise.all([sb
     .from("products_public")
     .select("*")
     .eq("active", true)
-    .order("sort_order", { ascending: true });
+    .order("sort_order", { ascending: true }), sb.rpc("get_stock_availability")]);
   if (error) throw new Error(error.message);
   // Public availability only — exposed as 1/0 so callers keep the existing
   // stock map shape without leaking raw inventory quantities.
-  const { data: availability } = await sb.rpc("get_stock_availability");
   const stockBy: Record<string, Record<string, number>> = {};
   (availability || []).forEach((s) => {
     if (!s.product_id) return;
@@ -50,9 +52,9 @@ export const listProducts = createServerFn({ method: "GET" }).handler(async () =
   });
   // Batch-sign storage paths in one request instead of one call per product.
   const list = products || [];
-  const paths = list
+  const paths = [...new Set(list
     .map((p) => p.image_url)
-    .filter((u): u is string => !!u && !/^https?:\/\//i.test(u) && !u.startsWith("/"));
+    .filter((u): u is string => !!u && !/^https?:\/\//i.test(u) && !u.startsWith("/")))];
   const signed: Record<string, string> = {};
   if (paths.length) {
     const { data } = await (await signClient()).storage.from("product-images").createSignedUrls(paths, 60 * 60 * 24 * 7);
@@ -69,23 +71,28 @@ export const getProductBySlug = createServerFn({ method: "GET" })
   .inputValidator((d: unknown) => z.object({ slug: z.string() }).parse(d))
   .handler(async ({ data }) => {
     const sb = publicClient();
-    const { data: product, error } = await sb
+    const [{ data: product, error }, { data: availability }] = await Promise.all([sb
       .from("products_public")
       .select("*")
       .eq("slug", data.slug)
       .eq("active", true)
-      .maybeSingle();
+      .maybeSingle(), sb.rpc("get_stock_availability")]);
     if (error) throw new Error(error.message);
     if (!product) return null;
-    const { data: availability } = await sb.rpc("get_stock_availability");
     const stockMap: Record<string, number> = {};
     (availability || [])
       .filter((s) => s.product_id === product.id)
       .forEach((s) => { stockMap[s.size] = s.in_stock ? 1 : 0; });
-    const image_url = await signIfPath(product.image_url);
-    const gallery = (
-      await Promise.all(((product as any).gallery || []).map((g: string) => signIfPath(g)))
-    ).filter(Boolean) as string[];
+    const originalGallery = Array.isArray(product.gallery) ? product.gallery.filter((g): g is string => typeof g === "string") : [];
+    const paths = [...new Set([product.image_url, ...originalGallery].filter((url): url is string => !!url && !/^https?:\/\//i.test(url) && !url.startsWith("/")))];
+    const signed: Record<string, string> = {};
+    if (paths.length) {
+      const { data: urls } = await (await signClient()).storage.from("product-images").createSignedUrls(paths, 60 * 60 * 24 * 7);
+      for (const item of urls ?? []) if (item.path && item.signedUrl) signed[item.path] = item.signedUrl;
+    }
+    const resolve = (url: string | null) => url ? signed[url] ?? (paths.includes(url) ? null : url) : null;
+    const image_url = resolve(product.image_url);
+    const gallery = originalGallery.map(resolve).filter((url): url is string => !!url);
     return { ...product, image_url, gallery, stock: stockMap } as ProductWithStock;
   });
 
