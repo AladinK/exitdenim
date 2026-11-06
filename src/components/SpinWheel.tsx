@@ -29,7 +29,9 @@ function pickSegment(): number {
   return 0;
 }
 
-const SEG_COLORS = ["#0D0D0C", "#1A2A48", "#0D0D0C", "#749D02", "#0D0D0C", "#1A2A48", "#0D0D0C", "#B89968"];
+// Editorial, near-monochrome wheel: ink / ivory alternating, brand green only on the top prize.
+const SEG_FILL = ["var(--ivory)", "var(--indigo)", "var(--ivory)", "var(--brand-green)", "var(--ivory)", "var(--indigo)", "var(--ivory)", "var(--gold)"];
+const SEG_TEXT = ["var(--ink)", "var(--ivory)", "var(--ink)", "var(--ink)", "var(--ink)", "var(--ivory)", "var(--ink)", "var(--ink)"];
 
 /** Opens the spin-wheel modal from anywhere (e.g. the navbar link). */
 export function openSpinWheel() {
@@ -104,90 +106,146 @@ export function SpinWheel() {
 
   if (!mounted) return null;
 
-  const conic = `conic-gradient(from -90deg, ${SEGMENTS.map(
-    (_, i) => `${SEG_COLORS[i]} ${i * SEG_DEG}deg ${(i + 1) * SEG_DEG}deg`,
+  const conic = `conic-gradient(from 0deg, ${SEGMENTS.map(
+    (_, i) => `${SEG_FILL[i]} ${i * SEG_DEG}deg ${(i + 1) * SEG_DEG}deg`,
   ).join(", ")})`;
+
+  const close = () => !spinning && setOpen(false);
 
   return createPortal(
     <>
-      {/* Modal */}
       {open && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Točak sreće">
-          <div className="absolute inset-0 bg-foreground/60 backdrop-blur-sm" onClick={() => !spinning && setOpen(false)} />
-          <div className="relative w-full max-w-sm bg-background border border-border shadow-2xl p-6 text-center">
+        <div
+          className="fixed inset-0 z-[70] flex items-end sm:items-center justify-center sm:p-6"
+          role="dialog"
+          aria-modal="true"
+          aria-label="EXIT privilegija — točak popusta"
+        >
+          <div className="absolute inset-0 bg-ink/70 backdrop-blur-[2px] animate-in fade-in duration-300" onClick={close} />
+
+          <div className="relative w-full sm:max-w-[820px] max-h-[94vh] overflow-y-auto bg-background shadow-2xl ring-1 ring-ivory/15 grid sm:grid-cols-[1.05fr_1fr] animate-in fade-in slide-in-from-bottom-4 duration-500">
             <button
-              onClick={() => setOpen(false)}
+              onClick={close}
               disabled={spinning}
               aria-label="Zatvori"
-              className="absolute top-3 right-3 w-8 h-8 inline-flex items-center justify-center hover:bg-secondary disabled:opacity-40"
+              className="absolute top-3 right-3 z-20 w-9 h-9 rounded-full inline-flex items-center justify-center bg-background/90 text-foreground hover:bg-secondary transition-colors disabled:opacity-30"
             >
-              <X className="w-4 h-4" />
+              <X className="w-[18px] h-[18px]" strokeWidth={1.5} />
             </button>
 
-            <div className="eyebrow">EXIT točak sreće</div>
-            <h2 className="mt-2 text-2xl">Zavrti i osvoji popust</h2>
-            <p className="mt-1 text-[12px] text-muted-foreground">
-              Popust važi odmah, na celu porudžbinu. Jedan spin po poseti.
-            </p>
+            {/* Left — wheel stage */}
+            <div className="relative bg-ink text-ivory flex flex-col items-center justify-center px-6 pt-9 pb-7 sm:py-12 overflow-hidden">
+              <div className="absolute inset-0 opacity-[0.07] [background-image:radial-gradient(circle_at_50%_45%,var(--ivory)_0,transparent_60%)]" />
+              <div className="relative text-[10px] uppercase tracking-[0.35em] text-ivory/60">EXIT Denim · Beograd</div>
 
-            {/* Wheel */}
-            <div className="relative mx-auto mt-6 w-[260px] h-[260px]">
-              {/* Pointer */}
-              <div className="absolute -top-1 left-1/2 -translate-x-1/2 z-10 w-0 h-0 border-l-[10px] border-r-[10px] border-t-[16px] border-l-transparent border-r-transparent border-t-accent" />
-              <div
-                className="w-full h-full rounded-full border-4 border-foreground shadow-xl"
-                style={{
-                  background: conic,
-                  transform: `rotate(${rotation}deg)`,
-                  transition: spinning ? "transform 4.5s cubic-bezier(.17,.67,.12,.99)" : "none",
-                }}
-              >
-                {SEGMENTS.map((s, i) => (
-                  <div
-                    key={i}
-                    className="absolute inset-0 flex justify-center"
-                    style={{ transform: `rotate(${i * SEG_DEG + SEG_DEG / 2}deg)` }}
-                  >
-                    <span className="mt-4 text-[11px] font-bold tracking-wider text-[#F5F0E7] [text-shadow:0_1px_2px_rgba(0,0,0,.6)]">
-                      {s.label}
-                    </span>
-                  </div>
-                ))}
+              <div className="relative mt-6 w-[220px] h-[220px] sm:w-[280px] sm:h-[280px]">
+                {/* Pointer */}
+                <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center">
+                  <div className="w-0 h-0 border-l-[9px] border-r-[9px] border-t-[14px] border-l-transparent border-r-transparent border-t-ivory drop-shadow" />
+                </div>
+                {/* Outer ring */}
+                <div className="absolute -inset-2 rounded-full border border-ivory/20" />
+                <div
+                  className="w-full h-full rounded-full ring-1 ring-ivory/40"
+                  style={{
+                    background: conic,
+                    transform: `rotate(${rotation}deg)`,
+                    transition: spinning ? "transform 4.5s cubic-bezier(.17,.67,.12,.99)" : "none",
+                  }}
+                >
+                  {SEGMENTS.map((s, i) => (
+                    <div
+                      key={i}
+                      className="absolute inset-0 flex justify-center"
+                      style={{ transform: `rotate(${i * SEG_DEG + SEG_DEG / 2}deg)` }}
+                    >
+                      <span
+                        className={`mt-4 sm:mt-5 font-semibold tracking-[0.12em] ${s.respin ? "text-[8px] sm:text-[9px]" : "text-[12px] sm:text-[14px]"}`}
+                        style={{ color: SEG_TEXT[i] }}
+                      >
+                        {s.respin ? "JOŠ 1" : s.label}
+                      </span>
+                    </div>
+                  ))}
+                  {/* Segment dividers */}
+                  {SEGMENTS.map((_, i) => (
+                    <div
+                      key={`d${i}`}
+                      className="absolute left-1/2 top-0 h-1/2 w-px bg-ink/15 origin-bottom"
+                      style={{ transform: `translateX(-50%) rotate(${i * SEG_DEG}deg)` }}
+                    />
+                  ))}
+                </div>
+                <div className="absolute inset-0 m-auto w-[62px] h-[62px] sm:w-[72px] sm:h-[72px] rounded-full bg-ink ring-1 ring-ivory/30 flex items-center justify-center">
+                  <span className="font-display text-[13px] sm:text-[15px] tracking-[0.08em] text-ivory">EXIT</span>
+                </div>
               </div>
-              <div className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-background border-2 border-foreground flex items-center justify-center text-[10px] font-bold tracking-[0.2em]">
-                EXIT
+
+              <div className="relative mt-6 text-[10px] uppercase tracking-[0.3em] text-ivory/50 hidden sm:block">
+                Premium denim · 12 oz · Made in Serbia
               </div>
             </div>
 
-            {/* Result / CTA */}
-            {result ? (
-              <div className="mt-6 animate-fade-up">
-                <div className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Osvojili ste</div>
-                <div className="mt-1 text-4xl font-bold text-accent">−{result.pct}%</div>
-                <div className="mt-2 inline-block border border-dashed border-foreground px-3 py-1.5 text-sm font-mono tracking-widest">
-                  {result.code}
+            {/* Right — copy & action */}
+            <div className="flex flex-col justify-center px-6 py-7 sm:px-10 sm:py-12">
+              {result ? (
+                <div className="animate-fade-up">
+                  <div className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Čestitamo</div>
+                  <h2 className="mt-3 font-display text-[44px] sm:text-[56px] leading-none tracking-tight">
+                    −{result.pct}%
+                  </h2>
+                  <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">
+                    Vaš popust je aktiviran i biće automatski obračunat na celu porudžbinu.
+                  </p>
+                  <div className="mt-6 border-t border-b border-border py-3 flex items-center justify-between">
+                    <span className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Vaš kod</span>
+                    <span className="font-mono text-[13px] tracking-[0.15em]">{result.code}</span>
+                  </div>
+                  <button onClick={() => setOpen(false)} className="btn-primary w-full justify-center mt-6 h-12">
+                    Nastavi kupovinu
+                  </button>
                 </div>
-                <p className="mt-2 text-[12px] text-muted-foreground">
-                  Popust je sačuvan i primenjuje se automatski na kasi.
-                </p>
-                <button onClick={() => setOpen(false)} className="btn-primary w-full justify-center mt-4">
-                  Nastavi kupovinu
-                </button>
-              </div>
-            ) : hasSpun && promo ? (
-              <div className="mt-6">
-                <p className="text-sm text-muted-foreground">
-                  Već imate osvojen popust od <b className="text-foreground">−{promo.pct}%</b> — primenjuje se automatski na kasi.
-                </p>
-                <button onClick={() => setOpen(false)} className="btn-outline w-full justify-center mt-4">
-                  Zatvori
-                </button>
-              </div>
-            ) : (
-              <button onClick={spin} disabled={spinning} className="btn-primary w-full justify-center mt-6 disabled:opacity-60">
-                {spinning ? "Točak se vrti…" : "Zavrti točak"}
-              </button>
-            )}
+              ) : hasSpun && promo ? (
+                <div>
+                  <div className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Vaša privilegija</div>
+                  <h2 className="mt-3 font-display text-[40px] sm:text-[48px] leading-none tracking-tight">−{promo.pct}%</h2>
+                  <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">
+                    Popust je već aktivan i primenjuje se automatski na kasi.
+                  </p>
+                  <button onClick={() => setOpen(false)} className="btn-primary w-full justify-center mt-6 h-12">
+                    Nastavi kupovinu
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <div className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Ekskluzivno online</div>
+                  <h2 className="mt-3 font-display text-[30px] sm:text-[38px] leading-[1.02] tracking-tight">
+                    Do 15% popusta na vašu porudžbinu
+                  </h2>
+                  <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">
+                    Zavrtite točak i otključajte svoju privilegiju. Popust se primenjuje automatski na kasi.
+                  </p>
+                  <ul className="mt-5 space-y-1.5 text-[13px]">
+                    <li className="flex items-center gap-2.5"><span className="w-1 h-1 rounded-full bg-accent" />Besplatna dostava širom Srbije</li>
+                    <li className="flex items-center gap-2.5"><span className="w-1 h-1 rounded-full bg-accent" />Plaćanje pouzećem</li>
+                    <li className="flex items-center gap-2.5"><span className="w-1 h-1 rounded-full bg-accent" />Premium denim 12 oz, 98% pamuk</li>
+                  </ul>
+                  <button onClick={spin} disabled={spinning} className="btn-primary w-full justify-center mt-7 h-12 disabled:opacity-60">
+                    {spinning ? "Točak se okreće…" : "Zavrti točak"}
+                  </button>
+                  <button
+                    onClick={close}
+                    disabled={spinning}
+                    className="mt-3 w-full text-center text-[12px] text-muted-foreground underline underline-offset-4 hover:text-foreground disabled:opacity-40"
+                  >
+                    Ne, hvala
+                  </button>
+                  <p className="mt-5 text-[10px] leading-relaxed text-muted-foreground/80">
+                    Jedan pokušaj po uređaju.
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
