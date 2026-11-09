@@ -218,7 +218,7 @@ function Katalog() {
       {/* Header — denim texture */}
       <section className="bg-[var(--ink)] text-[color:var(--ivory)] border-b-2 border-[color:var(--ink)]">
         <div className="container-x py-10 md:py-16">
-          <span className="sticker -rotate-2">Shop all · 2027</span>
+          <span className="sticker -rotate-2">Svi modeli · 2027</span>
           <div className="mt-5 grid lg:grid-cols-12 gap-6 items-end">
             <div className="lg:col-span-8">
               <h1 className="mt-4 !text-[color:var(--ivory)] text-[clamp(2.75rem,8vw,5.5rem)] leading-[0.9] max-w-[14ch]">

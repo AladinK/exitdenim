@@ -24,6 +24,7 @@ EXIT u proizvodnji koristi inovativnu lasersku tehnologiju španske kompanije Je
 - [Flare farmerke](/flare-farmerke): Široka nogavica od kolena.
 - [Cropped farmerke](/cropped-farmerke): Skraćena nogavica.
 - [Česta pitanja](/faq): Pitanja o maloprodaji i poručivanju.
+- [Vodič za muške farmerke](/vodic-za-farmerke): Preko 100 odgovora o krojevima, veličinama, održavanju i kombinovanju muških farmerki.
 
 ## Optional
 - [Media kit](/media-kit): Informacije i materijali brenda.

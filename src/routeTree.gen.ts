@@ -35,6 +35,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SlimFarmerkeRouteImport } from './routes/slim-farmerke'
+import { Route as VodicZaFarmerkeRouteImport } from './routes/vodic-za-farmerke'
 import { Route as WideFlareRouteImport } from './routes/wide-flare'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedCekanjeRouteImport } from './routes/_authenticated/cekanje'
@@ -173,6 +174,11 @@ const SlimFarmerkeRoute = SlimFarmerkeRouteImport.update({
   path: '/slim-farmerke',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VodicZaFarmerkeRoute = VodicZaFarmerkeRouteImport.update({
+  id: '/vodic-za-farmerke',
+  path: '/vodic-za-farmerke',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WideFlareRoute = WideFlareRouteImport.update({
   id: '/wide-flare',
   path: '/wide-flare',
@@ -242,6 +248,7 @@ export interface FileRoutesByFullPath {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/slim-farmerke': typeof SlimFarmerkeRoute
+  '/vodic-za-farmerke': typeof VodicZaFarmerkeRoute
   '/wide-flare': typeof WideFlareRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/cekanje': typeof AuthenticatedCekanjeRoute
@@ -277,6 +284,7 @@ export interface FileRoutesByTo {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/slim-farmerke': typeof SlimFarmerkeRoute
+  '/vodic-za-farmerke': typeof VodicZaFarmerkeRoute
   '/wide-flare': typeof WideFlareRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/cekanje': typeof AuthenticatedCekanjeRoute
@@ -314,6 +322,7 @@ export interface FileRoutesById {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/slim-farmerke': typeof SlimFarmerkeRoute
+  '/vodic-za-farmerke': typeof VodicZaFarmerkeRoute
   '/wide-flare': typeof WideFlareRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/cekanje': typeof AuthenticatedCekanjeRoute
@@ -351,6 +360,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/slim-farmerke'
+    | '/vodic-za-farmerke'
     | '/wide-flare'
     | '/admin'
     | '/cekanje'
@@ -386,6 +396,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/slim-farmerke'
+    | '/vodic-za-farmerke'
     | '/wide-flare'
     | '/admin'
     | '/cekanje'
@@ -422,6 +433,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/slim-farmerke'
+    | '/vodic-za-farmerke'
     | '/wide-flare'
     | '/_authenticated/admin'
     | '/_authenticated/cekanje'
@@ -459,6 +471,7 @@ export interface RootRouteChildren {
   ShopRoute: typeof ShopRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SlimFarmerkeRoute: typeof SlimFarmerkeRoute
+  VodicZaFarmerkeRoute: typeof VodicZaFarmerkeRoute
   WideFlareRoute: typeof WideFlareRoute
   PorudzbinaNumberRoute: typeof PorudzbinaNumberRoute
   ProizvodSlugRoute: typeof ProizvodSlugRoute
@@ -649,6 +662,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SlimFarmerkeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/vodic-za-farmerke': {
+      id: '/vodic-za-farmerke'
+      path: '/vodic-za-farmerke'
+      fullPath: '/vodic-za-farmerke'
+      preLoaderRoute: typeof VodicZaFarmerkeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/wide-flare': {
       id: '/wide-flare'
       path: '/wide-flare'
@@ -752,6 +772,7 @@ const rootRouteChildren: RootRouteChildren = {
   ShopRoute: ShopRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SlimFarmerkeRoute: SlimFarmerkeRoute,
+  VodicZaFarmerkeRoute: VodicZaFarmerkeRoute,
   WideFlareRoute: WideFlareRoute,
   PorudzbinaNumberRoute: PorudzbinaNumberRoute,
   ProizvodSlugRoute: ProizvodSlugRoute,

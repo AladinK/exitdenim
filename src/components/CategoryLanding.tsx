@@ -27,7 +27,7 @@ export function landingHead(l: LandingPage) {
           "@type": "BreadcrumbList",
           itemListElement: [
             { "@type": "ListItem", position: 1, name: "Početna", item: BASE + "/" },
-            { "@type": "ListItem", position: 2, name: "Shop", item: BASE + "/katalog" },
+            { "@type": "ListItem", position: 2, name: "Svi modeli", item: BASE + "/katalog" },
             { "@type": "ListItem", position: 3, name: l.h1, item: BASE + l.path },
           ],
         }),
@@ -43,7 +43,7 @@ export function CategoryLanding({ page }: { page: LandingPage }) {
     <Layout>
       <section className="container-x pt-10 md:pt-16 pb-8">
         <nav aria-label="Putanja" className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-          <Link to="/" className="hover:text-foreground">Početna</Link> / <Link to="/katalog" className="hover:text-foreground">Shop</Link> / <span>{page.h1}</span>
+          <Link to="/" className="hover:text-foreground">Početna</Link> / <Link to="/katalog" className="hover:text-foreground">Svi modeli</Link> / <span>{page.h1}</span>
         </nav>
         <h1 className="mt-4 text-[clamp(2.25rem,6vw,4.5rem)] leading-none">{page.h1}</h1>
         <p className="mt-4 max-w-2xl text-muted-foreground">{page.intro}</p>

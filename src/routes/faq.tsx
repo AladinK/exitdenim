@@ -9,10 +9,10 @@ export const Route = createFileRoute("/faq")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
 
-      { title: "Često postavljana pitanja — EXIT Denim B2B" },
-      { name: "description", content: "Odgovori na najčešća pitanja B2B partnera: MOQ, isporuka, načini plaćanja, povraćaj robe i ponovne sezonske porudžbine." },
-      { property: "og:title", content: "Često postavljana pitanja — EXIT Denim B2B" },
-      { property: "og:description", content: "Odgovori na najčešća pitanja B2B partnera: MOQ, isporuka, načini plaćanja, povraćaj robe i ponovne sezonske porudžbine." },
+      { title: "Česta pitanja o kupovini — EXIT Denim" },
+      { name: "description", content: "Cene, plaćanje pouzećem, besplatna dostava, veličine i popust — sve što treba da znate pre kupovine." },
+      { property: "og:title", content: "Česta pitanja o kupovini — EXIT Denim" },
+      { property: "og:description", content: "Cene, plaćanje pouzećem, besplatna dostava, veličine i popust — sve što treba da znate pre kupovine." },
       { property: "og:url", content: "https://exitdenim.shop/faq" },
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/faq" }],
@@ -21,14 +21,16 @@ export const Route = createFileRoute("/faq")({
 });
 
 const QA: Array<[string, string]> = [
-  ["Koji je minimalni iznos prve porudžbine?", "Minimalna prva porudžbina je 60 komada (Starter paket). MOQ po artiklu je 10–12 komada, zavisno od modela."],
-  ["Kako funkcionišu cene?", "Veleprodajne cene vidljive su tek nakon odobrenja B2B naloga. Cene su fiksne po sezoni — bez skrivenih troškova."],
-  ["Koliko traje isporuka?", "5–10 dana do Srbije, BiH, Crne Gore, Severne Makedonije, Hrvatske i Slovenije. Grčka i ostatak EU 7–14 dana."],
-  ["Mogu li poručiti samo jednu boju u svim veličinama?", "Da. Matrica veličina omogućava da poručite tačno koliko komada po svakoj veličini želite, do raspoloživog stanja."],
-  ["Radite li custom brending?", "Za partnere sa volumenom 500+ kom mesečno radimo custom etikete i ambalažu. Detalje dogovaramo direktno."],
-  ["Kako funkcioniše plaćanje?", "Prva porudžbina: 50% avans, 50% pre slanja. Nakon 3 uspešne saradnje prelazimo na fleksibilnije uslove."],
-  ["Da li je moguć povraćaj robe?", "Povraćaj samo u slučaju proizvodnog nedostatka, prijava u roku 7 dana od prijema. Stock povraćaji nisu mogući."],
-  ["Imate li predstavnika u mojoj zemlji?", "Trenutno radimo direktno iz Srbije. Sva komunikacija ide preko wholesale tima na srpskom, bosanskom, hrvatskom i engleskom."],
+  ["Koliko koštaju farmerke?", "Farmerke i chino pantalone koštaju 5.990 din, a cargo džeparke 7.500 din."],
+  ["Kako se plaća?", "Plaćate pouzećem, kuriru kada paket stigne. Bez kartice i bez plaćanja unapred."],
+  ["Koliko košta dostava?", "Dostava je besplatna za sve porudžbine po celoj Srbiji."],
+  ["Kada stiže paket?", "Porudžbinu šaljemo u roku od 1–2 radna dana, a kurir obično isporučuje dan ili dva posle slanja."],
+  ["Koje veličine imate?", "31, 32, 33, 34, 36, 38 i 40. Tabela veličina je na strani svakog proizvoda."],
+  ["Da li moram da napravim nalog?", "Ne. Poručujete bez registracije, samo upišete ime, adresu, telefon i e-mail."],
+  ["Šta ako nisam siguran za veličinu?", "Pišite nam na WhatsApp ili Viber +381 65 3171 6716 pre porudžbine i preporučićemo vam broj i kroj."],
+  ["Šta ako mi veličina ne odgovara?", "Javite nam se na WhatsApp ili Viber i dogovorićemo rešenje."],
+  ["Kako da iskoristim popust?", "U meniju kliknite „Osvoji popust“ i zavrtite točak. Osvojeni popust se sam primenjuje u korpi."],
+  ["Da li prodajete i na veliko?", "Da. Butici i prodavnice mogu da se prijave na strani „Postani partner“. Uslovi veleprodaje razlikuju se od kupovine na sajtu."],
 ];
 
 function Faq() {
@@ -39,7 +41,7 @@ function Faq() {
         <div className="container-x py-20 md:py-28">
           <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Često postavljana pitanja</div>
           <h1 className="mt-7 h1-editorial text-background">
-            Wholesale <span className="italic">pitanja</span>.
+            Pitanja o <span className="italic">kupovini</span>.
           </h1>
         </div>
       </section>
@@ -50,7 +52,7 @@ function Faq() {
             <div className="lg:sticky lg:top-32">
               <div className="eyebrow">Treba vam više detalja?</div>
               <p className="mt-5 serif text-2xl leading-tight">
-                Wholesale tim odgovara na sva pitanja u <span className="italic">24h</span>.
+                Pitajte nas, odgovaramo u roku od <span className="italic">24h</span>. Više o krojevima i održavanju pročitajte u <Link to="/vodic-za-farmerke" className="underline">vodiču za farmerke</Link>.
               </p>
               <Link to="/kontakt" className="btn-outline mt-7">Kontaktirajte nas</Link>
             </div>

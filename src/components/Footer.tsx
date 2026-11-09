@@ -30,10 +30,10 @@ export function Footer() {
           </div>
 
           <div className="md:col-span-2">
-            <div className="text-xs uppercase tracking-[0.16em] text-white/55 font-semibold">Shop</div>
+            <div className="text-xs uppercase tracking-[0.16em] text-white/55 font-semibold">Prodavnica</div>
             <ul className="mt-4 space-y-2.5 text-sm">
-              <li><Link to="/katalog" className="hover:text-accent transition-colors">Shop all</Link></li><li><Link to="/wide-flare" className="hover:text-accent transition-colors">Wide & Flare</Link></li>
-              <li><Link to="/jeans" className="hover:text-accent transition-colors">Farmerke</Link></li><li><Link to="/chino" className="hover:text-accent transition-colors">Chino</Link></li><li><Link to="/cargo" className="hover:text-accent transition-colors">Cargo</Link></li>
+              <li><Link to="/katalog" className="hover:text-accent transition-colors">Svi modeli</Link></li><li><Link to="/wide-flare" className="hover:text-accent transition-colors">Široke farmerke</Link></li>
+              <li><Link to="/jeans" className="hover:text-accent transition-colors">Farmerke</Link></li><li><Link to="/chino" className="hover:text-accent transition-colors">Chino</Link></li><li><Link to="/cargo" className="hover:text-accent transition-colors">Cargo (džeparke)</Link></li>
             </ul>
           </div>
 
@@ -52,7 +52,8 @@ export function Footer() {
                 </a>
               </li>
               <li><Link to="/media-kit" className="hover:text-accent transition-colors">Media kit</Link></li>
-              <li><Link to="/faq" className="hover:text-accent transition-colors">FAQ</Link></li>
+              <li><Link to="/faq" className="hover:text-accent transition-colors">Česta pitanja</Link></li>
+              <li><Link to="/vodic-za-farmerke" className="hover:text-accent transition-colors">Vodič za farmerke</Link></li>
             </ul>
           </div>
 
@@ -73,8 +74,8 @@ export function Footer() {
         <div className="border-t border-white/10 mt-14 pt-6 flex flex-col md:flex-row justify-between gap-3 text-xs text-white/55">
           <div>© {new Date().getFullYear()} EXIT Denim · Proizvedeno u Srbiji</div>
           <div className="flex gap-6">
-            <Link to="/faq" className="hover:text-white">Uslovi korišćenja</Link>
-            <Link to="/faq" className="hover:text-white">Politika privatnosti</Link>
+            <Link to="/faq" className="hover:text-white">Uslovi kupovine</Link>
+            <Link to="/privatnost" className="hover:text-white">Politika privatnosti</Link>
           </div>
         </div>
       </div>

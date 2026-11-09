@@ -15,11 +15,12 @@ import { ecommerce } from "@/lib/analytics";
 const FITS = ["Slim", "Regular Slim", "Relaxed", "Bootcut", "Flare", "Cargo", "Cropped"];
 
 const NAV: Array<{ to: any; label: string }> = [
-  { to: "/katalog", label: "Shop all" },
-  { to: "/wide-flare", label: "Wide & Flare" },
+  { to: "/katalog", label: "Svi modeli" },
+  { to: "/wide-flare", label: "Široke farmerke" },
   { to: "/jeans", label: "Farmerke" },
   { to: "/chino", label: "Chino" },
   { to: "/cargo", label: "Cargo" },
+  { to: "/vodic-za-farmerke", label: "Vodič" },
   { to: "/proizvodnja", label: "O nama" },
 ];
 
