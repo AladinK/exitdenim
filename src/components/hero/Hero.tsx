@@ -12,7 +12,7 @@ export function Hero() {
   return (
     <section className="relative isolate overflow-hidden bg-[var(--ink)] text-[color:var(--ivory)]">
       <div className="absolute inset-0 -z-10" aria-hidden>
-        {bg && <img src={bg} alt="" fetchPriority="high" decoding="async" className="absolute inset-0 w-full h-full object-cover opacity-60" />}
+        {bg && <img src={bg} alt="" fetchPriority="high" loading="eager" className="absolute inset-0 w-full h-full object-cover opacity-60" />}
         <div className="absolute inset-0 bg-gradient-to-t from-[var(--ink)] via-[var(--ink)]/30 to-transparent" />
       </div>
 
