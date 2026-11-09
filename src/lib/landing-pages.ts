@@ -27,8 +27,8 @@ const MADE = { h: "Ko ih šije", p: "EXIT je domaći proizvođač denima. Krojim
 export const LANDING_PAGES: LandingPage[] = [
   {
     path: "/jeans", label: "Muške farmerke",
-    title: "Muške farmerke i jeans — teksas pantalone | EXIT Denim",
-    description: "Muške farmerke od teksasa: slim, regular, relaxed, bootcut, flare. 5.990 din, plaćanje pouzećem, besplatna dostava po Srbiji.",
+    title: "Muške farmerke online — slim, regular i široke | EXIT Denim",
+    description: "Muške farmerke od teksasa sa 98% pamuka, u slim, regular slim, relaxed, bootcut i flare kroju. 5.990 din, plaćanje pouzećem i besplatna dostava po Srbiji.",
     h1: "Muške farmerke",
     intro: "Farmerke od pravog teksasa, u krojevima od uskog slim do širokog flare. Domaća proizvodnja, plaćaš kad stigne.",
     match: catIs("jeans"),
@@ -40,8 +40,8 @@ export const LANDING_PAGES: LandingPage[] = [
   },
   {
     path: "/chino", label: "Chino pantalone",
-    title: "Muške chino pantalone | EXIT Denim",
-    description: "Muške chino pantalone za posao i svaki dan. 5.990 din, plaćanje pouzećem, besplatna dostava po Srbiji.",
+    title: "Muške chino pantalone za posao i svaki dan | EXIT Denim",
+    description: "Muške chino pantalone urednog izgleda, za posao, izlazak i vikend. Domaća proizvodnja, 5.990 din, plaćanje pouzećem i besplatna dostava po Srbiji.",
     h1: "Muške chino pantalone",
     intro: "Chino je mirnija alternativa farmerkama: uredan izgled za posao, a udobnost za ceo dan.",
     match: catIs("chino"),
@@ -53,8 +53,8 @@ export const LANDING_PAGES: LandingPage[] = [
   },
   {
     path: "/cargo", label: "Cargo pantalone",
-    title: "Muške cargo pantalone | EXIT Denim",
-    description: "Muške cargo pantalone sa bočnim džepovima. 7.500 din, plaćanje pouzećem, besplatna dostava po Srbiji.",
+    title: "Muške cargo pantalone (džeparke) | EXIT Denim",
+    description: "Muške cargo pantalone sa bočnim džepovima, opušten kroj i čvrst materijal. 7.500 din, plaćanje pouzećem i besplatna dostava po celoj Srbiji.",
     h1: "Muške cargo pantalone",
     intro: "Cargo sa bočnim džepovima, opušten kroj i čvrst materijal za svakodnevno nošenje.",
     match: (p) => catIs("cargo")(p) || fitIs("Cargo")(p),
@@ -67,7 +67,7 @@ export const LANDING_PAGES: LandingPage[] = [
   {
     path: "/wide-flare", label: "Široke farmerke",
     title: "Široke muške farmerke — relaxed, bootcut i flare | EXIT Denim",
-    description: "Široke muške farmerke: relaxed, bootcut i flare kroj. 5.990 din, pouzećem, besplatna dostava.",
+    description: "Široke muške farmerke u relaxed, bootcut i flare kroju, od teksasa sa 98% pamuka. 5.990 din, plaćanje pouzećem i besplatna dostava po Srbiji.",
     h1: "Široke farmerke",
     intro: "Relaxed, Bootcut i Flare: tri načina da nogavica bude šira.",
     match: fitIs("Relaxed", "Bootcut", "Flare"),
@@ -86,8 +86,8 @@ export const LANDING_PAGES: LandingPage[] = [
     ["cropped", "Cropped", "Cropped farmerke imaju skraćenu nogavicu, iznad članka. Pokazuju patike i čarape i deluju lagano."],
   ] as const).map(([slug, fit, text]): LandingPage => ({
     path: `/${slug}-farmerke`, label: `${fit} farmerke`,
-    title: `${fit} farmerke za muškarce | EXIT Denim`,
-    description: `Muške ${fit.toLowerCase()} farmerke od teksasa. 5.990 din, plaćanje pouzećem, besplatna dostava po Srbiji.`,
+    title: `Muške ${fit} farmerke — kroj i veličine | EXIT Denim`,
+    description: `${text.split(". ")[0]}. Teksas sa 98% pamuka, 5.990 din, plaćanje pouzećem i besplatna dostava po Srbiji.`.slice(0, 160),
     h1: `${fit} farmerke`,
     intro: text,
     match: fitIs(fit),

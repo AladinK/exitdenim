@@ -86,6 +86,7 @@ export function CategoryLanding({ page }: { page: LandingPage }) {
           {LANDING_PAGES.filter((l) => l.path !== page.path).map((l) => (
             <li key={l.path}><a href={l.path} className="inline-block border border-border px-3 py-1.5 text-sm hover:border-foreground">{l.label}</a></li>
           ))}
+          <li><Link to="/vodic-za-farmerke" className="inline-block border border-border px-3 py-1.5 text-sm hover:border-foreground">Vodič: kako izabrati farmerke</Link></li>
         </ul>
       </section>
     </Layout>

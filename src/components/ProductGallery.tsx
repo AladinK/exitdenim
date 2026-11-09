@@ -30,7 +30,7 @@ export function Gallery({ images, alt, sku, fit }: { images: string[]; alt: stri
             <div key={src} className="snap-center shrink-0 w-full aspect-[4/5]">
               <img
                 src={src}
-                alt={i === 0 ? alt : `${alt} — slika ${i + 1}`}
+                alt={i === 0 ? alt : `${alt} — pogled ${i + 1}`}
                 fetchPriority={i === 0 ? "high" : "auto"}
                 loading={i === 0 ? "eager" : "lazy"}
                 decoding="async"

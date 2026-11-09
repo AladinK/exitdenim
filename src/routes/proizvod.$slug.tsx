@@ -15,6 +15,7 @@ import { productQuery, productsQuery } from "@/lib/product-queries";
 import { ecommerce, itemFromProduct } from "@/lib/analytics";
 import { useAuth } from "@/hooks/useAuth";
 import { oldPrice, DISCOUNT_PCT } from "@/lib/pricing";
+import { productAlt, productKind, fitPath, categoryLink } from "@/lib/seo-labels";
 import { B2BSpecs } from "@/components/B2BSpecs";
 
 export const Route = createFileRoute("/proizvod/$slug")({
@@ -28,9 +29,13 @@ export const Route = createFileRoute("/proizvod/$slug")({
   head: ({ params, loaderData }) => {
     const p = loaderData?.product;
     const name = p?.name ?? params.slug.split("-").map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join(" ");
-    const title = `${name} — EXIT Denim`.slice(0, 60);
+    const kind = p ? productKind(p) : "muške pantalone";
+    const kindCap = kind.charAt(0).toUpperCase() + kind.slice(1);
+    const fitTxt = p?.fit && p.fit !== "Cargo" ? ` ${p.fit}` : "";
+    const full = `${kindCap}${fitTxt} — ${name} | EXIT`;
+    const title = full.length <= 65 ? full : `${name} — ${kind} | EXIT`;
     const desc = p
-      ? `${p.name}, ${p.fit} fit, ${p.color}. ${Number(p.retail).toLocaleString("sr-RS")} RSD. Plaćanje pouzećem, dostava po celoj Srbiji.`.slice(0, 160)
+      ? `${kindCap}${fitTxt ? ` u${fitTxt} kroju` : ""}, ${String(p.color ?? "").toLowerCase()}${p.fabric ? `, ${p.fabric}` : ""}. ${Number(p.retail).toLocaleString("sr-RS")} din, besplatna dostava i plaćanje pouzećem po Srbiji.`.replace(", ,", ",").slice(0, 160)
       : `${name} — muške pantalone EXIT Denim.`;
     const url = `https://exitdenim.shop/proizvod/${params.slug}`;
     const img = p?.image_url && /^https:\/\//.test(p.image_url) ? p.image_url : null;
@@ -127,7 +132,7 @@ function ProductDetail() {
         <div className="lg:col-span-7">
           <Gallery
             images={[product.image_url, ...(((product as any).gallery as string[]) || [])].filter(Boolean) as string[]}
-            alt={`${product.name} — ${product.fit} fit, ${product.color}`}
+            alt={productAlt(product)}
             sku={product.sku}
             fit={product.fit}
           />
@@ -176,6 +181,16 @@ function ProductDetail() {
                 U EXIT proizvodnji koristimo inovativnu lasersku tehnologiju španske kompanije Jeanologia kao deo našeg ekološkog pristupa obradi denima.
               </p>
               <Link to="/proizvodnja" className="mt-3 inline-block underline underline-offset-4">Više o našoj proizvodnji</Link>
+            </Section>
+            <Section title="Slični modeli i saveti">
+              <ul className="space-y-2 text-sm">
+                {fitPath(product.fit) && fitPath(product.fit) !== categoryLink(product).to && (
+                  <li><Link to={fitPath(product.fit) as any} className="underline underline-offset-4">Sve {product.fit} farmerke</Link></li>
+                )}
+                <li><Link to={categoryLink(product).to as any} className="underline underline-offset-4">{categoryLink(product).label}</Link></li>
+                <li><Link to="/vodic-za-farmerke" hash="velicine" className="underline underline-offset-4">Kako izabrati veličinu i dužinu</Link></li>
+                <li><Link to="/vodic-za-farmerke" hash="odrzavanje" className="underline underline-offset-4">Kako prati i održavati {productKind(product).replace("muške ", "")}</Link></li>
+              </ul>
             </Section>
             <Section title="Dostava i plaćanje">
               <p className="leading-relaxed text-foreground/80">

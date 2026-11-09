@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { oldPrice, DISCOUNT_PCT } from "@/lib/pricing";
+import { productAlt } from "@/lib/seo-labels";
 import type { ProductWithStock } from "@/lib/products.functions";
 
 export function ProductCard({ product, showB2B }: { product: ProductWithStock; showB2B?: boolean }) {
@@ -21,7 +22,7 @@ export function ProductCard({ product, showB2B }: { product: ProductWithStock; s
         {product.image_url ? (
           <img
             src={product.image_url}
-            alt={`${product.name} — ${product.fit} fit`}
+            alt={productAlt(product)}
             loading="lazy"
             decoding="async"
             className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(.2,.7,.2,1)] group-hover:scale-[1.05] ${soldOut ? "opacity-60 grayscale" : ""}`}
