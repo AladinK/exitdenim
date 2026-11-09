@@ -157,12 +157,12 @@ function CheckoutPage() {
         <div className="eyebrow">Kasa</div>
         <h1 className="mt-4 text-4xl md:text-5xl">Završite porudžbinu</h1>
 
-        <form onSubmit={onSubmit} className="mt-10 grid lg:grid-cols-12 gap-10">
+        <form onSubmit={onSubmit} className="mt-10 grid grid-cols-[minmax(0,1fr)] lg:grid-cols-12 gap-10">
           {/* LEFT: form */}
-          <div className="lg:col-span-8 space-y-8">
-            <fieldset className="border border-border p-6">
+          <div className="lg:col-span-8 space-y-8 min-w-0">
+            <fieldset className="border border-border p-6 min-w-0">
               <legend className="px-2 text-[11px] uppercase tracking-[0.22em] font-medium">Kontakt</legend>
-              <div className="grid md:grid-cols-2 gap-4 mt-2">
+              <div className="grid grid-cols-[minmax(0,1fr)] md:grid-cols-2 gap-4 mt-2">
                 <Field label="Ime i prezime" name="name" value={form.name} onChange={(v) => set("name", v)} error={errors.name} required />
                 <Field label="Email" name="email" type="email" value={form.email} onChange={(v) => set("email", v)} error={errors.email} required />
                 <Field label="Telefon" name="phone" type="tel" value={form.phone} onChange={(v) => set("phone", v)} error={errors.phone} required />
@@ -174,9 +174,9 @@ function CheckoutPage() {
               )}
             </fieldset>
 
-            <fieldset className="border border-border p-6">
+            <fieldset className="border border-border p-6 min-w-0">
               <legend className="px-2 text-[11px] uppercase tracking-[0.22em] font-medium">Adresa za isporuku</legend>
-              <div className="grid md:grid-cols-2 gap-4 mt-2">
+              <div className="grid grid-cols-[minmax(0,1fr)] md:grid-cols-2 gap-4 mt-2">
                 <div className="md:col-span-2">
                   <Field label="Ulica i broj" name="address" value={form.address} onChange={(v) => set("address", v)} error={errors.address} required />
                 </div>
@@ -188,7 +188,7 @@ function CheckoutPage() {
               </div>
             </fieldset>
 
-            <fieldset className="border border-border p-6">
+            <fieldset className="border border-border p-6 min-w-0">
               <legend className="px-2 text-[11px] uppercase tracking-[0.22em] font-medium">Način plaćanja</legend>
               <label className="flex items-start gap-3 mt-2 p-4 border border-foreground bg-secondary/40 cursor-pointer">
                 <input type="radio" checked readOnly className="mt-1" />
