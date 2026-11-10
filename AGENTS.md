@@ -14,3 +14,4 @@
 - Share dynamic site assets through the home-assets Query cache across loaders and branding so hydration does not request a second set of signed URLs.
 - Batch private image signing and keep public stock reads live; never prerender visitor-specific or inventory-dependent content for performance.
 - Dehydrate the per-request QueryClient into the router and hydrate it before rendering so initial public reads and signed image URLs are reused without duplicate requests.
+- Keep homepage collection filtering client-side on the existing products Query cache; it must not introduce extra requests or alter checkout behavior.

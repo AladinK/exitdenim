@@ -34,6 +34,7 @@
   --color-teal: var(--teal);
   --color-violet: var(--violet);
   --color-surface: var(--surface);
+  --color-cover-foreground: var(--cover-foreground);
   --font-display: "Archivo Black", "Arial Black", system-ui, sans-serif;
   --font-sans: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
@@ -41,6 +42,11 @@
 
 :root {
   --radius: 2px;
+  --cover-foreground: oklch(0.99 0 0);
+  --cover-shade: oklch(0.12 0 0);
+  --home-paper: oklch(0.99 0 0);
+  --home-border: oklch(0.87 0 0);
+  --home-muted: oklch(0.48 0 0);
 
   /* EXIT Denim — refined editorial palette (cream base, raw-indigo, ecru, ink) */
   --ink: #0D0D0C;             /* near-black for type */
@@ -414,4 +420,46 @@
   display: inline-flex; align-items: center; padding: .25rem 0;
   font-family: var(--font-sans); font-weight: 500; font-size: .68rem; letter-spacing: .24em; text-transform: uppercase;
   color: var(--brand-green); border-bottom: 1px solid var(--brand-green); background: transparent;
+}
+
+/* EXIT home: a photographic masthead, open product rails and print-like rules. */
+.exit-home {
+  --background: var(--home-paper);
+  --border: var(--home-border);
+  --muted-foreground: var(--home-muted);
+  letter-spacing: 0;
+}
+.exit-home :is(h1, h2, h3, p, a, button, span) { letter-spacing: 0; }
+.exit-cover { height: min(720px, 76svh); min-height: 490px; }
+.exit-cover-shade {
+  background: linear-gradient(180deg, color-mix(in oklab, var(--cover-shade) 18%, transparent), transparent 48%, color-mix(in oklab, var(--cover-shade) 75%, transparent));
+}
+.exit-masthead {
+  font-family: var(--font-display);
+  font-size: 92px;
+  font-weight: 400;
+  line-height: .85;
+  text-wrap: nowrap;
+}
+.exit-masthead span { font-size: 62px; margin-top: 5px; }
+.exit-category-image { aspect-ratio: 4 / 5; }
+.exit-fit-note { background: var(--home-paper); }
+.exit-collection h3 { text-transform: none; }
+.exit-collection a > div:nth-child(2) > div:first-child { flex-direction: column; gap: .5rem; }
+.exit-collection a > div:nth-child(2) h3 { font-size: 13px; line-height: 1.5; }
+.exit-collection a > div:nth-child(2) > div:first-child > div { display: flex; align-items: baseline; gap: .2rem; }
+.exit-collection a > div:nth-child(2) > div:first-child > div > div { margin-left: .5rem; }
+@media (min-width: 768px) {
+  .exit-masthead { font-size: 160px; }
+  .exit-masthead span { font-size: 108px; }
+  .exit-cover { min-height: 520px; }
+  .exit-category-image { aspect-ratio: 3 / 4; }
+}
+@media (min-width: 1280px) {
+  .exit-masthead { font-size: 200px; }
+  .exit-masthead span { font-size: 136px; }
+}
+@media (max-width: 359px) {
+  .exit-masthead { font-size: 76px; }
+  .exit-masthead span { font-size: 51px; }
 }

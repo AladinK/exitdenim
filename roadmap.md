@@ -1,5 +1,10 @@
 # Roadmap
 
+## Distinctive homepage redesign
+- [x] Replace the generic hero and repeated cards with a photographic EXIT masthead and editorial collection layout.
+- [x] Make product discovery faster with crop filters and clear purchase information, retaining the existing checkout.
+- [x] Verify desktop/mobile appearance and the product-to-checkout path (no real order submitted).
+
 ## Page-speed refinement
 - [x] Share site-image queries to avoid duplicate downloads after the first display.
 - [x] Reduce logo size and prioritize the homepage photograph.
