@@ -1,5 +1,10 @@
 # Roadmap
 
+## New original photography
+- [x] Build an art-directed original-photo cover and a three-photo denim editorial.
+- [x] Keep live catalog photos, stock and checkout unchanged; optimize new photos as WebP.
+- [x] Verify the photographs, navigation and purchase path on mobile and desktop (no final order submitted).
+
 ## Original studio editorial redesign
 - [x] Replace the shaded cover with a studio-photo composition and EXIT masthead.
 - [x] Add a direct shopping strip, balanced product grid and cargo photo story.

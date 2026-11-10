@@ -5,10 +5,11 @@ import { Layout } from "@/components/Layout";
 import { Hero } from "@/components/hero/Hero";
 import { EcoProduction } from "@/components/EcoProduction";
 import { HomeCollection } from "@/components/HomeCollection";
+import { DenimEditorial } from "@/components/DenimEditorial";
 import { Button } from "@/components/ui/button";
 import { homeAssetsQuery, productsQuery } from "@/lib/product-queries";
-import editorial from "@/assets/exit-original-cover.webp.asset.json";
-import editorialMobile from "@/assets/exit-original-cover-mobile.webp.asset.json";
+import editorial from "@/assets/exit-seated-cover.webp.asset.json";
+import editorialMobile from "@/assets/exit-portrait-cover-mobile.webp.asset.json";
 import cargoStudio from "@/assets/exit-studio-cargo.webp.asset.json";
 
 export const Route = createFileRoute("/")({
@@ -59,6 +60,7 @@ function HomePage() {
           <Link to="/vodic-za-farmerke" className="inline-flex items-center gap-2 font-medium">Pomoć oko veličine <ArrowUpRight className="h-4 w-4" /></Link>
         </div>
         <HomeCollection />
+        <DenimEditorial />
         <section className="px-5 md:px-12 pt-4 pb-12 md:pb-20" aria-labelledby="collection-heading">
           <div className="flex items-end justify-between gap-4 border-t border-foreground pt-5 mb-7">
             <h2 id="collection-heading" className="text-2xl md:text-4xl">I van teksasa.</h2>

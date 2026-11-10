@@ -430,17 +430,21 @@
   letter-spacing: 0;
 }
 .exit-home :is(h1, h2, h3, p, a, button, span) { letter-spacing: 0; }
-.exit-studio-photographs { height: min(470px, 61svh); min-height: 330px; background: var(--ink); }
-.exit-studio-main { display: block; height: 100%; }
-.exit-studio-main img { object-position: center 35%; }
-.exit-studio-secondary { display: none; }
-.exit-studio-label { position: absolute; top: 16px; left: 20px; }
-.exit-studio-wordmark { position: absolute; bottom: 14px; left: 16px; margin: 0; font-family: var(--font-display); font-size: 84px; line-height: .82; color: var(--cover-foreground); text-wrap: nowrap; }
-.exit-studio-wordmark span { display: block; font-size: 30px; margin-top: 10px; }
-.exit-studio-index { position: absolute; bottom: 16px; right: 20px; }
-.exit-studio-shop { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 100px; padding-block: 18px; }
-.exit-studio-shop p { line-height: 1.5; }
-.exit-studio-shop a { font-size: 12px; }
+.exit-campaign-photo { height: min(510px, 67svh); min-height: 370px; background: var(--ink); }
+.exit-campaign-photo img { object-position: center top; }
+.exit-campaign-copy { position: absolute; inset: 20px; display: flex; flex-direction: column; align-items: flex-start; }
+.exit-campaign-copy > p:first-child { padding: 7px 9px; background: var(--ink); max-width: 125px; line-height: 1.6; }
+.exit-campaign-wordmark { margin-top: auto; margin-bottom: 0; font-family: var(--font-display); font-size: 84px; line-height: .9; color: var(--cover-foreground); text-wrap: nowrap; }
+.exit-campaign-wordmark span { display: block; font-size: 28px; margin-top: 6px; }
+.exit-campaign-caption { margin-top: 14px; padding: 6px 9px; background: var(--ink); }
+.exit-campaign-shop { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 92px; padding-block: 16px; }
+.exit-campaign-shop p { line-height: 1.6; }
+.exit-campaign-shop a { font-size: 12px; flex-shrink: 0; }
+.exit-denim-photo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 14px; }
+.exit-denim-photo-grid figure { min-width: 0; }
+.exit-denim-photo-grid img { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; }
+.exit-denim-city { grid-column: span 2; }
+.exit-denim-photo-grid .exit-denim-city img { aspect-ratio: 4 / 3; }
 .exit-cargo-story { height: 540px; margin-inline: 0; background: var(--ink); }
 .exit-cargo-story > img { object-position: center; }
 .exit-cargo-shade { background: linear-gradient(180deg, color-mix(in oklab, var(--ink) 20%, transparent), transparent 35%, color-mix(in oklab, var(--ink) 70%, transparent)); }
@@ -454,23 +458,24 @@
 .exit-showroom-link:hover img { transform: scale(1.025); }
 .exit-showroom-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (min-width: 768px) {
-  .exit-studio-photographs { height: min(650px, 64svh); min-height: 480px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 6px; }
-  .exit-studio-secondary { display: block; height: 100%; width: 100%; object-fit: cover; object-position: center 30%; }
-  .exit-studio-main img { object-position: center 30%; }
-  .exit-studio-wordmark { left: 38px; bottom: 26px; font-size: 150px; }
-  .exit-studio-wordmark span { display: inline; font-size: 72px; margin-left: 14px; }
-  .exit-studio-label { left: 48px; top: 24px; }
-  .exit-studio-index { bottom: 28px; right: 48px; }
-  .exit-studio-shop { min-height: 110px; }
-  .exit-studio-shop a { font-size: 14px; }
+  .exit-campaign-photo { height: min(720px, 69svh); min-height: 490px; }
+  .exit-campaign-photo img { object-position: center 63%; }
+  .exit-campaign-copy { inset: 36px 48px; }
+  .exit-campaign-copy > p:first-child { max-width: none; }
+  .exit-campaign-wordmark { font-size: 140px; margin-top: 42px; }
+  .exit-campaign-wordmark span { font-size: 48px; }
+  .exit-campaign-caption { margin-top: 20px; }
+  .exit-campaign-shop { min-height: 96px; }
+  .exit-campaign-shop a { font-size: 14px; }
+  .exit-denim-photo-grid { grid-template-columns: 1.4fr 1fr 1fr; gap: 28px; align-items: start; }
+  .exit-denim-city { grid-column: auto; margin-top: 70px; }
   .exit-cargo-story { height: 580px; }
   .exit-cargo-story > img { object-fit: contain; object-position: right center; }
   .exit-category-image { aspect-ratio: 3 / 4; }
   .exit-showroom-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: start; }
 }
 @media (max-width: 359px) {
-  .exit-studio-wordmark { font-size: 72px; }
-  .exit-studio-index { display: none; }
-  .exit-studio-shop { flex-wrap: wrap; }
+  .exit-campaign-wordmark { font-size: 72px; }
+  .exit-campaign-shop { flex-wrap: wrap; }
 }
 @media (prefers-reduced-motion: reduce) { .exit-showroom-product img { transition: none; } .exit-showroom-link:hover img { transform: none; } }
