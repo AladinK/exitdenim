@@ -41,7 +41,7 @@ export function CategoryLanding({ page }: { page: LandingPage }) {
   const items = (data ?? []).filter(page.match);
   return (
     <Layout>
-      <section className="container-x pt-10 md:pt-16 pb-8">
+      <section className="exit-category-heading container-x pt-10 md:pt-16 pb-8">
         <nav aria-label="Putanja" className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
           <Link to="/" className="hover:text-foreground">Početna</Link> / <Link to="/katalog" className="hover:text-foreground">Svi modeli</Link> / <span>{page.h1}</span>
         </nav>

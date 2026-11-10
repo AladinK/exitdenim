@@ -15,7 +15,7 @@ export function ProductCard({ product, showB2B }: { product: ProductWithStock; s
     <Link
       to="/proizvod/$slug"
       params={{ slug: product.slug }}
-      className="group block focus-visible:outline-none"
+      className="exit-product-card group block focus-visible:outline-none"
       aria-label={`${product.name}, ${Number(product.retail).toLocaleString("sr-RS")} RSD`}
     >
       <div className="relative aspect-[3/4] w-full overflow-hidden bg-secondary ring-0 ring-foreground/0 transition-[box-shadow] duration-500 group-focus-visible:ring-2 group-focus-visible:ring-foreground">
@@ -30,8 +30,6 @@ export function ProductCard({ product, showB2B }: { product: ProductWithStock; s
         ) : (
           <div className="absolute inset-0 bg-foreground/5" />
         )}
-
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-foreground/35 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
         <div className="absolute inset-x-0 top-0 flex items-start justify-between p-3 md:p-4">
           <span className="bg-background/85 backdrop-blur-sm px-2 py-1 text-[9.5px] md:text-[10px] font-medium uppercase tracking-[0.22em] text-foreground">
@@ -71,7 +69,7 @@ export function ProductCard({ product, showB2B }: { product: ProductWithStock; s
 
       <div className="pt-4 md:pt-5">
         <div className="flex items-start justify-between gap-3">
-          <h3 className="min-w-0 text-[13px] md:text-[14px] font-medium uppercase leading-snug tracking-[0.08em] line-clamp-2" style={{ color: "inherit" }}>
+          <h3 className="min-w-0 text-[13px] md:text-[14px] font-medium leading-snug line-clamp-2">
             {product.name}
           </h3>
           <div className="shrink-0 text-[13px] md:text-[14px] font-medium tabular-nums">

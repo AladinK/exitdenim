@@ -59,27 +59,25 @@ function HomePage() {
           <span>Plaćanje pouzećem</span>
           <Link to="/vodic-za-farmerke" className="inline-flex items-center gap-2 font-medium">Pomoć oko veličine <ArrowUpRight className="h-4 w-4" /></Link>
         </div>
-        <HomeCollection />
-        <DenimEditorial />
-        <section className="px-5 md:px-12 pt-4 pb-12 md:pb-20" aria-labelledby="collection-heading">
-          <div className="flex items-end justify-between gap-4 border-t border-foreground pt-5 mb-7">
+        <section className="exit-category-campaigns px-4 md:px-8 py-6 md:py-8" aria-labelledby="collection-heading">
+          <div className="sr-only">
             <h2 id="collection-heading" className="text-2xl md:text-4xl">I van teksasa.</h2>
             <span className="hidden md:block text-xs text-muted-foreground">EXIT / ASORTIMAN</span>
           </div>
-          <div className="exit-category-list grid grid-cols-1 sm:grid-cols-3 gap-0 md:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {categories.map((c) => (
-              <Link key={c.key} to={c.to} className="group block">
+              <Link key={c.key} to={c.to} className="exit-category-entry group block relative overflow-hidden rounded-lg">
                 <div className="exit-category-image overflow-hidden bg-secondary">
                   {assets[c.key]?.url && <img src={assets[c.key].url} alt={assets[c.key].alt || c.alt} width={1000} height={1500} loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-500 motion-safe:group-hover:scale-[1.025]" />}
                 </div>
-                <div className="flex items-start justify-between gap-3 border-b border-border py-4">
-                  <div><h3 className="text-xl md:text-2xl">{c.name}</h3><p className="mt-2 text-sm text-muted-foreground">{c.note}</p></div>
-                  <div className="flex items-center gap-3"><span className="text-xs text-muted-foreground mono">{c.number}</span><ArrowUpRight className="h-5 w-5" /></div>
-                </div>
+                <div className="exit-category-label bg-control text-control-foreground rounded-lg px-4 py-2"><h3 className="text-base font-normal">{c.name}</h3></div>
               </Link>
             ))}
           </div>
         </section>
+        <HomeCollection />
+        <EcoProduction />
+        <DenimEditorial />
         <section className="exit-cargo-story relative isolate overflow-hidden text-cover-foreground" aria-labelledby="cargo-story-title">
           <img src={cargoStudio.url} alt="Muške maslinastozelene EXIT džeparke sa bočnim džepovima, model u pokretu" width={900} height={945} loading="lazy" decoding="async" className="absolute inset-0 -z-20 h-full w-full object-cover" />
           <div className="exit-cargo-shade absolute inset-0 -z-10" aria-hidden="true" />
@@ -99,7 +97,6 @@ function HomePage() {
             <Link to="/kontakt" className="block mt-4 text-sm underline underline-offset-4 text-muted-foreground">Pitajte nas za savet</Link>
           </div>
         </section>
-        <EcoProduction />
       </div>
     </Layout>
   );

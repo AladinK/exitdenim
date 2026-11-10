@@ -127,7 +127,7 @@ function ProductDetail() {
 
       </div>
 
-      <section className="md:container-x pt-3 md:py-8 pb-10 grid lg:grid-cols-12 gap-6 lg:gap-16">
+      <section className="exit-product-detail md:container-x pt-3 md:py-8 pb-10 grid lg:grid-cols-12 gap-6 lg:gap-16">
         {/* Gallery */}
         <div className="lg:col-span-7">
           <Gallery

@@ -9,6 +9,7 @@ import { type ProductWithStock } from "@/lib/products.functions";
 import { productsQuery } from "@/lib/product-queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getMyProfile } from "@/lib/orders.functions";
+import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 
 export const Route = createFileRoute("/katalog")({
@@ -26,7 +27,8 @@ export const Route = createFileRoute("/katalog")({
     links: [{ rel: "canonical", href: "https://exitdenim.shop/katalog" }],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(productsQuery()),
-  validateSearch: (s: Record<string, unknown>): { fit?: string; group?: "wide"; cat?: "jeans" | "chino" | "cargo" } => ({
+  validateSearch: (s: Record<string, unknown>): { q?: string; fit?: string; group?: "wide"; cat?: "jeans" | "chino" | "cargo" } => ({
+    q: typeof s.q === "string" ? s.q : undefined,
     fit: typeof s.fit === "string" ? s.fit : undefined,
     group: s.group === "wide" ? ("wide" as const) : undefined,
     cat: s.cat === "jeans" || s.cat === "chino" || s.cat === "cargo" ? s.cat : undefined,
@@ -70,7 +72,8 @@ function Katalog() {
     setWide(search.group === "wide");
   }, [search.cat, search.fit, search.group]); // eslint-disable-line
   const [sizes, setSizes] = useState<string[]>([]);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(search.q ?? "");
+  useEffect(() => setQuery(search.q ?? ""), [search.q]);
   const [inStock, setInStock] = useState(false);
   const [sort, setSort] = useState<SortKey>("featured");
   const [drawer, setDrawer] = useState(false);
@@ -216,33 +219,23 @@ function Katalog() {
   return (
     <Layout>
       {/* Header — denim texture */}
-      <section className="bg-[var(--ink)] text-[color:var(--ivory)] border-b-2 border-[color:var(--ink)]">
-        <div className="container-x py-10 md:py-16">
-          <span className="sticker -rotate-2">Katalog · 2026</span>
-          <div className="mt-5 grid lg:grid-cols-12 gap-6 items-end">
-            <div className="lg:col-span-8">
-              <h1 className="mt-4 !text-[color:var(--ivory)] text-[clamp(2.75rem,8vw,5.5rem)] leading-[0.9] max-w-[14ch]">
-                Svi <span className="text-[color:var(--acid)]">modeli.</span>
-                {approved && <span className="block text-accent mt-3 text-2xl md:text-3xl serif-accent italic">— B2B pristup odobren</span>}
-              </h1>
-            </div>
-            <div className="lg:col-span-4 lg:text-right">
-              <p className="text-sm text-[color:var(--ivory)]/75 max-w-sm lg:ml-auto leading-relaxed">
-                Farmerke, chino i cargo. Veličine 31–40. Plaćanje pouzećem, besplatna dostava po celoj Srbiji.
-              </p>
-            </div>
-          </div>
+      <section className="exit-category-heading container-x pt-8 pb-5">
+        <p className="text-xs text-muted-foreground">Katalog · 2026</p>
+        <h1 className="mt-4 text-2xl">Svi modeli.</h1>
+        <p className="mt-3 text-sm max-w-xl text-muted-foreground">Farmerke, chino i cargo. Veličine 31–40. Plaćanje pouzećem, besplatna dostava po celoj Srbiji.</p>
+        {approved && <p className="text-sm mt-2">B2B pristup odobren</p>}
+        <div className="flex flex-wrap gap-2 mt-4">
+          {CATS.map((c) => <Button key={c.key} variant="fashion" className={`h-9 px-3 text-xs ${cat === c.key ? "bg-primary text-primary-foreground" : ""}`} aria-pressed={cat === c.key} onClick={() => setCat(c.key)}>{c.label}</Button>)}
         </div>
       </section>
 
-
       {/* Toolbar — sticky */}
-      <div className="sticky top-[64px] z-30 bg-background/85 backdrop-blur-md border-b border-border">
+      <div className="sticky top-[76px] z-30 bg-background/85 backdrop-blur-md border-b border-border">
         <div className="container-x flex items-center justify-between py-3 gap-4">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setDrawer(true)}
-              className="lg:hidden inline-flex items-center gap-2 px-3 py-2 border border-border text-[11px] uppercase tracking-[0.2em] hover:border-foreground transition-colors"
+              className="inline-flex items-center gap-2 px-3 py-2 border border-border text-[11px] uppercase tracking-[0.2em] hover:border-foreground transition-colors"
             >
               <SlidersHorizontal className="w-3.5 h-3.5" /> Filteri{activeCount > 0 && ` · ${activeCount}`}
             </button>
@@ -280,10 +273,8 @@ function Katalog() {
 
       {/* Main grid */}
       <section className="py-8 md:py-12">
-        <div className="container-x grid lg:grid-cols-[240px_1fr] gap-10 lg:gap-14">
-          <div className="hidden lg:block">
-            <div className="sticky top-[140px]">{Sidebar}</div>
-          </div>
+        <div className="container-x">
+
 
           <div>
             {filtered.length === 0 ? (
@@ -293,7 +284,7 @@ function Katalog() {
                 <button onClick={clearAll} className="btn-outline mt-6">Obriši filtere</button>
               </div>
             ) : (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-x-3 md:gap-x-5 gap-y-8 md:gap-y-12">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-x-2 md:gap-x-3 gap-y-8 md:gap-y-12">
                 {filtered.map((p) => <ProductCard key={p.id} product={p} showB2B={approved} />)}
               </div>
             )}
@@ -303,7 +294,7 @@ function Katalog() {
 
       {/* Mobile drawer */}
       {drawer && (
-        <div className="fixed inset-0 z-50 lg:hidden">
+        <div className="fixed inset-0 z-50">
           <div className="absolute inset-0 bg-foreground/40 backdrop-blur-sm" onClick={() => setDrawer(false)} />
           <div className="absolute right-0 top-0 h-full w-[86%] max-w-sm bg-background border-l border-border overflow-y-auto">
             <div className="flex items-center justify-between p-5 border-b border-border sticky top-0 bg-background">

@@ -11,6 +11,8 @@ import { useCart } from "@/hooks/useCart";
 import { supabase } from "@/integrations/supabase/client";
 import { getMyProfile } from "@/lib/orders.functions";
 import { ecommerce } from "@/lib/analytics";
+import { Button } from "@/components/ui/button";
+import { StoreSearch } from "./StoreSearch";
 
 const FITS = ["Slim", "Regular Slim", "Relaxed", "Bootcut", "Flare", "Cargo", "Cropped"];
 
@@ -19,7 +21,7 @@ const NAV: Array<{ to: any; label: string }> = [
   { to: "/wide-flare", label: "Široke farmerke" },
   { to: "/jeans", label: "Farmerke" },
   { to: "/chino", label: "Chino" },
-  { to: "/cargo", label: "Cargo" },
+  { to: "/cargo", label: "Džeparke" },
   { to: "/vodic-za-farmerke", label: "Vodič" },
   { to: "/proizvodnja", label: "O nama" },
 ];
@@ -93,23 +95,21 @@ export function Navbar() {
 
   const isApproved = profile?.profile?.status === "approved";
   const displayName = profile?.profile?.boutique_name || user?.user_metadata?.full_name || user?.email || "";
-  const initials = (displayName || "?").split(/\s+/).map((s: string) => s[0]).slice(0, 2).join("").toUpperCase();
-  const avatarUrl = user?.user_metadata?.avatar_url as string | undefined;
 
   return (
     <header
-      className={`sticky top-0 z-40 transition-all duration-500 ${
+      className={`exit-navigation ${pathname === "/" ? "exit-navigation-home" : ""} fixed inset-x-0 top-0 z-40 transition-all duration-300 ${
         scrolled
           ? "bg-background/90 backdrop-blur-xl border-b border-border"
           : "bg-background/70 backdrop-blur-md border-b border-transparent"
       }`}
     >
-      <div className={`container-x flex items-center justify-between transition-all duration-500 ${scrolled ? "h-14" : "h-20"}`}>
-        <Link to="/" className="flex items-center" onClick={() => setOpen(false)} aria-label="EXIT Denim — Početna">
-          <Logo className={`transition-all duration-500 ${scrolled ? "h-6" : "h-8"}`} />
+      <div className="exit-navigation-inner">
+        <Link to="/" className="exit-navigation-logo flex items-center" onClick={() => setOpen(false)} aria-label="EXIT Denim — Početna">
+                <Logo />
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-1">
+        <nav className="exit-navigation-links hidden lg:flex items-center gap-1">
           {NAV.map((n) => (
             <Link
               key={n.to}
@@ -121,16 +121,11 @@ export function Navbar() {
               {n.label}
             </Link>
           ))}
-          <button
-            onClick={openSpinWheel}
-            className="ml-1 inline-flex items-center gap-1.5 px-3 py-2 text-[13.5px] font-medium text-accent hover:brightness-110 transition-all"
-          >
-            <Sparkles className="w-3.5 h-3.5" /> Osvojite popust
-          </button>
         </nav>
 
-        <div className="hidden lg:flex items-center gap-2">
-          <button
+        <div className="exit-navigation-actions hidden lg:flex items-center gap-2">
+          <StoreSearch />
+          <Button variant="fashion" size="icon"
             onClick={() => setCartOpen(true)}
             className="relative inline-flex items-center justify-center w-10 h-10 rounded-md hover:bg-secondary text-foreground"
             aria-label={`Korpa (${cartCount})`}
@@ -141,23 +136,17 @@ export function Navbar() {
                 {cartCount}
               </span>
             )}
-          </button>
+          </Button>
 
           {user ? (
             <div className="relative" ref={menuRef}>
-              <button
+              <Button variant="fashion" size="icon"
                 onClick={() => setMenuOpen((o) => !o)}
                 className="flex items-center gap-2 pl-1 pr-2 py-1 rounded-full border border-border hover:border-foreground/40 transition-colors"
                 aria-label="Korisnički meni"
               >
-                {avatarUrl ? (
-                  <img src={avatarUrl} alt="" className="w-7 h-7 rounded-full object-cover" />
-                ) : (
-                  <span className="w-7 h-7 rounded-full bg-foreground text-background text-[11px] font-semibold flex items-center justify-center">{initials}</span>
-                )}
-                <span className="text-[13px] font-medium max-w-[140px] truncate">{displayName}</span>
-                <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
-              </button>
+                <UserIcon />
+              </Button>
               {menuOpen && (
                 <div className="absolute right-0 mt-2 w-64 bg-background border border-border rounded-md shadow-lg overflow-hidden">
                   <div className="px-4 py-3 border-b border-border">
@@ -201,16 +190,18 @@ export function Navbar() {
             </div>
           ) : (
             <>
-              <Link to="/auth" className="text-[14px] font-medium text-muted-foreground hover:text-foreground px-3 py-2">
-                Prijava
-              </Link>
-              <Link to="/katalog" className="btn-primary">Katalog</Link>
+              <Button asChild variant="fashion" size="icon"><Link to="/auth" aria-label="Prijava" title="Prijava"><UserIcon /></Link></Button>
             </>
           )}
         </div>
 
-        <div className="lg:hidden flex items-center gap-1">
-          <button
+        <div className="exit-mobile-controls lg:hidden flex items-center gap-1">
+          <Button variant="fashion"
+            onClick={() => setOpen((o) => !o)} aria-label={open ? "Zatvori meni" : "Otvori meni"} aria-expanded={open} aria-controls="mobile-menu" className="exit-mobile-menu-trigger">
+            {open ? <X /> : <Menu />}<span>Meni</span>
+          </Button>
+          <StoreSearch />
+          <Button variant="fashion"
             onClick={() => setCartOpen(true)}
             className="relative inline-flex items-center justify-center w-10 h-10 rounded-md hover:bg-secondary text-foreground"
             aria-label={`Korpa (${cartCount})`}
@@ -221,16 +212,7 @@ export function Navbar() {
                 {cartCount}
               </span>
             )}
-          </button>
-          <button
-            className="inline-flex items-center justify-center w-10 h-10 rounded-md hover:bg-secondary text-foreground"
-            onClick={() => setOpen((o) => !o)}
-            aria-label={open ? "Zatvori meni" : "Otvori meni"}
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-          >
-            {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
+          </Button>
         </div>
 
 
@@ -241,7 +223,7 @@ export function Navbar() {
         id="mobile-menu"
         aria-hidden={!open}
         {...(!open ? { inert: true } : {})}
-        className={`lg:hidden fixed inset-x-0 bottom-0 ${scrolled ? "top-14" : "top-20"} z-40 bg-background border-t border-border flex flex-col transition-[opacity,transform] duration-300 ease-out ${
+        className={`lg:hidden fixed inset-x-0 bottom-0 top-[76px] z-40 bg-background border-t border-border flex flex-col transition-[opacity,transform] duration-300 ease-out ${
           open ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"
         }`}
       >

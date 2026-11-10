@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export function Gallery({ images, alt, sku, fit }: { images: string[]; alt: string; sku: string; fit: string }) {
   const [active, setActive] = useState(0);
@@ -16,7 +17,7 @@ export function Gallery({ images, alt, sku, fit }: { images: string[]; alt: stri
     );
   }
   return (
-    <div>
+    <div className="exit-product-gallery">
       <div className="relative">
         <div
           ref={scroller}
@@ -53,7 +54,7 @@ export function Gallery({ images, alt, sku, fit }: { images: string[]; alt: stri
       {images.length > 1 && (
         <div className="mt-2 px-5 md:px-0 flex gap-2 overflow-x-auto scrollbar-none">
           {images.map((src, i) => (
-            <button
+            <Button variant="ghost"
               key={src}
               type="button"
               onClick={() => go(i)}
@@ -61,7 +62,7 @@ export function Gallery({ images, alt, sku, fit }: { images: string[]; alt: stri
               className={`shrink-0 w-16 md:w-20 aspect-[4/5] overflow-hidden border-2 ${i === active ? "border-primary" : "border-transparent opacity-70"}`}
             >
               <img src={src} alt="" loading="lazy" className="w-full h-full object-cover" />
-            </button>
+            </Button>
           ))}
         </div>
       )}

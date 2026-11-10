@@ -40,7 +40,7 @@ function CartPage() {
 
   return (
     <Layout>
-      <section className="container-x py-12 md:py-16">
+      <section className="exit-cart-page container-x py-12 md:py-16">
         <div className="eyebrow">Korpa</div>
         <h1 className="mt-4 text-4xl md:text-5xl">Vaša korpa</h1>
 

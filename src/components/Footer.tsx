@@ -1,36 +1,31 @@
 import { Link } from "@tanstack/react-router";
 import { Logo } from "./Logo";
-import { Seal } from "./Seal";
+
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-[var(--ink)] text-white/85 mt-24">
-      <Seal
-        tone="green"
-        opacity={0.08}
-        className="pointer-events-none absolute -right-16 -top-16 w-[420px] h-[420px] hidden md:block"
-      />
+    <footer className="relative overflow-hidden exit-footer bg-background text-foreground border-t border-border mt-12">
       <div className="relative container-x pt-20 pb-10">
 
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-5">
-            <Logo variant="light" className="h-10" />
-            <p className="text-lg md:text-xl mt-6 max-w-md leading-snug text-white/80">
+            <Logo className="h-10" />
+            <p className="text-lg md:text-xl mt-6 max-w-md leading-snug text-foreground">
               Denim koji nosite, ne koji nosi vas. Pravljeno u Srbiji. Plaćate kad stigne.
             </p>
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-primary-foreground/70">
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
               Ekološki pristup proizvodnji uz inovativnu lasersku tehnologiju španske kompanije Jeanologia.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link to="/katalog" className="btn-accent">Svi modeli</Link>
-              <Link to="/jeans" className="btn-outline border-white/30 text-white hover:bg-white/10 hover:border-white">
+              <Link to="/jeans" className="btn-outline border-border text-foreground hover:bg-secondary">
                 Farmerke
               </Link>
             </div>
           </div>
 
           <div className="md:col-span-2">
-            <div className="text-xs uppercase tracking-[0.16em] text-white/55 font-semibold">Prodavnica</div>
+            <div className="text-xs uppercase tracking-[0.16em] text-muted-foreground font-semibold">Prodavnica</div>
             <ul className="mt-4 space-y-2.5 text-sm">
               <li><Link to="/katalog" className="hover:text-accent transition-colors">Svi modeli</Link></li><li><Link to="/wide-flare" className="hover:text-accent transition-colors">Široke farmerke</Link></li>
               <li><Link to="/jeans" className="hover:text-accent transition-colors">Farmerke</Link></li><li><Link to="/chino" className="hover:text-accent transition-colors">Chino</Link></li><li><Link to="/cargo" className="hover:text-accent transition-colors">Cargo (džeparke)</Link></li>
@@ -38,7 +33,7 @@ export function Footer() {
           </div>
 
           <div className="md:col-span-2">
-            <div className="text-xs uppercase tracking-[0.16em] text-white/55 font-semibold">EXIT</div>
+            <div className="text-xs uppercase tracking-[0.16em] text-muted-foreground font-semibold">EXIT</div>
             <ul className="mt-4 space-y-2.5 text-sm">
               <li><Link to="/postani-partner" className="hover:text-accent transition-colors">Veleprodaja (B2B)</Link></li>
               <li><Link to="/proizvodnja" className="hover:text-accent transition-colors">Proizvodnja</Link></li>
@@ -58,24 +53,24 @@ export function Footer() {
           </div>
 
           <div className="md:col-span-3">
-            <div className="text-xs uppercase tracking-[0.16em] text-white/55 font-semibold">Kontakt</div>
+            <div className="text-xs uppercase tracking-[0.16em] text-muted-foreground font-semibold">Kontakt</div>
             <ul className="mt-4 space-y-2.5 text-sm">
               <li>Ahmed Kurtanović</li>
-              <li className="text-white/60">EXIT Denim — TRI-B DOO</li>
+              <li className="text-muted-foreground">EXIT Denim — TRI-B DOO</li>
               <li>Srbija</li>
               <li className="tabular-nums"><a href="https://wa.me/3816531716716" className="hover:text-accent transition-colors">+381 65 3171 6716</a></li>
-              <li className="text-white/60">WhatsApp · Viber</li>
+              <li className="text-muted-foreground">WhatsApp · Viber</li>
               <li><a href="https://instagram.com/exit.denim" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors">@exit.denim</a></li>
             </ul>
           </div>
 
         </div>
 
-        <div className="border-t border-white/10 mt-14 pt-6 flex flex-col md:flex-row justify-between gap-3 text-xs text-white/55">
+        <div className="border-t border-border mt-14 pt-6 flex flex-col md:flex-row justify-between gap-3 text-xs text-muted-foreground">
           <div>© {new Date().getFullYear()} EXIT Denim · Proizvedeno u Srbiji</div>
           <div className="flex gap-6">
-            <Link to="/faq" className="hover:text-white">Uslovi kupovine</Link>
-            <Link to="/privatnost" className="hover:text-white">Politika privatnosti</Link>
+            <Link to="/faq" className="hover:text-foreground">Uslovi kupovine</Link>
+            <Link to="/privatnost" className="hover:text-foreground">Politika privatnosti</Link>
           </div>
         </div>
       </div>

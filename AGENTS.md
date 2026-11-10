@@ -17,3 +17,5 @@
 - Keep homepage collection filtering client-side on the existing products Query cache; it must not introduce extra requests or alter checkout behavior.
 - Serve the homepage cover as optimized desktop/mobile WebP variants with matching media preloads; uploaded photography uses CDN asset pointers, while original catalog photographs remain unchanged for product inspection.
 - Keep campaign photography in an editorial component separate from live product imagery so unverified photo-to-SKU associations cannot enter checkout.
+- Apply the reference storefront theme through Layout-scoped tokens and shared controls, keeping administration and business data unchanged.
+- Route header search into the existing catalog query filter rather than creating a separate product-fetch path.

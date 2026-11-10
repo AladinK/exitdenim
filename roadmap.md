@@ -1,5 +1,11 @@
 # Roadmap
 
+## Osklen-reference storefront redesign
+- [x] Inspect reference and current home, category, product, navigation, account and cart layouts.
+- [x] Apply a shared neutral visual system, overlay header, photo-led homepage and compact product presentation.
+- [x] Preserve existing checkout, stock, auth, metadata, integrations and admin; connect header search to existing catalog filtering.
+- [x] Compare and verify 390, 768 and 1440 px layouts, search, filters, gallery and purchase flow (no final order submitted; sign-in unchanged, not exercised).
+
 ## New original photography
 - [x] Build an art-directed original-photo cover and a three-photo denim editorial.
 - [x] Keep live catalog photos, stock and checkout unchanged; optimize new photos as WebP.

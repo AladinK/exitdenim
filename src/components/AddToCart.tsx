@@ -5,6 +5,7 @@ import { ShoppingBag, Check, Truck, BadgeCheck } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
 import { ecommerce, itemFromProduct } from "@/lib/analytics";
 import type { ProductWithStock } from "@/lib/products.functions";
+import { Button } from "@/components/ui/button";
 
 const SIZE_GUIDE: [string, string, string][] = [
   ["31", "79–81", "46"],
@@ -54,10 +55,10 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
     }
     add(
       {
-        productId: product.id!,
-        sku: product.sku!,
-        slug: product.slug!,
-        name: product.name!,
+        productId: product.id,
+        sku: product.sku,
+        slug: product.slug,
+        name: product.name,
         size,
         unitPrice: Number(product.retail),
         image: product.image_url,
@@ -77,7 +78,7 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
       const disabled = stock <= 0;
       const active = size === s;
       return (
-        <button
+        <Button variant="outline"
           key={s}
           type="button"
           disabled={disabled}
@@ -93,12 +94,12 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
           aria-label={`Veličina ${s}${disabled ? " (nema na stanju)" : ""}`}
         >
           {s}
-        </button>
+        </Button>
       );
     });
 
   return (
-    <div ref={rootRef}>
+    <div ref={rootRef} className="exit-purchase-controls">
       <div className="flex items-baseline justify-between">
         <div className="eyebrow">Izaberite veličinu</div>
       </div>
@@ -139,13 +140,13 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
         </p>
       </details>
 
-      <button
+      <Button
         onClick={() => onAdd(true)}
         className="mt-6 w-full inline-flex items-center justify-center gap-2 py-4 text-sm uppercase tracking-[0.2em] font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all"
       >
         Naruči odmah
-      </button>
-      <button
+      </Button>
+      <Button variant="outline"
         onClick={() => onAdd()}
         className="mt-2 w-full inline-flex items-center justify-center gap-2 py-3.5 text-sm uppercase tracking-[0.2em] font-medium border border-foreground hover:bg-foreground hover:text-background transition-all"
       >
@@ -160,7 +161,7 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
         ) : (
           "Izaberi veličinu"
         )}
-      </button>
+      </Button>
 
       <ul className="mt-5 space-y-2 text-[12px] text-muted-foreground">
         <li className="flex items-center gap-2">
@@ -192,7 +193,7 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
                     {Number(product.retail).toLocaleString("sr-RS")} din
                   </div>
                 </div>
-                <button
+                <Button
                   onClick={() => onAdd()}
                   className="flex-1 inline-flex items-center justify-center gap-2 py-3.5 text-[12.5px] uppercase tracking-[0.18em] font-semibold bg-primary text-primary-foreground"
                 >
@@ -207,7 +208,7 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
                   ) : (
                     "Izaberi veličinu"
                   )}
-                </button>
+                </Button>
               </div>
             </div>
           </div>,

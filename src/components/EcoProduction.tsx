@@ -1,13 +1,12 @@
 import { Link } from "@tanstack/react-router";
-import { Leaf, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function EcoProduction() {
   return (
-    <section className="border-y border-border bg-background py-12 md:py-16" aria-label="Ekološki pristup proizvodnji">
+    <section className="exit-eco border-y border-border bg-background py-12 md:py-16" aria-label="Ekološki pristup proizvodnji">
       <div className="container-x grid gap-8 md:grid-cols-[1fr_2fr] md:gap-16">
         <div>
-          <Leaf className="h-6 w-6 text-accent" strokeWidth={1.5} aria-hidden="true" />
           <p className="mt-4 text-sm text-muted-foreground">EXIT · Odgovornija proizvodnja</p>
           <h2 className="mt-3 text-2xl md:text-3xl leading-tight tracking-normal">Ekološki pristup.<br />Preciznost lasera.</h2>
         </div>

@@ -90,7 +90,7 @@ function Auth() {
 
   return (
     <Layout>
-      <section className="min-h-[80vh] grid lg:grid-cols-2">
+      <section className="exit-account min-h-[80vh] grid lg:grid-cols-2">
         <div className="hidden lg:flex bg-foreground text-background p-12 flex-col justify-between">
           <div className="bg-background inline-block p-2 rounded-sm w-fit">
             <Logo />

@@ -27,8 +27,7 @@ export function Logo({
         width={360}
         height={202}
         decoding="async"
-        className="h-15 sm:h-16 w-auto shrink-0"
-        style={isLight ? { filter: "invert(1) hue-rotate(180deg)", mixBlendMode: "screen", height: "56px" } : { mixBlendMode: "multiply", height: "56px" }}
+        className={`exit-logo-image w-auto shrink-0 ${isLight ? "exit-logo-light" : ""}`}
       />
     </div>
   );
