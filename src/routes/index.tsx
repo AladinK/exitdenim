@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { homeAssetsQuery, productsQuery } from "@/lib/product-queries";
 import editorial from "@/assets/exit-original-cover.webp.asset.json";
 import editorialMobile from "@/assets/exit-original-cover-mobile.webp.asset.json";
+import cargoStudio from "@/assets/exit-studio-cargo.webp.asset.json";
 
 export const Route = createFileRoute("/")({
   loader: async ({ context }) => {
@@ -60,7 +61,7 @@ function HomePage() {
         <HomeCollection />
         <section className="px-5 md:px-12 pt-4 pb-12 md:pb-20" aria-labelledby="collection-heading">
           <div className="flex items-end justify-between gap-4 border-t border-foreground pt-5 mb-7">
-            <h2 id="collection-heading" className="text-2xl md:text-4xl">Ostatak garderobe.</h2>
+            <h2 id="collection-heading" className="text-2xl md:text-4xl">I van teksasa.</h2>
             <span className="hidden md:block text-xs text-muted-foreground">EXIT / ASORTIMAN</span>
           </div>
           <div className="exit-category-list grid grid-cols-1 sm:grid-cols-3 gap-0 md:gap-6">
@@ -77,10 +78,18 @@ function HomePage() {
             ))}
           </div>
         </section>
+        <section className="exit-cargo-story relative isolate overflow-hidden text-cover-foreground" aria-labelledby="cargo-story-title">
+          <img src={cargoStudio.url} alt="Muške maslinastozelene EXIT džeparke sa bočnim džepovima, model u pokretu" width={900} height={945} loading="lazy" decoding="async" className="absolute inset-0 -z-20 h-full w-full object-cover" />
+          <div className="exit-cargo-shade absolute inset-0 -z-10" aria-hidden="true" />
+          <div className="px-5 md:px-12 py-8 md:py-12 flex h-full flex-col items-start justify-between">
+            <p className="mono text-xs">02 / DŽEPARKE</p>
+            <div><h2 id="cargo-story-title" className="text-4xl md:text-6xl text-cover-foreground">Sloboda<br />u pokretu.</h2><Button asChild variant="secondary" className="mt-6 rounded-none h-12"><Link to="/cargo">Pogledajte džeparke <ArrowRight /></Link></Button></div>
+          </div>
+        </section>
         <section className="exit-fit-note px-5 md:px-12 py-10 md:py-16 border-y border-border grid gap-8 md:grid-cols-[1.2fr_1fr] items-center">
           <div>
             <p className="text-xs text-muted-foreground mb-4">PRE NEGO ŠTO IZABERETE</p>
-            <h2 className="text-3xl md:text-5xl leading-tight">Kroj menja sve.<br /><span className="text-muted-foreground">Veličina pravi razliku.</span></h2>
+            <h2 className="text-3xl md:text-5xl leading-tight">Dobar izbor počinje<br /><span className="text-muted-foreground">pravom veličinom.</span></h2>
           </div>
           <div className="max-w-md md:justify-self-end">
             <p className="text-base leading-relaxed text-muted-foreground">Uzak ili opušten? Ravna ili šira nogavica? Pronađite razliku između krojeva i izaberite veličinu koja vam odgovara.</p>
@@ -89,10 +98,6 @@ function HomePage() {
           </div>
         </section>
         <EcoProduction />
-        <section className="bg-ink text-cover-foreground px-5 md:px-12 py-10 md:py-16 flex flex-col md:flex-row md:items-center md:justify-between gap-7">
-          <div><p className="text-xs text-cover-foreground/60 mb-4">JEDNOSTAVNO, OD IZBORA DO VRATA.</p><h2 className="text-3xl md:text-5xl text-cover-foreground">Vaš par čeka.</h2><p className="mt-4 text-sm text-cover-foreground/80">Dostavu plaćamo mi. Paket plaćate kuriru.</p></div>
-          <Button asChild size="lg" className="h-12 rounded-none bg-accent text-accent-foreground shadow-none hover:bg-accent/90"><Link to="/katalog">Pogledajte sve modele <ArrowRight /></Link></Button>
-        </section>
       </div>
     </Layout>
   );

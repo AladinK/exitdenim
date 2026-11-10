@@ -18,11 +18,11 @@ export function HomeCollection() {
   const { data: products } = useSuspenseQuery(productsQuery());
   const [active, setActive] = useState(0);
   const filter = FILTERS[active] ?? FILTERS[0];
-  const visible = products.filter((p) => !filter.fits.length || filter.fits.includes(p.fit)).slice(0, 3);
+  const visible = products.filter((p) => !filter.fits.length || filter.fits.includes(p.fit)).slice(0, 4);
   return (
     <section className="exit-collection px-5 md:px-12 py-10 md:py-16" aria-labelledby="models-heading">
       <div className="flex items-end justify-between gap-4">
-        <div><p className="text-xs text-muted-foreground mb-3">KROJEVI / EXIT</p><h2 id="models-heading" className="text-3xl md:text-5xl">Kako volite da nosite?</h2></div>
+        <div><p className="text-xs text-muted-foreground mb-3 mono">01 / IZABERITE KROJ</p><h2 id="models-heading" className="text-3xl md:text-5xl">Pronađite svoj par.</h2></div>
         <Button asChild variant="link" className="h-auto px-0 text-foreground"><Link to="/katalog">Svi modeli <ArrowUpRight /></Link></Button>
       </div>
       <div role="group" aria-label="Izaberite kroj" className="flex flex-wrap gap-x-5 gap-y-1 mt-6 mb-7 border-b border-border">

@@ -1,5 +1,10 @@
 # Roadmap
 
+## Original studio editorial redesign
+- [x] Replace the shaded cover with a studio-photo composition and EXIT masthead.
+- [x] Add a direct shopping strip, balanced product grid and cargo photo story.
+- [x] Verify mobile/desktop layout, filtering and the unchanged checkout path (no final order submitted).
+
 ## Product-led architectural homepage
 - [x] Replace the jacket cover with a denim editorial photograph and a new typographic composition.
 - [x] Make the collection a browsable showroom with calmer product presentation and compact category navigation.

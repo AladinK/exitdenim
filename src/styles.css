@@ -422,7 +422,7 @@
   color: var(--brand-green); border-bottom: 1px solid var(--brand-green); background: transparent;
 }
 
-/* EXIT home: a photographic masthead, open product rails and print-like rules. */
+/* EXIT home: original studio photography and a print-led shopping layout. */
 .exit-home {
   --background: var(--home-paper);
   --border: var(--home-border);
@@ -430,24 +430,20 @@
   letter-spacing: 0;
 }
 .exit-home :is(h1, h2, h3, p, a, button, span) { letter-spacing: 0; }
-.exit-cover { height: min(650px, 73svh); min-height: 470px; background: var(--home-paper); }
-.exit-cover-shade {
-  background: linear-gradient(90deg, color-mix(in oklab, var(--home-paper) 80%, transparent), transparent 65%);
-}
-.exit-cover picture img { object-position: center; }
-.exit-cover-content { display: flex; height: 100%; flex-direction: column; align-items: flex-start; }
-.exit-masthead {
-  font-family: var(--font-display);
-  font-size: 48px;
-  font-weight: 400;
-  line-height: 1.02;
-  text-wrap: nowrap;
-  margin-top: 30px;
-}
-.exit-masthead-period { color: var(--accent); }
-.exit-cover-sub { margin-top: 20px; line-height: 1.5; }
-.exit-cover-action { margin-top: auto; display: flex; flex-direction: column; align-items: flex-start; }
-.exit-cover-caption { position: absolute; bottom: 22px; right: 20px; writing-mode: vertical-rl; }
+.exit-studio-photographs { height: min(470px, 61svh); min-height: 330px; background: var(--ink); }
+.exit-studio-main { display: block; height: 100%; }
+.exit-studio-main img { object-position: center 35%; }
+.exit-studio-secondary { display: none; }
+.exit-studio-label { position: absolute; top: 16px; left: 20px; }
+.exit-studio-wordmark { position: absolute; bottom: 14px; left: 16px; margin: 0; font-family: var(--font-display); font-size: 84px; line-height: .82; color: var(--cover-foreground); text-wrap: nowrap; }
+.exit-studio-wordmark span { display: block; font-size: 30px; margin-top: 10px; }
+.exit-studio-index { position: absolute; bottom: 16px; right: 20px; }
+.exit-studio-shop { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 100px; padding-block: 18px; }
+.exit-studio-shop p { line-height: 1.5; }
+.exit-studio-shop a { font-size: 12px; }
+.exit-cargo-story { height: 540px; margin-inline: 0; background: var(--ink); }
+.exit-cargo-story > img { object-position: center; }
+.exit-cargo-shade { background: linear-gradient(180deg, color-mix(in oklab, var(--ink) 20%, transparent), transparent 35%, color-mix(in oklab, var(--ink) 70%, transparent)); }
 .exit-category-image { aspect-ratio: 4 / 5; }
 .exit-category-list .exit-category-image { aspect-ratio: auto; width: 70px; height: 85px; flex-shrink: 0; }
 .exit-category-list > a { display: flex; align-items: center; gap: 18px; padding-block: 14px; border-bottom: 1px solid var(--border); }
@@ -457,44 +453,24 @@
 .exit-showroom-product img { transition: transform 450ms ease; }
 .exit-showroom-link:hover img { transform: scale(1.025); }
 .exit-showroom-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.exit-showroom-grid > a:first-child { grid-column: span 2; }
-.exit-showroom-grid > a:first-child .exit-showroom-product { aspect-ratio: 3 / 4; }
-.exit-showroom-grid > a:first-child img { object-position: center; }
 @media (min-width: 768px) {
-  .exit-masthead { font-size: 76px; margin-top: 55px; }
-  .exit-cover { min-height: 510px; }
-  .exit-cover-content { width: 55%; }
-  .exit-cover-shade { background: none; }
+  .exit-studio-photographs { height: min(650px, 64svh); min-height: 480px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 6px; }
+  .exit-studio-secondary { display: block; height: 100%; width: 100%; object-fit: cover; object-position: center 30%; }
+  .exit-studio-main img { object-position: center 30%; }
+  .exit-studio-wordmark { left: 38px; bottom: 26px; font-size: 150px; }
+  .exit-studio-wordmark span { display: inline; font-size: 72px; margin-left: 14px; }
+  .exit-studio-label { left: 48px; top: 24px; }
+  .exit-studio-index { bottom: 28px; right: 48px; }
+  .exit-studio-shop { min-height: 110px; }
+  .exit-studio-shop a { font-size: 14px; }
+  .exit-cargo-story { height: 580px; }
+  .exit-cargo-story > img { object-fit: contain; object-position: right center; }
   .exit-category-image { aspect-ratio: 3 / 4; }
-  .exit-showroom-grid { grid-template-columns: 1.35fr 1fr 1fr; align-items: start; }
-  .exit-showroom-grid > a:first-child { grid-column: auto; }
-  .exit-showroom-grid > a:first-child .exit-showroom-product { aspect-ratio: 3 / 4; }
-  .exit-showroom-grid > a:nth-child(2) { margin-top: 65px; }
-  .exit-showroom-grid > a:nth-child(3) { margin-top: 130px; }
-}
-@media (min-width: 1280px) {
-  .exit-masthead { font-size: 94px; }
+  .exit-showroom-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: start; }
 }
 @media (max-width: 359px) {
-  .exit-masthead { font-size: 40px; }
-  .exit-cover-caption { display: none; }
+  .exit-studio-wordmark { font-size: 72px; }
+  .exit-studio-index { display: none; }
+  .exit-studio-shop { flex-wrap: wrap; }
 }
 @media (prefers-reduced-motion: reduce) { .exit-showroom-product img { transition: none; } .exit-showroom-link:hover img { transform: none; } }
-
-.exit-original-cover { background: var(--ink); height: min(680px, 76svh); min-height: 530px; }
-.exit-original-cover .exit-cover-shade { background: linear-gradient(180deg, color-mix(in oklab, var(--ink) 15%, transparent), transparent 40%, color-mix(in oklab, var(--ink) 90%, transparent)); }
-.exit-original-cover .exit-cover-content > p:first-child { margin-bottom: auto; }
-.exit-original-cover .exit-masthead { font-size: 40px; margin-top: 0; }
-.exit-original-cover .exit-cover-sub { display: none; }
-.exit-original-cover .exit-cover-action { margin-top: 18px; }
-.exit-original-cover .exit-cover-caption { display: none; }
-.exit-original-cover picture img { object-position: center top; }
-@media (min-width: 768px) {
-  .exit-original-cover picture img { object-fit: cover; object-position: center top; }
-  .exit-original-cover .exit-cover-shade { background: linear-gradient(90deg, color-mix(in oklab, var(--ink) 85%, transparent), color-mix(in oklab, var(--ink) 15%, transparent) 70%); }
-  .exit-original-cover .exit-cover-content { width: 55%; }
-  .exit-original-cover .exit-cover-content > p:first-child { margin-bottom: 55px; }
-  .exit-original-cover .exit-masthead { font-size: 76px; }
-  .exit-original-cover .exit-cover-sub { display: block; }
-  .exit-original-cover .exit-cover-action { margin-top: auto; }
-}
