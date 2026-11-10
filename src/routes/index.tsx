@@ -7,6 +7,8 @@ import { EcoProduction } from "@/components/EcoProduction";
 import { HomeCollection } from "@/components/HomeCollection";
 import { Button } from "@/components/ui/button";
 import { homeAssetsQuery, productsQuery } from "@/lib/product-queries";
+import editorial from "@/assets/exit-concrete-editorial.webp";
+import editorialMobile from "@/assets/exit-concrete-mobile.webp";
 
 export const Route = createFileRoute("/")({
   loader: async ({ context }) => {
@@ -14,10 +16,8 @@ export const Route = createFileRoute("/")({
       context.queryClient.ensureQueryData(productsQuery()),
       context.queryClient.ensureQueryData(homeAssetsQuery()),
     ]);
-    const assets = context.queryClient.getQueryData<Record<string, { url: string; alt: string | null }>>(["home-assets"]);
-    return { heroUrl: assets?.hero?.url ?? assets?.hero_texture?.url ?? "" };
   },
-  head: ({ loaderData }) => ({
+  head: () => ({
     meta: [
       { title: "EXIT Denim — Muške farmerke proizvedene u Srbiji" },
       { name: "description", content: "Muške farmerke, muški jeans i teksas pantalone domaće proizvodnje — slim, regular, relaxed, bootcut i flare. 5.990 din, besplatna dostava, plaćanje pouzećem, dostava po celoj Srbiji." },
@@ -26,14 +26,11 @@ export const Route = createFileRoute("/")({
       { property: "og:url", content: "https://exitdenim.shop/" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      ...(/^https:\/\//.test(loaderData?.heroUrl ?? "") ? [
-        { property: "og:image", content: loaderData?.heroUrl },
-        { name: "twitter:image", content: loaderData?.heroUrl },
-      ] : []),
     ],
     links: [
       { rel: "canonical", href: "https://exitdenim.shop/" },
-      ...(loaderData?.heroUrl ? [{ rel: "preload", as: "image", href: loaderData.heroUrl, fetchPriority: "high" } as const] : []),
+      { rel: "preload", as: "image", href: editorial, media: "(min-width: 768px)", fetchPriority: "high" },
+      { rel: "preload", as: "image", href: editorialMobile, media: "(max-width: 767px)", fetchPriority: "high" },
     ],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: "EXIT Denim", url: "https://exitdenim.shop/", telephone: "+381653176716" }) },
@@ -56,16 +53,17 @@ function HomePage() {
       <div className="exit-home bg-background">
         <Hero />
         <div className="exit-service-line border-b border-border px-5 md:px-12 py-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-xs">
-          <span>Naša proizvodnja. Vaš sledeći par.</span>
-          <Link to="/proizvodnja" className="inline-flex items-center gap-2 font-medium">Upoznajte EXIT <ArrowUpRight className="h-4 w-4" /></Link>
+          <span>Besplatna dostava u Srbiji</span>
+          <span>Plaćanje pouzećem</span>
+          <Link to="/vodic-za-farmerke" className="inline-flex items-center gap-2 font-medium">Pomoć oko veličine <ArrowUpRight className="h-4 w-4" /></Link>
         </div>
         <HomeCollection />
         <section className="px-5 md:px-12 pt-4 pb-12 md:pb-20" aria-labelledby="collection-heading">
           <div className="flex items-end justify-between gap-4 border-t border-foreground pt-5 mb-7">
-            <h2 id="collection-heading" className="text-2xl md:text-4xl">Tri načina da budete svoji.</h2>
+            <h2 id="collection-heading" className="text-2xl md:text-4xl">Ostatak garderobe.</h2>
             <span className="hidden md:block text-xs text-muted-foreground">EXIT / ASORTIMAN</span>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-7 md:gap-6">
+          <div className="exit-category-list grid grid-cols-1 sm:grid-cols-3 gap-0 md:gap-6">
             {categories.map((c) => (
               <Link key={c.key} to={c.to} className="group block">
                 <div className="exit-category-image overflow-hidden bg-secondary">

@@ -15,3 +15,4 @@
 - Batch private image signing and keep public stock reads live; never prerender visitor-specific or inventory-dependent content for performance.
 - Dehydrate the per-request QueryClient into the router and hydrate it before rendering so initial public reads and signed image URLs are reused without duplicate requests.
 - Keep homepage collection filtering client-side on the existing products Query cache; it must not introduce extra requests or alter checkout behavior.
+- Serve the homepage campaign image as locally optimized, art-directed desktop/mobile WebP assets with matching media preloads; retain original catalog photographs for product inspection.

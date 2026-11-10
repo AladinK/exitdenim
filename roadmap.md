@@ -1,5 +1,10 @@
 # Roadmap
 
+## Product-led architectural homepage
+- [x] Replace the jacket cover with a denim editorial photograph and a new typographic composition.
+- [x] Make the collection a browsable showroom with calmer product presentation and compact category navigation.
+- [x] Verify appearance, filtering and checkout on mobile and desktop (no final order submitted).
+
 ## Distinctive homepage redesign
 - [x] Replace the generic hero and repeated cards with a photographic EXIT masthead and editorial collection layout.
 - [x] Make product discovery faster with crop filters and clear purchase information, retaining the existing checkout.
