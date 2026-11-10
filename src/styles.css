@@ -490,7 +490,7 @@
 .exit-original-cover .exit-cover-caption { display: none; }
 .exit-original-cover picture img { object-position: center top; }
 @media (min-width: 768px) {
-  .exit-original-cover picture img { object-fit: cover; object-position: center 24%; }
+  .exit-original-cover picture img { object-fit: cover; object-position: center top; }
   .exit-original-cover .exit-cover-shade { background: linear-gradient(90deg, color-mix(in oklab, var(--ink) 85%, transparent), color-mix(in oklab, var(--ink) 15%, transparent) 70%); }
   .exit-original-cover .exit-cover-content { width: 55%; }
   .exit-original-cover .exit-cover-content > p:first-child { margin-bottom: 55px; }
