@@ -68,7 +68,7 @@ function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
 function TrustProof() {
   const groups = [
     {
-      label: "Za kvalitet robe",
+      label: "O kvalitetu",
       items: [
         "Materijal deluje ozbiljno, vidi se da nije klasična jeftina roba.",
         "Ovo je ono što buticima treba — dobar kroj, stabilan model i realna cena.",
@@ -78,7 +78,7 @@ function TrustProof() {
       ],
     },
     {
-      label: "Veleprodaja / B2B poverenje",
+      label: "O saradnji sa buticima",
       items: [
         "Odlično za butike koji traže robu sa dobrom maržom i brzim obrtom.",
         "Ovo je dobra ponuda za radnje koje ne žele da rizikuju sa nepoznatim modelima.",
@@ -88,7 +88,7 @@ function TrustProof() {
       ],
     },
     {
-      label: "Hitnost i prodaja",
+      label: "O modelima",
       items: [
         "Ovakvi modeli obično brzo odu u veličinama 32, 33 i 34.",
         "Ko radi mušku garderobu, ovo ne treba mnogo da čeka.",
@@ -193,7 +193,6 @@ function TrustProof() {
                   style={{ animationName: "scale-x" }}
                 />
               </span>
-              <span>Kartice se menjaju svakih 4.5s</span>
             </div>
 
             <div className="flex items-center gap-2 text-[12px] text-muted-foreground mono">
@@ -248,9 +247,9 @@ function HomePage() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
             {[
               { to: "/jeans", label: "FARMERKE", sub: "Od slim do flare.", img: img("category_jeans"), tone: "dark" as const },
-              { to: "/chino", label: "CHINO", sub: "Clean fit za svaki dan.", img: img("category_chino"), tone: "dark" as const },
-              { to: "/cargo", label: "CARGO", sub: "Džepovi. Stav. Gotovo.", img: img("category_cargo"), tone: "dark" as const },
-              { to: "/wide-flare", label: "WIDE & FLARE", sub: "Bootcut, relaxed i flare.", img: null, tone: "dark" as const, cta: "Novi drop" },
+              { to: "/chino", label: "CHINO", sub: "Uredan kroj za svaki dan.", img: img("category_chino"), tone: "dark" as const },
+              { to: "/cargo", label: "CARGO", sub: "Bočni džepovi, opušten kroj.", img: img("category_cargo"), tone: "dark" as const },
+              { to: "/wide-flare", label: "WIDE & FLARE", sub: "Bootcut, relaxed i flare.", img: null, tone: "dark" as const, cta: "Novo u ponudi" },
             ].map((c) => (
               <Reveal key={c.label}>
                 <Link
@@ -306,9 +305,9 @@ function HomePage() {
                   <div className="eyebrow flex items-center gap-2">
                     <Flame className="w-3.5 h-3.5 text-accent" /> Najprodavanije
                   </div>
-                  <h2 className="mt-4 h2-editorial">Svi ovo nose</h2>
+                  <h2 className="mt-4 h2-editorial">Najtraženiji modeli</h2>
                   <p className="mt-4 text-muted-foreground leading-relaxed">
-                    Top modeli ove sezone. Izaberi veličinu, ubaci u korpu, gotovo.
+                    Modeli koje kupci najčešće poručuju. Sve veličine na stanju.
                   </p>
                 </div>
                 <Link to="/katalog" className="btn-outline hidden md:inline-flex">
@@ -330,16 +329,16 @@ function HomePage() {
       {/* ───────── IZABERI KROJ ───────── */}
       <section className="py-12 md:py-20 border-t border-border">
         <div className="container-x">
-          <div className="eyebrow">Nađi svoj fit</div>
-          <h2 className="mt-3 h2-editorial">Koji si ti fit?</h2>
+          <div className="eyebrow">Izaberite kroj</div>
+          <h2 className="mt-3 h2-editorial">Koji kroj vam odgovara?</h2>
           <div className="mt-8 flex md:grid md:grid-cols-3 lg:grid-cols-7 gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-2">
             {[
               { t: "Slim", d: "Uzak kroz butinu i nogavicu.", tag: "" },
               { t: "Regular Slim", d: "Komotno gore, suženo dole.", tag: "" },
               { t: "Relaxed", d: "Više prostora, opušten pad.", tag: "NOVO" },
               { t: "Bootcut", d: "Pripijeno do kolena, širi se ka patikama.", tag: "NOVO" },
-              { t: "Flare", d: "Y2K vibe — široka nogavica, jak stav.", tag: "NOVO" },
-              { t: "Cargo", d: "Džepovi, jači karakter.", tag: "" },
+              { t: "Flare", d: "Široka nogavica od kolena nadole.", tag: "NOVO" },
+              { t: "Cargo", d: "Bočni džepovi, opušten kroj.", tag: "" },
               { t: "Cropped", d: "Skraćena nogavica, iznad članka.", tag: "NOVO" },
             ].map((f) => (
               <Link key={f.t} to="/katalog" search={{ fit: f.t }} className="group relative shrink-0 w-[44%] sm:w-[30%] md:w-auto snap-start border border-border bg-background p-5 hover:border-foreground transition-colors">
@@ -362,13 +361,13 @@ function HomePage() {
       <section className="py-14 md:py-24 bg-[color:var(--ink)] text-[color:var(--ivory)]">
         <div className="container-x">
           <div className="eyebrow !text-[color:var(--ivory)]/60">Zašto EXIT</div>
-          <h2 className="mt-3 h2-editorial !text-[color:var(--ivory)] max-w-xl">Kupuješ bez rizika.</h2>
+          <h2 className="mt-3 h2-editorial !text-[color:var(--ivory)] max-w-xl">Kupovina bez rizika.</h2>
           <div className="mt-10 grid md:grid-cols-4 gap-8">
             {[
-              { n: "01", t: "Plaćaš kad stigne", d: "Pouzećem — pare daješ kuriru tek kad dobiješ paket." },
-              { n: "02", t: "Šaljemo za 1–2 dana", d: "Porudžbinu odmah pakujemo i predajemo kuriru." },
+              { n: "01", t: "Plaćanje pouzećem", d: "Paket plaćate kuriru tek kada ga preuzmete." },
+              { n: "02", t: "Isporuka za 1–2 dana", d: "Porudžbinu odmah pakujemo i predajemo kuriru." },
               { n: "03", t: "Besplatna dostava", d: "Na svaku porudžbinu, bez minimalnog iznosa." },
-              { n: "04", t: "Made in Srbija", d: "Šijemo u našoj radionici, pod našom kontrolom." },
+              { n: "04", t: "Proizvedeno u Srbiji", d: "Šijemo u našoj radionici, pod našom kontrolom." },
             ].map((s) => (
               <div key={s.t} className="border-t border-[color:var(--ivory)]/20 pt-5">
                 <div className="text-[11px] tracking-[0.2em] text-[color:var(--ivory)]/50 tabular-nums">{s.n}</div>
@@ -379,7 +378,7 @@ function HomePage() {
           </div>
           <div className="mt-12">
             <Link to="/katalog" className="btn-street w-full sm:w-auto">
-              Uzmi svoj par <ArrowRight className="w-4 h-4" />
+              Pogledajte katalog <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>

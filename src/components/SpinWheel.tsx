@@ -182,7 +182,7 @@ export function SpinWheel() {
               </div>
 
               <div className="relative mt-6 text-[10px] uppercase tracking-[0.3em] text-ivory/50 hidden sm:block">
-                Premium denim · 12 oz · Made in Serbia
+                Premium denim · 12 oz · Proizvedeno u Srbiji
               </div>
             </div>
 
@@ -231,7 +231,7 @@ export function SpinWheel() {
                     <li className="flex items-center gap-2.5"><span className="w-1 h-1 rounded-full bg-accent" />Premium denim 12 oz, 98% pamuk</li>
                   </ul>
                   <button onClick={spin} disabled={spinning} className="btn-primary w-full justify-center mt-7 h-12 disabled:opacity-60">
-                    {spinning ? "Točak se okreće…" : "Zavrti točak"}
+                    {spinning ? "Točak se okreće…" : "Zavrtite točak"}
                   </button>
                   <button
                     onClick={close}

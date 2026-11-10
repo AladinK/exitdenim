@@ -4,7 +4,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { homeAssetsQuery } from "@/lib/product-queries";
 import { ecommerce } from "@/lib/analytics";
 
-const TICKER = ["−40% NA SVE MODELE", "NEW DROP: BOOTCUT", "RELAXED FIT", "FLARE IS BACK", "PLAĆAŠ KAD STIGNE", "MADE IN SERBIA", "BESPLATNA DOSTAVA NA SVE"];
+const TICKER = ["PLAĆANJE POUZEĆEM", "BESPLATNA DOSTAVA NA SVE PORUDŽBINE", "PROIZVEDENO U SRBIJI", "NOVI KROJEVI: BOOTCUT, RELAXED, FLARE", "VELIČINE 31–40", "DENIM 12 OZ · 98% PAMUK"];
 
 export function Hero() {
   const { data: assets } = useSuspenseQuery(homeAssetsQuery());
@@ -17,20 +17,20 @@ export function Hero() {
       </div>
 
       <div className="container-x relative min-h-[62svh] md:min-h-[82svh] flex flex-col justify-end pt-28 pb-10 md:pb-16">
-        <span className="self-start inline-flex items-center bg-accent text-accent-foreground px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.2em]">Novo · Bootcut / Relaxed / Flare</span>
+        <span className="self-start inline-flex items-center bg-accent text-accent-foreground px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.2em]">Novi krojevi · Bootcut / Relaxed / Flare</span>
         <h1 className="mt-5 text-[color:var(--ivory)] font-semibold normal-case leading-[0.95] tracking-[-0.045em] text-[clamp(2.75rem,9vw,7rem)]">
-          Wide<br />
-          <span className="text-[color:var(--ivory)]/60">leg</span> szn.
+          Široke<br />
+          <span className="text-[color:var(--ivory)]/60">farmerke.</span>
         </h1>
         <p className="mt-5 text-[16px] leading-snug text-[color:var(--ivory)]/80 max-w-sm">
-          Širi krojevi, jači vibe. Farmerke iz naše radionice — plaćaš tek kad stignu.
+          Bootcut, relaxed i flare krojevi iz naše radionice. Plaćate tek kad paket stigne na vašu adresu.
         </p>
         <div className="mt-7 flex flex-wrap items-center gap-4">
           <Link to="/wide-flare" onClick={() => ecommerce.cta("wide_flare", "hero")} className="btn-street">
-            Shop Wide & Flare <ArrowRight className="w-4 h-4" />
+            Pogledajte modele <ArrowRight className="w-4 h-4" />
           </Link>
           <Link to="/katalog" onClick={() => ecommerce.cta("shop_all", "hero")} className="font-semibold uppercase text-sm underline underline-offset-4 decoration-1">
-            Vidi sve
+            Sav asortiman
           </Link>
         </div>
       </div>

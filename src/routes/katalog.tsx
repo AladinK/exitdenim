@@ -218,7 +218,7 @@ function Katalog() {
       {/* Header — denim texture */}
       <section className="bg-[var(--ink)] text-[color:var(--ivory)] border-b-2 border-[color:var(--ink)]">
         <div className="container-x py-10 md:py-16">
-          <span className="sticker -rotate-2">Svi modeli · 2027</span>
+          <span className="sticker -rotate-2">Katalog · 2026</span>
           <div className="mt-5 grid lg:grid-cols-12 gap-6 items-end">
             <div className="lg:col-span-8">
               <h1 className="mt-4 !text-[color:var(--ivory)] text-[clamp(2.75rem,8vw,5.5rem)] leading-[0.9] max-w-[14ch]">
@@ -228,7 +228,7 @@ function Katalog() {
             </div>
             <div className="lg:col-span-4 lg:text-right">
               <p className="text-sm text-[color:var(--ivory)]/75 max-w-sm lg:ml-auto leading-relaxed">
-                Farmerke, chino i cargo. Veličine 31–40. Plaćaš kad stigne, dostava po celoj Srbiji.
+                Farmerke, chino i cargo. Veličine 31–40. Plaćanje pouzećem, besplatna dostava po celoj Srbiji.
               </p>
             </div>
           </div>
