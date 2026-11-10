@@ -7,8 +7,8 @@ import { EcoProduction } from "@/components/EcoProduction";
 import { HomeCollection } from "@/components/HomeCollection";
 import { Button } from "@/components/ui/button";
 import { homeAssetsQuery, productsQuery } from "@/lib/product-queries";
-import editorial from "@/assets/exit-concrete-editorial.webp";
-import editorialMobile from "@/assets/exit-concrete-mobile.webp";
+import editorial from "@/assets/exit-original-cover.webp.asset.json";
+import editorialMobile from "@/assets/exit-original-cover-mobile.webp.asset.json";
 
 export const Route = createFileRoute("/")({
   loader: async ({ context }) => {
@@ -29,8 +29,8 @@ export const Route = createFileRoute("/")({
     ],
     links: [
       { rel: "canonical", href: "https://exitdenim.shop/" },
-      { rel: "preload", as: "image", href: editorial, media: "(min-width: 768px)", fetchPriority: "high" },
-      { rel: "preload", as: "image", href: editorialMobile, media: "(max-width: 767px)", fetchPriority: "high" },
+      { rel: "preload", as: "image", href: editorial.url, media: "(min-width: 768px)", fetchPriority: "high" },
+      { rel: "preload", as: "image", href: editorialMobile.url, media: "(max-width: 767px)", fetchPriority: "high" },
     ],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: "EXIT Denim", url: "https://exitdenim.shop/", telephone: "+381653176716" }) },
