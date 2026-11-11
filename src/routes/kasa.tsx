@@ -8,6 +8,7 @@ import { createCustomerOrder } from "@/lib/customer-orders.functions";
 import { useAuth } from "@/hooks/useAuth";
 import { ecommerce } from "@/lib/analytics";
 import { reportPurchaseConversion } from "@/lib/google-ads";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/kasa")({
   head: () => ({
@@ -246,9 +247,9 @@ function CheckoutPage() {
                 )}
                 <div className="flex justify-between pt-3 mt-2 border-t border-border font-semibold text-base"><span>Ukupno</span><span className="tabular-nums">{total.toLocaleString("sr-RS")} din</span></div>
               </div>
-              <button type="submit" disabled={submitting} className="btn-primary w-full justify-center hidden lg:inline-flex">
+              <Button type="submit" disabled={submitting} className="w-full min-h-12 hidden lg:inline-flex">
                 {submitting ? "Slanje..." : "Potvrdi porudžbinu"}
-              </button>
+              </Button>
               <ul className="space-y-2 text-[12px] text-muted-foreground">
                 {[
                   "Besplatna dostava na sve porudžbine",
@@ -274,13 +275,13 @@ function CheckoutPage() {
               <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Ukupno</div>
               <div className="text-[15px] font-semibold tabular-nums leading-tight">{total.toLocaleString("sr-RS")} din</div>
             </div>
-            <button
+            <Button
               type="submit"
               disabled={submitting}
-              className="flex-1 inline-flex items-center justify-center bg-foreground text-background py-3.5 text-[12.5px] uppercase tracking-[0.18em] font-semibold disabled:opacity-60"
+              className="flex-1 min-h-12 text-sm"
             >
               {submitting ? "Slanje…" : "Potvrdi porudžbinu"}
-            </button>
+            </Button>
           </div>
         </form>
       </section>

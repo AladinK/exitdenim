@@ -38,12 +38,20 @@
   --color-control: var(--control);
   --color-control-foreground: var(--control-foreground);
   --color-control-hover: var(--control-hover);
+  --color-action: var(--action);
+  --color-action-foreground: var(--action-foreground);
   --font-display: "Archivo Black", "Arial Black", system-ui, sans-serif;
   --font-sans: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
 }
 
 :root {
+  --action: var(--brand-green);
+  --action-hover: var(--brand-green-deep);
+  --action-foreground: oklch(.15 0 0);
+  --action-soft: oklch(.95 .035 118);
+  --action-text: oklch(.43 .11 118);
+  --radius-action: 8px;
   --control: oklch(0.88 0 0 / .88);
   --control-foreground: oklch(0.17 0 0);
   --control-hover: oklch(0.96 0 0 / .95);
@@ -737,8 +745,23 @@
 .exit-navigation :is(.exit-menu-trigger,.exit-header-icon,.exit-search-trigger):hover,
 .exit-navigation-links > a:hover { background: transparent; color: var(--muted-foreground); }
 .exit-navigation-links > a:hover::after, .exit-navigation-links > a.is-active::after { transform: scaleX(1); }
-.exit-home .exit-campaign-text .bg-control { background: transparent; color: var(--cover-foreground); border-radius: 0; padding-inline: 0; min-height: 44px; text-decoration: underline; text-underline-offset: 6px; }
+.exit-home .exit-campaign-text .bg-control { background: var(--control); color: var(--control-foreground); border-radius: var(--radius-action); padding-inline: 20px; min-height: 44px; text-decoration: none; }
 .exit-home .exit-category-label { background: transparent; color: var(--cover-foreground); border-radius: 0; text-shadow: 0 1px 4px var(--cover-shade); }
 .exit-home .exit-category-label h3 { color: inherit; }
 .exit-home .exit-slide-controls { background: transparent; }
 .exit-home .exit-slide-dot span, .exit-home .exit-slide-progress { background: var(--cover-foreground); }
+
+/* Shared storefront actions: restrained signature green, quiet secondary controls. */
+:is(.storefront,.exit-cart-drawer,.exit-cookie-banner) { --ring: var(--action); }
+:is(.storefront,.exit-cart-drawer,.exit-cookie-banner) [data-ui-button]:not([data-variant="link"]):not([data-variant="ghost"]) { border-radius: var(--radius-action); box-shadow: none; font-weight: 500; text-transform: none; }
+:is(.storefront,.exit-cart-drawer,.exit-cookie-banner) [data-ui-button][data-variant="default"],
+.storefront :is(.btn-primary,.btn-accent), .exit-cart-drawer .btn-primary {
+  background: var(--action); color: var(--action-foreground); border-color: var(--action); border-radius: var(--radius-action); box-shadow: none;
+}
+:is(.storefront,.exit-cart-drawer,.exit-cookie-banner) [data-ui-button][data-variant="default"]:hover,
+.storefront :is(.btn-primary,.btn-accent):hover, .exit-cart-drawer .btn-primary:hover { background: var(--action-hover); color: var(--primary-foreground); border-color: var(--action-hover); }
+:is(.storefront,.exit-cart-drawer,.exit-cookie-banner) [data-ui-button][data-variant="outline"]:hover,
+.storefront .btn-outline:hover, .exit-cart-drawer .btn-outline:hover { background: var(--action-soft); border-color: var(--action); color: var(--action-text); }
+.storefront [data-ui-button][aria-pressed="true"]:not(.exit-slide-dot) { background: var(--action-soft); border-color: var(--action); color: var(--action-text); }
+.exit-navigation :is(.exit-menu-trigger,.exit-header-icon,.exit-search-trigger), .exit-category-slider-controls [data-ui-button] { border-radius: 0; background: transparent; }
+.exit-navigation-links > a::after { background: var(--action); }
