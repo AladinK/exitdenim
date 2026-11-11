@@ -2,6 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "./Reveal";
+import laserVideo from "@/assets/jeanologia_laser_finishing.mp4.asset.json";
+import laserPoster from "@/assets/jeanologia_laser_poster.jpg.asset.json";
 
 export function EcoProduction() {
   return (
@@ -19,6 +21,10 @@ export function EcoProduction() {
             <Link to="/proizvodnja">Više o Jeanologia obradi <ArrowRight aria-hidden="true" /></Link>
           </Button>
         </div>
+        <figure className="md:col-span-2 overflow-hidden rounded-md bg-muted">
+          <video className="block aspect-video w-full object-cover" src={laserVideo.url} poster={laserPoster.url} autoPlay muted loop playsInline preload="none" aria-label="Laserska obrada denima Jeanologia tehnologijom" />
+          <figcaption className="px-1 pt-2 text-xs text-muted-foreground">Laserska obrada denima u proizvodnji EXIT.</figcaption>
+        </figure>
       </Reveal>
     </section>
   );

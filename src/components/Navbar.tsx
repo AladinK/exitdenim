@@ -91,7 +91,7 @@ export function Navbar() {
               <nav aria-label="Pomoć i EXIT" className="exit-menu-secondary">
                 {INFO.map((n) => <Link key={n.to} to={n.to} onClick={() => closeMenu(n.label)}>{n.label}</Link>)}
               </nav>
-              <Button variant="ghost" className="exit-menu-promo" onClick={() => { setOpen(false); window.setTimeout(openSpinWheel, 250); }}><Sparkles />Osvojite popust</Button>
+              {user && <Button variant="ghost" className="exit-menu-promo" onClick={() => { setOpen(false); window.setTimeout(openSpinWheel, 250); }}><Sparkles />Osvojite popust</Button>}
             </div>
             <div className="exit-menu-bottom">
               {user ? <>

@@ -1,3 +1,4 @@
+import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
@@ -47,10 +48,9 @@ export function SpinWheel() {
   const [rotation, setRotation] = useState(0);
   const [result, setResult] = useState<{ pct: number; code: string } | null>(null);
   const [hasSpun, setHasSpun] = useState(false);
-  const autoOpened = useRef(false);
 
   useEffect(() => {
-    const onOpen = () => setOpen(true);
+    const onOpen = () => { void supabase.auth.getSession().then(({ data }) => { if (data.session) setOpen(true); }); };
     window.addEventListener("exit:open-wheel", onOpen);
     return () => window.removeEventListener("exit:open-wheel", onOpen);
   }, []);
@@ -59,18 +59,6 @@ export function SpinWheel() {
     setMounted(true);
     const existing = readPromo();
     if (existing) setHasSpun(true);
-    // One gentle auto-open per device, only if the visitor hasn't won yet.
-    if (!existing && !sessionStorage.getItem("exit_wheel_seen")) {
-      const t = setTimeout(() => {
-        if (!autoOpened.current && !readPromo()) {
-          autoOpened.current = true;
-          sessionStorage.setItem("exit_wheel_seen", "1");
-          setOpen(true);
-          track("spin_wheel_auto_open");
-        }
-      }, 18000);
-      return () => clearTimeout(t);
-    }
   }, []);
 
   const spin = () => {
