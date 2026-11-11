@@ -716,6 +716,14 @@
 }
 
 /* Unframed storefront navigation: preserve touch targets and focus outlines. */
+.exit-category-track { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.exit-category-track::-webkit-scrollbar { display: none; }
+.exit-category-track > a { flex: 0 0 86%; min-width: 0; scroll-snap-align: start; }
+.exit-category-slider-controls { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
+.exit-category-slider-controls button { width: 44px; height: 44px; background: transparent; border: 0; border-radius: 0; box-shadow: none; }
+.exit-category-slider-controls button:hover { background: transparent; color: var(--muted-foreground); }
+@media (min-width: 768px) { .exit-category-track { gap: 24px; } .exit-category-track > a { flex-basis: 44%; } }
+
 .exit-navigation :is(.exit-menu-trigger,.exit-header-icon,.exit-search-trigger,.exit-navigation-logo),
 .exit-navigation-home .exit-navigation-links,
 .exit-navigation-links > a,

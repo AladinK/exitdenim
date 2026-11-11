@@ -1,5 +1,9 @@
 # Roadmap
 
+## Category slider
+- [x] Replace the stacked category photographs with a native swipeable track and unframed arrow controls.
+- [x] Verify mobile/desktop sliding, keyboard navigation and the cargo category link; no page overflow or browser errors.
+
 ## Restore restrained storefront
 - [x] Restore the previous homepage composition, copy and section order.
 - [x] Remove background boxes and borders around header logo, navigation, menu and icons; retain touch targets and focus indicators.

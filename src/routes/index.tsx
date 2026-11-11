@@ -1,11 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Hero } from "@/components/hero/Hero";
 import { EcoProduction } from "@/components/EcoProduction";
 import { HomeCollection } from "@/components/HomeCollection";
 import { DenimEditorial } from "@/components/DenimEditorial";
+import { CategorySlider } from "@/components/CategorySlider";
 import { Button } from "@/components/ui/button";
 import { homeAssetsQuery, productsQuery } from "@/lib/product-queries";
 import editorial from "@/assets/exit-seated-cover.webp.asset.json";
@@ -46,12 +46,6 @@ export const Route = createFileRoute("/")({
 
 
 function HomePage() {
-  const { data: assets } = useSuspenseQuery(homeAssetsQuery());
-  const categories = [
-    { to: "/jeans", name: "Farmerke", note: "Teksas. U vašem kroju.", key: "category_jeans", alt: "Muške plave farmerke EXIT na modelu", number: "01" },
-    { to: "/chino", name: "Chino pantalone", note: "Od jutra do večeri.", key: "category_chino", alt: "Muške svetle chino pantalone EXIT na modelu", number: "02" },
-    { to: "/cargo", name: "Džeparke", note: "Više prostora. Više detalja.", key: "category_cargo", alt: "Muške cargo pantalone EXIT sa bočnim džepovima", number: "03" },
-  ] as const;
   return (
     <Layout>
       <div className="exit-home bg-background">
@@ -61,22 +55,7 @@ function HomePage() {
           <span>Plaćanje pouzećem</span>
           <Link to="/vodic-za-farmerke" className="inline-flex items-center gap-2 font-medium">Pomoć oko veličine <ArrowUpRight className="h-4 w-4" /></Link>
         </div>
-        <section className="exit-category-campaigns px-4 md:px-8 py-6 md:py-8" aria-labelledby="collection-heading">
-          <div className="sr-only">
-            <h2 id="collection-heading" className="text-2xl md:text-4xl">I van teksasa.</h2>
-            <span className="hidden md:block text-xs text-muted-foreground">EXIT / ASORTIMAN</span>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {categories.map((c) => (
-              <Link key={c.key} to={c.to} className="exit-category-entry group block relative overflow-hidden rounded-lg">
-                <div className="exit-category-image overflow-hidden bg-secondary">
-                  {assets[c.key]?.url && <img src={assets[c.key].url} alt={assets[c.key].alt || c.alt} width={1000} height={1500} loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-500 motion-safe:group-hover:scale-[1.025]" />}
-                </div>
-                <div className="exit-category-label bg-control text-control-foreground rounded-lg px-4 py-2"><h3 className="text-base font-normal">{c.name}</h3></div>
-              </Link>
-            ))}
-          </div>
-        </section>
+        <CategorySlider />
         <HomeCollection />
         <EcoProduction />
         <DenimEditorial />
