@@ -7,6 +7,15 @@ EXIT Denim — TRI-B DOO posluje u Srbiji. Ponuda obuhvata muške farmerke, chin
 
 EXIT u proizvodnji koristi inovativnu lasersku tehnologiju španske kompanije Jeanologia kao deo svog ekološkog pristupa obradi denima. Nisu objavljeni konkretni procenti uštede resursa, ekološki sertifikati ili tvrdnja da svaki model prolazi lasersku obradu.
 
+## Ključne činjenice za kupce
+- Cena: standardni modeli 5.990 din; cargo modeli (džeparke) 7.500 din.
+- Dostava je besplatna na teritoriji Srbije; plaćanje pouzećem.
+- Veličine: 31, 32, 33, 34, 36, 38 i 40.
+- Materijal: većina modela 98% pamuk i 2% elastin, prosečne težine 12 oz; tačan sastav piše na stranici proizvoda.
+- Krojevi: slim, regular slim, relaxed, bootcut, flare, wide i cropped.
+- Proizvedeno u Srbiji. Kontakt telefon: +381 65 317 6716.
+- Poručivanje: online na https://exitdenim.shop/katalog.
+
 ## Stranice
 - [Izrada za vaš brend — private label](/private-label): Personalizovani brendovi, završna obrada najvišeg kvaliteta i 35 godina izvoznog iskustva.
 - [O proizvodnji](/proizvodnja): EXIT radionica, ekološki pristup i Jeanologia laserska tehnologija.

@@ -37,7 +37,7 @@ export const Route = createFileRoute("/")({
       { rel: "preload", as: "image", href: editorialMobile.url, media: "(max-width: 767px)", fetchPriority: "high" },
     ],
     scripts: [
-      { type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: "EXIT Denim", url: "https://exitdenim.shop/", telephone: "+381653176716" }) },
+      { type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": ["Organization", "OnlineStore"], name: "EXIT Denim", legalName: "TRI-B DOO", url: "https://exitdenim.shop/", telephone: "+381653176716", description: "Srpski proizvođač muških farmerki, chino i cargo pantalona. Online prodaja širom Srbije, veleprodaja za butike i private-label proizvodnja.", address: { "@type": "PostalAddress", addressCountry: "RS" }, areaServed: { "@type": "Country", name: "Srbija" }, knowsAbout: ["muške farmerke", "chino pantalone", "cargo pantalone", "private label proizvodnja denima", "laserska obrada denima"], contactPoint: { "@type": "ContactPoint", telephone: "+381653176716", contactType: "customer service", availableLanguage: ["sr"] }, paymentAccepted: "Plaćanje pouzećem", currenciesAccepted: "RSD" }) },
       { type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", name: "EXIT Denim", url: "https://exitdenim.shop/" }) },
     ],
   }),

@@ -73,6 +73,12 @@ export const Route = createFileRoute("/proizvod/$slug")({
                 price: Number(p.retail),
                 availability: Object.values(p.stock || {}).some((n) => n > 0) || !Object.keys(p.stock || {}).length
                   ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+                seller: { "@type": "Organization", name: "EXIT Denim" },
+                shippingDetails: {
+                  "@type": "OfferShippingDetails",
+                  shippingRate: { "@type": "MonetaryAmount", value: 0, currency: "RSD" },
+                  shippingDestination: { "@type": "DefinedRegion", addressCountry: "RS" },
+                },
               },
             }),
           }]

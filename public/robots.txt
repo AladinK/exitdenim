@@ -6,21 +6,23 @@ Disallow: /admin
 Disallow: /porudzbina/
 
 User-agent: GPTBot
-Allow: /
-
 User-agent: OAI-SearchBot
-Allow: /
-
 User-agent: ChatGPT-User
-Allow: /
-
 User-agent: PerplexityBot
-Allow: /
-
+User-agent: Perplexity-User
 User-agent: ClaudeBot
-Allow: /
-
+User-agent: Claude-SearchBot
+User-agent: Claude-User
 User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: Bingbot
+User-agent: DuckAssistBot
+User-agent: meta-externalagent
+User-agent: MistralAI-User
 Allow: /
+Disallow: /kasa
+Disallow: /korpa
+Disallow: /admin
+Disallow: /porudzbina/
 
 Sitemap: https://exitdenim.shop/sitemap.xml
