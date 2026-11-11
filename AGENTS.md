@@ -21,4 +21,3 @@
 - Route header search into the existing catalog query filter rather than creating a separate product-fetch path.
 - Use shared Radix Sheet and DropdownMenu primitives for storefront navigation so focus trapping, Escape dismissal and focus restoration stay consistent.
 - Keep storefront motion CSS-driven with observed reference timings; decode incoming hero images before crossfading and pause rotation offscreen, on interaction and under reduced motion to protect loading and accessibility.
-- Order homepage discovery as photographic masthead, cached live product selection, then editorial collection links so shopping is reachable before secondary brand stories.

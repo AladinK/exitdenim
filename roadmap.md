@@ -1,9 +1,9 @@
 # Roadmap
 
-## EXIT photographic issue
-- [x] Replace centered campaign copy with a full-width EXIT masthead and restrained shopping caption.
-- [x] Bring live products ahead of collection photography and replace floating category labels with a numbered index.
-- [x] Verify mobile/desktop composition, filters and product-to-checkout flow: size 32, 5,990 RSD, free shipping, no overflow or browser errors; no real order submitted.
+## Restore restrained storefront
+- [x] Restore the previous homepage composition, copy and section order.
+- [x] Remove background boxes and borders around header logo, navigation, menu and icons; retain touch targets and focus indicators.
+- [x] Verify mobile/desktop appearance, menu, slider and product-to-checkout flow: size 32, 5,990 RSD, free delivery and Beograd postal 11000; no real order submitted.
 
 ## Observed reference motion
 - [x] Inspect live reference scroll, hover, hero, menu, search and cart interactions.

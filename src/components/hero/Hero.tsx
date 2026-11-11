@@ -2,16 +2,15 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { ecommerce } from "@/lib/analytics";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight } from "lucide-react";
 import editorial from "@/assets/exit-seated-cover.webp.asset.json";
 import editorialMobile from "@/assets/exit-portrait-cover-mobile.webp.asset.json";
 import city from "@/assets/exit-city-denim.webp.asset.json";
 import original from "@/assets/exit-original-cover.webp.asset.json";
 
 const SLIDES = [
-  { image: editorial.url, mobile: editorialMobile.url, title: "Muške farmerke", caption: "Proizvedeno u Srbiji. Od 5.990 din.", alt: "Originalna EXIT kolekcija: muške plave farmerke na modelu u studiju", to: "/jeans" },
-  { image: city.url, mobile: city.url, title: "Teksas u gradu", caption: "Kolekcija muških farmerki i pantalona.", alt: "EXIT teksas u gradu, plave farmerke i košulja na modelu", to: "/katalog" },
-  { image: original.url, mobile: original.url, title: "Šira nogavica", caption: "Bootcut i flare krojevi.", alt: "EXIT originalna studijska kolekcija farmerki", to: "/wide-flare" },
+  { image: editorial.url, mobile: editorialMobile.url, title: "Muške farmerke.", caption: "Originalan karakter.", alt: "Originalna EXIT kolekcija: muške plave farmerke na modelu u studiju", to: "/jeans" },
+  { image: city.url, mobile: city.url, title: "Teksas, izbliza.", caption: "Denim za svaki dan.", alt: "EXIT teksas u gradu, plave farmerke i košulja na modelu", to: "/katalog" },
+  { image: original.url, mobile: original.url, title: "Vaš kroj.", caption: "Proizvedeno u Srbiji.", alt: "EXIT originalna studijska kolekcija farmerki", to: "/wide-flare" },
 ] as const;
 
 export function Hero() {
@@ -56,19 +55,17 @@ export function Hero() {
         <source media="(max-width: 767px)" srcSet={slide.mobile} />
         <img src={slide.image} alt={slide.alt} fetchPriority={index === 0 ? "high" : "low"} loading="eager" width={1400} height={933} className="h-full w-full object-cover" />
       </picture>)}
-      <div className="exit-cover-masthead" aria-hidden="true"><span>EXIT</span><span>DENIM</span></div>
-      <span className="exit-cover-edition" aria-hidden="true">SRBIJA / ORIGINALNI TEKSAS</span>
       <div className="exit-campaign-copy">
         <div className="exit-campaign-text-window"><div className="exit-campaign-text-track">
           {SLIDES.map((slide, index) => <div key={slide.title} className="exit-campaign-text" aria-hidden={active !== index} inert={active !== index}>
             {index === 0 ? <h1 className="text-cover-foreground">{slide.title}</h1> : <h2 className="text-cover-foreground">{slide.title}</h2>}
             <p className="text-cover-foreground text-sm">{slide.caption}</p>
-            <Button asChild variant="secondary" className="exit-cover-cta"><Link to={slide.to} onClick={() => ecommerce.cta("shop_all", "hero")}>Pogledajte modele <ArrowUpRight /></Link></Button>
+            <Button asChild variant="fashion" className="mt-3 h-9 px-5"><Link to={slide.to} onClick={() => ecommerce.cta("shop_all", "hero")}>Izaberite model</Link></Button>
           </div>)}
         </div></div>
       </div>
       <div className="exit-slide-controls bg-control" role="group" aria-label="Kampanjske fotografije">
-        {SLIDES.map((s, i) => <Button key={s.title} variant="ghost" size="icon" className="exit-slide-dot" aria-label={`Prikaži kampanju ${i + 1}`} aria-pressed={active === i} onClick={() => { void select(i); }}><span>{active === i && <i key={active} className="exit-slide-progress" />}</span><small>0{i + 1}</small></Button>)}
+        {SLIDES.map((s, i) => <Button key={s.title} variant="ghost" size="icon" className="exit-slide-dot" aria-label={`Prikaži kampanju ${i + 1}`} aria-pressed={active === i} onClick={() => { void select(i); }}><span>{active === i && <i key={active} className="exit-slide-progress" />}</span></Button>)}
       </div>
       </div>
     </section>
