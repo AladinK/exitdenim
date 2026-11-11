@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
 import { Layout } from "@/components/Layout";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/faq")({
   head: () => ({
@@ -62,17 +63,18 @@ function Faq() {
             <div className="border-t border-foreground">
               {QA.map(([q, a], i) => (
                 <div key={i} className="border-b border-border">
-                  <button
+                  <Button variant="ghost"
                     onClick={() => setOpen(open === i ? null : i)}
-                    className="w-full flex items-center justify-between py-7 text-left gap-4 group"
+                    aria-expanded={open === i} aria-controls={`faq-answer-${i}`}
+                    className="exit-faq-question w-full h-auto flex items-center justify-between py-5 text-left gap-4 group whitespace-normal"
                   >
                     <span className="serif text-xl md:text-2xl pr-4 group-hover:text-accent transition-colors">{q}</span>
                     {open === i
                       ? <Minus className="w-5 h-5 shrink-0 text-accent" strokeWidth={1.25} />
                       : <Plus className="w-5 h-5 shrink-0" strokeWidth={1.25} />}
-                  </button>
+                  </Button>
                   {open === i && (
-                    <p className="pb-7 -mt-2 text-foreground/75 leading-[1.8] max-w-2xl">{a}</p>
+                    <p id={`faq-answer-${i}`} className="pb-7 text-foreground/75 leading-[1.8] max-w-2xl">{a}</p>
                   )}
                 </div>
               ))}

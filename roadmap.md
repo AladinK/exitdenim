@@ -1,5 +1,11 @@
 # Roadmap
 
+## Site-wide UI consistency and navigation refinement
+- [x] Refine header proportions, active states and touch controls across screen sizes.
+- [x] Replace the mobile menu with a focused, accessible navigation panel and clear link groups.
+- [x] Unify content-page typography, forms, footer and dialogs without changing purchase rules.
+- [x] Verify navigation, search, content pages and product-to-checkout flow on mobile, tablet and desktop (no final order submitted).
+
 ## Osklen-reference storefront redesign
 - [x] Inspect reference and current home, category, product, navigation, account and cart layouts.
 - [x] Apply a shared neutral visual system, overlay header, photo-led homepage and compact product presentation.

@@ -6,7 +6,7 @@ export function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="storefront min-h-screen flex flex-col">
       <Navbar />
-      <main className="flex-1 pb-0">{children}</main>
+      <main id="main-content" className="exit-page-content flex-1 pb-0">{children}</main>
       <Footer />
     </div>
   );

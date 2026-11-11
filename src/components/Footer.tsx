@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Logo } from "./Logo";
+import { Button } from "@/components/ui/button";
 
 
 export function Footer() {
@@ -17,10 +18,8 @@ export function Footer() {
               Ekološki pristup proizvodnji uz inovativnu lasersku tehnologiju španske kompanije Jeanologia.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link to="/katalog" className="btn-accent">Svi modeli</Link>
-              <Link to="/jeans" className="btn-outline border-border text-foreground hover:bg-secondary">
-                Farmerke
-              </Link>
+              <Button asChild><Link to="/katalog">Svi modeli</Link></Button>
+              <Button asChild variant="outline"><Link to="/jeans">Farmerke</Link></Button>
             </div>
           </div>
 

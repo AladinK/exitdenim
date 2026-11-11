@@ -19,3 +19,4 @@
 - Keep campaign photography in an editorial component separate from live product imagery so unverified photo-to-SKU associations cannot enter checkout.
 - Apply the reference storefront theme through Layout-scoped tokens and shared controls, keeping administration and business data unchanged.
 - Route header search into the existing catalog query filter rather than creating a separate product-fetch path.
+- Use shared Radix Sheet and DropdownMenu primitives for storefront navigation so focus trapping, Escape dismissal and focus restoration stay consistent.
