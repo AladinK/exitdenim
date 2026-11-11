@@ -24,7 +24,7 @@ export function CartDrawer() {
       {/* Overlay */}
       <div
         onClick={() => setOpen(false)}
-        className={`fixed inset-0 z-50 bg-foreground/40 backdrop-blur-sm transition-opacity duration-300 ${
+        className={`exit-cart-overlay fixed inset-0 z-50 bg-foreground/40 backdrop-blur-sm transition-opacity duration-300 ${
           open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
         aria-hidden="true"

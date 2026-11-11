@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { oldPrice, DISCOUNT_PCT } from "@/lib/pricing";
 import { productAlt } from "@/lib/seo-labels";
 import type { ProductWithStock } from "@/lib/products.functions";
+import { useState } from "react";
 
 export function ProductCard({ product, showB2B }: { product: ProductWithStock; showB2B?: boolean }) {
   const stock = (product.stock || {}) as Record<string, number>;
@@ -10,6 +11,9 @@ export function ProductCard({ product, showB2B }: { product: ProductWithStock; s
   const soldOut = sizes.length > 0 && !sizes.some((s) => stock[s] > 0);
   const available = sizes.filter((s) => stock[s] > 0).length;
   const lowStock = !soldOut && sizes.length >= 3 && available > 0 && available <= 2;
+  const [hovered, setHovered] = useState(false);
+  const [alternateReady, setAlternateReady] = useState(false);
+  const alternate = product.gallery?.find((url) => url !== product.image_url && /^https?:\/\//.test(url));
 
   return (
     <Link
@@ -17,6 +21,8 @@ export function ProductCard({ product, showB2B }: { product: ProductWithStock; s
       params={{ slug: product.slug }}
       className="exit-product-card group block focus-visible:outline-none"
       aria-label={`${product.name}, ${Number(product.retail).toLocaleString("sr-RS")} RSD`}
+      onPointerEnter={(event) => { if (event.pointerType === "mouse") setHovered(true); }}
+      data-alternate={alternateReady}
     >
       <div className="relative aspect-[3/4] w-full overflow-hidden bg-secondary ring-0 ring-foreground/0 transition-[box-shadow] duration-500 group-focus-visible:ring-2 group-focus-visible:ring-foreground">
         {product.image_url ? (
@@ -25,11 +31,12 @@ export function ProductCard({ product, showB2B }: { product: ProductWithStock; s
             alt={productAlt(product)}
             loading="lazy"
             decoding="async"
-            className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(.2,.7,.2,1)] group-hover:scale-[1.05] ${soldOut ? "opacity-60 grayscale" : ""}`}
+            className={`exit-product-primary absolute inset-0 h-full w-full object-cover ${soldOut ? "opacity-60 grayscale" : ""}`}
           />
         ) : (
           <div className="absolute inset-0 bg-foreground/5" />
         )}
+        {hovered && alternate && <img src={alternate} alt="" aria-hidden="true" decoding="async" onLoad={() => setAlternateReady(true)} className="exit-product-alternate absolute inset-0 h-full w-full object-cover" />}
 
         <div className="absolute inset-x-0 top-0 flex items-start justify-between p-3 md:p-4">
           <span className="bg-background/85 backdrop-blur-sm px-2 py-1 text-[9.5px] md:text-[10px] font-medium uppercase tracking-[0.22em] text-foreground">

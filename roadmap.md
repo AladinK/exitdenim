@@ -1,5 +1,11 @@
 # Roadmap
 
+## Observed reference motion
+- [x] Inspect live reference scroll, hover, hero, menu, search and cart interactions.
+- [x] Match verified hero crossfade/text movement, indicators, menu/cart fades and editorial reveals without changing layout.
+- [x] Remove unobserved zoom/bounce effects and support reduced motion, including portaled panels.
+- [x] Verify desktop/mobile transitions and unchanged search-to-checkout flow (no final order submitted).
+
 ## Site-wide UI consistency and navigation refinement
 - [x] Refine header proportions, active states and touch controls across screen sizes.
 - [x] Replace the mobile menu with a focused, accessible navigation panel and clear link groups.

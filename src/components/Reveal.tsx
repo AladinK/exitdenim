@@ -16,10 +16,11 @@ export function Reveal({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (typeof IntersectionObserver === "undefined") {
+    if (typeof IntersectionObserver === "undefined" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       el.classList.add("is-visible");
       return;
     }
+    el.classList.add("reveal-ready");
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
