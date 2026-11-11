@@ -1,5 +1,10 @@
 # Roadmap
 
+## EXIT photographic issue
+- [x] Replace centered campaign copy with a full-width EXIT masthead and restrained shopping caption.
+- [x] Bring live products ahead of collection photography and replace floating category labels with a numbered index.
+- [x] Verify mobile/desktop composition, filters and product-to-checkout flow: size 32, 5,990 RSD, free shipping, no overflow or browser errors; no real order submitted.
+
 ## Observed reference motion
 - [x] Inspect live reference scroll, hover, hero, menu, search and cart interactions.
 - [x] Match verified hero crossfade/text movement, indicators, menu/cart fades and editorial reveals without changing layout.
