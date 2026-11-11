@@ -503,13 +503,13 @@
 .storefront :is(h1,h2,h3,h4,p,a,button,span,label,input,select,summary,dt) { letter-spacing: 0; }
 .storefront :is(h1,h2,h3,h4) { font-family: var(--font-sans); }
 .storefront .container-x { max-width: none; padding-inline: 20px; }
-.storefront > main { padding-top: 76px; }
-.storefront:has(.exit-campaign) > main { padding-top: 0; }
+.storefront > main { padding-top: 60px; }
 .exit-home { --background: oklch(.975 0 0); --border: oklch(.88 0 0); --muted-foreground: oklch(.46 0 0); }
 .exit-navigation { position: fixed; inset: 0 0 auto; z-index: 40; background: var(--background); border-bottom: 1px solid var(--border); transition: background 180ms ease, border-color 180ms ease; }
 .exit-navigation-home { background: transparent; border-color: transparent; }
-.exit-navigation-inner { height: 76px; padding-inline: 20px; display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; gap: 12px; }
-.exit-navigation-logo { display: flex; align-items: center; justify-content: center; width: 64px; height: 48px; border-radius: 8px; }
+.exit-navigation-inner { height: 60px; padding-inline: 16px; display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; gap: 8px; }
+.exit-navigation-logo { display: flex; align-items: center; justify-content: center; width: 76px; height: 44px; border-radius: 0; }
+.exit-navigation-logo .exit-logo-image { height: 40px; max-width: 76px; object-fit: contain; filter: none; mix-blend-mode: normal; }
 .exit-logo-image { height: 38px; mix-blend-mode: multiply; }
 .exit-logo-light { filter: invert(1); mix-blend-mode: screen; }
 .exit-header-start { min-width: 0; }
@@ -524,7 +524,8 @@
 .exit-cart-count { position: absolute; top: 2px; right: 2px; min-width: 16px; height: 16px; padding-inline: 3px; border-radius: 50%; font-size: 10px; background: var(--primary); color: var(--primary-foreground); display: grid; place-items: center; }
 .exit-menu-panel { display: flex; flex-direction: column; padding: 0; width: min(440px,100%); max-width: none; height: 100dvh; gap: 0; box-shadow: none; }
 .exit-menu-panel > button { width: 44px; height: 44px; right: 16px; top: 16px; display: grid; place-items: center; opacity: 1; background: var(--secondary); border-radius: 8px; }
-.exit-menu-heading { flex-shrink: 0; height: 76px; display: flex; align-items: center; padding-inline: 24px; border-bottom: 1px solid var(--border); }
+.exit-menu-heading { flex-shrink: 0; height: 60px; display: flex; align-items: center; padding-inline: 24px; border-bottom: 1px solid var(--border); }
+.exit-menu-panel > button { top: 8px; }
 .exit-menu-scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 24px; }
 .exit-menu-section-label { font-size: 11px; color: var(--muted-foreground); margin-bottom: 12px; }
 .exit-menu-primary a { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; font-size: 22px; font-weight: 400; border-bottom: 1px solid var(--border); }
@@ -618,9 +619,8 @@
   .exit-product-detail .exit-product-gallery > div:first-child > div { max-height: 920px; }
 }
 @media (min-width: 1280px) {
-  .exit-navigation-inner { height: 84px; padding-inline: 30px; }
-  .storefront > main { padding-top: 84px; }
-  .storefront:has(.exit-campaign) > main { padding-top: 0; }
+  .exit-navigation-inner { height: 64px; padding-inline: 30px; }
+  .storefront > main { padding-top: 64px; }
   .exit-search-trigger { width: 112px; padding-inline: 12px; justify-content: space-between; }
   .exit-navigation-home .exit-navigation-links { background: var(--control); padding-inline: 4px; border-radius: 8px; }
   .exit-navigation-home .exit-navigation-links > a { color: var(--control-foreground); }
@@ -742,8 +742,3 @@
 .exit-home .exit-category-label h3 { color: inherit; }
 .exit-home .exit-slide-controls { background: transparent; }
 .exit-home .exit-slide-dot span, .exit-home .exit-slide-progress { background: var(--cover-foreground); }
-@media (min-width: 768px) {
-  .exit-navigation-home :is(.exit-menu-trigger,.exit-header-icon,.exit-search-trigger,.exit-navigation-links > a) { color: var(--cover-foreground); }
-  .exit-navigation-home .exit-logo-image { filter: invert(1); mix-blend-mode: screen; }
-  .exit-navigation-home :is(.exit-menu-trigger,.exit-header-icon,.exit-search-trigger):hover, .exit-navigation-home .exit-navigation-links > a:hover { color: var(--cover-foreground); }
-}

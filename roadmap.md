@@ -1,5 +1,9 @@
 # Roadmap
 
+## Compact consistent header
+- [x] Keep the header on a solid surface with a visible original logo and 60/64px height, retaining 44px touch controls.
+- [x] Verify logo contrast and constant header size on mobile/desktop, menu dismissal, search and cart; no overflow or browser errors.
+
 ## Category slider
 - [x] Replace the stacked category photographs with a native swipeable track and unframed arrow controls.
 - [x] Verify mobile/desktop sliding, keyboard navigation and the cargo category link; no page overflow or browser errors.

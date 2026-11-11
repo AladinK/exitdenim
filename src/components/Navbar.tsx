@@ -36,7 +36,6 @@ const FITS = [
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const { count: cartCount, setOpen: setCartOpen } = useCart();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { user } = useAuth();
@@ -49,12 +48,6 @@ export function Navbar() {
     if (user) void fetchProfile({}).then((data) => { if (current) setProfile(data); }).catch(() => {});
     return () => { current = false; };
   }, [user, fetchProfile]);
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
   useEffect(() => { setOpen(false); }, [pathname]);
   useEffect(() => {
     const media = window.matchMedia("(min-width: 1280px)");
@@ -71,7 +64,7 @@ export function Navbar() {
   const displayName = profile?.profile?.boutique_name || user?.user_metadata?.full_name || user?.email || "Vaš nalog";
   const closeMenu = (label: string) => { ecommerce.cta(`menu_${label}`, "mobile_menu"); setOpen(false); };
 
-  return <header className={`exit-navigation ${pathname === "/" && !scrolled ? "exit-navigation-home" : "exit-navigation-solid"}`}>
+  return <header className="exit-navigation exit-navigation-solid">
     <div className="exit-navigation-inner">
       <div className="exit-header-start">
         <Sheet open={open} onOpenChange={setOpen}>

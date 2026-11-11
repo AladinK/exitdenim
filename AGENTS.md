@@ -22,3 +22,4 @@
 - Use shared Radix Sheet and DropdownMenu primitives for storefront navigation so focus trapping, Escape dismissal and focus restoration stay consistent.
 - Keep storefront motion CSS-driven with observed reference timings; decode incoming hero images before crossfading and pause rotation offscreen, on interaction and under reduced motion to protect loading and accessibility.
 - Use native horizontal scroll snapping for homepage category slides, reusing the home-assets cache and shared buttons to avoid extra slider dependencies and preserve touch scrolling.
+- Keep the storefront header on a solid themed surface with matching content offsets and unfiltered logo rendering so visibility does not depend on campaign imagery or scroll state.
