@@ -122,7 +122,6 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
       })()}
 
       <SizeAdvisor
-        fit={String(product.fit)}
         sizes={product.sizes.filter((s) => (product.stock?.[s] ?? 0) > 0)}
         onPick={pickSize}
       />
