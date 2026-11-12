@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { adviseSize, type SizeAdvice } from "@/lib/size-advisor.functions";
 
@@ -28,9 +27,11 @@ export function SizeAdvisor({ fit, sizes, onPick }: { fit: string; sizes: string
 
   const input = "w-full border border-border bg-background px-3 py-2.5 text-sm rounded-[var(--radius-action,8px)]";
   return (
-    <form onSubmit={submit} className="mt-4 border border-border p-4 text-[13px]">
-      <div className="flex items-center gap-2 font-medium"><Sparkles className="h-4 w-4 text-primary" /> Pametni savetnik za veličinu</div>
-      <p className="mt-1 text-muted-foreground">Unesite visinu i težinu, preporučićemo broj.</p>
+    <details className="mt-4 text-[12px]">
+      <summary className="cursor-pointer list-none text-muted-foreground hover:text-foreground underline underline-offset-4">
+        Niste sigurni koji broj? Preporuka po visini i težini
+      </summary>
+    <form onSubmit={submit} className="mt-3 text-[13px]">
       <div className="mt-3 grid grid-cols-2 gap-2">
         <input className={input} inputMode="numeric" required placeholder="Visina (cm)" aria-label="Visina u cm" value={height} onChange={(e) => setHeight(e.target.value.replace(/\D/g, ""))} />
         <input className={input} inputMode="numeric" required placeholder="Težina (kg)" aria-label="Težina u kg" value={weight} onChange={(e) => setWeight(e.target.value.replace(/\D/g, ""))} />
@@ -41,7 +42,7 @@ export function SizeAdvisor({ fit, sizes, onPick }: { fit: string; sizes: string
           <option value="komotno">Volim komotnije</option>
         </select>
       </div>
-      <Button type="submit" variant="outline" disabled={loading} className="mt-3 w-full py-2.5">{loading ? "Računam…" : "Preporuči mi veličinu"}</Button>
+      <Button type="submit" variant="outline" disabled={loading} className="mt-3 w-full py-2.5">{loading ? "Računam…" : "Preporuči broj"}</Button>
       {res?.error && <p role="alert" className="mt-3 text-muted-foreground">{res.error}</p>}
       {res && !res.error && (
         <div className="mt-3" aria-live="polite">
@@ -53,5 +54,6 @@ export function SizeAdvisor({ fit, sizes, onPick }: { fit: string; sizes: string
         </div>
       )}
     </form>
+    </details>
   );
 }
