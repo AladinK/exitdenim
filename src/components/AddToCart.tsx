@@ -6,6 +6,7 @@ import { useCart } from "@/hooks/useCart";
 import { ecommerce, itemFromProduct } from "@/lib/analytics";
 import type { ProductWithStock } from "@/lib/products.functions";
 import { Button } from "@/components/ui/button";
+import { SizeAdvisor } from "@/components/SizeAdvisor";
 
 const SIZE_GUIDE: [string, string, string][] = [
   ["31", "79–81", "46"],
@@ -119,6 +120,12 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
         }
         return null;
       })()}
+
+      <SizeAdvisor
+        fit={String(product.fit)}
+        sizes={product.sizes.filter((s) => (product.stock?.[s] ?? 0) > 0)}
+        onPick={pickSize}
+      />
 
       <details className="mt-4 group text-[12px]">
         <summary className="cursor-pointer list-none text-muted-foreground hover:text-foreground underline underline-offset-4">
