@@ -17,6 +17,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { oldPrice, DISCOUNT_PCT } from "@/lib/pricing";
 import { productAlt, productKind, fitPath, categoryLink } from "@/lib/seo-labels";
 import { B2BSpecs } from "@/components/B2BSpecs";
+import { productSchema } from "@/lib/product-schema";
+import { fitGuidance } from "@/lib/fit-guidance";
 
 export const Route = createFileRoute("/proizvod/$slug")({
   loader: async ({ params, context }) => {
@@ -57,30 +59,7 @@ export const Route = createFileRoute("/proizvod/$slug")({
       scripts: p
         ? [{
             type: "application/ld+json",
-            children: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Product",
-              name: p.name,
-              sku: p.sku,
-              description: p.description,
-              color: p.color,
-              brand: { "@type": "Brand", name: "EXIT Denim" },
-              ...(img ? { image: img } : {}),
-              offers: {
-                "@type": "Offer",
-                url,
-                priceCurrency: "RSD",
-                price: Number(p.retail),
-                availability: Object.values(p.stock || {}).some((n) => n > 0) || !Object.keys(p.stock || {}).length
-                  ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-                seller: { "@type": "Organization", name: "EXIT Denim" },
-                shippingDetails: {
-                  "@type": "OfferShippingDetails",
-                  shippingRate: { "@type": "MonetaryAmount", value: 0, currency: "RSD" },
-                  shippingDestination: { "@type": "DefinedRegion", addressCountry: "RS" },
-                },
-              },
-            }),
+            children: JSON.stringify(productSchema(p, url)),
           }]
         : [],
     };
@@ -174,6 +153,12 @@ function ProductDetail() {
             <Section title="Opis" open>
               <p className="leading-relaxed text-foreground/80">{product.description}</p>
             </Section>
+            {fitGuidance(product.fit) && (
+              <Section title="Kome odgovara ovaj kroj">
+                <p className="leading-relaxed text-foreground/80">{fitGuidance(product.fit)}</p>
+                <Link to="/vodic-za-farmerke" hash="krojevi" className="mt-3 inline-block underline underline-offset-4">Uporedite krojeve i proverite mere pre poručivanja</Link>
+              </Section>
+            )}
             <Section title="Detalji i materijal">
               <dl className="grid grid-cols-2 gap-4">
                 <Spec label="Kroj" value={`${product.fit} fit`} />

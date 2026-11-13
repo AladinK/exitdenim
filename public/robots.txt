@@ -4,6 +4,12 @@ Disallow: /kasa
 Disallow: /korpa
 Disallow: /admin
 Disallow: /porudzbina/
+Disallow: /auth
+Disallow: /reset-password
+Disallow: /moje-porudzbine
+Disallow: /narudzba
+Disallow: /cekanje
+Disallow: /api/
 
 User-agent: GPTBot
 User-agent: OAI-SearchBot
@@ -24,5 +30,11 @@ Disallow: /kasa
 Disallow: /korpa
 Disallow: /admin
 Disallow: /porudzbina/
+Disallow: /auth
+Disallow: /reset-password
+Disallow: /moje-porudzbine
+Disallow: /narudzba
+Disallow: /cekanje
+Disallow: /api/
 
 Sitemap: https://exitdenim.shop/sitemap.xml

@@ -1,5 +1,11 @@
 # Roadmap
 
+## Verified AEO improvements
+- [ ] Correct inconsistent contact phone numbers across public pages and customer documents.
+- [ ] Enrich brand/product structured data and fit guidance using confirmed public facts and live availability.
+- [ ] Serve a strict-format static AI reading index and preserve public crawler access.
+- [ ] Verify rendered metadata, public links and mobile/desktop shopping; request missing business facts before publishing them.
+
 ## Unified storefront buttons
 - [x] Apply consistent gently rounded action buttons and restrained EXIT green to primary actions and selected states; keep navigation icons unframed.
 - [x] Verify homepage, size selection, cart and checkout on mobile/desktop: 5,990 RSD, free shipping and postal autofill unchanged; no overflow or browser errors, no order submitted.

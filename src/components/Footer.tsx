@@ -57,7 +57,7 @@ export function Footer() {
               <li>Ahmed Kurtanović</li>
               <li className="text-muted-foreground">EXIT Denim — TRI-B DOO</li>
               <li>Srbija</li>
-              <li className="tabular-nums"><a href="https://wa.me/3816531716716" className="hover:text-accent transition-colors">+381 65 3171 6716</a></li>
+              <li className="tabular-nums"><a href="https://wa.me/381653176716" className="hover:text-accent transition-colors">+381 65 317 6716</a></li>
               <li className="text-muted-foreground">WhatsApp · Viber</li>
               <li><a href="https://instagram.com/exit.denim" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors">@exit.denim</a></li>
             </ul>

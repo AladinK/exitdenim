@@ -74,7 +74,7 @@ function Guide() {
           <p className="mt-2 text-muted-foreground">Pišite nam na WhatsApp ili Viber pre porudžbine. Dostava je besplatna, a plaćate pouzećem.</p>
           <div className="mt-5 flex flex-wrap gap-3">
             <Link to="/katalog" className="btn-primary">Pogledaj sve modele</Link>
-            <a href="https://wa.me/3816531716716" className="btn-outline">Pitaj na WhatsApp-u</a>
+            <a href="https://wa.me/381653176716" className="btn-outline">Pitaj na WhatsApp-u</a>
           </div>
         </section>
       </div>

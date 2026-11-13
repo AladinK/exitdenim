@@ -24,3 +24,6 @@
 - Use native horizontal scroll snapping for homepage category slides, reusing the home-assets cache and shared buttons to avoid extra slider dependencies and preserve touch scrolling.
 - Keep the storefront header on a solid themed surface with matching content offsets and unfiltered logo rendering so visibility does not depend on campaign imagery or scroll state.
 - Expose shared Button variant attributes and theme storefront actions through scoped action tokens, including portaled cart controls, without recoloring administration or general primary content.
+
+- Reuse confirmed public identity and model-derived schema helpers for machine-readable facts; never infer address, tax identifiers, return terms, ratings or inventory availability.
+- Serve the AI reading index as public/llms.txt with H2 link-list sections only, so crawlers receive the same stable public content without a server handler.

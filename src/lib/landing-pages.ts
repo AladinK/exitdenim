@@ -1,4 +1,5 @@
 import type { ProductWithStock } from "@/lib/products.functions";
+import { fitGuidance } from "@/lib/fit-guidance";
 
 export type LandingPage = {
   path: string;
@@ -91,9 +92,13 @@ export const LANDING_PAGES: LandingPage[] = [
     h1: `${fit} farmerke`,
     intro: text,
     match: fitIs(fit),
-    sections: [FABRIC, MADE],
+    sections: [{ h: "Kome odgovara ovaj kroj", p: fitGuidance(fit) ?? text }, FABRIC, MADE],
     faq: COMMON_FAQ,
   })),
 ];
 
-export const landingByPath = (path: string) => LANDING_PAGES.find((l) => l.path === path)!;
+export const landingByPath = (path: string) => {
+  const page = LANDING_PAGES.find((l) => l.path === path);
+  if (!page) throw new Error(`Unknown public category: ${path}`);
+  return page;
+};

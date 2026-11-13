@@ -39,8 +39,8 @@ function Kontakt() {
         <div className="container-x grid lg:grid-cols-12 gap-12">
           <div className="lg:col-span-7 space-y-px">
             {[
-              { icon: Phone, label: "Ahmed Kurtanović · Telefon", value: "+381 65 3171 6716", href: "tel:+3816531716716" },
-              { icon: MessageCircle, label: "WhatsApp · Viber", value: "+381 65 3171 6716", href: "https://wa.me/3816531716716" },
+              { icon: Phone, label: "Ahmed Kurtanović · Telefon", value: "+381 65 317 6716", href: "tel:+381653176716" },
+              { icon: MessageCircle, label: "WhatsApp · Viber", value: "+381 65 317 6716", href: "https://wa.me/381653176716" },
               { icon: Instagram, label: "Instagram", value: "@exit.denim", href: "https://instagram.com/exit.denim" },
               { icon: MapPin, label: "Sedište · TRI-B DOO", value: "Srbija", href: "#" },
             ].map((c) => (

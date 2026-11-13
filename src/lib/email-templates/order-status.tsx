@@ -43,7 +43,7 @@ const OrderStatus = ({ name, orderNumber, status = '' }: Props) => {
           <Text style={text}>{c.body}</Text>
           <Text style={text}>Broj porudžbine: <b>#{orderNumber}</b></Text>
           <Hr style={hr} />
-          <Text style={muted}>Pitanja? Pozovi Ahmeda: +381 65 3171 6716</Text>
+          <Text style={muted}>Pitanja? Pozovi Ahmeda: +381 65 317 6716</Text>
         </Container>
       </Body>
     </Html>

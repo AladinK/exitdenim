@@ -39,7 +39,7 @@ const OrderConfirmation = ({ name, orderNumber, items = [], subtotal = 0, shippi
         <Text style={total_}>Ukupno: {fmt(total)}</Text>
         {address ? <Text style={muted}>Adresa dostave: {address}</Text> : null}
         <Hr style={hr} />
-        <Text style={muted}>Pitanja? Pozovi Ahmeda: +381 65 3171 6716</Text>
+        <Text style={muted}>Pitanja? Pozovi Ahmeda: +381 65 317 6716</Text>
       </Container>
     </Body>
   </Html>
