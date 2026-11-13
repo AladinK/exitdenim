@@ -74,9 +74,7 @@ function Faq() {
                       ? <Minus className="w-5 h-5 shrink-0 text-accent" strokeWidth={1.25} />
                       : <Plus className="w-5 h-5 shrink-0" strokeWidth={1.25} />}
                   </Button>
-                  {open === i && (
-                    <p id={`faq-answer-${i}`} className="pb-7 text-foreground/75 leading-[1.8] max-w-2xl">{a}</p>
-                  )}
+                  <p id={`faq-answer-${i}`} hidden={open !== i} className="pb-7 text-foreground/75 leading-[1.8] max-w-2xl">{a}</p>
                 </div>
               ))}
             </div>

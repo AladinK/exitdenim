@@ -10,7 +10,7 @@ export function DenimEditorial() {
   return (
     <section className="exit-denim-editorial border-y border-border" aria-labelledby="denim-editorial-title">
       <Reveal className="px-5 md:px-12 pt-9 md:pt-14 flex flex-wrap items-end justify-between gap-5">
-        <div><p className="mono text-xs text-muted-foreground mb-4">EXIT / ORIGINALNE FOTOGRAFIJE</p><h2 id="denim-editorial-title" className="text-3xl md:text-5xl">Teksas, izbliza.</h2></div>
+        <div><p className="mono text-xs text-muted-foreground mb-4">EXIT / ORIGINALNE FOTOGRAFIJE</p><h2 id="denim-editorial-title" className="text-3xl md:text-5xl">Krojevi u pokretu.</h2></div>
         <Button asChild variant="link" className="p-0 h-auto text-foreground"><Link to="/jeans">Kolekcija farmerki <ArrowUpRight /></Link></Button>
       </Reveal>
       <div className="exit-denim-photo-grid px-5 md:px-12 py-8 md:py-12">
