@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Logo } from "./Logo";
 import { Button } from "@/components/ui/button";
+import { BRAND } from "@/lib/brand";
 
 
 export function Footer() {
@@ -57,6 +58,8 @@ export function Footer() {
               <li>Ahmed Kurtanović</li>
               <li className="text-muted-foreground">EXIT Denim — TRI-B DOO</li>
               <li>Srbija</li>
+              <li className="tabular-nums text-muted-foreground">PIB: {BRAND.taxId} · MB: {BRAND.registrationId}</li>
+              <li><a href={`mailto:${BRAND.email}`} className="break-all hover:text-accent transition-colors">{BRAND.email}</a></li>
               <li className="tabular-nums"><a href="https://wa.me/381653176716" className="hover:text-accent transition-colors">+381 65 317 6716</a></li>
               <li className="text-muted-foreground">WhatsApp · Viber</li>
               <li><a href="https://instagram.com/exit.denim" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors">@exit.denim</a></li>

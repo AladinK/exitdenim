@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Mail, MapPin, MessageCircle, Phone, Instagram } from "lucide-react";
 import { Layout } from "@/components/Layout";
+import { BRAND, organizationSchema } from "@/lib/brand";
 
 export const Route = createFileRoute("/kontakt")({
   head: () => ({
@@ -15,7 +16,7 @@ export const Route = createFileRoute("/kontakt")({
       { property: "og:url", content: "https://exitdenim.shop/kontakt" },
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/kontakt" }],
-    scripts: [{ type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "ClothingStore", name: "EXIT Denim", url: "https://exitdenim.shop/kontakt", telephone: "+381653176716", address: { "@type": "PostalAddress", addressCountry: "RS" } }) }],
+    scripts: [{ type: "application/ld+json", children: JSON.stringify(organizationSchema) }],
   }),
   component: Kontakt,
 });
@@ -42,13 +43,14 @@ function Kontakt() {
               { icon: Phone, label: "Ahmed Kurtanović · Telefon", value: "+381 65 317 6716", href: "tel:+381653176716" },
               { icon: MessageCircle, label: "WhatsApp · Viber", value: "+381 65 317 6716", href: "https://wa.me/381653176716" },
               { icon: Instagram, label: "Instagram", value: "@exit.denim", href: "https://instagram.com/exit.denim" },
+              { icon: Mail, label: "Poslovni e-mail", value: BRAND.email, href: `mailto:${BRAND.email}` },
               { icon: MapPin, label: "Sedište · TRI-B DOO", value: "Srbija", href: "#" },
             ].map((c) => (
               <a key={c.label} href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="flex items-center gap-6 border border-border bg-card p-6 md:p-7 hover:bg-secondary hover:border-foreground/40 transition-colors group">
                 <c.icon className="w-5 h-5 text-accent shrink-0" strokeWidth={1.25} />
                 <div className="flex-1 min-w-0">
                   <div className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">{c.label}</div>
-                  <div className="serif text-xl md:text-2xl mt-1.5 tabular-nums truncate group-hover:text-accent transition-colors">{c.value}</div>
+                  <div className="serif text-xl md:text-2xl mt-1.5 tabular-nums break-all group-hover:text-accent transition-colors">{c.value}</div>
                 </div>
               </a>
             ))}
@@ -63,6 +65,10 @@ function Kontakt() {
               <p className="text-sm text-muted-foreground mt-2">
                 Domaći proizvođač farmerki, chino i cargo pantalona. Srbija.
               </p>
+              <dl className="mt-4 text-sm space-y-2 tabular-nums">
+                <div><dt className="inline text-muted-foreground">PIB: </dt><dd className="inline">{BRAND.taxId}</dd></div>
+                <div><dt className="inline text-muted-foreground">Matični broj: </dt><dd className="inline">{BRAND.registrationId}</dd></div>
+              </dl>
 
               <div className="mt-8 pt-6 border-t border-border">
                 <div className="eyebrow">Radno vreme</div>

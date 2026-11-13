@@ -1,3 +1,4 @@
+import { SIZE_EXCHANGE_TEXT } from "./brand";
 export type GuideSection = { id: string; title: string; items: [string, string][] };
 
 export const GUIDE: GuideSection[] = [
@@ -133,7 +134,7 @@ export const GUIDE: GuideSection[] = [
       ["Da li moram da napravim nalog?", "Ne. Poručujete bez naloga, samo upišete podatke za dostavu."],
       ["Da li ću dobiti potvrdu porudžbine?", "Da. Posle porudžbine dobijate broj porudžbine i potvrdu na e-mail."],
       ["Koje veličine imate?", "Šijemo veličine 31, 32, 33, 34, 36, 38 i 40."],
-      ["Šta ako mi veličina ne odgovara?", "Javite nam se na WhatsApp ili Viber +381 65 317 6716 i dogovorićemo rešenje. Najbolje je da nas pitate za veličinu pre porudžbine."],
+      ["Šta ako mi veličina ne odgovara?", SIZE_EXCHANGE_TEXT],
       ["Mogu li da vas pitam za savet pre kupovine?", "Naravno. Pišite nam na WhatsApp ili Viber, recite visinu, težinu i broj koji inače nosite, i preporučićemo veličinu i kroj."],
       ["Da li imate popust?", "Prijavljeni kupci mogu da izaberu „Osvojite popust“ u meniju i zavrte točak. Ne otvara se automatski. Osvojeni popust od 5 do 15% primenjuje se u korpi."],
       ["Kako da iskoristim kod za popust?", "Kod koji osvojite automatski se primenjuje u korpi. Popust vidite pre potvrde porudžbine."],

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
+import { SIZE_EXCHANGE_TEXT } from "@/lib/brand";
 
 export const Route = createFileRoute("/faq")({
   head: () => ({
@@ -29,7 +30,7 @@ const QA: Array<[string, string]> = [
   ["Koje veličine imate?", "31, 32, 33, 34, 36, 38 i 40. Tabela veličina je na strani svakog proizvoda."],
   ["Da li moram da napravim nalog?", "Ne. Poručujete bez registracije, samo upišete ime, adresu, telefon i e-mail."],
   ["Šta ako nisam siguran za veličinu?", "Pišite nam na WhatsApp ili Viber +381 65 317 6716 pre porudžbine i preporučićemo vam broj i kroj."],
-  ["Šta ako mi veličina ne odgovara?", "Javite nam se na WhatsApp ili Viber i dogovorićemo rešenje."],
+  ["Šta ako mi veličina ne odgovara?", SIZE_EXCHANGE_TEXT],
   ["Kako da iskoristim popust?", "Za prijavljene kupce u meniju je dostupna opcija „Osvojite popust“. Točak se otvara samo kada je sami izaberete, a osvojeni popust se primenjuje u korpi."],
   ["Da li prodajete i na veliko?", "Da. Butici i prodavnice mogu da se prijave na strani „Postani partner“. Uslovi veleprodaje razlikuju se od kupovine na sajtu."],
 ];

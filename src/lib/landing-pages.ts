@@ -1,5 +1,6 @@
 import type { ProductWithStock } from "@/lib/products.functions";
 import { fitGuidance } from "@/lib/fit-guidance";
+import { SIZE_EXCHANGE_TEXT } from "@/lib/brand";
 
 export type LandingPage = {
   path: string;
@@ -17,6 +18,7 @@ const fitIs = (...f: string[]) => (p: ProductWithStock) => f.includes(String(p.f
 const catIs = (c: string) => (p: ProductWithStock) => String(p.category ?? "").toLowerCase() === c;
 
 const COMMON_FAQ = [
+  { q: "Šta ako veličina ne odgovara?", a: SIZE_EXCHANGE_TEXT },
   { q: "Koliko košta i kako se plaća?", a: "Farmerke i chino koštaju 5.990 din, cargo džeparke 7.500 din. Plaćaš pouzećem, kuriru kad paket stigne, bez kartice i bez avansa." },
   { q: "Koliko košta dostava i kada stiže?", a: "Dostava je besplatna na sve porudžbine po celoj Srbiji. Porudžbinu šaljemo u roku od 1–2 radna dana." },
   { q: "Koje veličine postoje?", a: "Šijemo veličine 31, 32, 33, 34, 36, 38 i 40. Ako nisi siguran za broj, javi nam se pre porudžbine." },

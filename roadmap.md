@@ -1,10 +1,12 @@
 # Roadmap
 
 ## Verified AEO improvements
-- [ ] Correct inconsistent contact phone numbers across public pages and customer documents.
-- [ ] Enrich brand/product structured data and fit guidance using confirmed public facts and live availability.
-- [ ] Serve a strict-format static AI reading index and preserve public crawler access.
-- [ ] Verify rendered metadata, public links and mobile/desktop shopping; request missing business facts before publishing them.
+- [x] Correct inconsistent contact phone numbers across public pages and customer documents.
+- [x] Enrich brand/product structured data and fit guidance using confirmed public facts and live availability.
+- [x] Serve a strict-format static AI reading index and preserve public crawler access.
+- [x] Verify rendered metadata, public links and mobile/desktop size 32 to checkout, 5,990 RSD, free shipping and Beograd postal 11000; no order submitted.
+- [x] Publish supplied PIB, registration number, business email and 7-day size exchange at EXIT's expense; 14 focused tests pass.
+- [ ] Full business address, private-label MOQ/capacity/lead times and model measurements await confirmed user data. External reviews/PR/Google Business Profile require genuine material and service access; no claims or ratings invented.
 
 ## Unified storefront buttons
 - [x] Apply consistent gently rounded action buttons and restrained EXIT green to primary actions and selected states; keep navigation icons unframed.

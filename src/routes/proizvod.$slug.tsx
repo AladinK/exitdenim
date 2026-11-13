@@ -19,6 +19,7 @@ import { productAlt, productKind, fitPath, categoryLink } from "@/lib/seo-labels
 import { B2BSpecs } from "@/components/B2BSpecs";
 import { productSchema } from "@/lib/product-schema";
 import { fitGuidance } from "@/lib/fit-guidance";
+import { SIZE_EXCHANGE_TEXT } from "@/lib/brand";
 
 export const Route = createFileRoute("/proizvod/$slug")({
   loader: async ({ params, context }) => {
@@ -187,6 +188,7 @@ function ProductDetail() {
               <p className="leading-relaxed text-foreground/80">
                 Plaćanje pouzećem pri preuzimanju paketa. Dostava je besplatna na sve porudžbine.
               </p>
+              <p className="mt-3 leading-relaxed text-foreground/80">{SIZE_EXCHANGE_TEXT}</p>
             </Section>
           </div>
 
