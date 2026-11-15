@@ -27,3 +27,4 @@
 
 - Reuse confirmed public identity and model-derived schema helpers for machine-readable facts; never infer address, tax identifiers, return terms, ratings or inventory availability.
 - Serve the AI reading index as public/llms.txt with H2 link-list sections only, so crawlers receive the same stable public content without a server handler.
+- Keep English B2B translations on distinct public /en content routes with reciprocal language links and self-canonicals; reuse confirmed brand constants and the localized EcoProduction section to avoid divergent claims and changes to Serbian retail checkout.

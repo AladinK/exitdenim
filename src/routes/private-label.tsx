@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useSiteAssets } from "@/hooks/useSiteAsset";
 import { EcoProduction } from "@/components/EcoProduction";
 import { BRAND_HISTORY_TEXT, EXPORT_TEXT, MANUFACTURING, organizationSchema } from "@/lib/brand";
+import { b2bLanguageLinks } from "@/lib/b2b-english";
 
 const URL = "https://exitdenim.shop/private-label";
 const TITLE = "Izrada za vaš brend · Private label — EXIT Denim";
@@ -21,7 +22,7 @@ export const Route = createFileRoute("/private-label")({
       { property: "og:url", content: URL },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: URL }],
+    links: [{ rel: "canonical", href: URL }, ...b2bLanguageLinks("/private-label", "/en/private-label")],
     scripts: [{
       type: "application/ld+json",
       children: JSON.stringify({
@@ -51,6 +52,7 @@ function PrivateLabelPage() {
           <span>Izrada za vaš brend</span>
         </nav>
         <header className="mt-10 max-w-4xl">
+          <Link to="/en/private-label" lang="en" hrefLang="en" className="inline-block mb-6 text-sm underline underline-offset-4">English · Private label</Link>
           <p className="text-sm text-muted-foreground">EXIT Denim · Proizvodnja u Srbiji</p>
           <h1 className="mt-5 text-4xl md:text-6xl leading-tight tracking-normal">Izrada za vaš brend</h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">

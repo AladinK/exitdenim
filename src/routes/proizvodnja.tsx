@@ -4,6 +4,7 @@ import { Factory, ShieldCheck, Scissors, Truck } from "lucide-react";
 import { useSiteAssets } from "@/hooks/useSiteAsset";
 import { EcoProduction } from "@/components/EcoProduction";
 import { BRAND_HISTORY_TEXT, EXPORT_TEXT, MANUFACTURING, organizationSchema } from "@/lib/brand";
+import { b2bLanguageLinks } from "@/lib/b2b-english";
 
 export const Route = createFileRoute("/proizvodnja")({
   head: () => ({
@@ -16,7 +17,7 @@ export const Route = createFileRoute("/proizvodnja")({
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "https://exitdenim.shop/proizvodnja" },
     ],
-    links: [{ rel: "canonical", href: "https://exitdenim.shop/proizvodnja" }],
+    links: [{ rel: "canonical", href: "https://exitdenim.shop/proizvodnja" }, ...b2bLanguageLinks("/proizvodnja", "/en/manufacturing")],
     scripts: [{ type: "application/ld+json", children: JSON.stringify(organizationSchema) }],
   }),
   component: Proizvodnja,
@@ -29,6 +30,7 @@ function Proizvodnja() {
     <Layout>
       <section className="bg-foreground text-background">
         <div className="container-x py-20 md:py-32">
+          <Link to="/en/manufacturing" lang="en" hrefLang="en" className="inline-block mb-6 text-sm underline underline-offset-4">English · Manufacturing</Link>
           <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Novi Pazar · Od 1991.</div>
           <h1 className="mt-7 h1-editorial max-w-4xl text-background">
             EXIT Denim.<br/> <span className="italic">Proizvodnja u Novom Pazaru.</span>

@@ -38,6 +38,8 @@ export function Footer() {
               <li><Link to="/postani-partner" className="hover:text-accent transition-colors">Veleprodaja (B2B)</Link></li>
               <li><Link to="/proizvodnja" className="hover:text-accent transition-colors">Proizvodnja</Link></li>
                <li><Link to="/private-label" className="hover:text-accent transition-colors">Izrada za vaš brend</Link></li>
+              <li><Link to="/en/manufacturing" lang="en" hrefLang="en" className="hover:text-accent transition-colors">Manufacturing · EN</Link></li>
+              <li><Link to="/en/private-label" lang="en" hrefLang="en" className="hover:text-accent transition-colors">Private label · EN</Link></li>
               <li>
                 <a href="https://www.google.com/preferences/source?q=exitdenim.shop" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 hover:text-accent transition-colors">
                   Omiljeni izvor na Google-u

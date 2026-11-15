@@ -1,5 +1,9 @@
 # Roadmap
 
+## English B2B pages
+- [ ] Add public English manufacturing and private-label pages with confirmed facts and direct business contact.
+- [ ] Link Serbian/English versions, footer, sitemap and AI reading index; verify initial HTML and mobile/desktop navigation.
+
 ## Verified AEO improvements
 - [x] Correct inconsistent contact phone numbers across public pages and customer documents.
 - [x] Enrich brand/product structured data and fit guidance using confirmed public facts and live availability.
