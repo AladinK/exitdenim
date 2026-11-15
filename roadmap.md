@@ -6,7 +6,8 @@
 - [x] Serve a strict-format static AI reading index and preserve public crawler access.
 - [x] Verify rendered metadata, public links and mobile/desktop size 32 to checkout, 5,990 RSD, free shipping and Beograd postal 11000; no order submitted.
 - [x] Publish supplied PIB, registration number, business email and 7-day size exchange at EXIT's expense; 14 focused tests pass.
-- [ ] Full business address, private-label MOQ/capacity/lead times and model measurements await confirmed user data. External reviews/PR/Google Business Profile require genuine material and service access; no claims or ratings invented.
+- [x] Add confirmed brand founding, Novi Pazar address, average monthly jeans production, employees and export markets to public pages and machine-readable facts.
+- [ ] Private-label MOQ/lead times, model measurements and specific certification names await confirmed user data. External reviews/PR/Google Business Profile require genuine material and service access; no claims or ratings invented. Certificate numbers/copies are not requested again.
 
 ## Unified storefront buttons
 - [x] Apply consistent gently rounded action buttons and restrained EXIT green to primary actions and selected states; keep navigation icons unframed.

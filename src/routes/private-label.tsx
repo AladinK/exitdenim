@@ -4,10 +4,11 @@ import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { useSiteAssets } from "@/hooks/useSiteAsset";
 import { EcoProduction } from "@/components/EcoProduction";
+import { BRAND_HISTORY_TEXT, EXPORT_TEXT, MANUFACTURING, organizationSchema } from "@/lib/brand";
 
 const URL = "https://exitdenim.shop/private-label";
 const TITLE = "Izrada za vaš brend · Private label — EXIT Denim";
-const DESCRIPTION = "EXIT Denim: izrada za vaš brend, završna obrada najvišeg kvaliteta, ekološki pristup uz Jeanologia laser i 35 godina iskustva u izvoznim poslovima.";
+const DESCRIPTION = "EXIT Denim, Novi Pazar od 1991: private-label proizvodnja, oko 5.000 komada jeansa mesečno, 35 zaposlenih i izvoz u EU i zemlje bivše Jugoslavije.";
 
 export const Route = createFileRoute("/private-label")({
   head: () => ({
@@ -30,7 +31,7 @@ export const Route = createFileRoute("/private-label")({
         serviceType: "Private-label proizvodnja denima i pantalona",
         description: DESCRIPTION,
         url: URL,
-        provider: { "@type": "Organization", name: "EXIT Denim", legalName: "TRI-B DOO", url: "https://exitdenim.shop/", address: { "@type": "PostalAddress", addressCountry: "RS" } },
+        provider: { "@type": "Organization", "@id": organizationSchema["@id"], name: organizationSchema.name, legalName: organizationSchema.legalName, url: organizationSchema.url, address: organizationSchema.address },
       }),
     }],
   }),
@@ -61,7 +62,7 @@ function PrivateLabelPage() {
         </header>
 
         <dl className="mt-14 grid gap-8 border-y border-border py-8 md:grid-cols-3">
-          {[["35 godina", "Iskustva u izvoznim poslovima"], ["Private label", "Izrada za personalizovane brendove"], ["Završna obrada", "Fokus na najviši kvalitet"]].map(([term, detail]) => (
+          {[["Od 1991.", "EXIT Denim · Novi Pazar"], [MANUFACTURING.averageMonthlyJeans.toLocaleString("sr-RS"), "Komada jeansa mesečno u proseku"], [String(MANUFACTURING.employees), "Zaposlenih u firmi"]].map(([term, detail]) => (
             <div key={term}><dt className="text-2xl font-semibold">{term}</dt><dd className="mt-2 text-sm text-muted-foreground">{detail}</dd></div>
           ))}
         </dl>
@@ -78,8 +79,8 @@ function PrivateLabelPage() {
             <p className="mt-4 leading-relaxed text-muted-foreground">Pažnja prema završnoj obradi važan je deo EXIT ponude. Izgled proizvoda, detalji i finiš usaglašavaju se sa zahtevima vašeg brenda, kako bi kolekcija imala prepoznatljiv identitet.</p>
           </section>
           <section>
-            <h2 className="text-2xl tracking-normal">35 godina iskustva u izvozu</h2>
-            <p className="mt-4 leading-relaxed text-muted-foreground">EXIT ima 35 godina iskustva u poslovima vezanim za izvoz. To iskustvo je osnova naše ponude za brendove koji traže proizvodnog partnera u Srbiji.</p>
+            <h2 className="text-2xl tracking-normal">Izvoz u EU i region</h2>
+            <p className="mt-4 leading-relaxed text-muted-foreground">{BRAND_HISTORY_TEXT} {EXPORT_TEXT}</p>
           </section>
           <section>
             <h2 className="text-2xl tracking-normal">Dogovor prema vašoj kolekciji</h2>

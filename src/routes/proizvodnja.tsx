@@ -3,19 +3,21 @@ import { Layout } from "@/components/Layout";
 import { Factory, ShieldCheck, Scissors, Truck } from "lucide-react";
 import { useSiteAssets } from "@/hooks/useSiteAsset";
 import { EcoProduction } from "@/components/EcoProduction";
+import { BRAND_HISTORY_TEXT, EXPORT_TEXT, MANUFACTURING, organizationSchema } from "@/lib/brand";
 
 export const Route = createFileRoute("/proizvodnja")({
   head: () => ({
     meta: [
-      { title: "Proizvodnja · Vlastiti atelje — EXIT Denim" },
-      { name: "description", content: "EXIT Denim proizvodnja u Srbiji: ekološki pristup obradi denima uz inovativnu lasersku tehnologiju španske kompanije Jeanologia." },
-      { property: "og:title", content: "Proizvodnja · Vlastiti atelje — EXIT Denim" },
-      { property: "og:description", content: "Proizvodnja u Srbiji i ekološki pristup završnoj obradi denima uz Jeanologia lasersku tehnologiju." },
+      { title: "O brendu i proizvodnji u Novom Pazaru — EXIT Denim" },
+      { name: "description", content: "EXIT Denim, osnovan 1991. u Novom Pazaru: 35 zaposlenih, oko 5.000 komada jeansa mesečno, izvoz u EU i region i Jeanologia laserska obrada." },
+      { property: "og:title", content: "O brendu i proizvodnji u Novom Pazaru — EXIT Denim" },
+      { property: "og:description", content: "Od 1991. u Novom Pazaru. Oko 5.000 komada jeansa mesečno, 35 zaposlenih i izvoz u zemlje EU i bivše Jugoslavije." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "https://exitdenim.shop/proizvodnja" },
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/proizvodnja" }],
+    scripts: [{ type: "application/ld+json", children: JSON.stringify(organizationSchema) }],
   }),
   component: Proizvodnja,
 });
@@ -27,13 +29,12 @@ function Proizvodnja() {
     <Layout>
       <section className="bg-foreground text-background">
         <div className="container-x py-20 md:py-32">
-          <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Atelje · Made in Serbia</div>
+          <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Novi Pazar · Od 1991.</div>
           <h1 className="mt-7 h1-editorial max-w-4xl text-background">
-            Proizvodnja. <span className="italic">Poštene tkanine</span>.<br/>
-            Skrojeni krojevi.
+            EXIT Denim.<br/> <span className="italic">Proizvodnja u Novom Pazaru.</span>
           </h1>
           <p className="mt-8 text-lg text-background/75 max-w-2xl leading-relaxed">
-            EXIT Denim radi sve u vlastitom pogonu: krojenje, šivenje, pranje i kontrolu kvaliteta. Naš ekološki pristup uključuje inovativnu lasersku tehnologiju španske kompanije Jeanologia.
+            {BRAND_HISTORY_TEXT} Naš ekološki pristup uključuje lasersku tehnologiju španske kompanije Jeanologia.
           </p>
         </div>
       </section>
@@ -48,10 +49,10 @@ function Proizvodnja() {
             <h2 className="mt-5 h2-editorial">Šta drži kvalitet.</h2>
             <div className="mt-10 space-y-7">
               {[
-                { icon: Factory, t: "In-house proizvodnja", d: "Vlastita radionica. Kontrola svakog koraka." },
-                { icon: Scissors, t: "Test kroja", d: "Svaki novi model prolazi kroz tri runde testiranja kroja pre proizvodnje serije." },
-                { icon: ShieldCheck, t: "QC na svakoj seriji", d: "Šavovi, pranje, dimenzije i finiš proveravaju se pre pakovanja." },
-                { icon: Truck, t: "Logistika u regionu", d: "Direktni partner za isporuku — 5–10 dana do svih balkanskih zemalja." },
+                { icon: Factory, t: "Proizvodnja u Novom Pazaru", d: "Save Kovačevića 31b, Novi Pazar, Srbija." },
+                { icon: Scissors, t: "Proizvodnja jeansa", d: "U proseku oko 5.000 komada mesečno. Količine i rokovi za vašu kolekciju potvrđuju se dogovorom." },
+                { icon: ShieldCheck, t: "Sertifikacija", d: "Za informacije o sertifikaciji relevantnoj za vašu kolekciju kontaktirajte EXIT." },
+                { icon: Truck, t: "Izvoz u EU i region", d: EXPORT_TEXT },
               ].map((f) => (
                 <div key={f.t} className="flex gap-5 pb-7 border-b border-border last:border-0 last:pb-0">
                   <f.icon className="w-5 h-5 mt-1 text-accent shrink-0" strokeWidth={1.25} />
@@ -87,9 +88,9 @@ function Proizvodnja() {
         <div className="container-x py-24">
           <div className="grid md:grid-cols-3 gap-px bg-background/10">
             {[
-              ["12.5 oz", "Standardna težina denima"],
-              ["98 / 2", "Pamuk · Elastan"],
-              ["3 ×", "QC po seriji"],
+              ["1991", "Godina osnivanja brenda"],
+              [MANUFACTURING.averageMonthlyJeans.toLocaleString("sr-RS"), "Komada jeansa mesečno u proseku"],
+              [String(MANUFACTURING.employees), "Zaposlenih"],
             ].map(([v, l]) => (
               <div key={l} className="bg-foreground p-10 text-center">
                 <div className="serif text-6xl text-accent tabular-nums">{v}</div>

@@ -7,7 +7,7 @@ import { HomeCollection } from "@/components/HomeCollection";
 import { DenimEditorial } from "@/components/DenimEditorial";
 import { CategorySlider } from "@/components/CategorySlider";
 import { Button } from "@/components/ui/button";
-import { organizationSchema } from "@/lib/brand";
+import { BRAND_HISTORY_TEXT, EXPORT_TEXT, organizationSchema } from "@/lib/brand";
 import { homeAssetsQuery, productsQuery } from "@/lib/product-queries";
 import editorial from "@/assets/exit-seated-cover.webp.asset.json";
 import editorialMobile from "@/assets/exit-portrait-cover-mobile.webp.asset.json";
@@ -60,6 +60,19 @@ function HomePage() {
         <HomeCollection />
         <EcoProduction />
         <DenimEditorial />
+        <section className="px-5 md:px-12 py-10 md:py-16 border-t border-border grid gap-8 md:grid-cols-2">
+          <div>
+            <h2 className="text-3xl md:text-4xl">EXIT Denim. Novi Pazar, od 1991.</h2>
+            <p className="mt-5 leading-relaxed text-muted-foreground">{BRAND_HISTORY_TEXT}</p>
+          </div>
+          <div>
+            <p className="leading-relaxed text-muted-foreground">{EXPORT_TEXT}</p>
+            <div className="mt-5 flex flex-wrap gap-5">
+              <Button asChild variant="link" className="h-auto p-0"><Link to="/proizvodnja">O brendu i proizvodnji <ArrowRight /></Link></Button>
+              <Button asChild variant="link" className="h-auto p-0"><Link to="/private-label">Izrada za vaš brend <ArrowRight /></Link></Button>
+            </div>
+          </div>
+        </section>
         <section className="exit-cargo-story relative isolate overflow-hidden text-cover-foreground" aria-labelledby="cargo-story-title">
           <img src={cargoStudio.url} alt="Muške maslinastozelene EXIT džeparke sa bočnim džepovima, model u pokretu" width={900} height={945} loading="lazy" decoding="async" className="absolute inset-0 -z-20 h-full w-full object-cover" />
           <div className="exit-cargo-shade absolute inset-0 -z-10" aria-hidden="true" />

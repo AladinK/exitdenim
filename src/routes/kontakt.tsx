@@ -44,7 +44,7 @@ function Kontakt() {
               { icon: MessageCircle, label: "WhatsApp · Viber", value: "+381 65 317 6716", href: "https://wa.me/381653176716" },
               { icon: Instagram, label: "Instagram", value: "@exit.denim", href: "https://instagram.com/exit.denim" },
               { icon: Mail, label: "Poslovni e-mail", value: BRAND.email, href: `mailto:${BRAND.email}` },
-              { icon: MapPin, label: "Sedište · TRI-B DOO", value: "Srbija", href: "#" },
+              { icon: MapPin, label: "Adresa · TRI-B DOO", value: `${BRAND.streetAddress}, ${BRAND.city}`, href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${BRAND.streetAddress}, ${BRAND.city}, Srbija`)}` },
             ].map((c) => (
               <a key={c.label} href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="flex items-center gap-6 border border-border bg-card p-6 md:p-7 hover:bg-secondary hover:border-foreground/40 transition-colors group">
                 <c.icon className="w-5 h-5 text-accent shrink-0" strokeWidth={1.25} />
@@ -63,7 +63,7 @@ function Kontakt() {
                 EXIT Denim — TRI-B DOO
               </p>
               <p className="text-sm text-muted-foreground mt-2">
-                Domaći proizvođač farmerki, chino i cargo pantalona. Srbija.
+                Brend osnovan {BRAND.foundedYear}. godine u Novom Pazaru. Domaća proizvodnja farmerki, chino i cargo pantalona.
               </p>
               <dl className="mt-4 text-sm space-y-2 tabular-nums">
                 <div><dt className="inline text-muted-foreground">PIB: </dt><dd className="inline">{BRAND.taxId}</dd></div>
