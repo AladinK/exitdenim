@@ -85,6 +85,7 @@ type AdminProduct = {
   image_url: string | null;
   gallery?: string[];
   active: boolean; sort_order: number;
+  on_sale?: boolean;
   stock: Record<string, number>;
 };
 
@@ -678,6 +679,12 @@ function ProductForm({
               <label className="inline-flex items-center gap-2 text-sm">
                 <input type="checkbox" checked={p.active} onChange={(e) => set("active", e.target.checked)} />
                 Vidljivo u katalogu
+              </label>
+            </div>
+            <div className="flex items-end">
+              <label className="inline-flex items-center gap-2 text-sm">
+                <input type="checkbox" checked={!!p.on_sale} onChange={(e) => set("on_sale", e.target.checked)} />
+                Na popustu (prikaži staru cenu)
               </label>
             </div>
           </div>

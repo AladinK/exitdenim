@@ -42,7 +42,7 @@ export function ProductCard({ product, showB2B }: { product: ProductWithStock; s
           <span className="bg-background/85 backdrop-blur-sm px-2 py-1 text-[9.5px] md:text-[10px] font-medium uppercase tracking-[0.22em] text-foreground">
             {product.fit}
           </span>
-          {!soldOut && <span className="ml-auto mr-2 bg-primary px-2 py-1 text-[9.5px] md:text-[10px] font-semibold tracking-[0.12em] text-primary-foreground">−{DISCOUNT_PCT}%</span>}
+          {!soldOut && product.on_sale && <span className="ml-auto mr-2 bg-primary px-2 py-1 text-[9.5px] md:text-[10px] font-semibold tracking-[0.12em] text-primary-foreground">−{DISCOUNT_PCT}%</span>}
           {soldOut && (
             <span className="bg-foreground px-2 py-1 text-[9.5px] md:text-[10px] font-medium uppercase tracking-[0.22em] text-background">
               Rasprodato
@@ -82,7 +82,7 @@ export function ProductCard({ product, showB2B }: { product: ProductWithStock; s
           <div className="shrink-0 text-[13px] md:text-[14px] font-medium tabular-nums">
             {Number(product.retail).toLocaleString("sr-RS")}
             <span className="ml-1 text-[10px] text-muted-foreground">RSD</span>
-            <div className="text-[11px] text-muted-foreground line-through">{oldPrice(Number(product.retail)).toLocaleString("sr-RS")} RSD</div>
+            {product.on_sale && <div className="text-[11px] text-muted-foreground line-through">{oldPrice(Number(product.retail)).toLocaleString("sr-RS")} RSD</div>}
           </div>
         </div>
         <div className="mt-1.5 flex items-center justify-between gap-3 text-[11px] text-muted-foreground">

@@ -134,7 +134,7 @@ function ProductDetail() {
 
           <div className="mt-4 flex items-end justify-between gap-6">
             <div className="text-3xl font-semibold tabular-nums">
-              {Number(product.retail).toLocaleString("sr-RS")} <span className="text-base font-normal text-muted-foreground">RSD</span><span className="ml-2 text-[0.6em] text-muted-foreground line-through">{oldPrice(Number(product.retail)).toLocaleString("sr-RS")}</span> <span className="ml-2 text-xs font-semibold text-primary">−{DISCOUNT_PCT}%</span>
+              {Number(product.retail).toLocaleString("sr-RS")} <span className="text-base font-normal text-muted-foreground">RSD</span>{product.on_sale && (<><span className="ml-2 text-[0.6em] text-muted-foreground line-through">{oldPrice(Number(product.retail)).toLocaleString("sr-RS")}</span> <span className="ml-2 text-xs font-semibold text-primary">−{DISCOUNT_PCT}%</span></>)}
             </div>
             {approved && (
               <div className="text-right">

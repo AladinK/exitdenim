@@ -22,6 +22,7 @@ const productSchema = z.object({
   image_url: z.string().max(500).nullable().optional(),
   gallery: z.array(z.string().min(1).max(500)).max(20).optional(),
   active: z.boolean(),
+  on_sale: z.boolean().optional(),
   sort_order: z.number().int(),
 });
 

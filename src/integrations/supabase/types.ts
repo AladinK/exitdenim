@@ -280,6 +280,7 @@ export type Database = {
           image_url: string | null
           moq: number
           name: string
+          on_sale: boolean
           pack_distribution: Json | null
           retail: number
           sizes: string[]
@@ -307,6 +308,7 @@ export type Database = {
           image_url?: string | null
           moq?: number
           name: string
+          on_sale?: boolean
           pack_distribution?: Json | null
           retail: number
           sizes?: string[]
@@ -334,6 +336,7 @@ export type Database = {
           image_url?: string | null
           moq?: number
           name?: string
+          on_sale?: boolean
           pack_distribution?: Json | null
           retail?: number
           sizes?: string[]

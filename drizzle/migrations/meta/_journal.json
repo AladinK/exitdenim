@@ -57,6 +57,13 @@
       "when": 1792603673060,
       "tag": "0007_restrict_storage_and_site_assets_public_read",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1795120746349,
+      "tag": "0008_product_on_sale_flag",
+      "breakpoints": true
     }
   ]
 }
