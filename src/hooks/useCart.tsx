@@ -14,6 +14,8 @@ export type CartItem = {
 
 type CartCtx = {
   items: CartItem[];
+  /** true tek kada je korpa pročitana iz pregledača (pre toga je "prazna" samo prividno). */
+  ready: boolean;
   count: number;
   subtotal: number;
   shipping: number;
@@ -62,6 +64,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     const discount = promo ? discountFor(subtotal, promo.pct) : 0;
     return {
       items,
+      ready: hydrated,
       count: items.reduce((s, i) => s + i.quantity, 0),
       subtotal,
       shipping,
@@ -98,7 +101,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         clearStoredPromo();
       },
     };
-  }, [items, open, promo]);
+  }, [items, open, promo, hydrated]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

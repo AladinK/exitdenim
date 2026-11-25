@@ -1,30 +1,37 @@
+// Rezervna stranica koju server šalje kada ni sama aplikacija ne može da se prikaže.
+// Čist HTML bez spoljnih fajlova, sa kontaktom za poručivanje.
 export function renderErrorPage(): string {
   return `<!doctype html>
-<html lang="en">
+<html lang="sr-Latn">
   <head>
     <meta charset="utf-8" />
-    <title>This page didn't load</title>
+    <title>EXIT Denim — stranica se nije učitala</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
     <style>
-      body { font: 15px/1.5 system-ui, -apple-system, sans-serif; background: #fafafa; color: #111; display: grid; place-items: center; min-height: 100vh; margin: 0; padding: 1.5rem; }
-      .card { max-width: 28rem; width: 100%; text-align: center; padding: 2rem; }
-      h1 { font-size: 1.25rem; margin: 0 0 0.5rem; }
-      p { color: #4b5563; margin: 0 0 1.5rem; }
-      .actions { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
-      a, button { padding: 0.5rem 1rem; border-radius: 0.375rem; font: inherit; cursor: pointer; text-decoration: none; border: 1px solid transparent; }
-      .primary { background: #111; color: #fff; }
-      .secondary { background: #fff; color: #111; border-color: #d1d5db; }
+      body { font: 16px/1.55 "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif; background: #fbfaf7; color: #171a2b; display: grid; place-items: center; min-height: 100vh; margin: 0; padding: 24px; }
+      main { max-width: 28rem; width: 100%; text-align: center; }
+      .brand { font-weight: 800; letter-spacing: .04em; font-size: 14px; }
+      h1 { font-size: 28px; line-height: 1.1; letter-spacing: -.02em; margin: 24px 0 12px; }
+      p { color: #4c5063; margin: 0 0 24px; }
+      .actions { display: grid; gap: 8px; }
+      a, button { display: block; padding: 14px 20px; border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer; text-decoration: none; border: 1px solid transparent; }
+      .primary { background: #749d02; color: #14200a; }
+      .secondary { background: transparent; color: #171a2b; border-color: rgba(23, 26, 43, .28); }
     </style>
   </head>
   <body>
-    <div class="card">
-      <h1>This page didn't load</h1>
-      <p>Something went wrong on our end. You can try refreshing or head back home.</p>
+    <main>
+      <div class="brand">EXIT DENIM</div>
+      <h1>Stranica se nije učitala</h1>
+      <p>Greška je na našoj strani. Pokušajte ponovo za koji trenutak. Ako želite da poručite odmah, pišite nam ili pozovite.</p>
       <div class="actions">
-        <button class="primary" onclick="location.reload()">Try again</button>
-        <a class="secondary" href="/">Go home</a>
+        <button class="primary" onclick="location.reload()">Pokušajte ponovo</button>
+        <a class="secondary" href="https://wa.me/381653176716">Poručite preko WhatsApp-a</a>
+        <a class="secondary" href="tel:+381653176716">Pozovite +381 65 317 6716</a>
+        <a class="secondary" href="/">Nazad na početnu</a>
       </div>
-    </div>
+    </main>
   </body>
 </html>`;
 }

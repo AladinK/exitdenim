@@ -11,7 +11,10 @@ import { ProductCard } from "@/components/ProductCard";
 import { AddToCart } from "@/components/AddToCart";
 import { getMyProfile } from "@/lib/orders.functions";
 import { generateLineSheet } from "@/lib/line-sheet.functions";
-import { productQuery, productsQuery } from "@/lib/product-queries";
+import { productResultQuery, productsQuery } from "@/lib/product-queries";
+import { markTemporarilyUnavailable } from "@/lib/http-status";
+import { CatalogUnavailable } from "@/components/CatalogUnavailable";
+import { euro, useWholesalePrice } from "@/hooks/useWholesale";
 import { ecommerce, itemFromProduct } from "@/lib/analytics";
 import { useAuth } from "@/hooks/useAuth";
 import { oldPrice, DISCOUNT_PCT } from "@/lib/pricing";
@@ -23,8 +26,16 @@ import { SIZE_EXCHANGE_TEXT } from "@/lib/brand";
 
 export const Route = createFileRoute("/proizvod/$slug")({
   loader: async ({ params, context }) => {
-    const product = await context.queryClient.ensureQueryData(productQuery(params.slug));
-    if (!product) throw notFound();
+    const result = await context.queryClient.ensureQueryData(productResultQuery(params.slug));
+    const product = result.product;
+    if (!product) {
+      // Baza ne odgovara: to nije 404, nego privremeni zastoj (503) sa obaveštenjem.
+      if (result.state === "down") {
+        markTemporarilyUnavailable();
+        return { product: null };
+      }
+      throw notFound();
+    }
     // Related products load in the background; never block first paint.
     context.queryClient.prefetchQuery(productsQuery());
     return { product };
@@ -82,11 +93,13 @@ export const Route = createFileRoute("/proizvod/$slug")({
 
 function ProductDetail() {
   const { slug } = useParams({ from: "/proizvod/$slug" });
-  const { data: product } = useSuspenseQuery(productQuery(slug));
+  const { data: result } = useSuspenseQuery(productResultQuery(slug));
+  const product = result.product;
   const { data: all = [] } = useQuery(productsQuery());
   const fetchProfile = useServerFn(getMyProfile);
   const { user } = useAuth();
   const [approved, setApproved] = useState(false);
+  const wholesale = useWholesalePrice(product?.id ?? "", approved) ?? product?.wholesale;
 
   const related = useMemo(() => {
     if (!product) return [];
@@ -102,7 +115,18 @@ function ProductDetail() {
     if (user) fetchProfile({}).then((r) => setApproved(r.profile?.status === "approved"));
   }, [user]); // eslint-disable-line
 
-  if (!product) throw notFound();
+  if (!product) {
+    if (result.state === "down") {
+      return (
+        <Layout>
+          <div className="container-x py-16 md:py-24">
+            <CatalogUnavailable title="Artikal se trenutno ne učitava" />
+          </div>
+        </Layout>
+      );
+    }
+    throw notFound();
+  }
 
   return (
     <Layout>
@@ -139,7 +163,7 @@ function ProductDetail() {
             {approved && (
               <div className="text-right">
                 <div className="eyebrow">B2B</div>
-                <div className="text-2xl mt-1 tabular-nums text-accent">€{Number(product.wholesale).toFixed(0)}</div>
+                <div className="text-2xl mt-1 tabular-nums text-accent">{euro(wholesale)}</div>
               </div>
             )}
           </div>

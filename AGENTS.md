@@ -28,3 +28,16 @@
 - Reuse confirmed public identity and model-derived schema helpers for machine-readable facts; never infer address, tax identifiers, return terms, ratings or inventory availability.
 - Serve the AI reading index as public/llms.txt with H2 link-list sections only, so crawlers receive the same stable public content without a server handler.
 - Keep English B2B translations on distinct public /en content routes with reciprocal language links and self-canonicals; reuse confirmed brand constants and the localized EcoProduction section to avoid divergent claims and changes to Serbian retail checkout.
+
+## Independent hosting (branch `nezavisan-hosting`)
+
+- This branch has no Lovable packages or services. The Lovable notice above applies to `main` only while the repository is still connected; remove it once Lovable is disconnected.
+- The storefront must look exactly as it did before the move. Do not restyle it, and keep the UI libraries in `package.json` (React, Tailwind, Radix, lucide, tailwind-merge) pinned to their exact versions; change them only together with a before/after visual comparison.
+- Build is plain Vite + TanStack Start + Nitro (`vite.config.ts`). The deploy target is chosen by the Nitro preset (`NITRO_PRESET`, or auto-detected on Vercel, Netlify and Cloudflare Pages). Keep `css.transformer: "lightningcss"`; the original build used it.
+- Brand photography and video are static files in `public/media/`, listed in `scripts/media.manifest.json`. The `src/assets/*.asset.json` pointers keep their shape but point to `/media/<file>`. Old `/__l5e/assets-v1/...` URLs are redirected in `src/server.ts`.
+- Catalog reads never throw. `listProducts` and `getProductBySlug` return `{ products | product, state }` where state is `live`, `stale` (last good snapshot) or `down`. Loaders go through `loadCatalog` / `loadHome`, which set HTTP 503 when the catalog is down; pages render `CatalogUnavailable` only in that state.
+- Customer orders are written by the server with the service role after prices and stock are checked; no client role may insert into `customer_orders`.
+- Wholesale prices are never part of public catalog data. Approved partners get them from `getWholesalePrices` through `useWholesalePrice`.
+- Order notifications use the Telegram Bot API and Resend directly (`TELEGRAM_BOT_TOKEN`, `RESEND_API_KEY`). Both are optional in code, so log loudly when neither is configured.
+- Secrets live only in the host's environment variables (see `.env.example`). The committed `.env` holds public values only.
+- The database schema is `supabase/migrations/`; the Lovable-era migrations in `supabase/arhiva-lovable/` are history and are not applied.

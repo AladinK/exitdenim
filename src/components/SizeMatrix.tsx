@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import type { ProductWithStock } from "@/lib/products.functions";
 import { addToOrder } from "@/lib/orders.functions";
 import { getStockQuantities } from "@/lib/products.functions";
+import { euro, useWholesalePrice } from "@/hooks/useWholesale";
 
 export function SizeMatrix({ product }: { product: ProductWithStock }) {
   const add = useServerFn(addToOrder);
@@ -26,7 +27,8 @@ export function SizeMatrix({ product }: { product: ProductWithStock }) {
   }, [product.id, fetchStock]);
 
   const total = useMemo(() => Object.values(qty).reduce((a, b) => a + b, 0), [qty]);
-  const totalValue = total * Number(product.wholesale);
+  const wholesale = useWholesalePrice(product.id, true) ?? product.wholesale;
+  const totalValue = wholesale == null ? undefined : total * Number(wholesale);
   const meetsMoq = total >= product.moq;
 
   const submit = async () => {
@@ -76,7 +78,7 @@ export function SizeMatrix({ product }: { product: ProductWithStock }) {
           </div>
           <div className="text-right">
             <div className="eyebrow">Order Value</div>
-            <div className="serif text-3xl mt-1 tabular-nums">€{totalValue.toFixed(0)}</div>
+            <div className="serif text-3xl mt-1 tabular-nums">{euro(totalValue)}</div>
           </div>
         </div>
 

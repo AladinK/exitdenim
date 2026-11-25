@@ -1,1 +1,3 @@
-project_id = "alsgwxcoicrvmqtqqrqj"
+# Lokalni naziv projekta za Supabase CLI. Sa svojim Supabase projektom ga povezujete
+# komandom:  supabase link --project-ref <oznaka-vašeg-projekta>
+project_id = "exitdenim"

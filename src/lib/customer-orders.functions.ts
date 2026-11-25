@@ -1,16 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
-import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import type { Database } from "@/integrations/supabase/types";
-
-function publicClient() {
-  return createClient<Database>(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_PUBLISHABLE_KEY!,
-    { auth: { storage: undefined, persistSession: false, autoRefreshToken: false } },
-  );
-}
+import { BRAND } from "@/lib/brand";
 
 const itemSchema = z.object({
   productId: z.string().uuid(),
@@ -52,7 +43,9 @@ const SHIPPING_FLAT = 0;
 export const createCustomerOrder = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => orderInput.parse(d))
   .handler(async ({ data }) => {
-    const sb = publicClient();
+    const { createPublicServerClient, supabaseAdmin } =
+      await import("@/integrations/supabase/client.server");
+    const sb = createPublicServerClient();
 
     // Try to read authenticated user from bearer, if any
     let userId: string | null = null;
@@ -67,17 +60,32 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
     } catch {}
 
     const ids = Array.from(new Set(data.items.map((i) => i.productId)));
-    const { data: products, error: pErr } = await sb
-      .from("products_public")
-      .select("id, sku, name, retail, sizes, active")
-      .in("id", ids);
+    const [{ data: products, error: pErr }, { data: availability, error: sErr }] =
+      await Promise.all([
+        sb.from("products_public").select("id, sku, name, retail, sizes, active").in("id", ids),
+        sb.rpc("get_stock_availability"),
+      ]);
     if (pErr) throw new Error(pErr.message);
+    // Stanje se proverava i na serveru: korpa na telefonu kupca može biti stara danima.
+    // Ako sama provera stanja ne uspe, porudžbinu ne odbijamo zbog toga.
+    if (sErr) console.error("[porudžbina] provera stanja nije uspela:", sErr.message);
+    const inStock = sErr
+      ? null
+      : new Set(
+          (availability ?? []).filter((s) => s.in_stock).map((s) => `${s.product_id}:${s.size}`),
+        );
 
     let subtotal = 0;
     const items = data.items.map((i) => {
       const p = products?.find((x) => x.id === i.productId);
       if (!p || !p.active) throw new Error(`Artikal nije dostupan (${i.productId})`);
-      if (!p.sizes?.includes(i.size)) throw new Error(`Veličina ${i.size} nije dostupna za ${p.name}`);
+      if (!p.sizes?.includes(i.size))
+        throw new Error(`Veličina ${i.size} nije dostupna za ${p.name}`);
+      if (inStock && !inStock.has(`${p.id}:${i.size}`)) {
+        throw new Error(
+          `Veličina ${i.size} za model ${p.name} je u međuvremenu rasprodata. Uklonite je iz korpe ili izaberite drugu veličinu.`,
+        );
+      }
       const price = Number(p.retail);
       subtotal += price * i.quantity;
       return {
@@ -98,9 +106,7 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
 
     // Use admin client for the write path: everything is validated & priced server-side.
     // This avoids RLS EXISTS-subquery blocking guests from inserting order items.
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const insertClient = supabaseAdmin;
-
 
     const { data: order, error: oErr } = await insertClient
       .from("customer_orders")
@@ -133,9 +139,17 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
       .insert(items.map((it) => ({ ...it, order_id: order.id })));
     if (iErr) throw new Error(iErr.message);
 
-    try {
-      const { notifyOrderTelegram } = await import("./telegram.server");
-      await notifyOrderTelegram({
+    // Obaveštenja idu paralelno i nikad ne obaraju porudžbinu: ona je već upisana.
+    // Vlasnik dobija Telegram poruku i e-mail (dva kanala, da nijedna ne promakne),
+    // kupac potvrdu na e-mail.
+    const promoCode = pct > 0 ? data.promo!.code : null;
+    const fullAddress = `${data.shipping.address}, ${data.shipping.postal} ${data.shipping.city}`;
+    const [{ notifyOrderTelegram }, { sendTemplateEmail }] = await Promise.all([
+      import("./telegram.server"),
+      import("@/lib/email-templates/send-email"),
+    ]);
+    const outcomes = await Promise.allSettled([
+      notifyOrderTelegram({
         orderNumber: order.order_number,
         name: data.contact.name,
         phone: data.contact.phone,
@@ -146,25 +160,56 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
         items,
         shipping: shipping_cost,
         discount,
-        promoCode: pct > 0 ? data.promo!.code : null,
+        promoCode,
         total,
         note: data.note,
-      });
-    } catch (e) {
-      console.error("Telegram notify error", e);
-    }
-
-    try {
-      const { sendTemplateEmail } = await import("@/lib/email-templates/send-email");
-      await sendTemplateEmail("order-confirmation", data.contact.email, {
+      }),
+      sendTemplateEmail("order-notification", process.env.ORDER_NOTIFY_EMAIL || BRAND.email, {
         templateData: {
-          name: data.contact.name, orderNumber: order.order_number, items, subtotal, shipping: shipping_cost, discount, promoCode: pct > 0 ? data.promo!.code : null, total,
-          address: `${data.shipping.address}, ${data.shipping.postal} ${data.shipping.city}`,
+          orderNumber: order.order_number,
+          name: data.contact.name,
+          phone: data.contact.phone,
+          email: data.contact.email,
+          address: fullAddress,
+          items,
+          discount,
+          promoCode,
+          total,
+          note: data.note,
+        },
+        idempotencyKey: `order-notification-${order.id}`,
+        replyTo: data.contact.email,
+      }),
+      sendTemplateEmail("order-confirmation", data.contact.email, {
+        templateData: {
+          name: data.contact.name,
+          orderNumber: order.order_number,
+          items,
+          subtotal,
+          shipping: shipping_cost,
+          discount,
+          promoCode,
+          total,
+          address: fullAddress,
         },
         idempotencyKey: `order-confirmation-${order.id}`,
-      });
-    } catch (e) {
-      console.error("Order email error", e);
+      }),
+    ]);
+    outcomes.forEach((outcome, index) => {
+      if (outcome.status === "rejected") {
+        console.error(
+          `[porudžbina ${order.order_number}] obaveštenje ${index + 1}/3 nije poslato:`,
+          outcome.reason,
+        );
+      }
+    });
+    const ownerNotified =
+      (outcomes[0].status === "fulfilled" && outcomes[0].value === true) ||
+      (outcomes[1].status === "fulfilled" && outcomes[1].value.sent);
+    if (!ownerNotified) {
+      console.error(
+        `[porudžbina ${order.order_number}] VLASNIK NIJE OBAVEŠTEN: podesite TELEGRAM_BOT_TOKEN ili RESEND_API_KEY.`,
+      );
     }
 
     return { orderNumber: order.order_number, id: order.id, subtotal, shipping_cost, total };
@@ -176,7 +221,9 @@ export const listMyCustomerOrders = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const { data, error } = await context.supabase
       .from("customer_orders")
-      .select("id, order_number, status, total, subtotal, shipping_cost, created_at, customer_order_items(id, product_name, product_sku, size, quantity, unit_price)")
+      .select(
+        "id, order_number, status, total, subtotal, shipping_cost, created_at, customer_order_items(id, product_name, product_sku, size, quantity, unit_price)",
+      )
       .order("created_at", { ascending: false });
     if (error) throw new Error(error.message);
     return data ?? [];
@@ -184,13 +231,19 @@ export const listMyCustomerOrders = createServerFn({ method: "GET" })
 
 /** Public lookup by order number + email (for guest tracking) */
 export const lookupCustomerOrder = createServerFn({ method: "POST" })
-  .inputValidator((d: unknown) => z.object({ orderNumber: z.string().trim().min(4).max(40), email: z.string().trim().email() }).parse(d))
+  .inputValidator((d: unknown) =>
+    z
+      .object({ orderNumber: z.string().trim().min(4).max(40), email: z.string().trim().email() })
+      .parse(d),
+  )
   .handler(async ({ data }) => {
     // Use admin only to look up by email+number combination (safe: requires both).
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: order, error } = await supabaseAdmin
       .from("customer_orders")
-      .select("id, order_number, status, total, subtotal, shipping_cost, shipping_address, shipping_city, shipping_postal, shipping_country, customer_name, created_at, customer_order_items(id, product_name, product_sku, size, quantity, unit_price)")
+      .select(
+        "id, order_number, status, total, subtotal, discount, promo_code, shipping_cost, shipping_address, shipping_city, shipping_postal, shipping_country, customer_name, created_at, customer_order_items(id, product_name, product_sku, size, quantity, unit_price)",
+      )
       .eq("order_number", data.orderNumber)
       .eq("customer_email", data.email)
       .maybeSingle();

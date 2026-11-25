@@ -40,11 +40,11 @@ import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedCekanjeRouteImport } from './routes/_authenticated/cekanje'
 import { Route as AuthenticatedMojePorudzbineRouteImport } from './routes/_authenticated/moje-porudzbine'
 import { Route as AuthenticatedNarudzbaRouteImport } from './routes/_authenticated/narudzba'
+import { Route as ApiGeoRouteImport } from './routes/api/geo'
 import { Route as EnManufacturingRouteImport } from './routes/en.manufacturing'
 import { Route as EnPrivateLabelRouteImport } from './routes/en.private-label'
 import { Route as PorudzbinaNumberRouteImport } from './routes/porudzbina.$number'
 import { Route as ProizvodSlugRouteImport } from './routes/proizvod.$slug'
-import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -201,6 +201,11 @@ const AuthenticatedNarudzbaRoute = AuthenticatedNarudzbaRouteImport.update({
   path: '/narudzba',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiGeoRoute = ApiGeoRouteImport.update({
+  id: '/api/geo',
+  path: '/api/geo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EnManufacturingRoute = EnManufacturingRouteImport.update({
   id: '/en/manufacturing',
   path: '/en/manufacturing',
@@ -221,12 +226,6 @@ const ProizvodSlugRoute = ProizvodSlugRouteImport.update({
   path: '/proizvod/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LovableEmailTransactionalPreviewRoute =
-  LovableEmailTransactionalPreviewRouteImport.update({
-    id: '/lovable/email/transactional/preview',
-    path: '/lovable/email/transactional/preview',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -259,11 +258,11 @@ export interface FileRoutesByFullPath {
   '/cekanje': typeof AuthenticatedCekanjeRoute
   '/moje-porudzbine': typeof AuthenticatedMojePorudzbineRoute
   '/narudzba': typeof AuthenticatedNarudzbaRoute
+  '/api/geo': typeof ApiGeoRoute
   '/en/manufacturing': typeof EnManufacturingRoute
   '/en/private-label': typeof EnPrivateLabelRoute
   '/porudzbina/$number': typeof PorudzbinaNumberRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
-  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -296,11 +295,11 @@ export interface FileRoutesByTo {
   '/cekanje': typeof AuthenticatedCekanjeRoute
   '/moje-porudzbine': typeof AuthenticatedMojePorudzbineRoute
   '/narudzba': typeof AuthenticatedNarudzbaRoute
+  '/api/geo': typeof ApiGeoRoute
   '/en/manufacturing': typeof EnManufacturingRoute
   '/en/private-label': typeof EnPrivateLabelRoute
   '/porudzbina/$number': typeof PorudzbinaNumberRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
-  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -335,11 +334,11 @@ export interface FileRoutesById {
   '/_authenticated/cekanje': typeof AuthenticatedCekanjeRoute
   '/_authenticated/moje-porudzbine': typeof AuthenticatedMojePorudzbineRoute
   '/_authenticated/narudzba': typeof AuthenticatedNarudzbaRoute
+  '/api/geo': typeof ApiGeoRoute
   '/en/manufacturing': typeof EnManufacturingRoute
   '/en/private-label': typeof EnPrivateLabelRoute
   '/porudzbina/$number': typeof PorudzbinaNumberRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
-  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -374,11 +373,11 @@ export interface FileRouteTypes {
     | '/cekanje'
     | '/moje-porudzbine'
     | '/narudzba'
+    | '/api/geo'
     | '/en/manufacturing'
     | '/en/private-label'
     | '/porudzbina/$number'
     | '/proizvod/$slug'
-    | '/lovable/email/transactional/preview'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -411,11 +410,11 @@ export interface FileRouteTypes {
     | '/cekanje'
     | '/moje-porudzbine'
     | '/narudzba'
+    | '/api/geo'
     | '/en/manufacturing'
     | '/en/private-label'
     | '/porudzbina/$number'
     | '/proizvod/$slug'
-    | '/lovable/email/transactional/preview'
   id:
     | '__root__'
     | '/'
@@ -449,11 +448,11 @@ export interface FileRouteTypes {
     | '/_authenticated/cekanje'
     | '/_authenticated/moje-porudzbine'
     | '/_authenticated/narudzba'
+    | '/api/geo'
     | '/en/manufacturing'
     | '/en/private-label'
     | '/porudzbina/$number'
     | '/proizvod/$slug'
-    | '/lovable/email/transactional/preview'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -484,11 +483,11 @@ export interface RootRouteChildren {
   SlimFarmerkeRoute: typeof SlimFarmerkeRoute
   VodicZaFarmerkeRoute: typeof VodicZaFarmerkeRoute
   WideFlareRoute: typeof WideFlareRoute
+  ApiGeoRoute: typeof ApiGeoRoute
   EnManufacturingRoute: typeof EnManufacturingRoute
   EnPrivateLabelRoute: typeof EnPrivateLabelRoute
   PorudzbinaNumberRoute: typeof PorudzbinaNumberRoute
   ProizvodSlugRoute: typeof ProizvodSlugRoute
-  LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -710,6 +709,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedNarudzbaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/geo': {
+      id: '/api/geo'
+      path: '/api/geo'
+      fullPath: '/api/geo'
+      preLoaderRoute: typeof ApiGeoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/en/manufacturing': {
       id: '/en/manufacturing'
       path: '/en/manufacturing'
@@ -736,13 +742,6 @@ declare module '@tanstack/react-router' {
       path: '/proizvod/$slug'
       fullPath: '/proizvod/$slug'
       preLoaderRoute: typeof ProizvodSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/lovable/email/transactional/preview': {
-      id: '/lovable/email/transactional/preview'
-      path: '/lovable/email/transactional/preview'
-      fullPath: '/lovable/email/transactional/preview'
-      preLoaderRoute: typeof LovableEmailTransactionalPreviewRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -793,11 +792,11 @@ const rootRouteChildren: RootRouteChildren = {
   SlimFarmerkeRoute: SlimFarmerkeRoute,
   VodicZaFarmerkeRoute: VodicZaFarmerkeRoute,
   WideFlareRoute: WideFlareRoute,
+  ApiGeoRoute: ApiGeoRoute,
   EnManufacturingRoute: EnManufacturingRoute,
   EnPrivateLabelRoute: EnPrivateLabelRoute,
   PorudzbinaNumberRoute: PorudzbinaNumberRoute,
   ProizvodSlugRoute: ProizvodSlugRoute,
-  LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-r
 import { useState, useEffect } from "react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
+import { requirePublicConfig } from "@/integrations/supabase/env";
 import { Layout } from "@/components/Layout";
 import { Logo } from "@/components/Logo";
 
@@ -43,11 +43,35 @@ function Auth() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  // Google dugme stoji kao i do sada. Sklanja se jedino ako u Supabase projektu
+  // Google prijava nije uključena, da kupac ne klikne na prijavu koja ne radi.
+  const [googleEnabled, setGoogleEnabled] = useState(true);
+
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       if (data.session) navigate({ to: redirect || "/katalog" });
     });
   }, [navigate, redirect]);
+
+  useEffect(() => {
+    let current = true;
+    try {
+      const { url, key } = requirePublicConfig();
+      fetch(`${url}/auth/v1/settings`, { headers: { apikey: key } })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((settings) => {
+          if (current && settings?.external && settings.external.google === false) {
+            setGoogleEnabled(false);
+          }
+        })
+        .catch(() => {});
+    } catch {
+      /* bez podešene baze dugme ostaje kao što je bilo */
+    }
+    return () => {
+      current = false;
+    };
+  }, []);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -133,6 +157,7 @@ function Auth() {
               </button>
             </div>
 
+            {googleEnabled && (
             <>
               <button
                 type="button"
@@ -140,16 +165,17 @@ function Auth() {
                 onClick={async () => {
                   setError(null);
                   setLoading(true);
-                  const res = await lovable.auth.signInWithOAuth("google", {
-                    redirect_uri: window.location.origin + "/auth",
+                  const back = new URL("/auth", window.location.origin);
+                  if (redirect) back.searchParams.set("redirect", redirect);
+                  // Uspešna prijava napušta stranicu (Google → nazad na /auth).
+                  const { error } = await supabase.auth.signInWithOAuth({
+                    provider: "google",
+                    options: { redirectTo: back.toString() },
                   });
-                  if (res.error) {
-                    setError(res.error.message || "Greška pri prijavi sa Google-om.");
+                  if (error) {
+                    setError(error.message || "Greška pri prijavi sa Google-om.");
                     setLoading(false);
-                    return;
                   }
-                  if (res.redirected) return;
-                  navigate({ to: redirect || "/katalog" });
                 }}
                 className="w-full flex items-center justify-center gap-3 border border-input bg-background hover:bg-secondary transition-colors rounded-sm px-4 py-2.5 text-sm font-semibold disabled:opacity-50"
               >
@@ -165,6 +191,7 @@ function Auth() {
                 <span className="flex-1 h-px bg-border" /> ili e-mail <span className="flex-1 h-px bg-border" />
               </div>
             </>
+            )}
 
             <Field label="E-mail" type="email" value={email} onChange={setEmail} required />
             <Field label="Lozinka" type="password" value={password} onChange={setPassword} required />

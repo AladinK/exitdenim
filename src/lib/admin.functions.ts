@@ -278,8 +278,17 @@ export const aiFillProduct = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     await assertAdmin(context.supabase, context.userId);
-    const key = process.env.LOVABLE_API_KEY;
-    if (!key) throw new Error("AI nije podešen.");
+    // Radi sa svakim servisom koji govori OpenAI "chat completions" protokol
+    // (OpenAI, OpenRouter, Google Gemini kroz OpenAI-kompatibilnu adresu...).
+    //   AI_API_KEY   — ključ servisa (bez njega je dugme isključeno)
+    //   AI_MODEL     — naziv modela kod tog servisa (model mora da čita slike)
+    //   AI_BASE_URL  — podrazumevano https://api.openai.com/v1
+    const key = process.env.AI_API_KEY;
+    const model = process.env.AI_MODEL;
+    if (!key || !model) {
+      throw new Error("AI popunjavanje nije podešeno (AI_API_KEY i AI_MODEL). Podatke unesite ručno.");
+    }
+    const baseUrl = (process.env.AI_BASE_URL || "https://api.openai.com/v1").replace(/\/+$/, "");
     let imageUrl: string | null = null;
     if (data.imagePath) {
       if (/^https?:\/\//i.test(data.imagePath)) imageUrl = data.imagePath;
@@ -293,19 +302,13 @@ export const aiFillProduct = createServerFn({ method: "POST" })
       text: `Naziv proizvoda: "${data.name}". Ti si copywriter za EXIT Denim, srpski brend muških farmerki. Na osnovu naziva${imageUrl ? " i fotografije" : ""} popuni podatke o proizvodu. Piši na srpskom latinicom, prirodno i premium, bez izmišljenih garancija. EXIT u 90% slučajeva koristi tkaninu 98% pamuk, 2% elastin, prosečne težine 12 oz — uvek koristi te vrednosti za materijal i težinu, osim ako naziv izričito kaže drugačije. Opis 2-3 kratke rečenice o kroju, izgledu i nošenju.`,
     }];
     if (imageUrl) content.push({ type: "image_url", image_url: { url: imageUrl } });
-    const input = [{ role: "user", content: content.map((c: any) => c.type === "text"
-      ? { type: "input_text", text: c.text }
-      : { type: "input_image", image_url: c.image_url.url }) }];
-    const res = await fetch("https://ai.gateway.lovable.dev/v1/responses", {
+    const res = await fetch(`${baseUrl}/chat/completions`, {
       method: "POST",
-      headers: { "Lovable-API-Key": key, "Content-Type": "application/json", "X-Lovable-AIG-SDK": "fetch" },
+      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "openai/gpt-6-astra",
-        stream: true,
-        store: false,
-        reasoning: { effort: "low" },
-        input,
-        text: { format: { type: "json_schema", name: "product", strict: true, schema: {
+        model,
+        messages: [{ role: "user", content }],
+        response_format: { type: "json_schema", json_schema: { name: "product", strict: true, schema: {
           type: "object", additionalProperties: false,
           required: ["category", "fit", "color", "fabric", "weight", "description"],
           properties: {
@@ -318,24 +321,14 @@ export const aiFillProduct = createServerFn({ method: "POST" })
           },
         } } },
       }),
+      signal: AbortSignal.timeout(45_000),
     });
     if (res.status === 429) throw new Error("Previše zahteva, pokušaj za minut.");
-    if (res.status === 402) throw new Error("Nema AI kredita u radnom prostoru.");
-    if (!res.ok || !res.body) throw new Error("AI greška: " + res.status);
-    const reader = res.body.getReader();
-    const dec = new TextDecoder();
-    let buf = "", args = "";
-    for (;;) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      buf += dec.decode(value, { stream: true });
-      const lines = buf.split("\n"); buf = lines.pop() || "";
-      for (const l of lines) {
-        if (!l.startsWith("data:")) continue;
-        const d = l.slice(5).trim(); if (!d || d === "[DONE]") continue;
-        try { const ev = JSON.parse(d); if (ev.type === "response.output_text.delta") args += ev.delta; } catch {}
-      }
-    }
+    if (res.status === 401 || res.status === 403) throw new Error("AI ključ nije ispravan (AI_API_KEY).");
+    if (res.status === 402) throw new Error("Nema sredstava na AI nalogu.");
+    if (!res.ok) throw new Error("AI greška: " + res.status);
+    const completion = (await res.json()) as { choices?: { message?: { content?: string | null } }[] };
+    const args = completion.choices?.[0]?.message?.content ?? "";
     if (!args) throw new Error("AI nije vratio podatke.");
     const out = JSON.parse(args) as {
       category: "jeans" | "chino" | "cargo";

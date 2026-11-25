@@ -1,11 +1,6 @@
 {
-  "version": 1,
-  "asset_id": "3be68604-d96e-4ba5-aa48-7c78275093b6",
-  "project_id": "71b00608-9a2a-47e4-a85e-9944ab3c1e7d",
-  "url": "/__l5e/assets-v1/3be68604-d96e-4ba5-aa48-7c78275093b6/exit-logo.png",
-  "r2_key": "a/v1/71b00608-9a2a-47e4-a85e-9944ab3c1e7d/3be68604-d96e-4ba5-aa48-7c78275093b6/exit-logo.png",
+  "url": "/media/exit-logo.png",
   "original_filename": "exit-logo.png",
   "size": 376466,
-  "content_type": "image/png",
-  "created_at": "2026-10-08T15:56:01Z"
+  "content_type": "image/png"
 }

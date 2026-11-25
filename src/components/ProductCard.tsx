@@ -4,6 +4,7 @@ import { oldPrice, DISCOUNT_PCT } from "@/lib/pricing";
 import { productAlt } from "@/lib/seo-labels";
 import type { ProductWithStock } from "@/lib/products.functions";
 import { useState } from "react";
+import { euro, useWholesalePrice } from "@/hooks/useWholesale";
 
 export function ProductCard({ product, showB2B }: { product: ProductWithStock; showB2B?: boolean }) {
   const stock = (product.stock || {}) as Record<string, number>;
@@ -14,6 +15,7 @@ export function ProductCard({ product, showB2B }: { product: ProductWithStock; s
   const [hovered, setHovered] = useState(false);
   const [alternateReady, setAlternateReady] = useState(false);
   const alternate = product.gallery?.find((url) => url !== product.image_url && /^https?:\/\//.test(url));
+  const wholesale = useWholesalePrice(product.id, Boolean(showB2B)) ?? product.wholesale;
 
   return (
     <Link
@@ -88,7 +90,7 @@ export function ProductCard({ product, showB2B }: { product: ProductWithStock; s
         <div className="mt-1.5 flex items-center justify-between gap-3 text-[11px] text-muted-foreground">
           <span className="truncate">{product.color}</span>
           {showB2B && (
-            <span className="shrink-0 uppercase tracking-[0.16em] text-accent tabular-nums">B2B €{Number(product.wholesale).toFixed(0)}</span>
+            <span className="shrink-0 uppercase tracking-[0.16em] text-accent tabular-nums">B2B {euro(wholesale)}</span>
           )}
         </div>
         <span className="mt-3 block h-px w-0 bg-foreground transition-all duration-500 group-hover:w-full" />

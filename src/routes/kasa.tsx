@@ -9,6 +9,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { ecommerce } from "@/lib/analytics";
 import { reportPurchaseConversion } from "@/lib/google-ads";
 import { Button } from "@/components/ui/button";
+import { orderMessage, phoneHref, whatsappHref } from "@/lib/contact";
+import { BRAND } from "@/lib/brand";
 
 export const Route = createFileRoute("/kasa")({
   head: () => ({
@@ -63,7 +65,7 @@ function postalFor(city: string): string | undefined {
 }
 
 function CheckoutPage() {
-  const { items, subtotal, shipping, promo, discount, total, clear, clearPromo } = useCart();
+  const { items, ready, subtotal, shipping, promo, discount, total, clear, clearPromo } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
   const submit = useServerFn(createCustomerOrder);
@@ -81,16 +83,20 @@ function CheckoutPage() {
   const [errors, setErrors] = useState<Partial<Record<keyof Form, string>>>({});
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
+  // Tehnički neuspeh upisa (ne greška kupca): nudi se slanje iste porudžbine porukom.
+  const [orderFailed, setOrderFailed] = useState(false);
 
   useEffect(() => {
     if (user?.email && !form.email) setForm((f) => ({ ...f, email: user.email! }));
   }, [user]); // eslint-disable-line
 
   useEffect(() => {
-    if (items.length === 0 && !submitting) {
+    // Čeka se da korpa bude pročitana iz pregledača: inače osvežavanje kase (ili povratak
+    // na karticu koju je telefon ugasio) vraća kupca u korpu i briše mu upisane podatke.
+    if (ready && items.length === 0 && !submitting) {
       navigate({ to: "/korpa" });
     }
-  }, [items.length, submitting]); // eslint-disable-line
+  }, [ready, items.length, submitting]); // eslint-disable-line
 
   const gaItems = () =>
     items.map((i) => ({ item_id: i.sku, item_name: i.name, item_variant: i.size, price: i.unitPrice, quantity: i.quantity }));
@@ -113,6 +119,7 @@ function CheckoutPage() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setServerError(null);
+    setOrderFailed(false);
     const parsed = schema.safeParse(form);
     if (!parsed.success) {
       const fe: any = {};
@@ -145,7 +152,15 @@ function CheckoutPage() {
       clearPromo();
       navigate({ to: "/porudzbina/$number", params: { number: res.orderNumber }, search: { email: form.email } });
     } catch (err: any) {
-      setServerError(err?.message || "Došlo je do greške. Pokušajte ponovo.");
+      const message = typeof err?.message === "string" ? err.message : "";
+      // Poruke o artiklu su namenjene kupcu; tehničke greške se ne prikazuju doslovno.
+      const aboutItem = /^(Veličina|Artikal)/.test(message);
+      setServerError(
+        aboutItem
+          ? message
+          : "Porudžbina trenutno nije upisana. Vaši podaci su sačuvani u ovom obrascu: pokušajte ponovo ili je pošaljite porukom.",
+      );
+      setOrderFailed(!aboutItem);
       setSubmitting(false);
     }
   };
@@ -213,6 +228,33 @@ function CheckoutPage() {
             </div>
 
             {serverError && <div className="border border-destructive bg-destructive/10 text-destructive p-4 text-sm">{serverError}</div>}
+            {orderFailed && (
+              <div className="border border-border bg-secondary/40 p-4 text-sm">
+                <p className="font-semibold">Pošaljite porudžbinu porukom</p>
+                <p className="mt-1 text-muted-foreground">
+                  Poruka je već popunjena artiklima i vašim podacima. Potvrdićemo je čim je vidimo.
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <a
+                    className="btn-primary"
+                    href={whatsappHref(
+                      orderMessage(
+                        items.map((i) => ({ name: i.name, sku: i.sku, size: i.size, quantity: i.quantity, unitPrice: i.unitPrice })),
+                        total,
+                        { name: form.name, phone: form.phone, address: form.address, city: form.city, postal: form.postal, note: form.note },
+                      ),
+                    )}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Pošalji na WhatsApp
+                  </a>
+                  <a className="btn-outline" href={phoneHref}>
+                    {BRAND.phoneLabel}
+                  </a>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* RIGHT: summary */}

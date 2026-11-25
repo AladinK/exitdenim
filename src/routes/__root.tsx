@@ -7,15 +7,16 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "@/hooks/useAuth";
 import { CartProvider } from "@/hooks/useCart";
 import { CartDrawer } from "@/components/CartDrawer";
 import { SpinWheel } from "@/components/SpinWheel";
 import { CookieBanner } from "@/components/CookieBanner";
+import { BRAND } from "@/lib/brand";
+import cover from "@/assets/exit-seated-cover.webp.asset.json";
 
 
 function NotFoundComponent() {
@@ -44,9 +45,6 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: unknown; reset: () => void }) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -77,6 +75,12 @@ function ErrorComponent({ error, reset }: { error: unknown; reset: () => void })
   );
 }
 
+// Adresa baze dolazi iz podešavanja, pa preconnect prati projekat na koji je sajt povezan.
+const SUPABASE_ORIGIN = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+// Podrazumevana slika za deljenje linka (WhatsApp, Viber, Facebook) na stranicama koje
+// nemaju svoju. Adresa mora biti puna, sa domenom.
+const SHARE_IMAGE = `${BRAND.url}${cover.url}`;
+
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
@@ -91,13 +95,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "EXIT Denim" },
       { property: "og:locale", content: "sr_RS" },
+      { property: "og:image", content: SHARE_IMAGE },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: SHARE_IMAGE },
       { name: "twitter:title", content: "EXIT Denim — muške farmerke, čino i kargo pantalone" },
       { name: "twitter:description", content: "Premijum muške farmerke, čino i kargo pantalone. Plaćanje pouzećem, dostava širom Srbije." },
       { name: "google-site-verification", content: "DCaQQtJo89Yh-fBlqH3zmXiNmuE9PQyNuRxoXLYY_DA" },
     ],
     links: [
-      { rel: "preconnect", href: "https://alsgwxcoicrvmqtqqrqj.supabase.co" },
+      ...(SUPABASE_ORIGIN ? [{ rel: "preconnect", href: SUPABASE_ORIGIN }] : []),
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Archivo+Black&display=swap" },

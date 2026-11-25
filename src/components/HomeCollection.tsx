@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowUpRight } from "lucide-react";
-import { productsQuery } from "@/lib/product-queries";
+import { catalogStateQuery, productsQuery } from "@/lib/product-queries";
+import { CatalogUnavailable } from "@/components/CatalogUnavailable";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ProductCard";
 
@@ -16,6 +17,9 @@ const FILTERS = [
 
 export function HomeCollection() {
   const { data: products } = useSuspenseQuery(productsQuery());
+  // Samo kada baza ne odgovara: umesto prazne liste ide obaveštenje sa kontaktom.
+  const { data: catalogState } = useSuspenseQuery(catalogStateQuery());
+  const catalogDown = catalogState === "down" && products.length === 0;
   const [active, setActive] = useState(0);
   const filter = FILTERS[active] ?? FILTERS[0];
   const visible = products.filter((p) => !filter.fits.length || filter.fits.includes(p.fit)).slice(0, 4);
@@ -30,7 +34,9 @@ export function HomeCollection() {
           <Button key={f.label} variant="fashion" aria-pressed={active === i} onClick={() => setActive(i)} className={`h-9 px-3 text-xs ${active === i ? "bg-primary text-primary-foreground hover:bg-primary/90" : ""}`}>{f.label}</Button>
         ))}
       </div>
-      {visible.length > 0 ? (
+      {catalogDown ? (
+        <CatalogUnavailable />
+      ) : visible.length > 0 ? (
         <div className="exit-showroom-grid grid gap-x-2 md:gap-x-3 gap-y-7">
           {visible.map((product) => <ProductCard key={product.id} product={product} />)}
         </div>

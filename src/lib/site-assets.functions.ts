@@ -30,25 +30,53 @@ async function signIfPath(value: string): Promise<string> {
   return data?.signedUrl ?? value;
 }
 
-/** Public — returns map of key -> resolved URL (signed for private storage paths). */
-export const getHomeAssets = createServerFn({ method: "GET" }).handler(async () => {
+export type SiteAssets = Record<string, { url: string; alt: string | null }>;
+
+async function readHomeAssets(): Promise<SiteAssets> {
   const sb = await adminClient();
   const { data, error } = await sb.from("site_assets").select("key,url,alt");
   if (error) throw new Error(error.message);
   const rows = data ?? [];
-  const paths = [...new Set(rows.map((r) => r.url).filter((url) => !/^https?:\/\//i.test(url) && !url.startsWith("/")))];
+  const paths = [
+    ...new Set(
+      rows.map((r) => r.url).filter((url) => !/^https?:\/\//i.test(url) && !url.startsWith("/")),
+    ),
+  ];
   const signed: Record<string, string> = {};
   if (paths.length) {
-    const { data: urls, error: signingError } = await sb.storage.from("site-assets").createSignedUrls(paths, 60 * 60 * 24 * 7);
+    const { data: urls, error: signingError } = await sb.storage
+      .from("site-assets")
+      .createSignedUrls(paths, 60 * 60 * 24 * 7);
     if (signingError) throw new Error(signingError.message);
     for (const item of urls ?? []) {
       if (item.path && item.signedUrl) signed[item.path] = item.signedUrl;
     }
   }
-  const out: Record<string, { url: string; alt: string | null }> = {};
+  const out: SiteAssets = {};
   for (const row of rows) out[row.key] = { url: signed[row.url] ?? row.url, alt: row.alt };
   return out;
-});
+}
+
+/**
+ * Javno — mapa ključ -> adresa slike (potpisana za privatne putanje).
+ * Nikad ne baca grešku: bez baze vraća poslednje zapamćene slike ili praznu mapu,
+ * a komponente tada koriste fotografije iz public/media/.
+ */
+export const getHomeAssets = createServerFn({ method: "GET" }).handler(
+  async (): Promise<SiteAssets> => {
+    const { rememberSnapshot, recallSnapshot, guarded, BackendCoolingDownError } = await import(
+      "./catalog-snapshot.server"
+    );
+    try {
+      const assets = await guarded("home-assets", readHomeAssets);
+      rememberSnapshot("home-assets", assets);
+      return assets;
+    } catch (error) {
+      if (!(error instanceof BackendCoolingDownError)) console.error("[slike sajta] baza nije dostupna:", error);
+      return recallSnapshot<SiteAssets>("home-assets") ?? {};
+    }
+  },
+);
 
 async function assertAdmin(supabase: any, userId: string) {
   const { data } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });

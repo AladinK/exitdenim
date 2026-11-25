@@ -2,7 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Layout } from "@/components/Layout";
 import { ProductCard } from "@/components/ProductCard";
-import { productsQuery } from "@/lib/product-queries";
+import { catalogStateQuery, productsQuery } from "@/lib/product-queries";
+import { CatalogUnavailable } from "@/components/CatalogUnavailable";
 import { LANDING_PAGES, type LandingPage } from "@/lib/landing-pages";
 
 const BASE = "https://exitdenim.shop";
@@ -39,6 +40,9 @@ export function landingHead(l: LandingPage) {
 export function CategoryLanding({ page }: { page: LandingPage }) {
   const { data } = useSuspenseQuery(productsQuery());
   const items = (data ?? []).filter(page.match);
+  // Samo kada baza ne odgovara: umesto prazne liste ide obaveštenje sa kontaktom.
+  const { data: catalogState } = useSuspenseQuery(catalogStateQuery());
+  const catalogDown = catalogState === "down" && (data ?? []).length === 0;
   return (
     <Layout>
       <section className="exit-category-heading container-x pt-10 md:pt-16 pb-8">
@@ -50,7 +54,9 @@ export function CategoryLanding({ page }: { page: LandingPage }) {
       </section>
 
       <section className="container-x pb-16" aria-label="Modeli">
-        {items.length ? (
+        {catalogDown ? (
+          <CatalogUnavailable />
+        ) : items.length ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 md:gap-x-5 gap-y-8 md:gap-y-12">
             {items.map((p) => <ProductCard key={p.id} product={p} />)}
           </div>

@@ -6,7 +6,9 @@ import { Search, SlidersHorizontal, X } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { ProductCard } from "@/components/ProductCard";
 import { type ProductWithStock } from "@/lib/products.functions";
-import { productsQuery } from "@/lib/product-queries";
+import { catalogStateQuery, productsQuery } from "@/lib/product-queries";
+import { CatalogUnavailable } from "@/components/CatalogUnavailable";
+import { loadCatalog } from "@/lib/catalog-loader";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getMyProfile } from "@/lib/orders.functions";
 import { Button } from "@/components/ui/button";
@@ -26,7 +28,7 @@ export const Route = createFileRoute("/katalog")({
     ],
     links: [{ rel: "canonical", href: "https://exitdenim.shop/katalog" }],
   }),
-  loader: ({ context }) => context.queryClient.ensureQueryData(productsQuery()),
+  loader: ({ context }) => loadCatalog(context.queryClient),
   validateSearch: (s: Record<string, unknown>): { q?: string; fit?: string; group?: "wide"; cat?: "jeans" | "chino" | "cargo" } => ({
     q: typeof s.q === "string" ? s.q : undefined,
     fit: typeof s.fit === "string" ? s.fit : undefined,
@@ -56,6 +58,9 @@ function Katalog() {
   const { user } = useAuth();
 
   const { data: products } = useSuspenseQuery(productsQuery());
+  // Samo kada baza ne odgovara: umesto prazne liste ide obaveštenje sa kontaktom.
+  const { data: catalogState } = useSuspenseQuery(catalogStateQuery());
+  const catalogDown = catalogState === "down" && products.length === 0;
   const [approved, setApproved] = useState(false);
 
   const search = Route.useSearch();
@@ -277,7 +282,9 @@ function Katalog() {
 
 
           <div>
-            {filtered.length === 0 ? (
+            {catalogDown ? (
+              <CatalogUnavailable />
+            ) : filtered.length === 0 ? (
               <div className="text-center py-24 border border-dashed border-border">
                 <div className="serif text-2xl">Nema rezultata</div>
                 <p className="text-sm text-muted-foreground mt-2">Probaj sa manje filtera.</p>

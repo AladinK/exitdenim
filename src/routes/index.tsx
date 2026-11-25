@@ -7,18 +7,18 @@ import { HomeCollection } from "@/components/HomeCollection";
 import { DenimEditorial } from "@/components/DenimEditorial";
 import { CategorySlider } from "@/components/CategorySlider";
 import { Button } from "@/components/ui/button";
-import { BRAND_HISTORY_TEXT, EXPORT_TEXT, organizationSchema } from "@/lib/brand";
-import { homeAssetsQuery, productsQuery } from "@/lib/product-queries";
+import { BRAND, BRAND_HISTORY_TEXT, EXPORT_TEXT, organizationSchema } from "@/lib/brand";
+import { loadHome } from "@/lib/catalog-loader";
 import editorial from "@/assets/exit-seated-cover.webp.asset.json";
 import editorialMobile from "@/assets/exit-portrait-cover-mobile.webp.asset.json";
 import cargoStudio from "@/assets/exit-studio-cargo.webp.asset.json";
 
+// Slika za deljenje mora imati punu adresu, inače je WhatsApp, Viber i Facebook ne prikažu.
+const SHARE_IMAGE = `${BRAND.url}${editorial.url}`;
+
 export const Route = createFileRoute("/")({
   loader: async ({ context }) => {
-    await Promise.all([
-      context.queryClient.ensureQueryData(productsQuery()),
-      context.queryClient.ensureQueryData(homeAssetsQuery()),
-    ]);
+    await loadHome(context.queryClient);
   },
   head: () => ({
     meta: [
@@ -28,8 +28,8 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "Muške farmerke, muški jeans i teksas pantalone domaće proizvodnje — slim, regular, relaxed, bootcut i flare. 5.990 din, besplatna dostava, plaćanje pouzećem, dostava po celoj Srbiji." },
       { property: "og:url", content: "https://exitdenim.shop/" },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: editorial.url },
-      { name: "twitter:image", content: editorial.url },
+      { property: "og:image", content: SHARE_IMAGE },
+      { name: "twitter:image", content: SHARE_IMAGE },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
