@@ -51,6 +51,9 @@ export default defineConfig(({ mode }) => {
         },
       }),
       nitro({
+        // Lovable builds with --mode development and deploys dist/. Production
+        // builds retain Nitro's preset-specific output for independent hosting.
+        ...(mode === "development" ? { output: { dir: "dist" } } : {}),
         // Na Vercel-u server radi u Frankfurtu: blizu kupaca u Srbiji i blizu baze
         // (Supabase, eu-central-1). Ostali hostinzi ovo zanemaruju.
         vercel: { functions: { regions: ["fra1"] } },

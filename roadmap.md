@@ -1,5 +1,8 @@
 # Roadmap
 
+## Deployment output correction
+- [x] Emit development deployment artifacts under `dist/`; automatic build reports build OK. Reviewed production build, startup, CI, migration and media preparation code; production hosting defaults remain unchanged.
+
 ## English B2B pages
 - [ ] Add public English manufacturing and private-label pages with confirmed facts and direct business contact.
 - [ ] Link Serbian/English versions, footer, sitemap and AI reading index; verify initial HTML and mobile/desktop navigation.
