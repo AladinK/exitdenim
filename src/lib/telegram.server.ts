@@ -11,13 +11,14 @@ const OWNER_CHAT_ID = 1149811950;
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 export function telegramConfigured(): boolean {
-  return Boolean(process.env.TELEGRAM_BOT_TOKEN);
+  return Boolean(process.env.TELEGRAM_BOT_TOKEN?.trim());
 }
 
 export async function sendOwnerTelegram(text: string): Promise<boolean> {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
+  // trim: vrednost nalepljena na hostingu ponekad ima razmak ili novi red na kraju.
+  const token = process.env.TELEGRAM_BOT_TOKEN?.trim();
   if (!token) return false;
-  const chatId = process.env.TELEGRAM_CHAT_ID || OWNER_CHAT_ID;
+  const chatId = process.env.TELEGRAM_CHAT_ID?.trim() || OWNER_CHAT_ID;
   try {
     const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: "POST",

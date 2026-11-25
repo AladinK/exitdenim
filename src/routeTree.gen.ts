@@ -41,6 +41,7 @@ import { Route as AuthenticatedCekanjeRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedMojePorudzbineRouteImport } from './routes/_authenticated/moje-porudzbine'
 import { Route as AuthenticatedNarudzbaRouteImport } from './routes/_authenticated/narudzba'
 import { Route as ApiGeoRouteImport } from './routes/api/geo'
+import { Route as ApiStatusObavestenjaRouteImport } from './routes/api/status-obavestenja'
 import { Route as EnManufacturingRouteImport } from './routes/en.manufacturing'
 import { Route as EnPrivateLabelRouteImport } from './routes/en.private-label'
 import { Route as PorudzbinaNumberRouteImport } from './routes/porudzbina.$number'
@@ -206,6 +207,11 @@ const ApiGeoRoute = ApiGeoRouteImport.update({
   path: '/api/geo',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiStatusObavestenjaRoute = ApiStatusObavestenjaRouteImport.update({
+  id: '/api/status-obavestenja',
+  path: '/api/status-obavestenja',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EnManufacturingRoute = EnManufacturingRouteImport.update({
   id: '/en/manufacturing',
   path: '/en/manufacturing',
@@ -259,6 +265,7 @@ export interface FileRoutesByFullPath {
   '/moje-porudzbine': typeof AuthenticatedMojePorudzbineRoute
   '/narudzba': typeof AuthenticatedNarudzbaRoute
   '/api/geo': typeof ApiGeoRoute
+  '/api/status-obavestenja': typeof ApiStatusObavestenjaRoute
   '/en/manufacturing': typeof EnManufacturingRoute
   '/en/private-label': typeof EnPrivateLabelRoute
   '/porudzbina/$number': typeof PorudzbinaNumberRoute
@@ -296,6 +303,7 @@ export interface FileRoutesByTo {
   '/moje-porudzbine': typeof AuthenticatedMojePorudzbineRoute
   '/narudzba': typeof AuthenticatedNarudzbaRoute
   '/api/geo': typeof ApiGeoRoute
+  '/api/status-obavestenja': typeof ApiStatusObavestenjaRoute
   '/en/manufacturing': typeof EnManufacturingRoute
   '/en/private-label': typeof EnPrivateLabelRoute
   '/porudzbina/$number': typeof PorudzbinaNumberRoute
@@ -335,6 +343,7 @@ export interface FileRoutesById {
   '/_authenticated/moje-porudzbine': typeof AuthenticatedMojePorudzbineRoute
   '/_authenticated/narudzba': typeof AuthenticatedNarudzbaRoute
   '/api/geo': typeof ApiGeoRoute
+  '/api/status-obavestenja': typeof ApiStatusObavestenjaRoute
   '/en/manufacturing': typeof EnManufacturingRoute
   '/en/private-label': typeof EnPrivateLabelRoute
   '/porudzbina/$number': typeof PorudzbinaNumberRoute
@@ -374,6 +383,7 @@ export interface FileRouteTypes {
     | '/moje-porudzbine'
     | '/narudzba'
     | '/api/geo'
+    | '/api/status-obavestenja'
     | '/en/manufacturing'
     | '/en/private-label'
     | '/porudzbina/$number'
@@ -411,6 +421,7 @@ export interface FileRouteTypes {
     | '/moje-porudzbine'
     | '/narudzba'
     | '/api/geo'
+    | '/api/status-obavestenja'
     | '/en/manufacturing'
     | '/en/private-label'
     | '/porudzbina/$number'
@@ -449,6 +460,7 @@ export interface FileRouteTypes {
     | '/_authenticated/moje-porudzbine'
     | '/_authenticated/narudzba'
     | '/api/geo'
+    | '/api/status-obavestenja'
     | '/en/manufacturing'
     | '/en/private-label'
     | '/porudzbina/$number'
@@ -484,6 +496,7 @@ export interface RootRouteChildren {
   VodicZaFarmerkeRoute: typeof VodicZaFarmerkeRoute
   WideFlareRoute: typeof WideFlareRoute
   ApiGeoRoute: typeof ApiGeoRoute
+  ApiStatusObavestenjaRoute: typeof ApiStatusObavestenjaRoute
   EnManufacturingRoute: typeof EnManufacturingRoute
   EnPrivateLabelRoute: typeof EnPrivateLabelRoute
   PorudzbinaNumberRoute: typeof PorudzbinaNumberRoute
@@ -716,6 +729,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiGeoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/status-obavestenja': {
+      id: '/api/status-obavestenja'
+      path: '/api/status-obavestenja'
+      fullPath: '/api/status-obavestenja'
+      preLoaderRoute: typeof ApiStatusObavestenjaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/en/manufacturing': {
       id: '/en/manufacturing'
       path: '/en/manufacturing'
@@ -793,6 +813,7 @@ const rootRouteChildren: RootRouteChildren = {
   VodicZaFarmerkeRoute: VodicZaFarmerkeRoute,
   WideFlareRoute: WideFlareRoute,
   ApiGeoRoute: ApiGeoRoute,
+  ApiStatusObavestenjaRoute: ApiStatusObavestenjaRoute,
   EnManufacturingRoute: EnManufacturingRoute,
   EnPrivateLabelRoute: EnPrivateLabelRoute,
   PorudzbinaNumberRoute: PorudzbinaNumberRoute,
