@@ -16,7 +16,6 @@ import { CartDrawer } from "@/components/CartDrawer";
 import { SpinWheel } from "@/components/SpinWheel";
 import { CookieBanner } from "@/components/CookieBanner";
 import { BRAND } from "@/lib/brand";
-import cover from "@/assets/exit-seated-cover.webp.asset.json";
 
 
 function NotFoundComponent() {
@@ -78,8 +77,9 @@ function ErrorComponent({ error, reset }: { error: unknown; reset: () => void })
 // Adresa baze dolazi iz podešavanja, pa preconnect prati projekat na koji je sajt povezan.
 const SUPABASE_ORIGIN = import.meta.env.VITE_SUPABASE_URL as string | undefined;
 // Podrazumevana slika za deljenje linka (WhatsApp, Viber, Facebook) na stranicama koje
-// nemaju svoju. Adresa mora biti puna, sa domenom.
-const SHARE_IMAGE = `${BRAND.url}${cover.url}`;
+// nemaju svoju: ista koju je sajt imao na Lovable-u (podešavanje projekta). Adresa mora
+// biti puna, sa domenom.
+const SHARE_IMAGE = `${BRAND.url}/media/exit-denim-social.webp`;
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({

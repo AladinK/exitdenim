@@ -36,7 +36,8 @@ async function download(item) {
   const target = path.join(outDir, item.file);
   if (await exists(target)) return "postoji";
 
-  const response = await fetch(origin + item.source, {
+  // item.url: fajl sa drugog servera (npr. slika za deljenje linka); inače stari sajt + putanja.
+  const response = await fetch(item.url || origin + item.source, {
     redirect: "follow",
     signal: AbortSignal.timeout(TIMEOUT_MS),
   });

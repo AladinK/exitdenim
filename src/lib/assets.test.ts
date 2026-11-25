@@ -6,7 +6,10 @@ const root = path.resolve(import.meta.dirname, "../..");
 const assetsDir = path.join(root, "src/assets");
 
 type Pointer = { url: string; original_filename: string; size: number; content_type: string };
-type Manifest = { defaultOrigin: string; items: { file: string; source: string; bytes: number }[] };
+type Manifest = {
+  defaultOrigin: string;
+  items: { file: string; source?: string; url?: string; bytes?: number }[];
+};
 
 const pointers = readdirSync(assetsDir)
   .filter((name) => name.endsWith(".asset.json"))
@@ -38,12 +41,19 @@ describe("fotografije brenda", () => {
 
   it("spisak nema viškova ni duplikata, a imena fajlova su bezbedna", () => {
     const used = new Set(pointers.map((p) => p.data.original_filename));
+    const code = readdirSync(path.join(root, "src"), { recursive: true })
+      .map(String)
+      .filter((name) => /\.(ts|tsx)$/.test(name) && !name.endsWith(".test.ts"))
+      .map((name) => readFileSync(path.join(root, "src", name), "utf8"))
+      .join("\n");
     const names = manifest.items.map((item) => item.file);
     expect(new Set(names).size).toBe(names.length);
     for (const item of manifest.items) {
-      expect(used.has(item.file), `${item.file} se više ne koristi`).toBe(true);
+      const inCode = code.includes(`/media/${item.file}`);
+      expect(used.has(item.file) || inCode, `${item.file} se više ne koristi`).toBe(true);
       expect(item.file).toMatch(/^[A-Za-z0-9][A-Za-z0-9._-]*$/);
-      expect(item.source.endsWith(`/${item.file}`), item.file).toBe(true);
+      if (item.url) expect(item.url).toMatch(/^https:\/\//);
+      else expect(item.source?.endsWith(`/${item.file}`), item.file).toBe(true);
     }
   });
 });
