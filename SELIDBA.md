@@ -10,8 +10,7 @@ Stari sajt na Lovable-u ostaje uključen do koraka 7, pa u svakom trenutku može
 
 1. [vercel.com](https://vercel.com) → **Sign Up** → **Continue with GitHub**.
 2. Izaberite plan **Pro** (20 $ mesečno). Besplatan Hobby plan je samo za lične, nekomercijalne sajtove, a ovo je prodavnica.
-3. **Add New → Project** → pored repoa `exitdenim` pritisnite **Import** → **Deploy**. Ovo prvo objavljivanje uzima granu `main` (stari kod) i ne mora da uspe. To je u redu: služi samo da projekat postoji.
-4. **Settings → Environments → Production → Branch Tracking**: upišite `nezavisan-hosting` → **Save**.
+3. **Add New → Project** → pored repoa `exitdenim` pritisnite **Import** → **Deploy**. Dok ne povežete bazu (korak 2), umesto modela piše da se trenutno ne učitavaju. To je očekivano.
 
 ## 2. Baza
 
@@ -19,13 +18,13 @@ Stari sajt na Lovable-u ostaje uključen do koraka 7, pa u svakom trenutku može
 2. Region **Frankfurt (eu-central-1)**. Plan: za probu **Free**; pre prave prodaje **Pro** (25 $ mesečno), jer besplatna baza može da se pauzira, a Pro ima dnevnu rezervnu kopiju.
 3. Povežite je sa projektom `exitdenim` (**Connect**, za Production i Preview). Vercel sam upisuje adrese i ključeve baze; ništa ne prepisujete ručno.
 
-## 3. Objavite pravi sajt
+## 3. Objavite ponovo
 
-**Deployments → ⋯ → Create Deployment** → upišite `nezavisan-hosting` → **Create**. Ako ne nađete to dugme, javite meni pa ja pokrenem objavljivanje.
+**Deployments** → kod poslednjeg objavljivanja **⋯ → Redeploy**.
 
 Tokom ovog objavljivanja sajt sam napravi tabele u bazi. U zapisu (Build Logs) piše `Baza: …osnovna_sema.sql: primenjeno`. Dobijate adresu oblika `exitdenim-….vercel.app`.
 
-Svako sledeće objavljivanje proverava bazu i ne dira je ako je sve već tu. Probne verzije sajta (sve grane osim `nezavisan-hosting`) bazu ne menjaju.
+Svako sledeće objavljivanje proverava bazu i ne dira je ako je sve već tu. Probne verzije sajta (sve grane osim `main`) bazu ne menjaju.
 
 ## 4. Podešavanja baze
 
@@ -50,7 +49,7 @@ Nova baza je prazna dok se ne prebace podaci.
 
 1. Lovable → vaš projekat → **Cloud → Overview**: **Top up** (dopuna kredita), pa **Wake up**. Sama dopuna je ne budi.
 2. Izvoz baze, dok je budna: **More → Database → Manage → Settings → Export project data → Export data → Database → Export → Start export**. Fajl pošaljite meni i ja pripremam uvoz: proizvodi, stanje, porudžbine i nalozi sa postojećim lozinkama. Fajl sadrži podatke kupaca, pa ga ne stavljajte na GitHub.
-3. Fotografije proizvoda: GitHub → **Actions → Slike sa sajta** → poslednje pokretanje → **Re-run all jobs**. U prilogu (**Artifacts → slike-sa-sajta**) je zip. Sadržaj fascikli `supabase-storage/product-images` i `supabase-storage/site-assets` otpremite u Supabase → **Storage**, u istoimena skladišta, sa istim podfasciklama.
+3. Fotografije proizvoda: GitHub → **Actions → Slike sa sajta** → **Run workflow**. U prilogu (**Artifacts → slike-sa-sajta**) je zip. Sadržaj fascikli `supabase-storage/product-images` i `supabase-storage/site-assets` otpremite u Supabase → **Storage**, u istoimena skladišta, sa istim podfasciklama.
 
 Ako ne prebacujete stare podatke: prvi nalog registrovan na `/auth` postaje administrator, pa se registrujte vi pre nego što sajt bude javan.
 
@@ -70,7 +69,7 @@ Zatim Vercel → **Settings → Domains → Add** `exitdenim.shop`. Vercel prika
 ## 8. Posle prebacivanja
 
 - Lovable otkažite posle nekoliko dana. Do tada je rezerva.
-- Kada Lovable isključite sa GitHub repoa, granu `nezavisan-hosting` možete spojiti u `main`; tada na Vercel-u Branch Tracking vratite na `main`.
+- U Lovable-u ništa ne objavljujte (Publish), da stari sajt ne dobije novi kod pre vremena. Kada otkažete Lovable, isključite ga i sa GitHub repoa.
 - Google Search Console: proverite da `https://exitdenim.shop/sitemap.xml` radi.
 
 ## Mesečni troškovi

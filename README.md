@@ -2,7 +2,7 @@
 
 Sajt [exitdenim.shop](https://exitdenim.shop): maloprodaja (plaćanje pouzećem), B2B portal za butike i administracija proizvoda, stanja i porudžbina.
 
-Ova grana (`nezavisan-hosting`) je isti sajt, istog izgleda, **bez ijedne zavisnosti od Lovable-a**: može da se objavi na bilo kom hostingu, a baza je vaš sopstveni Supabase projekat.
+Ovo je isti sajt, istog izgleda, **bez ijedne zavisnosti od Lovable-a**: objavljuje se na Vercel-u (ili bilo kom drugom hostingu), a baza je vaš sopstveni Supabase projekat.
 
 **Selite sajt sa Lovable-a?** Pratite [SELIDBA.md](./SELIDBA.md), korak po korak.
 

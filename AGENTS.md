@@ -29,9 +29,9 @@
 - Serve the AI reading index as public/llms.txt with H2 link-list sections only, so crawlers receive the same stable public content without a server handler.
 - Keep English B2B translations on distinct public /en content routes with reciprocal language links and self-canonicals; reuse confirmed brand constants and the localized EcoProduction section to avoid divergent claims and changes to Serbian retail checkout.
 
-## Independent hosting (branch `nezavisan-hosting`)
+## Independent hosting
 
-- This branch has no Lovable packages or services. The Lovable notice above applies to `main` only while the repository is still connected; remove it once Lovable is disconnected.
+- The code has no Lovable packages or services (`main` and `nezavisan-hosting` carry the same code). The Lovable notice above stays relevant only while the repository is still connected to Lovable; remove it once Lovable is disconnected.
 - The storefront must look exactly as it did before the move. Do not restyle it, and keep the UI libraries in `package.json` (React, Tailwind, Radix, lucide, tailwind-merge) pinned to their exact versions; change them only together with a before/after visual comparison.
 - Build is plain Vite + TanStack Start + Nitro (`vite.config.ts`). The deploy target is chosen by the Nitro preset (`NITRO_PRESET`, or auto-detected on Vercel, Netlify and Cloudflare Pages). Keep `css.transformer: "lightningcss"`; the original build used it.
 - Brand photography and video are static files in `public/media/`, listed in `scripts/media.manifest.json`. The `src/assets/*.asset.json` pointers keep their shape but point to `/media/<file>`. Old `/__l5e/assets-v1/...` URLs are redirected in `src/server.ts`.

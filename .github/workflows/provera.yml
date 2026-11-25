@@ -3,7 +3,7 @@ name: Provera
 
 on:
   push:
-    branches: [nezavisan-hosting]
+    branches: [main, nezavisan-hosting]
   pull_request:
 
 permissions:

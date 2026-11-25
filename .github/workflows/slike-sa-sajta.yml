@@ -2,13 +2,13 @@
 # deljenje linka, favicon i, dok baza radi, fotografije proizvoda sa istim putanjama kao
 # u Supabase Storage-u. Rezultat je zip u prilogu pokretanja (Artifacts → slike-sa-sajta).
 #
-# Ponovno pokretanje (npr. kad probudite bazu): Actions → "Slike sa sajta" →
-# poslednje pokretanje → Re-run all jobs.
+# Pokretanje (npr. kad probudite bazu): GitHub → Actions → "Slike sa sajta" → Run workflow.
 name: Slike sa sajta
 
 on:
+  workflow_dispatch:
   push:
-    branches: [nezavisan-hosting]
+    branches: [main, nezavisan-hosting]
     paths:
       - scripts/scrape-site-images.mjs
       - .github/workflows/slike-sa-sajta.yml
