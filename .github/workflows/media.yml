@@ -1,8 +1,8 @@
 # Preuzima fotografije i video brenda sa starog sajta (Lovable CDN) i čuva ih u repou,
 # u public/media/. Posle toga sajt više ne zavisi od Lovable-a ni za jednu sliku.
 #
-# Pokreće se sam kada se promeni spisak fajlova, a može i ručno:
-# GitHub → Actions → "Fotografije brenda" → Run workflow.
+# Pokreće se sam kada se promeni spisak fajlova. Ponovo: Actions → "Fotografije brenda" →
+# poslednje pokretanje → Re-run all jobs.
 name: Fotografije brenda
 
 on:

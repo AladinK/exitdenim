@@ -1,0 +1,37 @@
+# Rezervna kopija SVIH slika sa živog sajta: logo, fotografije i video brenda, slika za
+# deljenje linka, favicon i, dok baza radi, fotografije proizvoda sa istim putanjama kao
+# u Supabase Storage-u. Rezultat je zip u prilogu pokretanja (Artifacts → slike-sa-sajta).
+#
+# Ponovno pokretanje (npr. kad probudite bazu): Actions → "Slike sa sajta" →
+# poslednje pokretanje → Re-run all jobs.
+name: Slike sa sajta
+
+on:
+  push:
+    branches: [nezavisan-hosting]
+    paths:
+      - scripts/scrape-site-images.mjs
+      - .github/workflows/slike-sa-sajta.yml
+
+permissions:
+  contents: read
+
+jobs:
+  preuzmi:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - name: Preuzmi slike sa exitdenim.shop
+        run: node scripts/scrape-site-images.mjs --out=slike-sa-sajta
+      - name: Sačuvaj kao prilog
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: slike-sa-sajta
+          path: slike-sa-sajta
+          retention-days: 90
+          if-no-files-found: warn

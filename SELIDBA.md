@@ -89,13 +89,13 @@ Promenljive okruženja (imena i objašnjenja su u `.env.example`):
 
 Posle izmene promenljivih pokrenite novo objavljivanje (Redeploy), jer se javne vrednosti ugrađuju pri build-u. Dok ih ne unesete, sajt koristi javne vrednosti iz fajla `.env` u repou, a one još pokazuju na staru Lovable bazu.
 
-### 5. Fotografije brenda
+### 5. Slike i logo
 
-Naslovne fotografije, logo i video (14 fajlova, oko 8 MB) bili su na Lovable-ovom serveru. Sada žive u repou, u `public/media/`.
+Logo, naslovne fotografije i video brenda (14 fajlova) bili su na Lovable-ovom serveru. Već su preuzeti i sačuvani u repou, u `public/media/`, pa novi sajt od njih ne zavisi.
 
-Preuzimaju se same: GitHub → **Actions → Fotografije brenda** treba da ima zelenu kvačicu. Ako nema, pritisnite **Run workflow**. Rezervni način, na računaru: `npm run assets:pull`, pa komitujte `public/media/`.
+Rezervna kopija svih slika sa sajta pravi se na GitHub-u: **Actions → Slike sa sajta**. Rezultat je zip u prilogu pokretanja (**Artifacts → slike-sa-sajta**), sa logom, fotografijama, slikom za deljenje linka i favicon-om.
 
-**Ovo mora biti gotovo pre koraka 7.** Kada domen ode sa Lovable-a, te fotografije se odande više ne mogu skinuti.
+Fotografije proizvoda ulaze u tu kopiju samo dok baza radi. Kada je probudite (korak 1), otvorite poslednje pokretanje i pritisnite **Re-run all jobs**, ili javite meni. Fascikla `supabase-storage/` iz zipa ima iste putanje kao skladišta, pa se ceo njen sadržaj otprema 1:1 u novi Supabase Storage. To je rezerva ako izvoz iz Lovable-a (korak 1.5) zapne.
 
 ### 6. Proverite novi sajt na privremenoj adresi
 
