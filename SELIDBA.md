@@ -1,131 +1,95 @@
-# Selidba sa Lovable-a — korak po korak
+# Selidba na Vercel — korak po korak
 
-Cilj: isti sajt, istog izgleda, na vašem hostingu i sa vašom bazom, tako da ga više niko ne može ugasiti osim vas.
+Sajt ide na **Vercel**, a baza je **Supabase** koju pravite iz samog Vercel-a: jedan nalog, jedan račun. Kod je spreman: sajt izgleda isto kao sada, a tabele u bazi se prave same pri prvom objavljivanju.
 
-Redosled je bitan. Stari sajt ostaje uključen do poslednjeg koraka, pa u svakom trenutku možete da stanete ili da se vratite.
+Stari sajt na Lovable-u ostaje uključen do koraka 7, pa u svakom trenutku možete da stanete ili da se vratite.
 
-## Zašto sajt sada pada
+**Zašto sajt sada pada:** kod radi, ali je baza na Lovable Cloud-u pauzirana (Lovable je pauzira kada se potroše krediti ili posle oko 7 dana bez aktivnosti). Zato se seli i baza, ne samo sajt.
 
-Kod sajta radi. Pala je **baza na Lovable Cloud-u** (pauzirana je), pa svaka stranica koja čita proizvode vraća grešku 500, dok stranice bez proizvoda rade.
+## 1. Vercel nalog i projekat
 
-Lovable pauzira bazu kada potrošite kredite ili posle oko 7 dana bez aktivnosti. Dok je baza tamo, to može da se ponovi. Zato se seli i baza, ne samo sajt.
+1. [vercel.com](https://vercel.com) → **Sign Up** → **Continue with GitHub**.
+2. Izaberite plan **Pro** (20 $ mesečno). Besplatan Hobby plan je samo za lične, nekomercijalne sajtove, a ovo je prodavnica.
+3. **Add New → Project** → pored repoa `exitdenim` pritisnite **Import** → **Deploy**. Ovo prvo objavljivanje uzima granu `main` (stari kod) i ne mora da uspe. To je u redu: služi samo da projekat postoji.
+4. **Settings → Environments → Production → Branch Tracking**: upišite `nezavisan-hosting` → **Save**.
 
-## Šta je već urađeno u kodu
+## 2. Baza
 
-- Uklonjeni su svi Lovable paketi i servisi (build, Google prijava, e-mail, Telegram, AI, slike).
-- Izgled je isti: stari i novi sajt su upoređeni piksel po piksel na telefonu i desktopu.
-- Sajt više ne pada kada baza ne odgovara (vidi README).
-- Ispravljena je greška zbog koje je odobrenim B2B partnerima umesto veleprodajne cene pisalo „€NaN".
-- Pripremljena je, kao opcija, ispravka za prikaz popusta (vidi dole, korak 2).
+1. U projektu na Vercel-u: **Storage → Create Database → Supabase**.
+2. Region **Frankfurt (eu-central-1)**. Plan: za probu **Free**; pre prave prodaje **Pro** (25 $ mesečno), jer besplatna baza može da se pauzira, a Pro ima dnevnu rezervnu kopiju.
+3. Povežite je sa projektom `exitdenim` (**Connect**, za Production i Preview). Vercel sam upisuje adrese i ključeve baze; ništa ne prepisujete ručno.
 
-## Šta morate vi (samo vi imate pristup)
+## 3. Objavite pravi sajt
 
-### 1. Probudite bazu na Lovable-u i izvezite podatke
+**Deployments → ⋯ → Create Deployment** → upišite `nezavisan-hosting` → **Create**. Ako ne nađete to dugme, javite meni pa ja pokrenem objavljivanje.
 
-Bez ovoga nema proizvoda, porudžbina ni naloga na novom sajtu.
+Tokom ovog objavljivanja sajt sam napravi tabele u bazi. U zapisu (Build Logs) piše `Baza: …osnovna_sema.sql: primenjeno`. Dobijate adresu oblika `exitdenim-….vercel.app`.
 
-1. Lovable → vaš projekat → **Cloud** → **Overview**.
-2. Ako piše da je baza pauzirana: **Top up** (dopuna kredita), pa **Wake up**. Sama dopuna je ne budi.
-3. Sajt bi posle nekoliko minuta trebalo ponovo da radi. Proverite exitdenim.shop.
-4. Izvoz baze: **More → Database → Manage → Settings → Export project data → Export data → Database → Export → Start export**. Dobijate jedan fajl sa svim tabelama, nalozima i lozinkama (lozinke su šifrovane i ostaju važeće). Dozvoljen je jedan izvoz na 24 sata, a radi samo dok je baza budna.
-5. Fotografije proizvoda **nisu** u tom fajlu. Skinite ih posebno: **More → Storage**, obe fascikle: `product-images` i `site-assets`. Zadržite iste nazive fascikli i fajlova.
+Svako sledeće objavljivanje proverava bazu i ne dira je ako je sve već tu. Probne verzije sajta (sve grane osim `nezavisan-hosting`) bazu ne menjaju.
 
-Nazivi stavki u meniju mogu malo da se razlikuju. Tražite izvoz baze („export") i skladište („storage").
+## 4. Podešavanja baze
 
-### 2. Napravite svoj Supabase projekat
+Vercel → **Storage** → vaša baza → **Open in Supabase**:
 
-1. [supabase.com](https://supabase.com) → **New project**, region **Frankfurt (eu-central-1)**. Lozinku baze sačuvajte.
-2. Uvoz podataka iz koraka 1:
-   - **Imate izvoz** (preporučeno): uvezite ga (`pg_restore` na adresu baze iz **Project Settings → Database**), zatim u **SQL Editor** pokrenite `supabase/posle-uvoza.sql`. Taj fajl pravi skladišta za fotografije i ispiše koliko je čega uvezeno; na sajtu ne menja ništa.
-   - **Nemate izvoz** (počinjete od nule): u **SQL Editor** pokrenite `supabase/migrations/20261125120000_osnovna_sema.sql`. Prvi nalog koji se registruje postaje administrator, pa se registrujte vi, pre nego što sajt bude javan.
-3. **Storage**: u fascikle `product-images` i `site-assets` otpremite fajlove iz koraka 1.5, sa istim nazivima i podfasciklama.
-4. **Authentication → URL Configuration**: Site URL `https://exitdenim.shop`, a u Redirect URLs dodajte `https://exitdenim.shop/**` i privremenu adresu hostinga iz koraka 4.
-5. **Google prijava** (ako je želite i dalje): **Authentication → Providers → Google**. Potreban je vaš OAuth klijent iz Google Cloud konzole, jer je dosadašnji bio Lovable-ov. Ako ovo preskočite, dugme „Nastavi sa Google" se samo sakrije, a prijava e-mailom radi.
+1. **Authentication → URL Configuration**: Site URL `https://exitdenim.shop`. U Redirect URLs dodajte `https://exitdenim.shop/**` i vašu `https://….vercel.app/**` adresu.
+2. **Authentication → Emails → SMTP Settings**: uključite i unesite Resend (host `smtp.resend.com`, port `465`, korisnik `resend`, lozinka je Resend API ključ iz koraka 5, pošiljalac `porudzbine@exitdenim.shop`). Ugrađeni Supabase e-mail služi samo za probu, pa bez ovoga partneri ne dobijaju e-mail za potvrdu naloga.
+3. Google prijava (opciono): **Authentication → Sign In / Providers → Google**, sa vašim Google OAuth ključem iz Google Cloud konzole (dosadašnji je bio Lovable-ov). Bez toga se dugme „Nastavi sa Google" samo sakrije, a prijava e-mailom radi.
 
-**Opciono, prikaz popusta:** od 19.11. popust treba da se vidi samo na proizvodima koje u administraciji označite „Na popustu", ali se zbog greške u bazi ne vidi ni na jednom. `supabase/prikaz-popusta.sql` to ispravlja: označeni proizvodi ponovo dobijaju „−40%" i precrtanu cenu. Pokrenite ga samo ako to želite. Precrtana cena se računa iz sadašnje, pa proverite da li takav prikaz odgovara pravilima o isticanju sniženja.
+## 5. Obaveštenja o porudžbinama
 
-**Plan:** besplatan Supabase plan pauzira projekat posle 7 dana slabe aktivnosti, što je isti problem koji sada imate. Za prodavnicu koja prima porudžbine uzmite **Pro (25 $/mesec)**: nema pauziranja, a baza se svakodnevno čuva.
+Ranije su išla preko Lovable-a. Podesite bar jedno, inače porudžbina ostaje samo u administraciji. Vercel → **Settings → Environment Variables**:
 
-### 3. Obaveštenja o porudžbinama
+- `TELEGRAM_BOT_TOKEN`: u Telegramu otvorite `@BotFather` → `/newbot` → dobijate token. Zatim otvorite svog bota i pritisnite **Start**, jer bot ne može prvi da vam piše.
+- `RESEND_API_KEY`: nalog na [resend.com](https://resend.com) → **Domains → Add domain** `exitdenim.shop` → ponuđene DNS zapise unesite kod name.com → **API Keys → Create**.
 
-Ranije su išla preko Lovable-a. Podesite bar jedno, inače porudžbina ostaje upisana samo u administraciji.
+Posle dodavanja: **Deployments → ⋯ → Redeploy**.
 
-- **Telegram:** u Telegramu otvorite `@BotFather` → `/newbot` → dobijate token. Zatim otvorite svog novog bota i pritisnite **Start** (bot ne može prvi da vam piše). Token ide u `TELEGRAM_BOT_TOKEN`.
-- **E-mail:** nalog na [resend.com](https://resend.com) → **Domains → Add domain** `exitdenim.shop` → unesite ponuđene DNS zapise kod name.com → **API Keys → Create**. Ključ ide u `RESEND_API_KEY`. Bez potvrđenog domena e-mail ne stiže kupcima.
+## 6. Podaci i fotografije sa Lovable-a
 
-### 4. Hosting
+Nova baza je prazna dok se ne prebace podaci.
 
-| Hosting | Cena | Napomena |
-| --- | --- | --- |
-| **Vercel Pro** | oko 20 $/mesec | Najjednostavnije podešavanje. Besplatan plan nije dozvoljen za prodavnice. |
-| **Cloudflare Workers Paid** | oko 5 $/mesec | Ista vrsta servera koju je koristio Lovable. Besplatan plan dozvoljava 10 ms procesora po zahtevu, što je za ovaj sajt premalo. |
-| Netlify (besplatno) | 0 | Ne preporučuje se: kada potrošite mesečne kredite, sajt se pauzira. |
+1. Lovable → vaš projekat → **Cloud → Overview**: **Top up** (dopuna kredita), pa **Wake up**. Sama dopuna je ne budi.
+2. Izvoz baze, dok je budna: **More → Database → Manage → Settings → Export project data → Export data → Database → Export → Start export**. Fajl pošaljite meni i ja pripremam uvoz: proizvodi, stanje, porudžbine i nalozi sa postojećim lozinkama. Fajl sadrži podatke kupaca, pa ga ne stavljajte na GitHub.
+3. Fotografije proizvoda: GitHub → **Actions → Slike sa sajta** → poslednje pokretanje → **Re-run all jobs**. U prilogu (**Artifacts → slike-sa-sajta**) je zip. Sadržaj fascikli `supabase-storage/product-images` i `supabase-storage/site-assets` otpremite u Supabase → **Storage**, u istoimena skladišta, sa istim podfasciklama.
 
-Podešavanje je isto na oba: povežite ovaj GitHub repo i izaberite granu **`nezavisan-hosting`** (ne `main`, koji i dalje pripada Lovable-u).
+Ako ne prebacujete stare podatke: prvi nalog registrovan na `/auth` postaje administrator, pa se registrujte vi pre nego što sajt bude javan.
 
-**Vercel**
+## 7. Provera, pa domen
 
-1. **Add New → Project → Import** ovaj repo. Podrazumevana podešavanja su dobra (komanda `npm run build`, Node 22).
-2. **Settings → Environments → Production → Branch Tracking**: upišite `nezavisan-hosting`.
-3. **Settings → Environment Variables**: unesite promenljive iz tabele ispod, pa **Redeploy**.
+Na `….vercel.app` adresi proverite:
 
-**Cloudflare**
+- [ ] početna, „Svi modeli" i jedan proizvod, sa fotografijama
+- [ ] probna porudžbina stiže na Telegram ili e-mail
+- [ ] prijava u administraciju; proizvodi, stanje i porudžbine su tu
+- [ ] odobren B2B nalog vidi veleprodajne cene
 
-1. **Workers & Pages → Create → Import a repository**, grana `nezavisan-hosting`.
-2. Build command `npm run build`, deploy command `npx wrangler deploy`.
-3. U **Build variables** dodajte `NITRO_PRESET=cloudflare-module` i obe `VITE_` promenljive iz tabele.
-4. Ostale promenljive unesite u **Settings → Variables and Secrets** kao tip **Secret**. Obične (Text) promenljive Cloudflare briše pri svakom objavljivanju.
+Zatim Vercel → **Settings → Domains → Add** `exitdenim.shop`. Vercel prikaže DNS zapise; unesite ih kod name.com umesto sadašnjeg `A exitdenim.shop → 185.158.133.1` (to je Lovable). Promena se širi od nekoliko minuta do nekoliko sati.
 
-Promenljive okruženja (imena i objašnjenja su u `.env.example`):
+**Povratak:** vratite stari A zapis i sajt je ponovo na Lovable-u.
 
-| Ime | Obavezno | Odakle |
-| --- | --- | --- |
-| `VITE_SUPABASE_URL` | da | Supabase → Project Settings → API |
-| `VITE_SUPABASE_PUBLISHABLE_KEY` | da | isto mesto, „publishable" ključ |
-| `SUPABASE_SERVICE_ROLE_KEY` | da, tajno | isto mesto, „secret" ključ |
-| `TELEGRAM_BOT_TOKEN` | jedno od dva | korak 3 |
-| `RESEND_API_KEY` | jedno od dva | korak 3 |
-| `AI_API_KEY`, `AI_MODEL` | ne | samo za dugme „AI popuni" u administraciji |
+## 8. Posle prebacivanja
 
-Posle izmene promenljivih pokrenite novo objavljivanje (Redeploy), jer se javne vrednosti ugrađuju pri build-u. Dok ih ne unesete, sajt koristi javne vrednosti iz fajla `.env` u repou, a one još pokazuju na staru Lovable bazu.
+- Lovable otkažite posle nekoliko dana. Do tada je rezerva.
+- Kada Lovable isključite sa GitHub repoa, granu `nezavisan-hosting` možete spojiti u `main`; tada na Vercel-u Branch Tracking vratite na `main`.
+- Google Search Console: proverite da `https://exitdenim.shop/sitemap.xml` radi.
 
-### 5. Slike i logo
-
-Logo, naslovne fotografije i video brenda (14 fajlova) bili su na Lovable-ovom serveru. Već su preuzeti i sačuvani u repou, u `public/media/`, pa novi sajt od njih ne zavisi.
-
-Rezervna kopija svih slika sa sajta pravi se na GitHub-u: **Actions → Slike sa sajta**. Rezultat je zip u prilogu pokretanja (**Artifacts → slike-sa-sajta**), sa logom, fotografijama, slikom za deljenje linka i favicon-om.
-
-Fotografije proizvoda ulaze u tu kopiju samo dok baza radi. Kada je probudite (korak 1), otvorite poslednje pokretanje i pritisnite **Re-run all jobs**, ili javite meni. Fascikla `supabase-storage/` iz zipa ima iste putanje kao skladišta, pa se ceo njen sadržaj otprema 1:1 u novi Supabase Storage. To je rezerva ako izvoz iz Lovable-a (korak 1.5) zapne.
-
-### 6. Proverite novi sajt na privremenoj adresi
-
-Hosting daje privremenu adresu (npr. `nesto.vercel.app`). Pre prebacivanja domena prođite:
-
-- [ ] Početna, „Svi modeli" i jedan proizvod izgledaju isto kao na starom sajtu, sa svim fotografijama.
-- [ ] Probna porudžbina prolazi do kraja i stiže vam Telegram poruka ili e-mail.
-- [ ] Prijava u administraciju radi starom lozinkom; proizvodi, stanje i porudžbine su tu.
-- [ ] Odobren B2B nalog vidi veleprodajne cene.
-
-### 7. Prebacite domen
-
-Kod **name.com** (tamo je domen) zamenite DNS zapise onima koje vam pokaže hosting u **Domains → Add** `exitdenim.shop`. Sada domen pokazuje na Lovable: `A  exitdenim.shop → 185.158.133.1`.
-
-Promena se širi od nekoliko minuta do nekoliko sati. **Povratak:** vratite stari A zapis i sajt je ponovo na Lovable-u.
-
-### 8. Posle prebacivanja
-
-- Sačekajte nekoliko dana pa otkažite Lovable pretplatu. Do tada ga ne dirajte: služi kao rezerva.
-- Grana `nezavisan-hosting` se spaja u `main` tek kada je Lovable isključen sa repoa, jer Lovable sam prati `main`.
-- Google Search Console: proverite da `https://exitdenim.shop/sitemap.xml` i dalje radi.
-
-## Mesečni troškovi posle selidbe
+## Mesečni troškovi
 
 | Stavka | Cena |
 | --- | --- |
-| Supabase Pro | 25 $ |
-| Hosting | 5 $ (Cloudflare) ili 20 $ (Vercel) |
-| Resend (e-mail) | 0 do 100 e-mailova dnevno, što je oko 50 porudžbina; preko toga 20 $ |
-| Telegram | 0 |
-| **Ukupno** | **30–45 $ mesečno** |
+| Vercel Pro | 20 $ |
+| Supabase | 0 $ za probu, 25 $ (Pro) za pravu prodaju |
+| Resend (e-mail) | 0 $ do 100 e-mailova dnevno |
+| Telegram | 0 $ |
+| **Ukupno** | **20 $ za početak, 45 $ sa Supabase Pro** |
 
 Cene su proverene u novembru 2026. i mogu da se promene.
+
+## Šta je već urađeno u kodu
+
+- Nema nijednog Lovable paketa ni servisa; sajt izgleda isto (upoređeno piksel po piksel, telefon i računar).
+- Server radi u Frankfurtu (Vercel `fra1`), blizu kupaca i baze.
+- Sajt ne pada kada baza ne odgovara: prikazuje poslednji katalog ili kontakt za porudžbinu, a kasa nudi slanje porudžbine porukom.
+- Logo, fotografije, video i slika za deljenje linka su u repou (`public/media/`).
+- Tabele baze se prave same (`scripts/db-migrate.mjs`, `supabase/migrations/`).
+- Opciono: `supabase/prikaz-popusta.sql` vraća oznaku „−40%" na proizvode označene „Na popustu" (zbog greške u bazi ne vidi se od 19.11). Precrtana cena se računa iz sadašnje, pa proverite da li takav prikaz odgovara pravilima o isticanju sniženja.

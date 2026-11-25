@@ -33,11 +33,19 @@ npm run check        # tipovi + testovi
 npm run build        # produkcijski build
 npm start            # pokreće build (cilj node-server)
 npm run assets:pull  # preuzima fotografije brenda sa starog sajta u public/media/
+npm run db:migrate   # pravi/dopunjava tabele u bazi (POSTGRES_URL_NON_POOLING)
 ```
 
 ## Objavljivanje
 
-Build pravi [Nitro](https://nitro.build), koji sam prepoznaje Vercel, Netlify i Cloudflare Pages. Za ostale ciljeve postavite `NITRO_PRESET` (npr. `cloudflare-module` ili `node-server`). Promenljive okruženja su opisane u [.env.example](./.env.example).
+Sajt je pripremljen za **Vercel** (server u Frankfurtu, `fra1`); uputstvo je u [SELIDBA.md](./SELIDBA.md). Bazu (Supabase) povežete preko Vercel → Storage, pa Vercel sam upisuje sve adrese i ključeve.
+
+Pre svakog build-a (`npm run build`):
+
+1. `scripts/pull-media.mjs --soft` proveri da su fotografije brenda u `public/media/`.
+2. `scripts/db-migrate.mjs` napravi ili dopuni tabele iz `supabase/migrations/`, samo jednom po fajlu. Na Vercel-u radi samo za produkciju, da probne verzije ne menjaju pravu bazu.
+
+Kod radi i na drugim hostinzima: Nitro sam prepoznaje Netlify i Cloudflare Pages, a za ostale postavite `NITRO_PRESET` (npr. `cloudflare-module` ili `node-server`). Promenljive okruženja su opisane u [.env.example](./.env.example).
 
 ## Kada baza ne odgovara
 

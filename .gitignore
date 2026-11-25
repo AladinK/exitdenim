@@ -32,3 +32,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Rezervne kopije i izvozi baze: sadrže podatke kupaca, nikad u repo (repo je javan)
+/slike-sa-sajta/
+/izvoz/
+*.dump
+*.backup
+*.sql.gz

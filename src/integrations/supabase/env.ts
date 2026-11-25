@@ -1,9 +1,13 @@
 // Jedno mesto za podešavanja Supabase veze.
 //
-// Javni par (URL + publishable ključ) ugrađuje se pri build-u iz VITE_* promenljivih
-// (fajl .env u repou), a server ga može zameniti promenljivama SUPABASE_URL i
-// SUPABASE_PUBLISHABLE_KEY bez novog build-a. Tajni ključ (service role) postoji
-// samo na serveru, u podešavanjima hostinga.
+// Vrednosti dolaze iz promenljivih okruženja na hostingu. Prihvataju se i imena koja
+// Supabase sam upisuje kada se poveže sa Vercel-om (SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY,
+// SUPABASE_SECRET_KEY, NEXT_PUBLIC_..., stari SUPABASE_ANON_KEY / SUPABASE_SERVICE_ROLE_KEY),
+// pa posle povezivanja ne treba ništa prepisivati ručno.
+//
+// Javni par (adresa + publishable ključ) ugrađuje se i u kod za pregledač pri build-u
+// (vite.config.ts bira po ISTOM redosledu), tako da pregledač i server uvek gađaju istu bazu.
+// Tajni ključ postoji samo na serveru.
 
 function runtimeEnv(name: string): string | undefined {
   if (typeof process === "undefined" || !process.env) return undefined;
@@ -11,20 +15,39 @@ function runtimeEnv(name: string): string | undefined {
   return value ? value : undefined;
 }
 
+const firstOf = (...names: string[]) => {
+  for (const name of names) {
+    const value = runtimeEnv(name);
+    if (value) return value;
+  }
+  return undefined;
+};
+
+/** Redosled imena; isti spisak koristi vite.config.ts za kod u pregledaču. */
+export const SUPABASE_URL_NAMES = ["VITE_SUPABASE_URL", "SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_URL"];
+export const SUPABASE_PUBLISHABLE_KEY_NAMES = [
+  "VITE_SUPABASE_PUBLISHABLE_KEY",
+  "SUPABASE_PUBLISHABLE_KEY",
+  "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
+  "SUPABASE_ANON_KEY",
+  "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+];
+export const SUPABASE_SECRET_KEY_NAMES = ["SUPABASE_SERVICE_ROLE_KEY", "SUPABASE_SECRET_KEY"];
+
 export function supabaseUrl(): string | undefined {
-  return runtimeEnv("SUPABASE_URL") || import.meta.env.VITE_SUPABASE_URL || undefined;
+  return firstOf(...SUPABASE_URL_NAMES) || import.meta.env.VITE_SUPABASE_URL || undefined;
 }
 
 export function supabasePublishableKey(): string | undefined {
   return (
-    runtimeEnv("SUPABASE_PUBLISHABLE_KEY") ||
+    firstOf(...SUPABASE_PUBLISHABLE_KEY_NAMES) ||
     import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
     undefined
   );
 }
 
 export function supabaseServiceRoleKey(): string | undefined {
-  return runtimeEnv("SUPABASE_SERVICE_ROLE_KEY");
+  return firstOf(...SUPABASE_SECRET_KEY_NAMES);
 }
 
 export class SupabaseConfigError extends Error {
@@ -41,8 +64,8 @@ export function requirePublicConfig(): { url: string; key: string } {
   const key = supabasePublishableKey();
   if (!url || !key) {
     throw new SupabaseConfigError([
-      ...(!url ? ["VITE_SUPABASE_URL"] : []),
-      ...(!key ? ["VITE_SUPABASE_PUBLISHABLE_KEY"] : []),
+      ...(!url ? ["SUPABASE_URL"] : []),
+      ...(!key ? ["SUPABASE_PUBLISHABLE_KEY"] : []),
     ]);
   }
   return { url, key };
@@ -53,8 +76,8 @@ export function requireAdminConfig(): { url: string; key: string } {
   const key = supabaseServiceRoleKey();
   if (!url || !key) {
     throw new SupabaseConfigError([
-      ...(!url ? ["VITE_SUPABASE_URL"] : []),
-      ...(!key ? ["SUPABASE_SERVICE_ROLE_KEY"] : []),
+      ...(!url ? ["SUPABASE_URL"] : []),
+      ...(!key ? ["SUPABASE_SECRET_KEY (ili SUPABASE_SERVICE_ROLE_KEY)"] : []),
     ]);
   }
   return { url, key };

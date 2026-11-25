@@ -41,3 +41,7 @@
 - Order notifications use the Telegram Bot API and Resend directly (`TELEGRAM_BOT_TOKEN`, `RESEND_API_KEY`). Both are optional in code, so log loudly when neither is configured.
 - Secrets live only in the host's environment variables (see `.env.example`). The committed `.env` holds public values only.
 - The database schema is `supabase/migrations/`; the Lovable-era migrations in `supabase/arhiva-lovable/` are history and are not applied.
+- Hosting target is Vercel (`fra1`, set in `vite.config.ts` via `nitro({ vercel: { functions: { regions } } })`). Supabase settings are read under both our names and the names the Supabase–Vercel integration sets (`SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `NEXT_PUBLIC_*`, legacy `SUPABASE_ANON_KEY` / `SUPABASE_SERVICE_ROLE_KEY`). The browser bundle gets the public pair at build time in the same order as the server reads it (`vite.config.ts` and `src/integrations/supabase/env.ts` must stay in sync).
+- `npm run build` runs `scripts/db-migrate.mjs` first. It applies each `supabase/migrations/*.sql` once, in a transaction, records it in `private.schema_migrations`, and runs on Vercel only for production builds. Migrations must be forward-only and safe to run against live data; never edit an applied migration, add a new file instead.
+- Never commit database exports or customer data (the repository is public).
+
