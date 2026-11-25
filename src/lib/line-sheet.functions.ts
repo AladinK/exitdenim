@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { z } from "zod";
+import { BRAND } from "@/lib/brand";
 
 /**
  * Generate a B2B line-sheet PDF for a single SKU. Wholesale prices and
@@ -55,7 +56,7 @@ export const generateLineSheet = createServerFn({ method: "POST" })
       try {
         const imgUrl = product.image_url.startsWith("http")
           ? product.image_url
-          : `https://project--${process.env.SUPABASE_PROJECT_ID ?? "alsgwxcoicrvmqtqqrqj"}.lovable.app${product.image_url}`;
+          : `${(process.env.SITE_URL || BRAND.url).replace(/\/+$/, "")}${product.image_url.startsWith("/") ? "" : "/"}${product.image_url}`;
         const res = await fetch(imgUrl);
         if (res.ok) {
           const buf = new Uint8Array(await res.arrayBuffer());

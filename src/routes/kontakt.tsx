@@ -26,9 +26,9 @@ function Kontakt() {
     <Layout>
       <section className="bg-foreground text-background">
         <div className="container-x py-20 md:py-32">
-          <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Kontakt</div>
+          <div className="text-xs text-accent">Kontakt</div>
           <h1 className="mt-7 h1-editorial text-background">
-            Tu smo za <span className="italic">sva pitanja</span>.
+            Tu smo za sva pitanja.
           </h1>
           <p className="mt-7 text-background/75 max-w-xl leading-relaxed">
             Niste sigurni za veličinu ili kroj? Pišite nam na WhatsApp ili Viber pre porudžbine. Za veleprodaju (butici i prodavnice) pogledajte <Link to="/postani-partner" className="text-accent border-b border-accent/60 hover:border-accent transition-colors">saradnju sa prodavnicama</Link>.
@@ -46,10 +46,10 @@ function Kontakt() {
               { icon: Mail, label: "Poslovni e-mail", value: BRAND.email, href: `mailto:${BRAND.email}` },
               { icon: MapPin, label: "Adresa · TRI-B DOO", value: `${BRAND.streetAddress}, ${BRAND.city}`, href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${BRAND.streetAddress}, ${BRAND.city}, Srbija`)}` },
             ].map((c) => (
-              <a key={c.label} href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="flex items-center gap-6 border border-border bg-card p-6 md:p-7 hover:bg-secondary hover:border-foreground/40 transition-colors group">
+              <a key={c.label} href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="flex items-center gap-6 border border-border bg-card p-6 md:p-7 hover:bg-secondary hover:border-foreground/40 transition-colors group rounded-xl">
                 <c.icon className="w-5 h-5 text-accent shrink-0" strokeWidth={1.25} />
                 <div className="flex-1 min-w-0">
-                  <div className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">{c.label}</div>
+                  <div className="text-xs text-muted-foreground">{c.label}</div>
                   <div className="serif text-xl md:text-2xl mt-1.5 tabular-nums break-all group-hover:text-accent transition-colors">{c.value}</div>
                 </div>
               </a>
@@ -57,7 +57,7 @@ function Kontakt() {
           </div>
 
           <aside className="lg:col-span-5">
-            <div className="border border-foreground p-10">
+            <div className="border border-foreground p-10 rounded-xl">
               <div className="eyebrow">O nama</div>
               <p className="serif text-2xl mt-4 leading-snug">
                 EXIT Denim — TRI-B DOO

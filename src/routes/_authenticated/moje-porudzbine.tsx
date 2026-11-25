@@ -45,7 +45,7 @@ function MyOrders() {
         {loading ? (
           <div className="mt-10 text-muted-foreground">Učitavanje...</div>
         ) : orders.length === 0 ? (
-          <div className="mt-12 border border-border p-16 text-center">
+          <div className="mt-12 border border-border p-16 text-center rounded-xl">
             <Package className="w-8 h-8 mx-auto text-muted-foreground" strokeWidth={1.2} />
             <div className="mt-6 serif text-2xl">Još nema porudžbina</div>
             <p className="mt-3 text-muted-foreground">Kada poručite, status će se pojaviti ovde.</p>
@@ -56,13 +56,13 @@ function MyOrders() {
             {orders.map((o) => {
               const s = STATUS[o.status] || { label: o.status, cls: "" };
               return (
-                <div key={o.id} className="border border-border p-5">
+                <div key={o.id} className="border border-border p-5 rounded-xl">
                   <div className="flex flex-wrap items-start justify-between gap-4">
                     <div>
-                      <div className="mono text-[11px] tracking-[0.18em] text-muted-foreground">{o.order_number}</div>
+                      <div className="mono text-xs text-muted-foreground">{o.order_number}</div>
                       <div className="text-sm mt-1">{new Date(o.created_at).toLocaleDateString("sr-RS", { day: "numeric", month: "long", year: "numeric" })}</div>
                     </div>
-                    <span className={`text-[11px] uppercase tracking-[0.18em] px-3 py-1.5 ${s.cls}`}>{s.label}</span>
+                    <span className={`text-xs px-3 py-1.5 ${s.cls}`}>{s.label}</span>
                     <div className="text-right">
                       <div className="text-sm text-muted-foreground">Ukupno</div>
                       <div className="text-lg font-semibold tabular-nums">{Number(o.total).toLocaleString("sr-RS")} din</div>
@@ -73,7 +73,7 @@ function MyOrders() {
                       <li key={it.id} className="py-2.5 flex justify-between text-sm">
                         <div>
                           <div>{it.product_name}</div>
-                          <div className="text-[11px] text-muted-foreground">{it.product_sku} · Vel. {it.size} · {it.quantity}×</div>
+                          <div className="text-xs text-muted-foreground">{it.product_sku} · Vel. {it.size} · {it.quantity}×</div>
                         </div>
                         <div className="tabular-nums">{(Number(it.unit_price) * it.quantity).toLocaleString("sr-RS")} din</div>
                       </li>

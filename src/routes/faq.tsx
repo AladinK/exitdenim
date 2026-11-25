@@ -41,9 +41,9 @@ function Faq() {
     <Layout>
       <section className="bg-foreground text-background">
         <div className="container-x py-20 md:py-28">
-          <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Često postavljana pitanja</div>
+          <div className="text-xs text-accent">Često postavljana pitanja</div>
           <h1 className="mt-7 h1-editorial text-background">
-            Pitanja o <span className="italic">kupovini</span>.
+            Pitanja o kupovini.
           </h1>
         </div>
       </section>
@@ -54,7 +54,7 @@ function Faq() {
             <div className="lg:sticky lg:top-32">
               <div className="eyebrow">Treba vam više detalja?</div>
               <p className="mt-5 serif text-2xl leading-tight">
-                Pitajte nas, odgovaramo u roku od <span className="italic">24h</span>. Više o krojevima i održavanju pročitajte u <Link to="/vodic-za-farmerke" className="underline">vodiču za farmerke</Link>.
+                Pitajte nas, odgovaramo u roku od 24h. Više o krojevima i održavanju pročitajte u <Link to="/vodic-za-farmerke" className="underline">vodiču za farmerke</Link>.
               </p>
               <Link to="/kontakt" className="btn-outline mt-7">Kontaktirajte nas</Link>
             </div>
@@ -67,7 +67,7 @@ function Faq() {
                   <Button variant="ghost"
                     onClick={() => setOpen(open === i ? null : i)}
                     aria-expanded={open === i} aria-controls={`faq-answer-${i}`}
-                    className="exit-faq-question w-full h-auto flex items-center justify-between py-5 text-left gap-4 group whitespace-normal"
+                    className="faq-question w-full h-auto flex items-center justify-between py-5 text-left gap-4 group whitespace-normal"
                   >
                     <span className="serif text-xl md:text-2xl pr-4 group-hover:text-accent transition-colors">{q}</span>
                     {open === i

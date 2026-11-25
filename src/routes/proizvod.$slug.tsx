@@ -1,33 +1,42 @@
 import type React from "react";
-import { createFileRoute, useParams, Link, notFound } from "@tanstack/react-router";
-import { Download, ChevronLeft } from "lucide-react";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { Download, Plus } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { Gallery } from "@/components/ProductGallery";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { Layout } from "@/components/Layout";
+import { Gallery } from "@/components/ProductGallery";
 import { SizeMatrix } from "@/components/SizeMatrix";
 import { ProductCard } from "@/components/ProductCard";
 import { AddToCart } from "@/components/AddToCart";
-import { getMyProfile } from "@/lib/orders.functions";
-import { generateLineSheet } from "@/lib/line-sheet.functions";
-import { productQuery, productsQuery } from "@/lib/product-queries";
-import { ecommerce, itemFromProduct } from "@/lib/analytics";
-import { useAuth } from "@/hooks/useAuth";
-import { oldPrice, DISCOUNT_PCT } from "@/lib/pricing";
-import { productAlt, productKind, fitPath, categoryLink } from "@/lib/seo-labels";
 import { B2BSpecs } from "@/components/B2BSpecs";
+import { CatalogUnavailable } from "@/components/CatalogUnavailable";
+import { generateLineSheet } from "@/lib/line-sheet.functions";
+import { productResultQuery, productsQuery } from "@/lib/product-queries";
+import { markTemporarilyUnavailable } from "@/lib/http-status";
+import { ecommerce, itemFromProduct } from "@/lib/analytics";
+import { usePartner } from "@/hooks/usePartner";
+import { oldPrice, DISCOUNT_PCT } from "@/lib/pricing";
+import { formatEur, formatRsd } from "@/lib/format";
+import { productAlt, productKind, fitPath, categoryLink } from "@/lib/seo-labels";
 import { productSchema } from "@/lib/product-schema";
 import { fitGuidance } from "@/lib/fit-guidance";
 import { SIZE_EXCHANGE_TEXT } from "@/lib/brand";
 
 export const Route = createFileRoute("/proizvod/$slug")({
   loader: async ({ params, context }) => {
-    const product = await context.queryClient.ensureQueryData(productQuery(params.slug));
-    if (!product) throw notFound();
-    // Related products load in the background; never block first paint.
-    context.queryClient.prefetchQuery(productsQuery());
-    return { product };
+    const result = await context.queryClient.ensureQueryData(productResultQuery(params.slug));
+    if (!result.product) {
+      // Baza ne odgovara: ne tvrdimo da model ne postoji, nego da je zastoj privremen.
+      if (result.state === "down") {
+        markTemporarilyUnavailable();
+        return { product: null };
+      }
+      throw notFound();
+    }
+    // Slični modeli se učitavaju u pozadini i ne zadržavaju prvi prikaz.
+    void context.queryClient.prefetchQuery(productsQuery());
+    return { product: result.product };
   },
   head: ({ params, loaderData }) => {
     const p = loaderData?.product;
@@ -57,36 +66,30 @@ export const Route = createFileRoute("/proizvod/$slug")({
         { rel: "canonical", href: url },
         ...(img ? [{ rel: "preload", as: "image", href: img, fetchPriority: "high" } as const] : []),
       ],
-      scripts: p
-        ? [{
-            type: "application/ld+json",
-            children: JSON.stringify(productSchema(p, url)),
-          }]
-        : [],
+      scripts: p ? [{ type: "application/ld+json", children: JSON.stringify(productSchema(p, url)) }] : [],
     };
   },
   notFoundComponent: () => (
     <Layout>
-      <div className="container-x py-32 text-center">
-        <div className="eyebrow">404</div>
-        <h1 className="text-5xl mt-4">Artikal nije pronađen</h1>
-        <Link to="/katalog" className="btn-outline mt-8 inline-flex">Nazad na katalog</Link>
+      <div className="container-x section-pad text-center">
+        <p className="eyebrow">Greška 404</p>
+        <h1 className="mt-2">Model nije pronađen</h1>
+        <p className="mx-auto mt-4 max-w-md text-ink-2">Moguće je da je rasprodat i povučen iz kataloga, ili da adresa nije tačna.</p>
+        <Link to="/katalog" className="btn-primary mt-8">Pogledajte sve modele</Link>
       </div>
     </Layout>
-  ),
-  errorComponent: () => (
-    <Layout><div className="container-x py-32 text-center">Greška pri učitavanju artikla.</div></Layout>
   ),
   component: ProductDetail,
 });
 
+const CATEGORY_LABEL: Record<string, string> = { jeans: "Farmerke", chino: "Chino pantalone", cargo: "Džeparke" };
+
 function ProductDetail() {
-  const { slug } = useParams({ from: "/proizvod/$slug" });
-  const { data: product } = useSuspenseQuery(productQuery(slug));
+  const { slug } = Route.useParams();
+  const { data: result } = useSuspenseQuery(productResultQuery(slug));
+  const product = result.product;
   const { data: all = [] } = useQuery(productsQuery());
-  const fetchProfile = useServerFn(getMyProfile);
-  const { user } = useAuth();
-  const [approved, setApproved] = useState(false);
+  const { approved, wholesale } = usePartner();
 
   const related = useMemo(() => {
     if (!product) return [];
@@ -97,153 +100,170 @@ function ProductDetail() {
 
   useEffect(() => {
     if (product) ecommerce.viewItem(itemFromProduct(product));
-  }, [product?.id]); // eslint-disable-line
-  useEffect(() => {
-    if (user) fetchProfile({}).then((r) => setApproved(r.profile?.status === "approved"));
-  }, [user]); // eslint-disable-line
+  }, [product?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (!product) throw notFound();
+  if (!product) {
+    return (
+      <Layout>
+        <div className="container-x section-pad max-w-3xl">
+          <CatalogUnavailable
+            title="Ovaj model se trenutno ne učitava"
+            message="Imamo kratak tehnički zastoj. Model nije nestao: pišite nam ili pozovite i reći ćemo vam odmah koje veličine imamo. Plaćate pouzećem, kao i uvek."
+          />
+        </div>
+      </Layout>
+    );
+  }
+
+  const category = categoryLink(product);
+  const price = Number(product.retail);
+  const partnerPrice = approved ? wholesale[product.id] : undefined;
+  const guidance = fitGuidance(product.fit);
+  const fitLink = fitPath(product.fit);
 
   return (
     <Layout>
-      <div className="container-x pt-10">
-        <Link to="/katalog" className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 transition-colors">
-          <ChevronLeft className="w-3.5 h-3.5" /> Nazad na katalog
-        </Link>
+      <nav aria-label="Putanja" className="container-x flex min-h-12 flex-wrap items-center gap-x-2 text-sm text-ink-3">
+        <Link to="/katalog" className="hover:text-foreground">Svi modeli</Link>
+        <span aria-hidden="true">/</span>
+        <Link to={category.to as "/jeans"} className="hover:text-foreground">{CATEGORY_LABEL[product.category] ?? category.label}</Link>
+        <span aria-hidden="true">/</span>
+        <span className="text-ink-2">{product.sku}</span>
+      </nav>
 
-      </div>
+      <section className="product-layout pb-12 md:pb-16">
+        <Gallery
+          images={[product.image_url, ...(product.gallery || [])].filter(Boolean) as string[]}
+          alt={productAlt(product)}
+          sku={product.sku}
+        />
 
-      <section className="exit-product-detail md:container-x pt-3 md:py-8 pb-10 grid lg:grid-cols-12 gap-6 lg:gap-16">
-        {/* Gallery */}
-        <div className="lg:col-span-7">
-          <Gallery
-            images={[product.image_url, ...(((product as any).gallery as string[]) || [])].filter(Boolean) as string[]}
-            alt={productAlt(product)}
-            sku={product.sku}
-            fit={product.fit}
-          />
-        </div>
+        <div className="product-info">
+          <p className="eyebrow">
+            {CATEGORY_LABEL[product.category] ?? product.category} · {product.fit} kroj · {product.color}
+          </p>
+          <h1 className="mt-2 text-[clamp(1.75rem,2.4vw+1rem,2.5rem)]">{product.name}</h1>
 
-        {/* Info Panel */}
-        <div className="px-5 md:px-0 lg:col-span-5 lg:sticky lg:top-28 lg:self-start">
-          <div className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
-            {product.category} · {product.fit} fit
-          </div>
-          <h1 className="mt-2 text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[1.05]">{product.name}</h1>
-          <div className="mt-1.5 text-sm text-muted-foreground">{product.color}</div>
-
-          <div className="mt-4 flex items-end justify-between gap-6">
-            <div className="text-3xl font-semibold tabular-nums">
-              {Number(product.retail).toLocaleString("sr-RS")} <span className="text-base font-normal text-muted-foreground">RSD</span>{product.on_sale && (<><span className="ml-2 text-[0.6em] text-muted-foreground line-through">{oldPrice(Number(product.retail)).toLocaleString("sr-RS")}</span> <span className="ml-2 text-xs font-semibold text-primary">−{DISCOUNT_PCT}%</span></>)}
-            </div>
-            {approved && (
-              <div className="text-right">
-                <div className="eyebrow">B2B</div>
-                <div className="text-2xl mt-1 tabular-nums text-accent">€{Number(product.wholesale).toFixed(0)}</div>
-              </div>
+          <div className="price-row mt-4">
+            <span className="price-row__now">{formatRsd(price)}</span>
+            {product.on_sale && (
+              <>
+                <s className="price-row__old">{formatRsd(oldPrice(price))}</s>
+                <span className="tag tag--sale">−{DISCOUNT_PCT}%</span>
+              </>
+            )}
+            {partnerPrice !== undefined && Number.isFinite(partnerPrice) && (
+              <span className="ml-auto text-right text-sm text-ink-2">
+                B2B cena <strong className="block text-xl text-action-text">{formatEur(partnerPrice)}</strong>
+              </span>
             )}
           </div>
 
-          <FreeShippingBanner />
+          {result.state === "stale" && (
+            <p className="notice mt-4 text-sm">
+              Trenutno ne možemo da proverimo stanje uživo. Prikazane veličine su poslednje poznate; pre slanja ćemo vam potvrditi porudžbinu.
+            </p>
+          )}
 
-          <div className="mt-5">
+          <div className="mt-6">
             <AddToCart product={product} />
           </div>
 
-          <div className="mt-6 border-t border-border">
-            <Section title="Opis" open>
-              <p className="leading-relaxed text-foreground/80">{product.description}</p>
-            </Section>
-            {fitGuidance(product.fit) && (
-              <Section title="Kome odgovara ovaj kroj">
-                <p className="leading-relaxed text-foreground/80">{fitGuidance(product.fit)}</p>
-                <Link to="/vodic-za-farmerke" hash="krojevi" className="mt-3 inline-block underline underline-offset-4">Uporedite krojeve i proverite mere pre poručivanja</Link>
-              </Section>
+          <div className="mt-8 border-t border-line">
+            <Disclosure title="Opis" open>
+              <p>{product.description}</p>
+            </Disclosure>
+            {guidance && (
+              <Disclosure title="Kome odgovara ovaj kroj">
+                <p>{guidance}</p>
+                <p className="mt-3">
+                  <Link to="/vodic-za-farmerke" hash="krojevi">Uporedite krojeve i proverite mere pre poručivanja</Link>
+                </p>
+              </Disclosure>
             )}
-            <Section title="Detalji i materijal">
-              <dl className="grid grid-cols-2 gap-4">
-                <Spec label="Kroj" value={`${product.fit} fit`} />
+            <Disclosure title="Detalji i materijal">
+              <dl className="grid grid-cols-2 gap-x-4 gap-y-3">
+                <Spec label="Kroj" value={product.fit} />
                 <Spec label="Sastav" value={product.fabric} />
-                <Spec label="Težina" value={product.weight} />
+                <Spec label="Težina tkanine" value={product.weight} />
                 <Spec label="Šifra" value={product.sku} />
               </dl>
-            </Section>
-            <Section title="Ekološki pristup proizvodnji">
-              <p className="leading-relaxed text-foreground/80">
+            </Disclosure>
+            <Disclosure title="Ekološki pristup proizvodnji">
+              <p>
                 U EXIT proizvodnji koristimo inovativnu lasersku tehnologiju španske kompanije Jeanologia kao deo našeg ekološkog pristupa obradi denima.
               </p>
-              <Link to="/proizvodnja" className="mt-3 inline-block underline underline-offset-4">Više o našoj proizvodnji</Link>
-            </Section>
-            <Section title="Slični modeli i saveti">
-              <ul className="space-y-2 text-sm">
-                {fitPath(product.fit) && fitPath(product.fit) !== categoryLink(product).to && (
-                  <li><Link to={fitPath(product.fit) as any} className="underline underline-offset-4">Sve {product.fit} farmerke</Link></li>
-                )}
-                <li><Link to={categoryLink(product).to as any} className="underline underline-offset-4">{categoryLink(product).label}</Link></li>
-                <li><Link to="/vodic-za-farmerke" hash="velicine" className="underline underline-offset-4">Kako izabrati veličinu i dužinu</Link></li>
-                <li><Link to="/vodic-za-farmerke" hash="odrzavanje" className="underline underline-offset-4">Kako prati i održavati {productKind(product).replace("muške ", "")}</Link></li>
-              </ul>
-            </Section>
-            <Section title="Dostava i plaćanje">
-              <p className="leading-relaxed text-foreground/80">
-                Plaćanje pouzećem pri preuzimanju paketa. Dostava je besplatna na sve porudžbine.
+              <p className="mt-3">
+                <Link to="/proizvodnja">Više o našoj proizvodnji</Link>
               </p>
-              <p className="mt-3 leading-relaxed text-foreground/80">{SIZE_EXCHANGE_TEXT}</p>
-            </Section>
+            </Disclosure>
+            <Disclosure title="Dostava, plaćanje i zamena">
+              <p>Plaćanje pouzećem pri preuzimanju paketa. Dostava je besplatna na sve porudžbine.</p>
+              <p className="mt-3">{SIZE_EXCHANGE_TEXT}</p>
+            </Disclosure>
+            <Disclosure title="Slični modeli i saveti">
+              <ul className="grid gap-2">
+                {fitLink && fitLink !== category.to && (
+                  <li><Link to={fitLink as "/jeans"}>Sve {product.fit} farmerke</Link></li>
+                )}
+                <li><Link to={category.to as "/jeans"}>{category.label}</Link></li>
+                <li><Link to="/vodic-za-farmerke" hash="velicine">Kako izabrati veličinu i dužinu</Link></li>
+                <li><Link to="/vodic-za-farmerke" hash="odrzavanje">Kako prati i održavati {productKind(product).replace("muške ", "")}</Link></li>
+              </ul>
+            </Disclosure>
           </div>
 
           {approved && (
-            <dl className="mt-6 grid grid-cols-2 gap-4 text-sm">
-              <Spec label="MOQ" value={`${product.moq} kom`} />
-              <Spec label="Isporuka B2B" value={product.delivery} />
-            </dl>
-          )}
-
-          {approved && (
-            <div className="mt-8 flex flex-wrap gap-3">
-              <LineSheetButton sku={product.sku} />
-            </div>
-          )}
-
-
-          {approved && (
-            <div className="mt-8">
+            <div className="mt-8 grid gap-6">
+              <dl className="grid grid-cols-2 gap-4 text-sm">
+                <Spec label="Minimalna količina" value={`${product.moq} kom`} />
+                <Spec label="Isporuka B2B" value={product.delivery} />
+              </dl>
+              <div>
+                <LineSheetButton sku={product.sku} />
+              </div>
               <B2BSpecs productId={product.id} sizes={product.sizes} />
+              <div>
+                <h2 className="text-base font-semibold tracking-normal">B2B porudžbina po veličinama</h2>
+                <div className="mt-3">
+                  <SizeMatrix product={product} wholesale={partnerPrice} />
+                </div>
+              </div>
             </div>
           )}
-
-          {approved && (
-            <div className="mt-10 border-t border-border pt-8">
-              <div className="eyebrow mb-4">B2B veleprodaja — po veličinama</div>
-              <SizeMatrix product={product} />
-            </div>
-          )}
-
         </div>
       </section>
 
-      <section className="border-t border-border section-pad bg-secondary/50">
-        <div className="container-x">
-          <div className="eyebrow">Možda ti se svidi i</div>
-          <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-12">
-            {related.length === 0 && [0,1,2,3].map((i) => <div key={i} className="aspect-[4/5] bg-secondary animate-pulse" />)}
-            {related.map((p) => <ProductCard key={p.id} product={p} showB2B={approved} />)}
+      {related.length > 0 && (
+        <section className="band-soft section-pad" aria-labelledby="related-title">
+          <div className="container-x">
+            <div className="section-head">
+              <div>
+                <span className="stitch-tick" aria-hidden="true" />
+                <h2 id="related-title">Možda vam se svidi i</h2>
+              </div>
+              <Link to={category.to as "/jeans"} className="section-head__link">{category.label}</Link>
+            </div>
+            <div className="product-grid mt-8">
+              {related.map((p) => (
+                <ProductCard key={p.id} product={p} wholesale={approved ? wholesale[p.id] : undefined} />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-
+        </section>
+      )}
     </Layout>
   );
 }
 
-function Section({ title, open, children }: { title: string; open?: boolean; children: React.ReactNode }) {
+function Disclosure({ title, open, children }: { title: string; open?: boolean; children: React.ReactNode }) {
   return (
-    <details open={open} className="group border-b border-border">
-      <summary className="flex cursor-pointer list-none items-center justify-between py-4 text-[12px] font-semibold uppercase tracking-[0.16em]">
+    <details open={open} className="disclosure">
+      <summary>
         {title}
-        <span className="text-lg leading-none transition-transform group-open:rotate-45">+</span>
+        <Plus aria-hidden="true" />
       </summary>
-      <div className="pb-5 text-sm">{children}</div>
+      <div className="disclosure__body">{children}</div>
     </details>
   );
 }
@@ -251,8 +271,8 @@ function Section({ title, open, children }: { title: string; open?: boolean; chi
 function Spec({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <dt className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{label}</dt>
-      <dd className="mt-1.5 font-medium text-foreground">{value}</dd>
+      <dt className="text-[0.8125rem] text-ink-3">{label}</dt>
+      <dd className="mt-0.5 font-medium text-foreground">{value}</dd>
     </div>
   );
 }
@@ -260,8 +280,10 @@ function Spec({ label, value }: { label: string; value: string }) {
 function LineSheetButton({ sku }: { sku: string }) {
   const generate = useServerFn(generateLineSheet);
   const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const download = async () => {
     setBusy(true);
+    setError(null);
     try {
       const { pdfBase64 } = await generate({ data: { sku } });
       const bin = atob(pdfBase64);
@@ -276,40 +298,17 @@ function LineSheetButton({ sku }: { sku: string }) {
       a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 30_000);
     } catch (e) {
-      alert((e as Error).message || "Greška pri generisanju line sheet-a.");
+      setError((e as Error).message || "Line sheet trenutno nije dostupan.");
     } finally {
       setBusy(false);
     }
   };
   return (
-    <button type="button" onClick={download} disabled={busy} className="btn-outline">
-      <Download className="w-3.5 h-3.5" /> {busy ? "Generisanje…" : "Preuzmi Line Sheet"}
-    </button>
-  );
-}
-
-
-function FreeShippingBanner() {
-  const [left, setLeft] = useState<string | null>(null);
-  useEffect(() => {
-    const tick = () => {
-      const now = new Date();
-      const end = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-      const ms = end.getTime() - now.getTime();
-      const d = Math.floor(ms / 86400000);
-      const h = Math.floor((ms % 86400000) / 3600000);
-      const m = Math.floor((ms % 3600000) / 60000);
-      setLeft(d > 0 ? `${d}d ${h}h ${m}m` : `${h}h ${m}m`);
-    };
-    tick();
-    const id = setInterval(tick, 30_000);
-    return () => clearInterval(id);
-  }, []);
-  return (
-    <div className="mt-4 flex items-center gap-2 text-[13px]">
-      <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
-      <span className="font-medium">Besplatna dostava do kraja meseca</span>
-      <span className="text-muted-foreground tabular-nums">· još {left ?? "—"}</span>
-    </div>
+    <>
+      <button type="button" onClick={download} disabled={busy} className="btn-outline">
+        <Download aria-hidden="true" className="h-[18px] w-[18px]" /> {busy ? "Pripremam…" : "Preuzmite line sheet (PDF)"}
+      </button>
+      {error && <p role="alert" className="error-text mt-2">{error}</p>}
+    </>
   );
 }

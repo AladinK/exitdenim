@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
+import { ShoppingBag } from "lucide-react";
 import { useEffect } from "react";
 import { Layout } from "@/components/Layout";
-import { useCart, CART_CONSTANTS } from "@/hooks/useCart";
+import { CartLine, CartTotals, gaItems } from "@/components/CartParts";
+import { useCart } from "@/hooks/useCart";
 import { ecommerce } from "@/lib/analytics";
+import { formatRsd } from "@/lib/format";
 
 export const Route = createFileRoute("/korpa")({
   head: () => ({
@@ -12,7 +14,7 @@ export const Route = createFileRoute("/korpa")({
       { property: "og:description", content: "Vaša korpa. Plaćanje pouzećem, dostava širom Srbije." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-
+      { name: "robots", content: "noindex" },
       { title: "Korpa — EXIT Denim" },
       { name: "description", content: "Vaša korpa. Plaćanje pouzećem, dostava širom Srbije." },
     ],
@@ -21,96 +23,49 @@ export const Route = createFileRoute("/korpa")({
 });
 
 function CartPage() {
-  const { items, subtotal, shipping, promo, discount, total, update, remove } = useCart();
+  const { items, total } = useCart();
 
   useEffect(() => {
     if (items.length === 0) return;
-    ecommerce.viewCart(
-      items.map((i) => ({
-        item_id: i.sku,
-        item_name: i.name,
-        item_variant: i.size,
-        price: i.unitPrice,
-        quantity: i.quantity,
-      })),
-      total,
-    );
+    ecommerce.viewCart(gaItems(items), total);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items.length]);
 
+  const checkout = () => ecommerce.beginCheckout(gaItems(items), total);
+
   return (
     <Layout>
-      <section className="exit-cart-page container-x py-12 md:py-16">
-        <div className="eyebrow">Korpa</div>
-        <h1 className="mt-4 text-4xl md:text-5xl">Vaša korpa</h1>
+      <section className="container-x pt-8 pb-32 md:pt-12 lg:pb-16">
+        <h1>Vaša korpa</h1>
 
         {items.length === 0 ? (
-          <div className="mt-16 border border-border p-16 text-center">
-            <ShoppingBag className="w-8 h-8 mx-auto text-muted-foreground" strokeWidth={1.2} />
-            <div className="mt-6 serif text-2xl">Korpa je prazna</div>
-            <p className="mt-3 text-muted-foreground max-w-sm mx-auto">Pogledajte naš katalog i dodajte artikle.</p>
-            <Link to="/katalog" className="btn-primary mt-8 inline-flex">Otvori katalog</Link>
+          <div className="notice mt-8 justify-items-center py-16 text-center">
+            <ShoppingBag aria-hidden="true" className="h-8 w-8 text-ink-3" strokeWidth={1.4} />
+            <div>
+              <h2>Korpa je prazna</h2>
+              <p className="mx-auto mt-2">Izaberite model i veličinu, a platićete tek kada paket stigne.</p>
+            </div>
+            <Link to="/katalog" className="btn-primary">Pogledajte modele</Link>
           </div>
         ) : (
-          <div className="mt-10 grid lg:grid-cols-12 gap-10">
-            <ul className="lg:col-span-8 divide-y divide-border border-y border-border">
+          <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-12">
+            <ul className="divide-y divide-line border-y border-line [&>li]:px-0">
               {items.map((it) => (
-                <li key={`${it.productId}-${it.size}`} className="py-6 flex gap-5">
-                  <div className="w-24 h-32 shrink-0 bg-secondary overflow-hidden">
-                    {it.image ? <img src={it.image} alt={it.name} className="w-full h-full object-cover" /> : null}
-                  </div>
-                  <div className="flex-1 min-w-0 flex flex-col">
-                    <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{it.sku} · vel. {it.size}</div>
-                    <div className="serif text-xl mt-1">{it.name}</div>
-                    <div className="text-sm text-muted-foreground mt-1 tabular-nums">{it.unitPrice.toLocaleString("sr-RS")} din / kom</div>
-                    <div className="mt-auto flex items-center justify-between pt-3">
-                      <div className="inline-flex items-center border border-border">
-                        <button onClick={() => update(it.productId, it.size, it.quantity - 1)} className="w-9 h-9 inline-flex items-center justify-center hover:bg-secondary" aria-label="Smanji">
-                          <Minus className="w-3.5 h-3.5" />
-                        </button>
-                        <span className="w-10 text-center text-sm tabular-nums">{it.quantity}</span>
-                        <button onClick={() => update(it.productId, it.size, it.quantity + 1)} className="w-9 h-9 inline-flex items-center justify-center hover:bg-secondary" aria-label="Povećaj">
-                          <Plus className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                      <div className="flex items-center gap-5">
-                        <div className="text-sm font-semibold tabular-nums">{(it.unitPrice * it.quantity).toLocaleString("sr-RS")} din</div>
-                        <button onClick={() => remove(it.productId, it.size)} className="text-muted-foreground hover:text-foreground" aria-label="Ukloni">
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </li>
+                <CartLine key={`${it.productId}-${it.size}`} item={it} />
               ))}
             </ul>
 
-            <aside className="lg:col-span-4">
-              <div className="border border-border p-6 lg:sticky lg:top-24">
-                <div className="eyebrow">Rezime</div>
-                <div className="mt-5 space-y-2 text-sm">
-                  <div className="flex justify-between"><span className="text-muted-foreground">Međuzbir</span><span className="tabular-nums">{subtotal.toLocaleString("sr-RS")} din</span></div>
-                  <div className="flex justify-between"><span className="text-muted-foreground">Dostava</span><span className="tabular-nums">{shipping === 0 ? "Besplatna" : `${shipping.toLocaleString("sr-RS")} din`}</span></div>
-                  {promo && discount > 0 && (
-                    <div className="flex justify-between text-accent font-medium">
-                      <span>Točak sreće −{promo.pct}% ({promo.code})</span>
-                      <span className="tabular-nums">−{discount.toLocaleString("sr-RS")} din</span>
-                    </div>
-                  )}
-                  {subtotal < CART_CONSTANTS.FREE_SHIPPING_OVER && (
-                    <div className="text-[11px] text-muted-foreground">Još {(CART_CONSTANTS.FREE_SHIPPING_OVER - subtotal).toLocaleString("sr-RS")} din do besplatne dostave.</div>
-                  )}
-                  <div className="flex justify-between pt-3 mt-3 border-t border-border text-base font-semibold"><span>Ukupno</span><span className="tabular-nums">{total.toLocaleString("sr-RS")} din</span></div>
+            <aside>
+              <div className="panel lg:sticky lg:top-[calc(var(--header-h)+24px)]">
+                <h2 className="panel__title">Pregled</h2>
+                <div className="mt-4">
+                  <CartTotals allowPromoRemoval />
                 </div>
-                <Link
-                  to="/kasa"
-                  onClick={() => ecommerce.beginCheckout(items.map((i) => ({ item_id: i.sku, item_name: i.name, item_variant: i.size, price: i.unitPrice, quantity: i.quantity })), total)}
-                  className="btn-primary w-full justify-center mt-6"
-                >
-                  Nastavi na plaćanje
+                <Link to="/kasa" onClick={checkout} className="btn-primary mt-6 hidden w-full lg:inline-flex">
+                  Nastavi na porudžbinu
                 </Link>
-                <p className="text-[11px] text-center text-muted-foreground mt-3">Plaćanje pouzećem pri isporuci</p>
-                <Link to="/katalog" className="btn-outline w-full justify-center mt-3">Nastavi kupovinu</Link>
+                <Link to="/katalog" className="btn-outline mt-2 w-full">Nastavi kupovinu</Link>
+                <p className="mt-4 text-center text-[0.8125rem] text-ink-3">Plaćate pouzećem, pri preuzimanju paketa</p>
               </div>
             </aside>
           </div>
@@ -118,21 +73,16 @@ function CartPage() {
       </section>
 
       {items.length > 0 && (
-        <div
-          className="lg:hidden fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/97 backdrop-blur-xl px-4 pt-3 pb-3 flex items-center gap-3"
-          style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))" }}
-        >
-          <div className="shrink-0">
-            <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Ukupno</div>
-            <div className="text-[15px] font-semibold tabular-nums leading-tight">{total.toLocaleString("sr-RS")} din</div>
+        <div className="sticky-bar" data-visible="true">
+          <div className="flex items-center gap-3">
+            <div className="shrink-0 leading-tight">
+              <div className="text-[0.8125rem] text-ink-3">Ukupno</div>
+              <div className="text-base font-bold">{formatRsd(total)}</div>
+            </div>
+            <Link to="/kasa" onClick={checkout} className="btn-primary flex-1">
+              Nastavi na porudžbinu
+            </Link>
           </div>
-          <Link
-            to="/kasa"
-            onClick={() => ecommerce.beginCheckout(items.map((i) => ({ item_id: i.sku, item_name: i.name, item_variant: i.size, price: i.unitPrice, quantity: i.quantity })), total)}
-            className="flex-1 inline-flex items-center justify-center bg-foreground text-background py-3.5 text-[12.5px] uppercase tracking-[0.18em] font-semibold"
-          >
-            Nastavi na plaćanje
-          </Link>
         </div>
       )}
     </Layout>

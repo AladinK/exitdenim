@@ -24,10 +24,10 @@ function Partner() {
     <Layout>
       <section className="bg-foreground text-background relative overflow-hidden">
         <div className="container-x py-20 md:py-32 relative">
-          <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Po prijavi · Privatni B2B šourum</div>
+          <div className="text-xs text-accent">Po prijavi · Privatni B2B šourum</div>
           <h1 className="mt-7 h1-editorial max-w-4xl text-background">
             Partnerski program<br/>
-            <span className="italic font-light text-background/85">EXIT Denim</span>
+            <span className="text-background/85">EXIT Denim</span>
           </h1>
           <p className="mt-8 text-background/75 max-w-xl leading-relaxed">
             Pristup veleprodajnom katalogu odobravamo buticima, onlajn prodavcima i distributerima koji žele stabilnu denim ponudu — bez skakanja cena i bez skrivenih troškova.
@@ -40,7 +40,7 @@ function Partner() {
           <div className="lg:col-span-5">
             <div className="eyebrow">Šta dobijate</div>
             <h2 className="mt-5 h2-editorial">
-              Kompletan <span className="italic">partnerski paket</span>.
+              Kompletan partnerski paket.
             </h2>
             <ul className="mt-8 space-y-4 text-[15px]">
               {[
@@ -60,7 +60,7 @@ function Partner() {
           </div>
 
           <div className="lg:col-span-7">
-            <div className="border border-foreground p-10">
+            <div className="border border-foreground p-10 rounded-xl">
               <div className="eyebrow">Uslovi saradnje</div>
               <h3 className="mt-4 serif text-3xl">Uslovi kuće</h3>
               <dl className="mt-8 divide-y divide-border">
@@ -80,7 +80,7 @@ function Partner() {
               <Link to="/auth" className="btn-primary w-full mt-8">
                 Otvori B2B nalog <ArrowRight className="w-3.5 h-3.5" />
               </Link>
-              <p className="mt-5 text-[11px] uppercase tracking-[0.22em] text-muted-foreground text-center">
+              <p className="mt-5 text-xs text-muted-foreground text-center">
                 Odobrenje naloga u roku 24 sata
               </p>
             </div>

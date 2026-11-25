@@ -124,7 +124,7 @@ export function SpinWheel() {
             {/* Left — wheel stage */}
             <div className="relative bg-ink text-ivory flex flex-col items-center justify-center px-6 pt-9 pb-7 sm:py-12 overflow-hidden">
               <div className="absolute inset-0 opacity-[0.07] [background-image:radial-gradient(circle_at_50%_45%,var(--ivory)_0,transparent_60%)]" />
-              <div className="relative text-[10px] uppercase tracking-[0.35em] text-ivory/60">EXIT Denim · Beograd</div>
+              <div className="relative text-xs text-ivory/60">EXIT Denim · Beograd</div>
 
               <div className="relative mt-6 w-[220px] h-[220px] sm:w-[280px] sm:h-[280px]">
                 {/* Pointer */}
@@ -148,7 +148,7 @@ export function SpinWheel() {
                       style={{ transform: `rotate(${i * SEG_DEG + SEG_DEG / 2}deg)` }}
                     >
                       <span
-                        className={`mt-4 sm:mt-5 font-semibold tracking-[0.12em] ${s.respin ? "text-[8px] sm:text-[9px]" : "text-[12px] sm:text-[14px]"}`}
+                        className={`mt-4 sm:mt-5 font-semibold ${s.respin ? "text-[8px] sm:text-[9px]" : "text-[0.8125rem] sm:text-[14px]"}`}
                         style={{ color: SEG_TEXT[i] }}
                       >
                         {s.respin ? "JOŠ 1" : s.label}
@@ -165,11 +165,11 @@ export function SpinWheel() {
                   ))}
                 </div>
                 <div className="absolute inset-0 m-auto w-[62px] h-[62px] sm:w-[72px] sm:h-[72px] rounded-full bg-ink ring-1 ring-ivory/30 flex items-center justify-center">
-                  <span className="font-display text-[13px] sm:text-[15px] tracking-[0.08em] text-ivory">EXIT</span>
+                  <span className="font-display text-[13px] sm:text-[15px] text-ivory">EXIT</span>
                 </div>
               </div>
 
-              <div className="relative mt-6 text-[10px] uppercase tracking-[0.3em] text-ivory/50 hidden sm:block">
+              <div className="relative mt-6 text-xs text-ivory/50 hidden sm:block">
                 Premium denim · 12 oz · Proizvedeno u Srbiji
               </div>
             </div>
@@ -178,7 +178,7 @@ export function SpinWheel() {
             <div className="flex flex-col justify-center px-6 py-7 sm:px-10 sm:py-12">
               {result ? (
                 <div className="animate-fade-up">
-                  <div className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Čestitamo</div>
+                  <div className="text-xs text-muted-foreground">Čestitamo</div>
                   <h2 className="mt-3 font-display text-[44px] sm:text-[56px] leading-none tracking-tight">
                     −{result.pct}%
                   </h2>
@@ -186,8 +186,8 @@ export function SpinWheel() {
                     Vaš popust je aktiviran i biće automatski obračunat na celu porudžbinu.
                   </p>
                   <div className="mt-6 border-t border-b border-border py-3 flex items-center justify-between">
-                    <span className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Vaš kod</span>
-                    <span className="font-mono text-[13px] tracking-[0.15em]">{result.code}</span>
+                    <span className="text-xs text-muted-foreground">Vaš kod</span>
+                    <span className="font-mono text-[13px]">{result.code}</span>
                   </div>
                   <button onClick={() => setOpen(false)} className="btn-primary w-full justify-center mt-6 h-12">
                     Nastavi kupovinu
@@ -195,7 +195,7 @@ export function SpinWheel() {
                 </div>
               ) : hasSpun && promo ? (
                 <div>
-                  <div className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Vaša privilegija</div>
+                  <div className="text-xs text-muted-foreground">Vaša privilegija</div>
                   <h2 className="mt-3 font-display text-[40px] sm:text-[48px] leading-none tracking-tight">−{promo.pct}%</h2>
                   <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">
                     Popust je već aktivan i primenjuje se automatski na kasi.
@@ -206,7 +206,7 @@ export function SpinWheel() {
                 </div>
               ) : (
                 <div>
-                  <div className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Ekskluzivno online</div>
+                  <div className="text-xs text-muted-foreground">Ekskluzivno online</div>
                   <h2 className="mt-3 font-display text-[30px] sm:text-[38px] leading-[1.02] tracking-tight">
                     Do 15% popusta na vašu porudžbinu
                   </h2>
@@ -224,11 +224,11 @@ export function SpinWheel() {
                   <button
                     onClick={close}
                     disabled={spinning}
-                    className="mt-3 w-full text-center text-[12px] text-muted-foreground underline underline-offset-4 hover:text-foreground disabled:opacity-40"
+                    className="mt-3 w-full text-center text-[0.8125rem] text-muted-foreground underline underline-offset-4 hover:text-foreground disabled:opacity-40"
                   >
                     Ne, hvala
                   </button>
-                  <p className="mt-5 text-[10px] leading-relaxed text-muted-foreground/80">
+                  <p className="mt-5 text-xs leading-relaxed text-muted-foreground/80">
                     Jedan pokušaj po uređaju.
                   </p>
                 </div>

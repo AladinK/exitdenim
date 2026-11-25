@@ -1,97 +1,97 @@
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
 import { oldPrice, DISCOUNT_PCT } from "@/lib/pricing";
 import { productAlt } from "@/lib/seo-labels";
+import { formatEur, formatRsd, sortSizes } from "@/lib/format";
 import type { ProductWithStock } from "@/lib/products.functions";
-import { useState } from "react";
 
-export function ProductCard({ product, showB2B }: { product: ProductWithStock; showB2B?: boolean }) {
-  const stock = (product.stock || {}) as Record<string, number>;
-  const sizes = Object.keys(stock).sort((a, b) => Number(a) - Number(b) || a.localeCompare(b));
-  const soldOut = sizes.length > 0 && !sizes.some((s) => stock[s] > 0);
-  const available = sizes.filter((s) => stock[s] > 0).length;
-  const lowStock = !soldOut && sizes.length >= 3 && available > 0 && available <= 2;
+export function ProductCard({
+  product,
+  wholesale,
+  eager = false,
+}: {
+  product: ProductWithStock;
+  /** Veleprodajna cena (EUR), samo za odobrene partnere. */
+  wholesale?: number;
+  /** Prve kartice na stranici učitavaju sliku odmah. */
+  eager?: boolean;
+}) {
+  const stock = product.stock || {};
+  const sizes = sortSizes(Object.keys(stock));
+  const available = sizes.filter((s) => stock[s] > 0);
+  const soldOut = sizes.length > 0 && available.length === 0;
+  const lowStock = !soldOut && sizes.length >= 3 && available.length <= 2;
   const [hovered, setHovered] = useState(false);
   const [alternateReady, setAlternateReady] = useState(false);
-  const alternate = product.gallery?.find((url) => url !== product.image_url && /^https?:\/\//.test(url));
+  const alternate = product.gallery?.find((url) => url !== product.image_url && /^(https?:)?\//.test(url));
+  const price = Number(product.retail);
 
   return (
     <Link
       to="/proizvod/$slug"
       params={{ slug: product.slug }}
-      className="exit-product-card group block focus-visible:outline-none"
-      aria-label={`${product.name}, ${Number(product.retail).toLocaleString("sr-RS")} RSD`}
-      onPointerEnter={(event) => { if (event.pointerType === "mouse") setHovered(true); }}
+      className={`product-card${soldOut ? " is-sold-out" : ""}`}
+      aria-label={`${product.name}, ${formatRsd(price)}${soldOut ? ", rasprodato" : ""}`}
+      onPointerEnter={(event) => {
+        if (event.pointerType === "mouse") setHovered(true);
+      }}
       data-alternate={alternateReady}
     >
-      <div className="relative aspect-[3/4] w-full overflow-hidden bg-secondary ring-0 ring-foreground/0 transition-[box-shadow] duration-500 group-focus-visible:ring-2 group-focus-visible:ring-foreground">
-        {product.image_url ? (
+      <div className="product-card__media">
+        {product.image_url && (
           <img
             src={product.image_url}
             alt={productAlt(product)}
-            loading="lazy"
+            loading={eager ? "eager" : "lazy"}
             decoding="async"
-            className={`exit-product-primary absolute inset-0 h-full w-full object-cover ${soldOut ? "opacity-60 grayscale" : ""}`}
+            width={1000}
+            height={1400}
+            sizes="(min-width: 1100px) 25vw, (min-width: 768px) 33vw, 50vw"
           />
-        ) : (
-          <div className="absolute inset-0 bg-foreground/5" />
         )}
-        {hovered && alternate && <img src={alternate} alt="" aria-hidden="true" decoding="async" onLoad={() => setAlternateReady(true)} className="exit-product-alternate absolute inset-0 h-full w-full object-cover" />}
-
-        <div className="absolute inset-x-0 top-0 flex items-start justify-between p-3 md:p-4">
-          <span className="bg-background/85 backdrop-blur-sm px-2 py-1 text-[9.5px] md:text-[10px] font-medium uppercase tracking-[0.22em] text-foreground">
-            {product.fit}
-          </span>
-          {!soldOut && product.on_sale && <span className="ml-auto mr-2 bg-primary px-2 py-1 text-[9.5px] md:text-[10px] font-semibold tracking-[0.12em] text-primary-foreground">−{DISCOUNT_PCT}%</span>}
-          {soldOut && (
-            <span className="bg-foreground px-2 py-1 text-[9.5px] md:text-[10px] font-medium uppercase tracking-[0.22em] text-background">
-              Rasprodato
-            </span>
-          )}
-          {lowStock && (
-            <span className="bg-accent px-2 py-1 text-[9.5px] md:text-[10px] font-semibold uppercase tracking-[0.22em] text-accent-foreground">
-              Poslednji komadi
-            </span>
+        {hovered && alternate && (
+          <img
+            src={alternate}
+            alt=""
+            aria-hidden="true"
+            decoding="async"
+            onLoad={() => setAlternateReady(true)}
+            className="product-card__alt"
+          />
+        )}
+        <div className="product-card__tags">
+          {soldOut ? (
+            <span className="tag tag--out">Rasprodato</span>
+          ) : (
+            <>
+              {product.on_sale && <span className="tag tag--sale">−{DISCOUNT_PCT}%</span>}
+              {lowStock && <span className="tag tag--low">Poslednji komadi</span>}
+            </>
           )}
         </div>
-
         {!soldOut && sizes.length > 0 && (
-          <div className="absolute inset-x-3 bottom-3 hidden translate-y-3 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100 md:block">
-            <div className="bg-background/95 backdrop-blur-md px-4 py-3">
-              <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                <span>Dostupne veličine</span>
-                <ArrowRight className="h-3.5 w-3.5 text-foreground transition-transform duration-300 group-hover:translate-x-0.5" />
-              </div>
-              <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[12px] tabular-nums">
-                {sizes.map((s) => (
-                  <span key={s} className={stock[s] > 0 ? "text-foreground" : "text-muted-foreground/50 line-through"}>
-                    {s}
-                  </span>
-                ))}
-              </div>
-            </div>
+          <div className="product-card__sizes" aria-hidden="true">
+            {sizes.map((s) => (
+              <span key={s} className={stock[s] > 0 ? undefined : "is-out"}>
+                {s}
+              </span>
+            ))}
           </div>
         )}
       </div>
 
-      <div className="pt-4 md:pt-5">
-        <div className="flex items-start justify-between gap-3">
-          <h3 className="min-w-0 text-[13px] md:text-[14px] font-medium leading-snug line-clamp-2">
-            {product.name}
-          </h3>
-          <div className="shrink-0 text-[13px] md:text-[14px] font-medium tabular-nums">
-            {Number(product.retail).toLocaleString("sr-RS")}
-            <span className="ml-1 text-[10px] text-muted-foreground">RSD</span>
-            {product.on_sale && <div className="text-[11px] text-muted-foreground line-through">{oldPrice(Number(product.retail)).toLocaleString("sr-RS")} RSD</div>}
-          </div>
+      <div className="product-card__body">
+        <h3 className="product-card__name">{product.name}</h3>
+        <div className="product-card__meta">
+          {product.fit} · {product.color}
         </div>
-        <div className="mt-1.5 flex items-center justify-between gap-3 text-[11px] text-muted-foreground">
-          <span className="truncate">{product.color}</span>
-          {showB2B && (
-            <span className="shrink-0 uppercase tracking-[0.16em] text-accent tabular-nums">B2B €{Number(product.wholesale).toFixed(0)}</span>
+        <div className="product-card__price">
+          <span>{formatRsd(price)}</span>
+          {product.on_sale && <s>{formatRsd(oldPrice(price))}</s>}
+          {wholesale !== undefined && Number.isFinite(wholesale) && (
+            <span className="product-card__b2b">B2B {formatEur(wholesale)}</span>
           )}
         </div>
-        <span className="mt-3 block h-px w-0 bg-foreground transition-all duration-500 group-hover:w-full" />
       </div>
     </Link>
   );

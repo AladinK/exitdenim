@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate } from "@tanstack/react-router";
-import { ShoppingBag, Check, Truck, BadgeCheck } from "lucide-react";
+import { BadgeCheck, Check, MessageCircle, RefreshCw, ShoppingBag, Truck } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
 import { ecommerce, itemFromProduct } from "@/lib/analytics";
+import { formatRsd } from "@/lib/format";
+import { productQuestion, whatsappHref } from "@/lib/contact";
+import { SIZE_EXCHANGE } from "@/lib/brand";
 import type { ProductWithStock } from "@/lib/products.functions";
-import { Button } from "@/components/ui/button";
 import { SizeAdvisor } from "@/components/SizeAdvisor";
 
 const SIZE_GUIDE: [string, string, string][] = [
@@ -29,18 +31,25 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
   const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => setMounted(true), []);
+  // Drugi model: izbor veličine kreće ispočetka.
+  useEffect(() => {
+    setSize(null);
+    setNeedSize(false);
+  }, [product.id]);
 
-  // Sticky mobile bar appears once the inline block scrolls out of view.
+  // Donja traka na telefonu se pojavi kada izbor veličine izađe iz kadra.
   useEffect(() => {
     const el = rootRef.current;
     if (!el || typeof IntersectionObserver === "undefined") return;
-    const io = new IntersectionObserver(
-      ([entry]) => setShowSticky(!entry.isIntersecting),
-      { rootMargin: "-80px 0px 0px 0px" },
-    );
+    const io = new IntersectionObserver(([entry]) => setShowSticky(!entry.isIntersecting), {
+      rootMargin: "-80px 0px 0px 0px",
+    });
     io.observe(el);
     return () => io.disconnect();
   }, []);
+
+  const inStock = product.sizes.filter((s) => (product.stock?.[s] ?? 0) > 0);
+  const soldOut = inStock.length === 0;
 
   const pickSize = (s: string) => {
     setSize(s);
@@ -75,147 +84,135 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
 
   const sizeButtons = (compact = false) =>
     product.sizes.map((s) => {
-      const stock = product.stock?.[s] ?? 0;
-      const disabled = stock <= 0;
-      const active = size === s;
+      const disabled = (product.stock?.[s] ?? 0) <= 0;
       return (
-        <Button variant="outline"
+        <button
           key={s}
           type="button"
           disabled={disabled}
           onClick={() => pickSize(s)}
-          className={`${compact ? "min-w-[44px] px-2.5 py-2 text-[13px]" : "min-w-[52px] px-3 py-3 text-sm"} font-medium border transition-all tabular-nums ${
-            active
-              ? "border-foreground bg-foreground text-background"
-              : disabled
-                ? "border-border text-muted-foreground line-through cursor-not-allowed opacity-50"
-                : "border-border hover:border-foreground"
-          }`}
-          aria-pressed={active}
-          aria-label={`Veličina ${s}${disabled ? " (nema na stanju)" : ""}`}
+          className={`size-button${compact ? " size-button--sm" : ""}`}
+          aria-pressed={size === s}
+          aria-label={`Veličina ${s}${disabled ? ", nema na stanju" : ""}`}
         >
           {s}
-        </Button>
+        </button>
       );
     });
 
+  const addLabel = added ? (
+    <>
+      <Check aria-hidden="true" className="h-[18px] w-[18px]" /> Dodato u korpu
+    </>
+  ) : (
+    <>
+      <ShoppingBag aria-hidden="true" className="h-[18px] w-[18px]" /> Dodaj u korpu
+    </>
+  );
+
   return (
-    <div ref={rootRef} className="exit-purchase-controls">
-      <div className="flex items-baseline justify-between">
-        <div className="eyebrow">Izaberite veličinu</div>
+    <div ref={rootRef}>
+      <div className="flex items-baseline justify-between gap-4">
+        <h2 className="text-base font-semibold tracking-normal">
+          {size ? `Veličina ${size}` : "Izaberite veličinu"}
+        </h2>
+        {!soldOut && inStock.length <= 2 && product.sizes.length >= 3 && (
+          <p className="text-sm font-medium text-action-text">
+            {inStock.length === 1 ? "Ostala je još 1 veličina" : `Ostale su još ${inStock.length} veličine`}
+          </p>
+        )}
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2">{sizeButtons()}</div>
+      <div className="mt-3 flex flex-wrap gap-2">{sizeButtons()}</div>
       {needSize && !size && (
-        <p role="alert" className="mt-3 text-[12px] font-semibold text-primary">Izaberite broj da biste nastavili.</p>
-      )}
-      {(() => {
-        const available = product.sizes.filter((s) => (product.stock?.[s] ?? 0) > 0).length;
-        if (available > 0 && available <= 2 && product.sizes.length >= 3) {
-          return (
-            <p className="mt-3 text-[12px] font-semibold text-accent">
-              Brzo nestaje — {available === 1 ? "ostala je još 1 veličina" : `ostale su još ${available} veličine`}
-            </p>
-          );
-        }
-        return null;
-      })()}
-
-      <SizeAdvisor
-        sizes={product.sizes.filter((s) => (product.stock?.[s] ?? 0) > 0)}
-        onPick={pickSize}
-      />
-
-      <details className="mt-4 group text-[12px]">
-        <summary className="cursor-pointer list-none text-muted-foreground hover:text-foreground underline underline-offset-4">
-          Vodič za veličine (obim struka u cm)
-        </summary>
-        <table className="mt-3 w-full text-left tabular-nums">
-          <thead className="text-muted-foreground">
-            <tr><th className="py-1 font-medium">Broj</th><th className="py-1 font-medium">Struk (cm)</th><th className="py-1 font-medium">Pantalone (EU)</th></tr>
-          </thead>
-          <tbody>
-            {SIZE_GUIDE.map(([n, w, eu]) => (
-              <tr key={n} className="border-t border-border"><td className="py-1.5">{n}</td><td>{w}</td><td>{eu}</td></tr>
-            ))}
-          </tbody>
-        </table>
-        <p className="mt-3 text-muted-foreground">
-          Niste sigurni? Pozovite ili pišite na Viber/WhatsApp{" "}
-          <a href="tel:+381653176716" className="text-foreground underline underline-offset-4">065 317 6716</a> — pomoći ćemo da izaberete broj.
+        <p role="alert" className="error-text mt-3">
+          Izaberite broj da biste nastavili
         </p>
-      </details>
+      )}
 
-      <Button
-        onClick={() => onAdd(true)}
-        className="mt-6 w-full inline-flex items-center justify-center gap-2 py-4 text-sm uppercase tracking-[0.2em] font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all"
-      >
-        Naruči odmah
-      </Button>
-      <Button variant="outline"
-        onClick={() => onAdd()}
-        className="mt-2 w-full inline-flex items-center justify-center gap-2 py-3.5 text-sm uppercase tracking-[0.2em] font-medium border border-foreground hover:bg-foreground hover:text-background transition-all"
-      >
-        {added ? (
-          <>
-            <Check className="w-4 h-4" /> Dodato u korpu
-          </>
-        ) : size ? (
-          <>
-            <ShoppingBag className="w-4 h-4" /> Dodaj u korpu
-          </>
-        ) : (
-          "Izaberi veličinu"
-        )}
-      </Button>
+      <div className="mt-4 grid gap-1 text-sm">
+        <SizeAdvisor sizes={inStock} onPick={pickSize} />
+        <details>
+          <summary className="inline-flex min-h-11 items-center text-ink-2 underline decoration-1 underline-offset-4 hover:text-foreground">
+            Tabela veličina (obim struka u cm)
+          </summary>
+          <table className="mt-2 w-full text-left">
+            <thead className="text-ink-3">
+              <tr>
+                <th className="py-2 font-medium">Broj</th>
+                <th className="py-2 font-medium">Struk (cm)</th>
+                <th className="py-2 font-medium">Pantalone (EU)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {SIZE_GUIDE.map(([n, w, eu]) => (
+                <tr key={n} className="border-t border-line">
+                  <td className="py-2 font-semibold">{n}</td>
+                  <td>{w}</td>
+                  <td>{eu}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </details>
+      </div>
 
-      <ul className="mt-5 space-y-2 text-[12px] text-muted-foreground">
-        <li className="flex items-center gap-2">
-          <BadgeCheck className="w-3.5 h-3.5 shrink-0" /> Plaćanje pouzećem — plaćate tek kad preuzmete paket
+      {soldOut ? (
+        <div className="notice mt-5">
+          <p>Ovaj model je trenutno rasprodat u svim veličinama. Javite nam se i reći ćemo vam kada stiže nova serija.</p>
+          <div className="notice__actions">
+            <a className="btn-dark" href={whatsappHref(productQuestion(product.name, product.sku))} target="_blank" rel="noopener noreferrer">
+              <MessageCircle aria-hidden="true" className="h-[18px] w-[18px]" /> Pitajte na WhatsApp-u
+            </a>
+          </div>
+        </div>
+      ) : (
+        <div className="mt-5 grid gap-2">
+          <button type="button" onClick={() => onAdd(true)} className="btn-primary w-full">
+            Naruči odmah · {formatRsd(product.retail)}
+          </button>
+          <button type="button" onClick={() => onAdd()} className="btn-outline w-full">
+            {addLabel}
+          </button>
+        </div>
+      )}
+
+      <ul className="assurances mt-6">
+        <li>
+          <BadgeCheck aria-hidden="true" /> Plaćate pouzećem, tek kada preuzmete paket
         </li>
-        <li className="flex items-center gap-2">
-          <Truck className="w-3.5 h-3.5 shrink-0" /> Besplatna dostava · 2–5 radnih dana
+        <li>
+          <Truck aria-hidden="true" /> Besplatna dostava, 2–5 radnih dana
         </li>
-        <li className="flex items-center gap-2">
-          <Check className="w-3.5 h-3.5 shrink-0" /> Proizvedeno u Srbiji, u našoj radionici
+        <li>
+          <RefreshCw aria-hidden="true" /> Zamena veličine u roku od {SIZE_EXCHANGE.days} dana o našem trošku
         </li>
       </ul>
+      {!soldOut && (
+        <a
+          className="mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-medium underline decoration-1 underline-offset-4 hover:text-action-text"
+          href={whatsappHref(productQuestion(product.name, product.sku, size))}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <MessageCircle aria-hidden="true" className="h-[18px] w-[18px]" /> Niste sigurni? Pitajte nas na WhatsApp-u
+        </a>
+      )}
 
-      {/* Mobile sticky add-to-cart */}
+      {/* Donja traka na telefonu */}
       {mounted &&
+        !soldOut &&
         createPortal(
-          <div
-            className={`lg:hidden fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/97 backdrop-blur-xl transition-transform duration-300 ${
-              showSticky ? "translate-y-0" : "translate-y-full"
-            }`}
-            style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
-          >
-            <div className="px-4 pt-2.5 pb-3">
-              <div className="flex gap-1.5 overflow-x-auto scrollbar-none pb-2">{sizeButtons(true)}</div>
-              <div className="flex items-center gap-3">
-                <div className="shrink-0">
-                  <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Cena</div>
-                  <div className="text-[15px] font-semibold tabular-nums leading-tight">
-                    {Number(product.retail).toLocaleString("sr-RS")} din
-                  </div>
-                </div>
-                <Button
-                  onClick={() => onAdd()}
-                  className="flex-1 inline-flex items-center justify-center gap-2 py-3.5 text-[12.5px] uppercase tracking-[0.18em] font-semibold bg-primary text-primary-foreground"
-                >
-                  {added ? (
-                    <>
-                      <Check className="w-4 h-4" /> Dodato
-                    </>
-                  ) : size ? (
-                    <>
-                      <ShoppingBag className="w-4 h-4" /> Dodaj u korpu
-                    </>
-                  ) : (
-                    "Izaberi veličinu"
-                  )}
-                </Button>
+          <div className="sticky-bar" data-visible={showSticky} aria-hidden={!showSticky} inert={!showSticky}>
+            {!size && <div className="flex gap-2 overflow-x-auto scrollbar-none pb-3">{sizeButtons(true)}</div>}
+            <div className="flex items-center gap-3">
+              <div className="shrink-0 leading-tight">
+                <div className="text-[0.8125rem] text-ink-3">{size ? `Veličina ${size}` : "Cena"}</div>
+                <div className="text-base font-bold">{formatRsd(product.retail)}</div>
               </div>
+              <button type="button" onClick={() => onAdd()} className="btn-primary flex-1">
+                {size ? addLabel : "Izaberite veličinu"}
+              </button>
             </div>
           </div>,
           document.body,

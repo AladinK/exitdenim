@@ -1,98 +1,158 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, ArrowRight } from "lucide-react";
+import { ArrowRight, Banknote, Ruler, Truck } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Hero } from "@/components/hero/Hero";
 import { EcoProduction } from "@/components/EcoProduction";
 import { HomeCollection } from "@/components/HomeCollection";
 import { DenimEditorial } from "@/components/DenimEditorial";
 import { CategorySlider } from "@/components/CategorySlider";
-import { Button } from "@/components/ui/button";
-import { BRAND_HISTORY_TEXT, EXPORT_TEXT, organizationSchema } from "@/lib/brand";
-import { homeAssetsQuery, productsQuery } from "@/lib/product-queries";
-import editorial from "@/assets/exit-seated-cover.webp.asset.json";
-import editorialMobile from "@/assets/exit-portrait-cover-mobile.webp.asset.json";
-import cargoStudio from "@/assets/exit-studio-cargo.webp.asset.json";
+import { BRAND, BRAND_HISTORY_TEXT, EXPORT_TEXT, MANUFACTURING, organizationSchema } from "@/lib/brand";
+import { loadHome } from "@/lib/catalog-loader";
+import { MEDIA, absoluteMedia } from "@/lib/media";
+
+const TITLE = "EXIT Denim — Muške farmerke proizvedene u Srbiji";
+const DESCRIPTION =
+  "Muške farmerke, muški jeans i teksas pantalone domaće proizvodnje — slim, regular, relaxed, bootcut i flare. 5.990 din, besplatna dostava, plaćanje pouzećem, dostava po celoj Srbiji.";
 
 export const Route = createFileRoute("/")({
-  loader: async ({ context }) => {
-    await Promise.all([
-      context.queryClient.ensureQueryData(productsQuery()),
-      context.queryClient.ensureQueryData(homeAssetsQuery()),
-    ]);
-  },
+  loader: ({ context }) => loadHome(context.queryClient),
   head: () => ({
     meta: [
-      { title: "EXIT Denim — Muške farmerke proizvedene u Srbiji" },
-      { name: "description", content: "Muške farmerke, muški jeans i teksas pantalone domaće proizvodnje — slim, regular, relaxed, bootcut i flare. 5.990 din, besplatna dostava, plaćanje pouzećem, dostava po celoj Srbiji." },
-      { property: "og:title", content: "EXIT Denim — Muške farmerke proizvedene u Srbiji" },
-      { property: "og:description", content: "Muške farmerke, muški jeans i teksas pantalone domaće proizvodnje — slim, regular, relaxed, bootcut i flare. 5.990 din, besplatna dostava, plaćanje pouzećem, dostava po celoj Srbiji." },
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
       { property: "og:url", content: "https://exitdenim.shop/" },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: editorial.url },
-      { name: "twitter:image", content: editorial.url },
+      { property: "og:image", content: absoluteMedia(MEDIA.coverSeated) },
+      { name: "twitter:image", content: absoluteMedia(MEDIA.coverSeated) },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "canonical", href: "https://exitdenim.shop/" },
-      { rel: "preload", as: "image", href: editorial.url, media: "(min-width: 768px)", fetchPriority: "high" },
-      { rel: "preload", as: "image", href: editorialMobile.url, media: "(max-width: 767px)", fetchPriority: "high" },
+      { rel: "preload", as: "image", href: MEDIA.coverSeated, media: "(min-width: 768px)", fetchPriority: "high" },
+      { rel: "preload", as: "image", href: MEDIA.coverPortraitMobile, media: "(max-width: 767px)", fetchPriority: "high" },
     ],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(organizationSchema) },
-      { type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", name: "EXIT Denim", url: "https://exitdenim.shop/" }) },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", name: "EXIT Denim", url: "https://exitdenim.shop/" }),
+      },
     ],
   }),
   component: HomePage,
 });
 
-
 function HomePage() {
   return (
     <Layout>
-      <div className="exit-home bg-background">
-        <Hero />
-        <div className="exit-service-line border-b border-border px-5 md:px-12 py-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-xs">
-          <span>Besplatna dostava u Srbiji</span>
-          <span>Plaćanje pouzećem</span>
-          <Link to="/vodic-za-farmerke" className="inline-flex items-center gap-2 font-medium">Pomoć oko veličine <ArrowUpRight className="h-4 w-4" /></Link>
-        </div>
-        <CategorySlider />
-        <HomeCollection />
-        <EcoProduction />
-        <DenimEditorial />
-        <section className="px-5 md:px-12 py-10 md:py-16 border-t border-border grid gap-8 md:grid-cols-2">
-          <div>
-            <h2 className="text-3xl md:text-4xl">EXIT Denim. Novi Pazar, od 1991.</h2>
-            <p className="mt-5 leading-relaxed text-muted-foreground">{BRAND_HISTORY_TEXT}</p>
-          </div>
-          <div>
-            <p className="leading-relaxed text-muted-foreground">{EXPORT_TEXT}</p>
-            <div className="mt-5 flex flex-wrap gap-5">
-              <Button asChild variant="link" className="h-auto p-0"><Link to="/proizvodnja">O brendu i proizvodnji <ArrowRight /></Link></Button>
-              <Button asChild variant="link" className="h-auto p-0"><Link to="/private-label">Izrada za vaš brend <ArrowRight /></Link></Button>
+      <Hero />
+
+      <div className="service-line">
+        <span>
+          <Truck aria-hidden="true" /> Besplatna dostava u Srbiji
+        </span>
+        <span>
+          <Banknote aria-hidden="true" /> Plaćanje pouzećem
+        </span>
+        <Link to="/vodic-za-farmerke">
+          <Ruler aria-hidden="true" /> Pomoć oko veličine
+        </Link>
+      </div>
+
+      <CategorySlider />
+      <HomeCollection />
+      <EcoProduction />
+      <DenimEditorial />
+
+      <section className="band-dark section-pad" aria-labelledby="brand-title">
+        <div className="container-x">
+          <span className="stitch-tick" aria-hidden="true" />
+          <h2 id="brand-title" className="mt-3 max-w-[22ch]">
+            EXIT Denim, Novi Pazar, od {BRAND.foundedYear}.
+          </h2>
+          <dl className="facts mt-10">
+            <div>
+              <dt>Godina osnivanja</dt>
+              <dd>{BRAND.foundedYear}</dd>
+            </div>
+            <div>
+              <dt>Zaposlenih</dt>
+              <dd>{MANUFACTURING.employees}</dd>
+            </div>
+            <div>
+              <dt>Komada jeansa mesečno, u proseku</dt>
+              <dd>oko {MANUFACTURING.averageMonthlyJeans.toLocaleString("sr-RS")}</dd>
+            </div>
+            <div>
+              <dt>Izvoz</dt>
+              <dd>EU i region</dd>
+            </div>
+          </dl>
+          <div className="mt-10 grid gap-6 md:grid-cols-2 md:gap-12 text-[0.9375rem] leading-relaxed text-background/80">
+            <p>{BRAND_HISTORY_TEXT}</p>
+            <div>
+              <p>{EXPORT_TEXT}</p>
+              <div className="mt-4 flex flex-wrap gap-x-6 gap-y-1 text-background">
+                <Link to="/proizvodnja" className="section-head__link">
+                  O brendu i proizvodnji <ArrowRight aria-hidden="true" />
+                </Link>
+                <Link to="/private-label" className="section-head__link">
+                  Izrada za vaš brend <ArrowRight aria-hidden="true" />
+                </Link>
+              </div>
             </div>
           </div>
-        </section>
-        <section className="exit-cargo-story relative isolate overflow-hidden text-cover-foreground" aria-labelledby="cargo-story-title">
-          <img src={cargoStudio.url} alt="Muške maslinastozelene EXIT džeparke sa bočnim džepovima, model u pokretu" width={900} height={945} loading="lazy" decoding="async" className="absolute inset-0 -z-20 h-full w-full object-cover" />
-          <div className="exit-cargo-shade absolute inset-0 -z-10" aria-hidden="true" />
-          <div className="px-5 md:px-12 py-8 md:py-12 flex h-full flex-col items-start justify-between">
-            <p className="mono text-xs">02 / DŽEPARKE</p>
-            <div><h2 id="cargo-story-title" className="text-4xl md:text-6xl text-cover-foreground">Sloboda<br />u pokretu.</h2><Button asChild variant="secondary" className="mt-6 rounded-none h-12"><Link to="/cargo">Pogledajte džeparke <ArrowRight /></Link></Button></div>
+        </div>
+      </section>
+
+      <section className="container-x section-pad" aria-labelledby="cargo-story-title">
+        <div className="story">
+          <img
+            src={MEDIA.studioCargo}
+            alt="Muške maslinastozelene EXIT džeparke sa bočnim džepovima, model u pokretu"
+            width={900}
+            height={945}
+            loading="lazy"
+            decoding="async"
+          />
+          <div className="story__copy">
+            <p>Džeparke</p>
+            <h2 id="cargo-story-title">
+              Sloboda
+              <br />u pokretu
+            </h2>
+            <Link to="/cargo" className="btn-primary">
+              Pogledajte džeparke <ArrowRight aria-hidden="true" className="h-[18px] w-[18px]" />
+            </Link>
           </div>
-        </section>
-        <section className="exit-fit-note px-5 md:px-12 py-10 md:py-16 border-y border-border grid gap-8 md:grid-cols-[1.2fr_1fr] items-center">
+        </div>
+      </section>
+
+      <section className="container-x pb-4 md:pb-8" aria-labelledby="fit-note-title">
+        <div className="grid gap-6 md:grid-cols-[1.2fr_1fr] md:gap-16 md:items-end border-t border-line pt-10 md:pt-16">
           <div>
-            <p className="text-xs text-muted-foreground mb-4">PRE NEGO ŠTO IZABERETE</p>
-            <h2 className="text-3xl md:text-5xl leading-tight">Dobar izbor počinje<br /><span className="text-muted-foreground">pravom veličinom.</span></h2>
+            <p className="eyebrow">Pre nego što izaberete</p>
+            <h2 id="fit-note-title" className="mt-2">
+              Dobar izbor počinje <span className="text-ink-3">pravom veličinom</span>
+            </h2>
           </div>
           <div className="max-w-md md:justify-self-end">
-            <p className="text-base leading-relaxed text-muted-foreground">Uzak ili opušten? Ravna ili šira nogavica? Pronađite razliku između krojeva i izaberite veličinu koja vam odgovara.</p>
-            <Button asChild variant="link" className="mt-5 h-auto p-0 text-foreground"><Link to="/vodic-za-farmerke">Vodič za kroj i veličinu <ArrowRight /></Link></Button>
-            <Link to="/kontakt" className="block mt-4 text-sm underline underline-offset-4 text-muted-foreground">Pitajte nas za savet</Link>
+            <p className="text-ink-2">
+              Uzak ili opušten? Ravna ili šira nogavica? Pronađite razliku između krojeva i izaberite veličinu koja vam odgovara.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Link to="/vodic-za-farmerke" className="btn-dark">
+                Vodič za kroj i veličinu
+              </Link>
+              <Link to="/kontakt" className="btn-outline">
+                Pitajte nas za savet
+              </Link>
+            </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </Layout>
   );
 }

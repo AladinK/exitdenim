@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Plus } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { GUIDE, GUIDE_COUNT } from "@/lib/jeans-guide";
 
@@ -38,7 +39,7 @@ function Guide() {
   return (
     <Layout>
       <section className="container-x pt-10 md:pt-16 pb-8 max-w-4xl">
-        <nav aria-label="Putanja" className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+        <nav aria-label="Putanja" className="text-xs text-muted-foreground">
           <Link to="/" className="hover:text-foreground">Početna</Link> / <span>Vodič za farmerke</span>
         </nav>
         <h1 className="mt-4 text-[clamp(2rem,5.5vw,4rem)] leading-none">Najčešća pitanja o muškim farmerkama</h1>
@@ -48,7 +49,7 @@ function Guide() {
         <ul className="mt-6 flex flex-wrap gap-2">
           {GUIDE.map((s) => (
             <li key={s.id}>
-              <a href={`#${s.id}`} className="inline-block border border-border px-3 py-1.5 text-sm hover:border-foreground">{s.title}</a>
+              <a href={`#${s.id}`} className="choice">{s.title}</a>
             </li>
           ))}
         </ul>
@@ -58,18 +59,18 @@ function Guide() {
         {GUIDE.map((s) => (
           <section key={s.id} id={s.id} className="scroll-mt-28">
             <h2 className="text-2xl md:text-3xl">{s.title}</h2>
-            <div className="mt-4 divide-y divide-border border-y border-border">
+            <div className="mt-4 border-t border-line">
               {s.items.map(([q, a]) => (
-                <details key={q} className="py-4">
-                  <summary className="cursor-pointer font-medium">{q}</summary>
-                  <p className="mt-2 text-muted-foreground leading-relaxed">{a}</p>
+                <details key={q} className="disclosure">
+                  <summary>{q}<Plus aria-hidden="true" /></summary>
+                  <div className="disclosure__body"><p>{a}</p></div>
                 </details>
               ))}
             </div>
           </section>
         ))}
 
-        <section className="border border-border p-6 md:p-8">
+        <section className="border border-border p-6 md:p-8 rounded-xl">
           <h2 className="text-xl md:text-2xl">Niste sigurni koji broj ili kroj?</h2>
           <p className="mt-2 text-muted-foreground">Pišite nam na WhatsApp ili Viber pre porudžbine. Dostava je besplatna, a plaćate pouzećem.</p>
           <div className="mt-5 flex flex-wrap gap-3">

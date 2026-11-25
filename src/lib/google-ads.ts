@@ -7,18 +7,33 @@ export const CONSENT_NOTICE_VERSION = "2026-10-19";
 const CONSENT_COUNTRIES = ["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE","IS","LI","NO","GB","CH","CA"];
 let consentRegion: Promise<boolean> | undefined;
 
-export function isConsentRequiredRegion(): Promise<boolean> {
-  return (consentRegion ??= (async () => {
-    try {
-      const res = await fetch("/cdn-cgi/trace", { signal: AbortSignal.timeout(2000) });
-      if (!res.ok) return true;
-      const country = (await res.text()).match(/^loc=([A-Z0-9]{2})$/m)?.[1];
-      if (!country || country === "XX" || country === "T1") return true;
-      return CONSENT_COUNTRIES.includes(country);
-    } catch {
-      return true;
+// Zemlju posetioca javlja naš server (/api/geo) iz zaglavlja hostinga, pa provera radi
+// na svakom hostingu. Ako zemlja nije poznata, tretiramo je kao da je pristanak obavezan.
+async function visitorCountry(): Promise<string | null> {
+  try {
+    const res = await fetch("/api/geo", { signal: AbortSignal.timeout(2000) });
+    if (res.ok) {
+      const { country } = (await res.json()) as { country?: string | null };
+      if (country) return country;
     }
-  })());
+  } catch {
+    /* probamo rezervni izvor */
+  }
+  try {
+    // Postoji samo kada je domen iza Cloudflare-a.
+    const res = await fetch("/cdn-cgi/trace", { signal: AbortSignal.timeout(2000) });
+    if (!res.ok) return null;
+    const country = (await res.text()).match(/^loc=([A-Z0-9]{2})$/m)?.[1];
+    return !country || country === "XX" || country === "T1" ? null : country;
+  } catch {
+    return null;
+  }
+}
+
+export function isConsentRequiredRegion(): Promise<boolean> {
+  return (consentRegion ??= visitorCountry().then((country) =>
+    country ? CONSENT_COUNTRIES.includes(country) : true,
+  ));
 }
 
 export async function canTrackAds(): Promise<boolean> {

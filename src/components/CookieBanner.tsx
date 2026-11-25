@@ -32,14 +32,14 @@ export function CookieBanner() {
   const choose = (d: "granted" | "denied") => { saveConsent(d); setOpen(false); };
 
   return (
-    <div role="dialog" aria-label="Podešavanja kolačića" className="exit-cookie-banner fixed left-3 right-3 md:right-auto bottom-3 z-[60] max-w-sm rounded-lg border border-border bg-background p-4 text-foreground">
-      <p className="text-sm">
-        Koristimo Google Ads kolačiće da merimo porudžbine sa oglasa i prikazujemo relevantnije oglase. Izbor možete promeniti bilo kad.{" "}
-        <Link to="/privatnost" className="underline">Više o privatnosti</Link>
+    <div role="dialog" aria-label="Podešavanja kolačića" className="cookie-banner">
+      <p>
+        Koristimo Google Ads kolačiće da merimo porudžbine sa oglasa i prikazujemo relevantnije oglase. Izbor možete promeniti bilo kada.{" "}
+        <Link to="/privatnost" className="underline underline-offset-4">Više o privatnosti</Link>
       </p>
-      <div className="mt-3 flex gap-2">
-        <Button className="flex-1 h-10" onClick={() => choose("granted")}>Prihvati</Button>
-        <Button variant="outline" className="flex-1 h-10" onClick={() => choose("denied")}>Odbij</Button>
+      <div className="mt-3 grid grid-cols-2 gap-2">
+        <Button variant="outline" onClick={() => choose("denied")}>Odbij</Button>
+        <Button variant="dark" onClick={() => choose("granted")}>Prihvati</Button>
       </div>
     </div>
   );

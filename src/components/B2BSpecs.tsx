@@ -26,7 +26,7 @@ export function B2BSpecs({ productId, sizes }: { productId: string; sizes: strin
   };
 
   return (
-    <div className="border border-border">
+    <div className="border border-border rounded-xl">
       <div className="px-5 py-3 border-b border-border eyebrow">B2B specifikacija</div>
       <dl className="grid grid-cols-3 text-sm">
         <Cell label="Težina" value={specs?.fabric_oz ? `${specs.fabric_oz} oz` : "—"} />
@@ -40,7 +40,7 @@ export function B2BSpecs({ productId, sizes }: { productId: string; sizes: strin
           <>
             <div className="mt-3 flex flex-wrap gap-2">
               {pack.map(([s, n]) => (
-                <span key={s} className="border border-border px-2.5 py-1 text-xs tabular-nums">{n}×{s}</span>
+                <span key={s} className="border border-border px-2.5 py-1 text-xs tabular-nums rounded-md">{n}×{s}</span>
               ))}
             </div>
             <div className="mt-2 text-xs text-muted-foreground">Ukupno {packTotal} kom po paketu</div>
@@ -57,7 +57,7 @@ export function B2BSpecs({ productId, sizes }: { productId: string; sizes: strin
           <div className="mt-3 text-sm font-medium">Zahtev poslat — javljamo ti se.</div>
         ) : (
           <div className="mt-3 flex gap-2">
-            <select value={size} onChange={(e) => setSize(e.target.value)} className="border border-input bg-background px-3 py-2 text-sm" aria-label="Veličina uzorka">
+            <select value={size} onChange={(e) => setSize(e.target.value)} className="border border-input bg-background px-3 py-2 text-sm rounded-xl" aria-label="Veličina uzorka">
               <option value="">Veličina</option>
               {sizes.map((s) => <option key={s} value={s}>{s}</option>)}
             </select>
@@ -75,7 +75,7 @@ export function B2BSpecs({ productId, sizes }: { productId: string; sizes: strin
 function Cell({ label, value }: { label: string; value: string }) {
   return (
     <div className="px-5 py-3 border-r border-border last:border-r-0">
-      <dt className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{label}</dt>
+      <dt className="text-xs text-muted-foreground">{label}</dt>
       <dd className="mt-1 font-medium">{value}</dd>
     </div>
   );

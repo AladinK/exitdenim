@@ -1,92 +1,98 @@
-import * as React from 'react'
-import { render } from '@react-email/render'
-import { EmailAPIError, sendLovableEmail } from '@lovable.dev/email-js'
-import { TEMPLATES } from './registry'
+import * as React from "react";
+import { render } from "@react-email/render";
+import { TEMPLATES } from "./registry";
 
-// Server-only: reads LOVABLE_API_KEY. Never import from client components.
+// Samo za server. E-mail se šalje preko Resend-a (https://resend.com) običnim HTTP
+// pozivom, bez dodatnog paketa, pa radi na svakom hostingu.
+//
+//   RESEND_API_KEY  — ključ iz Resend naloga (bez njega se e-mail preskače)
+//   EMAIL_FROM      — pošiljalac, npr. "EXIT Denim <porudzbine@exitdenim.shop>";
+//                     domen mora biti potvrđen u Resend-u
+//   EMAIL_REPLY_TO  — adresa na koju kupac odgovara (podrazumevano poslovni e-mail)
 
-// Configuration baked in at scaffold time
-const SITE_NAME = "EXIT Denim B2B Portal"
-// SENDER_DOMAIN is the verified sender subdomain FQDN (e.g., "notify.example.com").
-// It MUST match the subdomain delegated to Lovable's nameservers. NEVER use the root domain.
-const SENDER_DOMAIN = "notify.exitdenim.shop"
-// FROM_DOMAIN is the domain shown in the From: header (e.g., "example.com").
-// Can be the root domain when display_from_root is enabled — this is cosmetic only.
-const FROM_DOMAIN = "exitdenim.shop"
+const DEFAULT_FROM = "EXIT Denim <porudzbine@exitdenim.shop>";
+const DEFAULT_REPLY_TO = "office@bennelijeans.com";
 
 export type SendTemplateEmailResult =
-  | { sent: true }
-  | { sent: false; reason: 'recipient_suppressed' }
+  | { sent: true; id?: string }
+  | { sent: false; reason: "not_configured" };
 
 export interface SendTemplateEmailOptions {
-  templateData?: Record<string, any>
-  /** Dedupes retries of the same logical send; defaults to a random UUID (no dedupe). */
-  idempotencyKey?: string
-  replyTo?: string
+  templateData?: Record<string, any>;
+  /** Isti ključ u roku od 24h ne šalje isti e-mail dvaput (ponovljeni pokušaji). */
+  idempotencyKey?: string;
+  replyTo?: string;
+}
+
+export class EmailSendError extends Error {
+  constructor(
+    message: string,
+    readonly status: number,
+  ) {
+    super(message);
+    this.name = "EmailSendError";
+  }
 }
 
 /**
- * Renders a registered template and sends it through Lovable's managed email
- * API. Suppression, retries, and rate limits are enforced by Lovable
- * server-side. A suppressed recipient is an expected outcome
- * ({ sent: false }); any other failure throws — EmailAPIError exposes
- * .code and .status for branching.
+ * Renderuje registrovan šablon i šalje ga. Ako e-mail nije podešen, vraća
+ * { sent: false } i samo beleži upozorenje: porudžbina ne sme da zavisi od e-maila.
  */
 export async function sendTemplateEmail(
   templateName: string,
   to: string,
-  options: SendTemplateEmailOptions = {}
+  options: SendTemplateEmailOptions = {},
 ): Promise<SendTemplateEmailResult> {
-  const apiKey = process.env['LOVABLE_API_KEY']
-  if (!apiKey) {
-    throw new Error('LOVABLE_API_KEY is not configured')
-  }
-
-  const template = TEMPLATES[templateName]
+  const template = TEMPLATES[templateName];
   if (!template) {
     throw new Error(
-      `Template '${templateName}' not found. Available: ${Object.keys(TEMPLATES).join(', ')}`
-    )
+      `Šablon '${templateName}' ne postoji. Dostupni: ${Object.keys(TEMPLATES).join(", ")}`,
+    );
   }
 
-  // Template-level `to` takes precedence — notification templates always
-  // send to their fixed address.
-  const recipient = template.to || to
-  if (!recipient) {
-    throw new Error('Recipient is required (the template defines no fixed recipient)')
+  // Šablon sa fiksnim primaocem (obaveštenja) ima prednost nad prosleđenom adresom.
+  const recipient = template.to || to;
+  if (!recipient) throw new Error("Nedostaje adresa primaoca.");
+
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.warn(`[e-mail] RESEND_API_KEY nije podešen; '${templateName}' nije poslat.`);
+    return { sent: false, reason: "not_configured" };
   }
 
-  const templateData = options.templateData ?? {}
-  const element = React.createElement(template.component, templateData)
-  const html = await render(element)
-  const text = await render(element, { plainText: true })
+  const templateData = options.templateData ?? {};
+  const element = React.createElement(template.component, templateData);
+  const [html, text] = await Promise.all([render(element), render(element, { plainText: true })]);
   const subject =
-    typeof template.subject === 'function'
-      ? template.subject(templateData)
-      : template.subject
+    typeof template.subject === "function" ? template.subject(templateData) : template.subject;
 
-  try {
-    await sendLovableEmail(
-      {
-        to: recipient,
-        from: { name: SITE_NAME, address: `noreply@${FROM_DOMAIN}` },
-        sender_domain: SENDER_DOMAIN,
-        subject,
-        html,
-        text,
-        purpose: 'transactional',
-        label: templateName,
-        idempotency_key: options.idempotencyKey || crypto.randomUUID(),
-        ...(options.replyTo ? { reply_to: options.replyTo } : {}),
-      },
-      { apiKey, sendUrl: process.env['LOVABLE_SEND_URL'] }
-    )
-  } catch (error) {
-    if (error instanceof EmailAPIError && error.code === 'recipient_suppressed') {
-      return { sent: false, reason: 'recipient_suppressed' }
-    }
-    throw error
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+      "User-Agent": "exitdenim-shop/1.0",
+      ...(options.idempotencyKey ? { "Idempotency-Key": options.idempotencyKey.slice(0, 256) } : {}),
+    },
+    body: JSON.stringify({
+      from: process.env.EMAIL_FROM || DEFAULT_FROM,
+      to: [recipient],
+      reply_to: options.replyTo || process.env.EMAIL_REPLY_TO || DEFAULT_REPLY_TO,
+      subject,
+      html,
+      text,
+      tags: [{ name: "template", value: templateName.replace(/[^A-Za-z0-9_-]/g, "_") }],
+    }),
+    signal: AbortSignal.timeout(10_000),
+  });
+
+  if (!response.ok) {
+    const detail = await response.text().catch(() => "");
+    throw new EmailSendError(
+      `Resend je odbio e-mail (${response.status}): ${detail.slice(0, 300)}`,
+      response.status,
+    );
   }
-
-  return { sent: true }
+  const body = (await response.json().catch(() => ({}))) as { id?: string };
+  return { sent: true, id: body.id };
 }

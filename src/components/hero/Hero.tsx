@@ -1,17 +1,39 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { ecommerce } from "@/lib/analytics";
-import { Button } from "@/components/ui/button";
-import editorial from "@/assets/exit-seated-cover.webp.asset.json";
-import editorialMobile from "@/assets/exit-portrait-cover-mobile.webp.asset.json";
-import city from "@/assets/exit-city-denim.webp.asset.json";
-import original from "@/assets/exit-original-cover.webp.asset.json";
+import { MEDIA } from "@/lib/media";
 
 const SLIDES = [
-  { image: editorial.url, mobile: editorialMobile.url, title: "Muške farmerke.", caption: "Originalan karakter.", alt: "Originalna EXIT kolekcija: muške plave farmerke na modelu u studiju", to: "/jeans" },
-  { image: city.url, mobile: city.url, title: "Teksas, izbliza.", caption: "Denim za svaki dan.", alt: "EXIT teksas u gradu, plave farmerke i košulja na modelu", to: "/katalog" },
-  { image: original.url, mobile: original.url, title: "Vaš kroj.", caption: "Proizvedeno u Srbiji.", alt: "EXIT originalna studijska kolekcija farmerki", to: "/wide-flare" },
+  {
+    image: MEDIA.coverSeated,
+    mobile: MEDIA.coverPortraitMobile,
+    title: "Muške farmerke, šivene u Novom Pazaru",
+    caption: "Od 1991. godine. Besplatna dostava, plaćate kad paket stigne.",
+    cta: "Pogledajte farmerke",
+    alt: "Originalna EXIT kolekcija: muške plave farmerke na modelu u studiju",
+    to: "/jeans",
+  },
+  {
+    image: MEDIA.cityDenim,
+    mobile: MEDIA.cityDenim,
+    title: "Teksas, izbliza",
+    caption: "Denim za svaki dan.",
+    cta: "Svi modeli",
+    alt: "EXIT teksas u gradu, plave farmerke i košulja na modelu",
+    to: "/katalog",
+  },
+  {
+    image: MEDIA.coverOriginal,
+    mobile: MEDIA.coverOriginalMobile,
+    title: "Vaš kroj, vaša širina",
+    caption: "Relaxed, bootcut i flare, u veličinama 31–40.",
+    cta: "Široke farmerke",
+    alt: "EXIT originalna studijska kolekcija farmerki",
+    to: "/wide-flare",
+  },
 ] as const;
+
+const SLIDE_MS = 7500;
 
 export function Hero() {
   const [active, setActive] = useState(0);
@@ -21,52 +43,120 @@ export function Hero() {
   const [reduced, setReduced] = useState(true);
   const root = useRef<HTMLElement>(null);
   const request = useRef(0);
+
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const sync = () => setReduced(media.matches);
-    sync(); media.addEventListener("change", sync);
+    sync();
+    media.addEventListener("change", sync);
     const element = root.current;
     const observer = new IntersectionObserver(([entry]) => setVisible(entry?.isIntersecting ?? false));
     if (element) observer.observe(element);
     const visibility = () => setPaused(document.hidden);
     document.addEventListener("visibilitychange", visibility);
-    return () => { media.removeEventListener("change", sync); observer.disconnect(); document.removeEventListener("visibilitychange", visibility); request.current++; };
+    return () => {
+      media.removeEventListener("change", sync);
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", visibility);
+      request.current++;
+    };
   }, []);
+
+  // Sledeća fotografija se prvo dekodira, pa tek onda prikazuje: bez praznog kadra.
   const select = async (index: number) => {
     const slide = SLIDES[index];
     if (!slide || index === active) return;
     const id = ++request.current;
     const image = new Image();
     image.src = window.matchMedia("(max-width: 767px)").matches ? slide.mobile : slide.image;
-    try { await image.decode(); } catch { return; }
+    try {
+      await image.decode();
+    } catch {
+      return;
+    }
     if (id !== request.current) return;
-    setLoaded((previous) => previous.includes(index) ? previous : [...previous, index]);
-    requestAnimationFrame(() => requestAnimationFrame(() => { if (id === request.current) setActive(index); }));
+    setLoaded((previous) => (previous.includes(index) ? previous : [...previous, index]));
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        if (id === request.current) setActive(index);
+      }),
+    );
   };
+
+  const playing = !paused && visible && !reduced;
   useEffect(() => {
-    if (paused || reduced || !visible) return;
-    const timer = window.setTimeout(() => { void select((active + 1) % SLIDES.length); }, 7500);
+    if (!playing) return;
+    const timer = window.setTimeout(() => {
+      void select((active + 1) % SLIDES.length);
+    }, SLIDE_MS);
     return () => window.clearTimeout(timer);
-  }, [active, paused, reduced, visible]); // select uses the current active slide
+  }, [active, playing]); // select čita trenutni slajd
+
   return (
-    <section ref={root} className="exit-campaign" aria-label="EXIT Denim kolekcija" aria-roledescription="slajder" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocusCapture={() => setPaused(true)} onBlurCapture={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setPaused(false); }}>
-      <div className="exit-campaign-photo relative isolate overflow-hidden" data-active={active} data-playing={!paused && visible && !reduced}>
-      {SLIDES.map((slide, index) => loaded.includes(index) && <picture key={slide.title} className="exit-campaign-frame absolute inset-0 -z-20" data-active={active === index} aria-hidden={active !== index}>
-        <source media="(max-width: 767px)" srcSet={slide.mobile} />
-        <img src={slide.image} alt={slide.alt} fetchPriority={index === 0 ? "high" : "low"} loading="eager" width={1400} height={933} className="h-full w-full object-cover" />
-      </picture>)}
-      <div className="exit-campaign-copy">
-        <div className="exit-campaign-text-window"><div className="exit-campaign-text-track">
-          {SLIDES.map((slide, index) => <div key={slide.title} className="exit-campaign-text" aria-hidden={active !== index} inert={active !== index}>
-            {index === 0 ? <h1 className="text-cover-foreground">{slide.title}</h1> : <h2 className="text-cover-foreground">{slide.title}</h2>}
-            <p className="text-cover-foreground text-sm">{slide.caption}</p>
-            <Button asChild variant="fashion" className="mt-3 h-9 px-5"><Link to={slide.to} onClick={() => ecommerce.cta("shop_all", "hero")}>Izaberite model</Link></Button>
-          </div>)}
-        </div></div>
+    <section
+      ref={root}
+      className="hero"
+      aria-label="EXIT Denim kolekcija"
+      aria-roledescription="slajder"
+      data-playing={playing}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget)) setPaused(false);
+      }}
+    >
+      {SLIDES.map(
+        (slide, index) =>
+          loaded.includes(index) && (
+            <picture key={slide.to} className="hero__frame" data-active={active === index} aria-hidden={active !== index}>
+              <source media="(max-width: 767px)" srcSet={slide.mobile} />
+              <img
+                src={slide.image}
+                alt={slide.alt}
+                fetchPriority={index === 0 ? "high" : "low"}
+                loading="eager"
+                decoding={index === 0 ? "sync" : "async"}
+                width={1400}
+                height={933}
+              />
+            </picture>
+          ),
+      )}
+      <div className="hero__shade" aria-hidden="true" />
+
+      <div className="hero__copy">
+        {SLIDES.map((slide, index) => (
+          <div key={slide.to} className="hero__slide" data-active={active === index} aria-hidden={active !== index} inert={active !== index}>
+            {index === 0 ? <h1>{slide.title}</h1> : <h2>{slide.title}</h2>}
+            <p>{slide.caption}</p>
+            <div className="hero__actions">
+              <Link to={slide.to} className="btn-primary" onClick={() => ecommerce.cta("shop_all", "hero")}>
+                {slide.cta}
+              </Link>
+              <Link to="/vodic-za-farmerke" className="hero__link">
+                Pronađite svoju veličinu
+              </Link>
+            </div>
+          </div>
+        ))}
       </div>
-      <div className="exit-slide-controls bg-control" role="group" aria-label="Kampanjske fotografije">
-        {SLIDES.map((s, i) => <Button key={s.title} variant="ghost" size="icon" className="exit-slide-dot" aria-label={`Prikaži kampanju ${i + 1}`} aria-pressed={active === i} onClick={() => { void select(i); }}><span>{active === i && <i key={active} className="exit-slide-progress" />}</span></Button>)}
-      </div>
+
+      <div className="hero__dots" role="group" aria-label="Fotografije kolekcije">
+        {SLIDES.map((slide, index) => (
+          <button
+            key={slide.to}
+            type="button"
+            className="hero__dot"
+            aria-label={`Fotografija ${index + 1} od ${SLIDES.length}`}
+            aria-pressed={active === index}
+            onClick={() => {
+              void select(index);
+            }}
+          >
+            <span>{active === index && <i key={active} />}</span>
+          </button>
+        ))}
       </div>
     </section>
   );

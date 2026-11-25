@@ -106,13 +106,13 @@ function Narudzba() {
         <div className="container-x grid lg:grid-cols-3 gap-10">
           <div className="lg:col-span-2 space-y-6">
             {items.length === 0 && (
-              <div className="border border-dashed border-border rounded-sm p-10 text-center">
+              <div className="border border-dashed border-border rounded-xl p-10 text-center">
                 <div className="text-muted-foreground">Narudžba je prazna.</div>
                 <Link to="/katalog" className="btn-primary mt-4 inline-flex">Otvori katalog</Link>
               </div>
             )}
             {Object.values(byProduct).map((grp: any) => (
-              <div key={grp.product?.sku} className="border border-border rounded-sm p-5 bg-card">
+              <div key={grp.product?.sku} className="border border-border rounded-xl p-5 bg-card">
                 <div className="flex items-center gap-4">
                   {grp.product?.image_url && (
                     <img src={grp.product.image_url} alt={grp.product.name} className="w-16 h-16 object-cover rounded-sm" />
@@ -124,12 +124,12 @@ function Narudzba() {
                 </div>
                 <div className="mt-4 grid grid-cols-4 sm:grid-cols-7 gap-2">
                   {grp.items.map((it: any) => (
-                    <div key={it.id} className="border border-border rounded-sm p-2 text-center relative group">
-                      <div className="text-[10px] text-muted-foreground">{it.size}</div>
+                    <div key={it.id} className="border border-border rounded-md p-2 text-center relative group">
+                      <div className="text-xs text-muted-foreground">{it.size}</div>
                       <div className="text-lg font-semibold tabular-nums">{it.quantity}</div>
                       <button
                         onClick={async () => { await removeItem({ data: { itemId: it.id } }); refresh(); }}
-                        className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-foreground text-background opacity-0 group-hover:opacity-100 text-[10px] flex items-center justify-center"
+                        className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-foreground text-background opacity-0 group-hover:opacity-100 text-xs flex items-center justify-center"
                         aria-label="Ukloni"
                       >×</button>
                     </div>
@@ -143,7 +143,7 @@ function Narudzba() {
           </div>
 
           <aside className="space-y-5">
-            <div className="border border-foreground rounded-sm p-6">
+            <div className="border border-foreground rounded-xl p-6">
               <div className="eyebrow">Ukupno</div>
               <div className="mt-4 flex justify-between text-sm">
                 <span>Komada</span>
@@ -158,7 +158,7 @@ function Narudzba() {
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
                 rows={3}
-                className="mt-5 w-full border border-input bg-background rounded-sm px-3 py-2 text-sm focus:outline-none focus:border-foreground"
+                className="mt-5 w-full input"
               />
               {error && <div className="mt-3 text-xs text-destructive">{error}</div>}
               <button
@@ -168,7 +168,7 @@ function Narudzba() {
               >
                 <Send className="w-4 h-4" /> Pošalji upit
               </button>
-              <p className="text-[11px] text-muted-foreground mt-3 leading-relaxed">
+              <p className="text-xs text-muted-foreground mt-3 leading-relaxed">
                 Narudžba se šalje kao upit. Potvrđujemo stock i šaljemo pro forma fakturu prije proizvodnje / isporuke.
               </p>
             </div>

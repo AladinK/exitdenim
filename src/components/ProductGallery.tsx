@@ -1,68 +1,66 @@
 import { useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
 
-export function Gallery({ images, alt, sku, fit }: { images: string[]; alt: string; sku: string; fit: string }) {
+export function Gallery({ images, alt, sku }: { images: string[]; alt: string; sku: string }) {
   const [active, setActive] = useState(0);
   const scroller = useRef<HTMLDivElement>(null);
   const go = (i: number) => {
     setActive(i);
     const el = scroller.current;
-    if (el) el.scrollTo({ left: el.clientWidth * i, behavior: "smooth" });
+    if (el) {
+      el.scrollTo({
+        left: el.clientWidth * i,
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+      });
+    }
   };
+
   if (!images.length) {
     return (
-      <div className="aspect-[4/5] bg-secondary relative flex items-center justify-center text-xs uppercase tracking-[0.22em] text-muted-foreground">
-        {sku}
+      <div className="grid aspect-[4/5] place-items-center bg-paper-3 text-sm text-ink-3 lg:rounded-xl">
+        {sku} · fotografija uskoro
       </div>
     );
   }
+
   return (
-    <div className="exit-product-gallery">
-      <div className="relative">
+    <div className={images.length > 1 ? "gallery" : "gallery gallery--single"}>
+      <div className="relative min-w-0">
         <div
           ref={scroller}
+          className="gallery__track"
           onScroll={(e) => {
             const el = e.currentTarget;
-            setActive(Math.round(el.scrollLeft / el.clientWidth));
+            const next = Math.round(el.scrollLeft / el.clientWidth);
+            if (next !== active) setActive(next);
           }}
-          className="flex overflow-x-auto snap-x snap-mandatory scrollbar-none bg-secondary"
         >
           {images.map((src, i) => (
-            <div key={src} className="snap-center shrink-0 w-full aspect-[4/5]">
+            <div key={src} className="gallery__slide">
               <img
                 src={src}
                 alt={i === 0 ? alt : `${alt} — pogled ${i + 1}`}
                 fetchPriority={i === 0 ? "high" : "auto"}
                 loading={i === 0 ? "eager" : "lazy"}
                 decoding="async"
-                className="w-full h-full object-cover"
                 width={1024}
                 height={1280}
+                sizes="(min-width: 1024px) 55vw, 100vw"
               />
             </div>
           ))}
         </div>
-        <span className="absolute left-3 top-3 bg-background text-foreground px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em]">
-          {fit} fit
-        </span>
         {images.length > 1 && (
-          <span className="absolute right-3 bottom-3 bg-background/90 px-2 py-1 text-[10px] tabular-nums">
+          <span className="tag gallery__count" aria-hidden="true">
             {active + 1} / {images.length}
           </span>
         )}
       </div>
       {images.length > 1 && (
-        <div className="mt-2 px-5 md:px-0 flex gap-2 overflow-x-auto scrollbar-none">
+        <div className="gallery__thumbs" role="group" aria-label="Fotografije modela">
           {images.map((src, i) => (
-            <Button variant="ghost"
-              key={src}
-              type="button"
-              onClick={() => go(i)}
-              aria-label={`Prikaži sliku ${i + 1}`}
-              className={`shrink-0 w-16 md:w-20 aspect-[4/5] overflow-hidden border-2 ${i === active ? "border-primary" : "border-transparent opacity-70"}`}
-            >
-              <img src={src} alt="" loading="lazy" className="w-full h-full object-cover" />
-            </Button>
+            <button key={src} type="button" className="gallery__thumb" onClick={() => go(i)} aria-pressed={active === i} aria-label={`Fotografija ${i + 1} od ${images.length}`}>
+              <img src={src} alt="" loading="lazy" decoding="async" width={144} height={180} />
+            </button>
           ))}
         </div>
       )}

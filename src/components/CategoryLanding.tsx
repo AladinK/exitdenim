@@ -1,8 +1,11 @@
 import { Link } from "@tanstack/react-router";
+import { Plus } from "lucide-react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Layout } from "@/components/Layout";
 import { ProductCard } from "@/components/ProductCard";
-import { productsQuery } from "@/lib/product-queries";
+import { catalogQuery } from "@/lib/product-queries";
+import { CatalogUnavailable } from "@/components/CatalogUnavailable";
+import { usePartner } from "@/hooks/usePartner";
 import { LANDING_PAGES, type LandingPage } from "@/lib/landing-pages";
 
 const BASE = "https://exitdenim.shop";
@@ -37,56 +40,74 @@ export function landingHead(l: LandingPage) {
 }
 
 export function CategoryLanding({ page }: { page: LandingPage }) {
-  const { data } = useSuspenseQuery(productsQuery());
-  const items = (data ?? []).filter(page.match);
+  const { data: catalog } = useSuspenseQuery(catalogQuery());
+  const { approved, wholesale } = usePartner();
+  const items = catalog.products.filter(page.match);
   return (
     <Layout>
-      <section className="exit-category-heading container-x pt-10 md:pt-16 pb-8">
-        <nav aria-label="Putanja" className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-          <Link to="/" className="hover:text-foreground">Početna</Link> / <Link to="/katalog" className="hover:text-foreground">Svi modeli</Link> / <span>{page.h1}</span>
+      <section className="container-x pt-2 pb-8 md:pb-12">
+        <nav aria-label="Putanja" className="flex min-h-12 flex-wrap items-center gap-x-2 text-sm text-ink-3">
+          <Link to="/" className="hover:text-foreground">Početna</Link>
+          <span aria-hidden="true">/</span>
+          <Link to="/katalog" className="hover:text-foreground">Svi modeli</Link>
+          <span aria-hidden="true">/</span>
+          <span className="text-ink-2">{page.h1}</span>
         </nav>
-        <h1 className="mt-4 text-[clamp(2.25rem,6vw,4.5rem)] leading-none">{page.h1}</h1>
-        <p className="mt-4 max-w-2xl text-muted-foreground">{page.intro}</p>
+        <h1 className="mt-4 md:mt-8">{page.h1}</h1>
+        <p className="mt-4 max-w-2xl text-lg text-ink-2">{page.intro}</p>
       </section>
 
       <section className="container-x pb-16" aria-label="Modeli">
-        {items.length ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 md:gap-x-5 gap-y-8 md:gap-y-12">
-            {items.map((p) => <ProductCard key={p.id} product={p} />)}
-          </div>
+        {catalog.state === "down" ? (
+          <CatalogUnavailable />
+        ) : items.length ? (
+          <>
+            <p className="mb-6 text-sm text-ink-3">{items.length} {items.length === 1 ? "model" : "modela"}</p>
+            <div className="product-grid">
+              {items.map((p, index) => (
+                <ProductCard key={p.id} product={p} eager={index < 4} wholesale={approved ? wholesale[p.id] : undefined} />
+              ))}
+            </div>
+          </>
         ) : (
-          <p className="text-muted-foreground">Novi modeli stižu uskoro. <Link to="/katalog" className="underline">Pogledaj sve modele</Link>.</p>
+          <div className="notice">
+            <p>Novi modeli u ovoj kategoriji stižu uskoro.</p>
+            <div><Link to="/katalog" className="btn-outline">Pogledajte sve modele</Link></div>
+          </div>
         )}
       </section>
 
-      <section className="container-x pb-16 grid md:grid-cols-2 gap-10 max-w-5xl">
-        {page.sections.map((s) => (
-          <div key={s.h}>
-            <h2 className="text-xl md:text-2xl">{s.h}</h2>
-            <p className="mt-3 text-muted-foreground leading-relaxed">{s.p}</p>
-          </div>
-        ))}
+      <section className="band-soft section-pad">
+        <div className="container-x grid gap-x-16 gap-y-10 md:grid-cols-2">
+          {page.sections.map((s) => (
+            <div key={s.h}>
+              <span className="stitch-tick" aria-hidden="true" />
+              <h2 className="mt-3 text-xl md:text-2xl">{s.h}</h2>
+              <p className="mt-3 leading-relaxed text-ink-2">{s.p}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
-      <section className="container-x pb-16 max-w-3xl">
+      <section className="container-x section-pad max-w-3xl">
         <h2 className="text-xl md:text-2xl">Česta pitanja</h2>
-        <div className="mt-4 divide-y divide-border border-y border-border">
+        <div className="mt-4 border-t border-line">
           {page.faq.map((f) => (
-            <details key={f.q} className="py-4 group">
-              <summary className="cursor-pointer font-medium">{f.q}</summary>
-              <p className="mt-2 text-muted-foreground">{f.a}</p>
+            <details key={f.q} className="disclosure">
+              <summary>{f.q}<Plus aria-hidden="true" /></summary>
+              <div className="disclosure__body"><p>{f.a}</p></div>
             </details>
           ))}
         </div>
       </section>
 
-      <section className="container-x pb-20">
-        <h2 className="text-sm uppercase tracking-[0.2em] text-muted-foreground">Pogledaj i</h2>
-        <ul className="mt-4 flex flex-wrap gap-2">
+      <section className="container-x pb-8">
+        <h2 className="text-base font-semibold tracking-normal">Pogledajte i</h2>
+        <ul className="choice-row mt-4">
           {LANDING_PAGES.filter((l) => l.path !== page.path).map((l) => (
-            <li key={l.path}><a href={l.path} className="inline-block border border-border px-3 py-1.5 text-sm hover:border-foreground">{l.label}</a></li>
+            <li key={l.path}><Link to={l.path as "/jeans"} className="choice">{l.label}</Link></li>
           ))}
-          <li><Link to="/vodic-za-farmerke" className="inline-block border border-border px-3 py-1.5 text-sm hover:border-foreground">Vodič: kako izabrati farmerke</Link></li>
+          <li><Link to="/vodic-za-farmerke" className="choice">Vodič: kako izabrati farmerke</Link></li>
         </ul>
       </section>
     </Layout>

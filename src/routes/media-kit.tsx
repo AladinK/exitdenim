@@ -43,7 +43,7 @@ function MediaKit() {
       <section className="section-pad">
         <div className="container-x grid md:grid-cols-3 gap-5">
           {packs.map((p) => (
-            <div key={p.title} className="border border-border rounded-sm p-6 bg-card flex flex-col">
+            <div key={p.title} className="border border-border rounded-xl p-6 bg-card flex flex-col">
               <p.icon className="w-6 h-6 text-accent" strokeWidth={1.25} />
               <div className="mt-4 font-semibold text-lg tracking-tight">{p.title}</div>
               <p className="mt-2 text-sm text-muted-foreground flex-1 leading-relaxed">{p.desc}</p>
@@ -73,9 +73,9 @@ function MediaKit() {
               ["#8C8377", "Taupe"],
               ["#4F6135", "Deep Sage"],
             ].map(([c, name]) => (
-              <div key={c} className="border border-border rounded-sm overflow-hidden">
+              <div key={c} className="border border-border rounded-xl overflow-hidden">
                 <div className="aspect-square" style={{ background: c }} />
-                <div className="flex items-center justify-between px-3 py-2 text-[11px]">
+                <div className="flex items-center justify-between px-3 py-2 text-xs">
                   <span className="font-medium">{name}</span>
                   <span className="mono text-muted-foreground">{c}</span>
                 </div>

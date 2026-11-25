@@ -5,6 +5,8 @@ import { CheckCircle2, Package, MapPin } from "lucide-react";
 import { z } from "zod";
 import { Layout } from "@/components/Layout";
 import { lookupCustomerOrder } from "@/lib/customer-orders.functions";
+import { formatRsd } from "@/lib/format";
+import { whatsappHref } from "@/lib/contact";
 
 const search = z.object({ email: z.string().email().optional() });
 
@@ -25,12 +27,12 @@ export const Route = createFileRoute("/porudzbina/$number")({
   component: OrderPage,
 });
 
-const STATUS_LABEL: Record<string, string> = {
-  pending: "U pripremi",
-  confirmed: "Potvrđena",
-  shipped: "Poslata",
-  delivered: "Isporučena",
-  cancelled: "Otkazana",
+const STATUS: Record<string, { label: string; title: string; note: string }> = {
+  pending: { label: "U pripremi", title: "Porudžbina je primljena", note: "Pakujemo je i šaljemo u roku od 1–2 radna dana. Plaćate kuriru kada paket stigne." },
+  confirmed: { label: "Potvrđena", title: "Porudžbina je potvrđena", note: "Pakujemo je i šaljemo u roku od 1–2 radna dana. Plaćate kuriru kada paket stigne." },
+  shipped: { label: "Poslata", title: "Paket je na putu", note: "Predat je kurirskoj službi. Pripremite iznos za plaćanje pouzećem." },
+  delivered: { label: "Isporučena", title: "Porudžbina je isporučena", note: "Hvala što nosite EXIT. Ako veličina ne odgovara, javite nam se radi zamene." },
+  cancelled: { label: "Otkazana", title: "Porudžbina je otkazana", note: "Ako mislite da je u pitanju greška, javite nam se." },
 };
 
 function OrderPage() {
@@ -48,11 +50,11 @@ function OrderPage() {
     setLoading(true); setError(null);
     try {
       const r = await lookup({ data: { orderNumber: number, email: e } });
-      if (!r) setError("Porudžbina nije pronađena. Proverite broj i email.");
+      if (!r) setError("Porudžbina nije pronađena. Proverite broj i e-mail adresu.");
       setOrder(r);
       setTried(true);
     } catch (err: any) {
-      setError(err?.message || "Greška pri učitavanju.");
+      setError("Status trenutno ne možemo da prikažemo. Pokušajte ponovo za koji minut.");
     } finally {
       setLoading(false);
     }
@@ -73,78 +75,83 @@ function OrderPage() {
         {order ? (
           <>
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-accent/15 text-accent inline-flex items-center justify-center shrink-0">
-                <CheckCircle2 className="w-6 h-6" />
+              <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-action-soft text-action-text">
+                <CheckCircle2 aria-hidden="true" className="h-6 w-6" />
               </div>
               <div>
-                <div className="eyebrow">Hvala na poverenju</div>
-                <h1 className="mt-3 text-3xl md:text-4xl">Porudžbina je primljena</h1>
-                <p className="mt-3 text-muted-foreground">
-                  Broj porudžbine: <span className="mono font-semibold text-foreground">{order.order_number}</span> · Status:{" "}
-                  <span className="font-semibold text-foreground">{STATUS_LABEL[order.status] || order.status}</span>
+                <p className="eyebrow">Hvala na poverenju</p>
+                <h1 className="mt-1 text-[clamp(1.75rem,2.4vw+1rem,2.5rem)]">{(STATUS[order.status] ?? STATUS.pending).title}</h1>
+                <p className="mt-3 text-ink-2">
+                  Broj porudžbine <strong className="text-foreground">{order.order_number}</strong> · {(STATUS[order.status] ?? STATUS.pending).label}
                 </p>
-                <p className="mt-1 text-sm text-muted-foreground">Porudžbina je odmah spremna za pakovanje i šalje se u roku od 1–2 radna dana. Plaćaš kuriru kad stigne.</p>
+                <p className="mt-1 text-sm text-ink-2">{(STATUS[order.status] ?? STATUS.pending).note}</p>
               </div>
             </div>
 
-            <div className="mt-10 grid md:grid-cols-2 gap-6">
-              <div className="border border-border p-5">
-                <div className="flex items-center gap-2 eyebrow"><MapPin className="w-3.5 h-3.5" /> Isporuka</div>
-                <div className="mt-4 text-sm space-y-0.5">
+            <div className="mt-8 grid gap-4 md:grid-cols-2">
+              <div className="panel">
+                <h2 className="panel__title flex items-center gap-2"><MapPin aria-hidden="true" className="h-[18px] w-[18px] text-ink-3" /> Isporuka</h2>
+                <div className="mt-3 text-[0.9375rem]">
                   <div className="font-medium">{order.customer_name}</div>
                   <div>{order.shipping_address}</div>
                   <div>{order.shipping_postal} {order.shipping_city}</div>
-                  <div className="text-muted-foreground">{order.shipping_country}</div>
+                  <div className="text-ink-3">{order.shipping_country}</div>
                 </div>
               </div>
-              <div className="border border-border p-5">
-                <div className="flex items-center gap-2 eyebrow"><Package className="w-3.5 h-3.5" /> Rezime</div>
-                <div className="mt-4 space-y-1.5 text-sm">
-                  <div className="flex justify-between"><span className="text-muted-foreground">Međuzbir</span><span className="tabular-nums">{Number(order.subtotal).toLocaleString("sr-RS")} din</span></div>
-                  <div className="flex justify-between"><span className="text-muted-foreground">Dostava</span><span className="tabular-nums">{Number(order.shipping_cost) === 0 ? "Besplatna" : `${Number(order.shipping_cost).toLocaleString("sr-RS")} din`}</span></div>
-                  <div className="flex justify-between pt-2 mt-2 border-t border-border font-semibold"><span>Ukupno</span><span className="tabular-nums">{Number(order.total).toLocaleString("sr-RS")} din</span></div>
-                </div>
+              <div className="panel">
+                <h2 className="panel__title flex items-center gap-2"><Package aria-hidden="true" className="h-[18px] w-[18px] text-ink-3" /> Iznos</h2>
+                <dl className="totals mt-3">
+                  <div><dt>Međuzbir</dt><dd>{formatRsd(order.subtotal)}</dd></div>
+                  <div><dt>Dostava</dt><dd>{Number(order.shipping_cost) === 0 ? "Besplatna" : formatRsd(order.shipping_cost)}</dd></div>
+                  {Number(order.discount) > 0 && (
+                    <div><dt>Popust{order.promo_code ? ` (${order.promo_code})` : ""}</dt><dd>−{formatRsd(order.discount)}</dd></div>
+                  )}
+                  <div className="totals__sum"><dt>Ukupno, pouzećem</dt><dd>{formatRsd(order.total)}</dd></div>
+                </dl>
               </div>
             </div>
 
-            <div className="mt-6 border border-border">
-              <div className="px-5 py-3 border-b border-border eyebrow">Artikli</div>
-              <ul className="divide-y divide-border">
+            <div className="panel mt-4">
+              <h2 className="panel__title">Artikli</h2>
+              <ul className="mt-2 divide-y divide-line">
                 {order.customer_order_items?.map((it: any) => (
-                  <li key={it.id} className="px-5 py-3 flex justify-between text-sm">
+                  <li key={it.id} className="flex justify-between gap-4 py-3 text-[0.9375rem]">
                     <div>
                       <div className="font-medium">{it.product_name}</div>
-                      <div className="text-[11px] text-muted-foreground">{it.product_sku} · Vel. {it.size} · {it.quantity}×</div>
+                      <div className="text-[0.8125rem] text-ink-3">{it.product_sku} · veličina {it.size} · {it.quantity} kom</div>
                     </div>
-                    <div className="tabular-nums">{(Number(it.unit_price) * it.quantity).toLocaleString("sr-RS")} din</div>
+                    <div className="shrink-0 font-semibold">{formatRsd(Number(it.unit_price) * it.quantity)}</div>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="mt-8 flex gap-3">
-              <Link to="/katalog" className="btn-outline">Nastavi sa kupovinom</Link>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link to="/katalog" className="btn-primary">Nastavite kupovinu</Link>
+              <a href={whatsappHref(`Zdravo, imam pitanje u vezi sa porudžbinom ${order.order_number}.`)} target="_blank" rel="noopener noreferrer" className="btn-outline">Pitanje o porudžbini</a>
             </div>
           </>
         ) : (
           <>
-            <div className="eyebrow">Praćenje porudžbine</div>
-            <h1 className="mt-4 text-3xl md:text-4xl">Porudžbina {number}</h1>
-            <p className="mt-3 text-muted-foreground">Unesite email kojim ste poručili da vidite status.</p>
+            <p className="eyebrow">Praćenje porudžbine</p>
+            <h1 className="mt-1 text-[clamp(1.75rem,2.4vw+1rem,2.5rem)]">Porudžbina {number}</h1>
+            <p className="mt-3 text-ink-2">Unesite e-mail kojim ste poručili da biste videli status.</p>
             <form onSubmit={onSubmit} className="mt-8 flex flex-col sm:flex-row gap-3 max-w-md">
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@email.com"
-                className="flex-1 border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground"
+                placeholder="vas@email.com"
+                autoComplete="email"
+                aria-label="E-mail adresa"
+                className="flex-1 input"
               />
               <button type="submit" disabled={loading} className="btn-primary">
-                {loading ? "..." : "Prikaži"}
+                {loading ? "Tražim…" : "Prikaži status"}
               </button>
             </form>
-            {tried && error && <p className="mt-4 text-sm text-destructive">{error}</p>}
+            {error && <p role="alert" className="error-text mt-4">{error}</p>}
           </>
         )}
       </section>

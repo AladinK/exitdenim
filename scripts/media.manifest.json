@@ -1,0 +1,90 @@
+{
+  "comment": "Fotografije i video koji su bili na Lovable CDN-u. `npm run assets:pull` ih preuzima u public/media/.",
+  "defaultOrigin": "https://exitdenim.shop",
+  "items": [
+    {
+      "file": "exit-city-denim.webp",
+      "source": "/__l5e/assets-v1/b735f368-0618-4db5-8e8d-0377cd94bfe5/exit-city-denim.webp",
+      "bytes": 76550,
+      "type": "image/webp"
+    },
+    {
+      "file": "exit-logo.png",
+      "source": "/__l5e/assets-v1/3be68604-d96e-4ba5-aa48-7c78275093b6/exit-logo.png",
+      "bytes": 376466,
+      "type": "image/png"
+    },
+    {
+      "file": "exit-logo.webp",
+      "source": "/__l5e/assets-v1/eb57da36-c561-4994-83ed-302496dc0dfe/exit-logo.webp",
+      "bytes": 9916,
+      "type": "image/webp"
+    },
+    {
+      "file": "exit-original-cover-mobile.webp",
+      "source": "/__l5e/assets-v1/d7c04884-8e89-4c05-b4c4-1c05caa67069/exit-original-cover-mobile.webp",
+      "bytes": 42776,
+      "type": "image/webp"
+    },
+    {
+      "file": "exit-original-cover.webp",
+      "source": "/__l5e/assets-v1/bddf5b92-b22c-49e2-bb4d-123700ff4982/exit-original-cover.webp",
+      "bytes": 100004,
+      "type": "image/webp"
+    },
+    {
+      "file": "exit-portrait-cover-mobile.webp",
+      "source": "/__l5e/assets-v1/ee2e91e8-7f94-4cdb-a9b4-bd1a1a28381c/exit-portrait-cover-mobile.webp",
+      "bytes": 22254,
+      "type": "image/webp"
+    },
+    {
+      "file": "exit-seal.png",
+      "source": "/__l5e/assets-v1/d326680b-3261-41c9-aec2-e6280978556f/exit-seal.png",
+      "bytes": 59923,
+      "type": "image/png"
+    },
+    {
+      "file": "exit-seated-cover.webp",
+      "source": "/__l5e/assets-v1/2175aad0-978d-4b7c-aa8b-87f4f2ab4eb2/exit-seated-cover.webp",
+      "bytes": 40388,
+      "type": "image/webp"
+    },
+    {
+      "file": "exit-straight-denim.webp",
+      "source": "/__l5e/assets-v1/2836d7fb-8d5e-4b1f-9740-8328e2f0229f/exit-straight-denim.webp",
+      "bytes": 24668,
+      "type": "image/webp"
+    },
+    {
+      "file": "exit-studio-cargo.webp",
+      "source": "/__l5e/assets-v1/6564731f-c2ae-4d9d-a0ba-93026d90561d/exit-studio-cargo.webp",
+      "bytes": 74618,
+      "type": "image/webp"
+    },
+    {
+      "file": "exit-studio-denim.webp",
+      "source": "/__l5e/assets-v1/97fb2bf8-5572-4837-84d5-9448aaeec53d/exit-studio-denim.webp",
+      "bytes": 25008,
+      "type": "image/webp"
+    },
+    {
+      "file": "exit-studio-pair.webp",
+      "source": "/__l5e/assets-v1/9eca0f3b-7d3e-41ec-aeaf-9fe1d6a514a2/exit-studio-pair.webp",
+      "bytes": 108228,
+      "type": "image/webp"
+    },
+    {
+      "file": "jeanologia_laser_finishing.mp4",
+      "source": "/__l5e/assets-v1/7e79f145-ab22-4ea6-b333-20efdd2da912/jeanologia_laser_finishing.mp4",
+      "bytes": 6797042,
+      "type": "video/mp4"
+    },
+    {
+      "file": "jeanologia_laser_poster.jpg",
+      "source": "/__l5e/assets-v1/e453b3a7-5b34-45c7-876c-350614e2f334/jeanologia_laser_poster.jpg",
+      "bytes": 107336,
+      "type": "image/jpeg"
+    }
+  ]
+}

@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-r
 import { useState, useEffect } from "react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
+import { requirePublicConfig } from "@/integrations/supabase/env";
 import { Layout } from "@/components/Layout";
 import { Logo } from "@/components/Logo";
 
@@ -42,12 +42,27 @@ function Auth() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [googleEnabled, setGoogleEnabled] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       if (data.session) navigate({ to: redirect || "/katalog" });
     });
   }, [navigate, redirect]);
+
+  // Google dugme se prikazuje samo ako je Google prijava uključena u Supabase projektu,
+  // pa kupac nikad ne klikne na prijavu koja ne radi.
+  useEffect(() => {
+    let current = true;
+    try {
+      const { url, key } = requirePublicConfig();
+      fetch(`${url}/auth/v1/settings`, { headers: { apikey: key } })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((settings) => { if (current) setGoogleEnabled(Boolean(settings?.external?.google)); })
+        .catch(() => {});
+    } catch { /* baza nije podešena: dugme ostaje sakriveno */ }
+    return () => { current = false; };
+  }, []);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,15 +105,15 @@ function Auth() {
 
   return (
     <Layout>
-      <section className="exit-account min-h-[80vh] grid lg:grid-cols-2">
+      <section className="exit-account grid lg:min-h-[80vh] lg:grid-cols-2">
         <div className="hidden lg:flex bg-foreground text-background p-12 flex-col justify-between">
           <div className="bg-background inline-block p-2 rounded-sm w-fit">
             <Logo />
           </div>
           <div>
-            <div className="eyebrow text-accent">B2B Veleprodajni portal</div>
+            <div className="eyebrow text-accent">Veleprodajni portal</div>
             <h1 className="mt-4 text-4xl md:text-5xl">
-              {mode === "login" ? "Dobrodošli nazad." : "Otvorite B2B nalog."}
+              {mode === "login" ? "Dobrodošli nazad" : "Otvorite B2B nalog"}
             </h1>
             <p className="mt-5 text-background/70 max-w-md leading-relaxed">
               {mode === "login"
@@ -110,15 +125,27 @@ function Auth() {
 
         </div>
 
-        <div className="flex items-center justify-center p-6 md:p-12 bg-background">
+        <div className="flex items-start justify-center bg-background px-6 py-10 md:p-12 lg:items-center">
           <form onSubmit={submit} className="w-full max-w-md space-y-4">
-            <div className="flex gap-2 border border-border rounded-sm p-1">
+            {/* Na telefonu nema tamne table sa naslovom, pa naslov stoji iznad forme. */}
+            <div className="pb-2 lg:hidden">
+              <p className="eyebrow">Veleprodajni portal</p>
+              <h1 className="mt-2 text-3xl">
+                {mode === "login" ? "Dobrodošli nazad" : "Otvorite B2B nalog"}
+              </h1>
+              <p className="mt-2 text-sm text-muted-foreground">
+                {mode === "login"
+                  ? "Prijavite se za pristup veleprodajnim cenama i matrici veličina."
+                  : "Prijava traje 2 minuta. Naš tim proverava nalog u roku 24h."}
+              </p>
+            </div>
+            <div className="flex gap-2 border border-border rounded-md p-1">
               <button
                 type="button"
                 onClick={() => setMode("login")}
                 className={`flex-1 py-2 text-sm font-semibold rounded-sm transition-colors ${
-                  mode === "login" ? "bg-foreground text-background" : "text-muted-foreground"
-                }`}
+ mode ==="login"?"bg-foreground text-background":"text-muted-foreground"
+ }`}
               >
                 Prijava
               </button>
@@ -126,32 +153,33 @@ function Auth() {
                 type="button"
                 onClick={() => setMode("signup")}
                 className={`flex-1 py-2 text-sm font-semibold rounded-sm transition-colors ${
-                  mode === "signup" ? "bg-foreground text-background" : "text-muted-foreground"
-                }`}
+ mode ==="signup"?"bg-foreground text-background":"text-muted-foreground"
+ }`}
               >
                 Registracija
               </button>
             </div>
 
-            <>
+            {googleEnabled && <>
               <button
                 type="button"
                 disabled={loading}
                 onClick={async () => {
                   setError(null);
                   setLoading(true);
-                  const res = await lovable.auth.signInWithOAuth("google", {
-                    redirect_uri: window.location.origin + "/auth",
+                  const back = new URL("/auth", window.location.origin);
+                  if (redirect) back.searchParams.set("redirect", redirect);
+                  // Uspešna prijava napušta stranicu (Google → nazad na /auth).
+                  const { error } = await supabase.auth.signInWithOAuth({
+                    provider: "google",
+                    options: { redirectTo: back.toString() },
                   });
-                  if (res.error) {
-                    setError(res.error.message || "Greška pri prijavi sa Google-om.");
+                  if (error) {
+                    setError(error.message || "Greška pri prijavi sa Google-om.");
                     setLoading(false);
-                    return;
                   }
-                  if (res.redirected) return;
-                  navigate({ to: redirect || "/katalog" });
                 }}
-                className="w-full flex items-center justify-center gap-3 border border-input bg-background hover:bg-secondary transition-colors rounded-sm px-4 py-2.5 text-sm font-semibold disabled:opacity-50"
+                className="w-full flex items-center justify-center gap-3 border border-input bg-background hover:bg-secondary transition-colors rounded-xl px-4 py-2.5 text-sm font-semibold disabled:opacity-50"
               >
                 <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
                   <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C33.9 6.1 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/>
@@ -161,10 +189,10 @@ function Auth() {
                 </svg>
                 {mode === "login" ? "Nastavi sa Google" : "Registruj se sa Google"}
               </button>
-              <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+              <div className="flex items-center gap-3 text-xs text-muted-foreground">
                 <span className="flex-1 h-px bg-border" /> ili e-mail <span className="flex-1 h-px bg-border" />
               </div>
-            </>
+            </>}
 
             <Field label="E-mail" type="email" value={email} onChange={setEmail} required />
             <Field label="Lozinka" type="password" value={password} onChange={setPassword} required />
@@ -191,8 +219,8 @@ function Auth() {
                         type="button"
                         onClick={() => setStoreType(t)}
                         className={`px-3 py-1.5 text-sm border rounded-sm ${
-                          storeType === t ? "bg-foreground text-background border-foreground" : "border-border"
-                        }`}
+ storeType === t ?"bg-foreground text-background border-foreground":"border-border"
+ }`}
                       >{t}</button>
                     ))}
                   </div>
@@ -204,7 +232,7 @@ function Auth() {
                     rows={2}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="mt-2 w-full border border-input bg-background rounded-sm px-3 py-2 text-sm focus:outline-none focus:border-foreground"
+                    className="mt-2 w-full input"
                   />
                 </div>
               </>
@@ -247,7 +275,7 @@ function Auth() {
 }
 
 function Label({ children }: { children: React.ReactNode }) {
-  return <label className="text-xs uppercase tracking-wider font-semibold text-muted-foreground">{children}</label>;
+  return <label className="text-xs font-semibold text-muted-foreground">{children}</label>;
 }
 function Field({ label, value, onChange, type = "text", required, placeholder }: {
   label: string; value: string; onChange: (v: string) => void;
@@ -262,7 +290,7 @@ function Field({ label, value, onChange, type = "text", required, placeholder }:
         value={value}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
-        className="mt-1.5 w-full border border-input bg-background rounded-sm px-3 py-2.5 text-sm focus:outline-none focus:border-foreground"
+        className="mt-1.5 w-full input"
       />
     </div>
   );

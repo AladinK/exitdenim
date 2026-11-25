@@ -5,28 +5,33 @@ import { ArrowRight } from "lucide-react";
 import type { ProductWithStock } from "@/lib/products.functions";
 import { addToOrder } from "@/lib/orders.functions";
 import { getStockQuantities } from "@/lib/products.functions";
+import { formatEur } from "@/lib/format";
 
-export function SizeMatrix({ product }: { product: ProductWithStock }) {
+export function SizeMatrix({ product, wholesale }: { product: ProductWithStock; wholesale?: number }) {
   const add = useServerFn(addToOrder);
   const fetchStock = useServerFn(getStockQuantities);
   const navigate = useNavigate();
   const [stock, setStock] = useState<Record<string, number>>(product.stock || {});
-  const [qty, setQty] = useState<Record<string, number>>(
-    Object.fromEntries(product.sizes.map((s) => [s, 0])),
-  );
+  const [qty, setQty] = useState<Record<string, number>>(Object.fromEntries(product.sizes.map((s) => [s, 0])));
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
     fetchStock({ data: { productId: product.id } })
-      .then((m) => { if (!cancelled) setStock(m); })
-      .catch(() => { /* keep booleans from public fetch */ });
-    return () => { cancelled = true; };
+      .then((m) => {
+        if (!cancelled) setStock(m);
+      })
+      .catch(() => {
+        /* ostaje javna dostupnost (ima / nema) */
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [product.id, fetchStock]);
 
   const total = useMemo(() => Object.values(qty).reduce((a, b) => a + b, 0), [qty]);
-  const totalValue = total * Number(product.wholesale);
+  const hasPrice = wholesale !== undefined && Number.isFinite(wholesale);
   const meetsMoq = total >= product.moq;
 
   const submit = async () => {
@@ -35,64 +40,68 @@ export function SizeMatrix({ product }: { product: ProductWithStock }) {
     try {
       await add({ data: { productId: product.id, sizes: qty } });
       navigate({ to: "/narudzba" });
-    } catch (e: any) {
-      setError(e.message || "Error");
+    } catch (e) {
+      setError((e as Error).message || "Porudžbina nije sačuvana. Pokušajte ponovo.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="border border-border bg-card">
-      <div className="flex items-center justify-between px-6 py-4 border-b border-border">
-        <div className="eyebrow">Size Matrix Order</div>
-        <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">MOQ {product.moq}</div>
+    <div className="panel">
+      <div className="flex items-center justify-between gap-4 text-sm">
+        <span className="font-semibold">Količina po veličini</span>
+        <span className="text-ink-3">Minimum {product.moq} kom</span>
       </div>
 
-      <div className="p-6">
-        <div className="grid grid-cols-7 gap-2">
-          {product.sizes.map((s) => (
-            <div key={s} className="flex flex-col">
-              <label className="text-[10px] text-center text-muted-foreground tracking-[0.18em] uppercase mb-1.5">{s}</label>
-              <input
-                type="number"
-                min={0}
-                max={stock[s] ?? 0}
-                value={qty[s]}
-                onChange={(e) =>
-                  setQty((q) => ({ ...q, [s]: Math.max(0, Math.min(stock[s] ?? 0, Number(e.target.value) || 0)) }))
-                }
-                className="w-full text-center border border-input bg-background py-2.5 text-base serif font-medium focus:outline-none focus:border-foreground tabular-nums transition-colors"
-              />
-              <div className="text-[10px] text-center text-muted-foreground mt-1 tabular-nums">/{stock[s] ?? 0}</div>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-6 flex items-end justify-between border-t border-border pt-5">
-          <div>
-            <div className="eyebrow">Total Pieces</div>
-            <div className="serif text-3xl mt-1 tabular-nums">{total}</div>
+      <div className="mt-4 grid grid-cols-4 gap-2 sm:grid-cols-7">
+        {product.sizes.map((s) => (
+          <div key={s} className="grid gap-1 text-center">
+            <label htmlFor={`qty-${product.id}-${s}`} className="text-[0.8125rem] font-medium">
+              {s}
+            </label>
+            <input
+              id={`qty-${product.id}-${s}`}
+              type="number"
+              inputMode="numeric"
+              min={0}
+              max={stock[s] ?? 0}
+              value={qty[s]}
+              onChange={(e) =>
+                setQty((q) => ({ ...q, [s]: Math.max(0, Math.min(stock[s] ?? 0, Number(e.target.value) || 0)) }))
+              }
+              className="input px-1 text-center font-semibold"
+            />
+            <div className="text-xs text-ink-3">od {stock[s] ?? 0}</div>
           </div>
-          <div className="text-right">
-            <div className="eyebrow">Order Value</div>
-            <div className="serif text-3xl mt-1 tabular-nums">€{totalValue.toFixed(0)}</div>
-          </div>
-        </div>
+        ))}
+      </div>
 
-        {!meetsMoq && total > 0 && (
-          <div className="mt-3 text-xs text-destructive">Minimum order quantity is {product.moq} pieces.</div>
+      <dl className="mt-5 flex items-end justify-between gap-4 border-t border-line pt-4">
+        <div>
+          <dt className="text-[0.8125rem] text-ink-3">Ukupno komada</dt>
+          <dd className="text-2xl font-bold">{total}</dd>
+        </div>
+        <div className="text-right">
+          <dt className="text-[0.8125rem] text-ink-3">Vrednost porudžbine</dt>
+          <dd className="text-2xl font-bold">{hasPrice ? formatEur(total * (wholesale as number)) : "—"}</dd>
+        </div>
+      </dl>
+
+      {!meetsMoq && total > 0 && <p className="error-text mt-3">Minimalna količina je {product.moq} komada.</p>}
+      {error && (
+        <p role="alert" className="error-text mt-3">
+          {error}
+        </p>
+      )}
+
+      <button type="button" onClick={submit} disabled={!meetsMoq || loading} className="btn-primary mt-5 w-full">
+        {loading ? "Čuvam…" : (
+          <>
+            Dodaj u B2B porudžbinu <ArrowRight aria-hidden="true" className="h-[18px] w-[18px]" />
+          </>
         )}
-        {error && <div className="mt-3 text-xs text-destructive">{error}</div>}
-
-        <button
-          onClick={submit}
-          disabled={!meetsMoq || loading}
-          className="btn-primary w-full mt-5 disabled:opacity-40 disabled:cursor-not-allowed"
-        >
-          {loading ? "..." : <>Add to B2B Order <ArrowRight className="w-3.5 h-3.5" /></>}
-        </button>
-      </div>
+      </button>
     </div>
   );
 }

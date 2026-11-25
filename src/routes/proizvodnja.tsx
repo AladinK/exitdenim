@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
 import { Factory, ShieldCheck, Scissors, Truck } from "lucide-react";
 import { useSiteAssets } from "@/hooks/useSiteAsset";
+import { MEDIA } from "@/lib/media";
 import { EcoProduction } from "@/components/EcoProduction";
 import { BRAND_HISTORY_TEXT, EXPORT_TEXT, MANUFACTURING, organizationSchema } from "@/lib/brand";
 import { b2bLanguageLinks } from "@/lib/b2b-english";
@@ -25,15 +26,16 @@ export const Route = createFileRoute("/proizvodnja")({
 
 function Proizvodnja() {
   const assets = useSiteAssets();
-  const workshopSrc = assets["page_proizvodnja"]?.url || assets["workshop"]?.url || "";
+  const uploaded = assets["page_proizvodnja"]?.url || assets["workshop"]?.url;
+  const workshopSrc = uploaded || MEDIA.studioPair;
   return (
     <Layout>
       <section className="bg-foreground text-background">
         <div className="container-x py-20 md:py-32">
           <Link to="/en/manufacturing" lang="en" hrefLang="en" className="inline-block mb-6 text-sm underline underline-offset-4">English · Manufacturing</Link>
-          <div className="text-[10px] uppercase tracking-[0.36em] text-accent">Novi Pazar · Od 1991.</div>
+          <div className="text-xs text-accent">Novi Pazar · Od 1991.</div>
           <h1 className="mt-7 h1-editorial max-w-4xl text-background">
-            EXIT Denim.<br/> <span className="italic">Proizvodnja u Novom Pazaru.</span>
+            EXIT Denim.<br/> Proizvodnja u Novom Pazaru.
           </h1>
           <p className="mt-8 text-lg text-background/75 max-w-2xl leading-relaxed">
             {BRAND_HISTORY_TEXT} Naš ekološki pristup uključuje lasersku tehnologiju španske kompanije Jeanologia.
@@ -43,8 +45,8 @@ function Proizvodnja() {
 
       <section className="section-pad">
         <div className="container-x grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
-          <div className="lg:col-span-7 aspect-[4/3] overflow-hidden bg-secondary">
-            {workshopSrc && <img src={workshopSrc} alt="EXIT Denim atelje" decoding="async" className="w-full h-full object-cover" />}
+          <div className="lg:col-span-7 aspect-[4/3] overflow-hidden rounded-xl bg-secondary">
+            <img src={workshopSrc} alt={uploaded ? "EXIT Denim atelje" : "EXIT Denim kolekcija u studiju"} loading="lazy" decoding="async" width={1200} height={900} className="w-full h-full object-cover" />
           </div>
           <div className="lg:col-span-5">
             <div className="eyebrow">Čime se kvalitet drži</div>
@@ -96,7 +98,7 @@ function Proizvodnja() {
             ].map(([v, l]) => (
               <div key={l} className="bg-foreground p-10 text-center">
                 <div className="serif text-6xl text-accent tabular-nums">{v}</div>
-                <div className="mt-4 text-[11px] uppercase tracking-[0.28em] text-background/65">{l}</div>
+                <div className="mt-4 text-xs text-background/65">{l}</div>
               </div>
             ))}
           </div>
