@@ -1,0 +1,51 @@
+# Preuzima fotografije i video brenda sa starog sajta (Lovable CDN) i čuva ih u repou,
+# u public/media/. Posle toga sajt više ne zavisi od Lovable-a ni za jednu sliku.
+#
+# Pokreće se sam kada se promeni spisak fajlova, a može i ručno:
+# GitHub → Actions → "Fotografije brenda" → Run workflow.
+name: Fotografije brenda
+
+on:
+  workflow_dispatch:
+    inputs:
+      origin:
+        description: "Adresa starog sajta (prazno = https://exitdenim.shop)"
+        required: false
+        type: string
+  push:
+    branches: [nezavisan-hosting]
+    paths:
+      - scripts/media.manifest.json
+      - scripts/pull-media.mjs
+      - .github/workflows/media.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: media-${{ github.ref }}
+
+jobs:
+  preuzmi:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - name: Preuzmi fajlove koji nedostaju
+        run: node scripts/pull-media.mjs
+        env:
+          MEDIA_ORIGIN: ${{ inputs.origin }}
+      - name: Sačuvaj u repou
+        run: |
+          git add public/media
+          if git diff --cached --quiet; then
+            echo "Svi fajlovi su već u repou."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Fotografije brenda preuzete sa starog sajta"
+          git push

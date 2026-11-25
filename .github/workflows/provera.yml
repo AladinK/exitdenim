@@ -1,0 +1,34 @@
+# Proverava svaku izmenu pre nego što stigne na sajt: tipovi, testovi i build.
+name: Provera
+
+on:
+  push:
+    branches: [nezavisan-hosting]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: provera-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  provera:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Tipovi
+        run: npm run typecheck
+      - name: Testovi
+        run: npm test
+      - name: Build
+        run: npm run build
+        env:
+          NITRO_PRESET: node-server
