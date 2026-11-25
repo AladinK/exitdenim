@@ -1,11 +1,14 @@
 -- EXIT Denim — osnovna šema baze
 -- ==============================
 -- Jedan fajl koji zamenjuje 29 Lovable migracija (arhivirane u supabase/arhiva-lovable/).
--- Pravi istu strukturu koju sajt očekuje, plus dve ispravke:
---   1. javni pogled products_public sada sadrži kolonu on_sale (popusti se zato
---      od 19.11.2026. nisu prikazivali na sajtu),
---   2. privatna skladišta product-images i site-assets se prave ovde, pa nova baza
---      radi bez ručnog podešavanja.
+-- Pravi istu strukturu koju sajt koristi na Lovable-u (provereno prema izvozu baze od
+-- 25.11.2026), plus:
+--   1. privatna skladišta product-images i site-assets se prave ovde, pa nova baza
+--      radi bez ručnog podešavanja,
+--   2. porudžbine upisuje samo server (bez direktnog upisa gostiju kroz API),
+--   3. uvoz postojećih naloga ne pokreće pravila za nove naloge (vidi handle_new_user).
+-- Javni pogled products_public je namerno isti kao na Lovable-u (bez kolone on_sale),
+-- da sajt izgleda isto; prikaz popusta se uključuje skriptom supabase/prikaz-popusta.sql.
 --
 -- Fajl je bezbedan za ponovno pokretanje na praznoj bazi; na bazi sa podacima se NE pokreće.
 
@@ -87,6 +90,10 @@ security definer
 set search_path = public
 as $$
 begin
+  -- Pri uvozu se zadržava originalno vreme poslednje izmene.
+  if coalesce(current_setting('exitdenim.uvoz', true), '') = 'da' then
+    return new;
+  end if;
   new.updated_at = now();
   return new;
 end;
@@ -148,6 +155,11 @@ as $$
 declare
   is_first boolean;
 begin
+  -- Pri uvozu postojećih naloga (npr. sa Lovable-a) profili i uloge stižu iz izvoza.
+  if coalesce(current_setting('exitdenim.uvoz', true), '') = 'da' then
+    return new;
+  end if;
+
   insert into public.profiles (id, email, boutique_name, country, city, contact_person, phone, instagram, website, store_type, monthly_qty, categories, message)
   values (
     new.id,
@@ -246,7 +258,7 @@ create view public.products_public
 with (security_invoker = on) as
 select
   id, sku, slug, name, category, fit, fabric, weight, color, description, sizes, retail,
-  image_url, gallery, moq, delivery, active, on_sale, sort_order, created_at, updated_at
+  image_url, moq, delivery, active, sort_order, created_at, updated_at, gallery
 from public.products
 where active = true;
 revoke all on public.products_public from anon, authenticated;
