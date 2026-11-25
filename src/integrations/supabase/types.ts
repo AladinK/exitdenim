@@ -553,7 +553,6 @@ export type Database = {
           image_url: string | null
           moq: number | null
           name: string | null
-          on_sale: boolean | null
           retail: number | null
           sizes: string[] | null
           sku: string | null
@@ -576,7 +575,6 @@ export type Database = {
           image_url?: string | null
           moq?: number | null
           name?: string | null
-          on_sale?: boolean | null
           retail?: number | null
           sizes?: string[] | null
           sku?: string | null
@@ -599,7 +597,6 @@ export type Database = {
           image_url?: string | null
           moq?: number | null
           name?: string | null
-          on_sale?: boolean | null
           retail?: number | null
           sizes?: string[] | null
           sku?: string | null
