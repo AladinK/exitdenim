@@ -83,7 +83,7 @@ try {
 } catch (error) {
   const message = error instanceof Error ? error.message : String(error);
   const unreachable =
-    /ECONNREFUSED|ENOTFOUND|ETIMEDOUT|EAI_AGAIN|CONNECT_TIMEOUT|timeout|getaddrinfo|password authentication/i.test(
+    /ECONNREFUSED|ECONNRESET|ENOTFOUND|ENETUNREACH|EHOSTUNREACH|ETIMEDOUT|EAI_AGAIN|CONNECT_TIMEOUT|timeout|getaddrinfo|password authentication|Tenant or user not found/i.test(
       message,
     );
   if (unreachable) {
