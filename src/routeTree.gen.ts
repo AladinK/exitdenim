@@ -44,6 +44,7 @@ import { Route as ApiGeoRouteImport } from './routes/api/geo'
 import { Route as ApiStatusObavestenjaRouteImport } from './routes/api/status-obavestenja'
 import { Route as EnManufacturingRouteImport } from './routes/en.manufacturing'
 import { Route as EnPrivateLabelRouteImport } from './routes/en.private-label'
+import { Route as ImgSplatRouteImport } from './routes/img.$'
 import { Route as PorudzbinaNumberRouteImport } from './routes/porudzbina.$number'
 import { Route as ProizvodSlugRouteImport } from './routes/proizvod.$slug'
 
@@ -222,6 +223,11 @@ const EnPrivateLabelRoute = EnPrivateLabelRouteImport.update({
   path: '/en/private-label',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ImgSplatRoute = ImgSplatRouteImport.update({
+  id: '/img/$',
+  path: '/img/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PorudzbinaNumberRoute = PorudzbinaNumberRouteImport.update({
   id: '/porudzbina/$number',
   path: '/porudzbina/$number',
@@ -268,6 +274,7 @@ export interface FileRoutesByFullPath {
   '/api/status-obavestenja': typeof ApiStatusObavestenjaRoute
   '/en/manufacturing': typeof EnManufacturingRoute
   '/en/private-label': typeof EnPrivateLabelRoute
+  '/img/$': typeof ImgSplatRoute
   '/porudzbina/$number': typeof PorudzbinaNumberRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
 }
@@ -306,6 +313,7 @@ export interface FileRoutesByTo {
   '/api/status-obavestenja': typeof ApiStatusObavestenjaRoute
   '/en/manufacturing': typeof EnManufacturingRoute
   '/en/private-label': typeof EnPrivateLabelRoute
+  '/img/$': typeof ImgSplatRoute
   '/porudzbina/$number': typeof PorudzbinaNumberRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
 }
@@ -346,6 +354,7 @@ export interface FileRoutesById {
   '/api/status-obavestenja': typeof ApiStatusObavestenjaRoute
   '/en/manufacturing': typeof EnManufacturingRoute
   '/en/private-label': typeof EnPrivateLabelRoute
+  '/img/$': typeof ImgSplatRoute
   '/porudzbina/$number': typeof PorudzbinaNumberRoute
   '/proizvod/$slug': typeof ProizvodSlugRoute
 }
@@ -386,6 +395,7 @@ export interface FileRouteTypes {
     | '/api/status-obavestenja'
     | '/en/manufacturing'
     | '/en/private-label'
+    | '/img/$'
     | '/porudzbina/$number'
     | '/proizvod/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -424,6 +434,7 @@ export interface FileRouteTypes {
     | '/api/status-obavestenja'
     | '/en/manufacturing'
     | '/en/private-label'
+    | '/img/$'
     | '/porudzbina/$number'
     | '/proizvod/$slug'
   id:
@@ -463,6 +474,7 @@ export interface FileRouteTypes {
     | '/api/status-obavestenja'
     | '/en/manufacturing'
     | '/en/private-label'
+    | '/img/$'
     | '/porudzbina/$number'
     | '/proizvod/$slug'
   fileRoutesById: FileRoutesById
@@ -499,6 +511,7 @@ export interface RootRouteChildren {
   ApiStatusObavestenjaRoute: typeof ApiStatusObavestenjaRoute
   EnManufacturingRoute: typeof EnManufacturingRoute
   EnPrivateLabelRoute: typeof EnPrivateLabelRoute
+  ImgSplatRoute: typeof ImgSplatRoute
   PorudzbinaNumberRoute: typeof PorudzbinaNumberRoute
   ProizvodSlugRoute: typeof ProizvodSlugRoute
 }
@@ -750,6 +763,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnPrivateLabelRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/img/$': {
+      id: '/img/$'
+      path: '/img/$'
+      fullPath: '/img/$'
+      preLoaderRoute: typeof ImgSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/porudzbina/$number': {
       id: '/porudzbina/$number'
       path: '/porudzbina/$number'
@@ -816,6 +836,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiStatusObavestenjaRoute: ApiStatusObavestenjaRoute,
   EnManufacturingRoute: EnManufacturingRoute,
   EnPrivateLabelRoute: EnPrivateLabelRoute,
+  ImgSplatRoute: ImgSplatRoute,
   PorudzbinaNumberRoute: PorudzbinaNumberRoute,
   ProizvodSlugRoute: ProizvodSlugRoute,
 }

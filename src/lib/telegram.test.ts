@@ -37,3 +37,16 @@ describe("obaveštenje vlasniku o porudžbini", () => {
     );
   });
 });
+
+describe("adrese za obaveštenje vlasniku", () => {
+  it("prihvata više adresa odvojenih zarezom, bez duplikata", async () => {
+    const { splitAddresses } = await import("./email-templates/send-email");
+    expect(splitAddresses("office@bennelijeans.com, vlasnik@gmail.com")).toEqual([
+      "office@bennelijeans.com",
+      "vlasnik@gmail.com",
+    ]);
+    expect(splitAddresses(" a@b.rs;A@b.rs  c@d.com ")).toEqual(["a@b.rs", "c@d.com"]);
+    expect(splitAddresses("")).toEqual([]);
+    expect(splitAddresses(undefined)).toEqual([]);
+  });
+});

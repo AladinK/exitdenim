@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { z } from "zod";
+import { publicImageUrl } from "@/lib/image-urls";
 
 export const HOME_ASSET_KEYS = [
   "hero",
@@ -36,29 +37,14 @@ async function readHomeAssets(): Promise<SiteAssets> {
   const sb = await adminClient();
   const { data, error } = await sb.from("site_assets").select("key,url,alt");
   if (error) throw new Error(error.message);
-  const rows = data ?? [];
-  const paths = [
-    ...new Set(
-      rows.map((r) => r.url).filter((url) => !/^https?:\/\//i.test(url) && !url.startsWith("/")),
-    ),
-  ];
-  const signed: Record<string, string> = {};
-  if (paths.length) {
-    const { data: urls, error: signingError } = await sb.storage
-      .from("site-assets")
-      .createSignedUrls(paths, 60 * 60 * 24 * 7);
-    if (signingError) throw new Error(signingError.message);
-    for (const item of urls ?? []) {
-      if (item.path && item.signedUrl) signed[item.path] = item.signedUrl;
-    }
-  }
+  // Slike iz skladišta idu preko stalne adrese /img/s/... (bez potpisivanja).
   const out: SiteAssets = {};
-  for (const row of rows) out[row.key] = { url: signed[row.url] ?? row.url, alt: row.alt };
+  for (const row of data ?? []) out[row.key] = { url: publicImageUrl(row.url, "s"), alt: row.alt };
   return out;
 }
 
 /**
- * Javno — mapa ključ -> adresa slike (potpisana za privatne putanje).
+ * Javno — mapa ključ -> adresa slike (stalna adresa /img/s/... za privatne putanje).
  * Nikad ne baca grešku: bez baze vraća poslednje zapamćene slike ili praznu mapu,
  * a komponente tada koriste fotografije iz public/media/.
  */

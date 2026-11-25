@@ -23,9 +23,9 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "EXIT Denim — Muške farmerke proizvedene u Srbiji" },
-      { name: "description", content: "Muške farmerke, muški jeans i teksas pantalone domaće proizvodnje — slim, regular, relaxed, bootcut i flare. 5.990 din, besplatna dostava, plaćanje pouzećem, dostava po celoj Srbiji." },
+      { name: "description", content: "Muške farmerke, muški jeans i teksas pantalone domaće proizvodnje — slim, regular, relaxed, bootcut i flare. Od 5.990 din, besplatna dostava, plaćanje pouzećem, dostava po celoj Srbiji." },
       { property: "og:title", content: "EXIT Denim — Muške farmerke proizvedene u Srbiji" },
-      { property: "og:description", content: "Muške farmerke, muški jeans i teksas pantalone domaće proizvodnje — slim, regular, relaxed, bootcut i flare. 5.990 din, besplatna dostava, plaćanje pouzećem, dostava po celoj Srbiji." },
+      { property: "og:description", content: "Muške farmerke, muški jeans i teksas pantalone domaće proizvodnje — slim, regular, relaxed, bootcut i flare. Od 5.990 din, besplatna dostava, plaćanje pouzećem, dostava po celoj Srbiji." },
       { property: "og:url", content: "https://www.exit.fashion/" },
       { property: "og:type", content: "website" },
       { property: "og:image", content: SHARE_IMAGE },

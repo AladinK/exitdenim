@@ -31,7 +31,7 @@ export const LANDING_PAGES: LandingPage[] = [
   {
     path: "/jeans", label: "Muške farmerke",
     title: "Muške farmerke online — slim, regular i široke | EXIT Denim",
-    description: "Muške farmerke od teksasa sa 98% pamuka, u slim, regular slim, relaxed, bootcut i flare kroju. 5.990 din, plaćanje pouzećem i besplatna dostava po Srbiji.",
+    description: "Muške farmerke od teksasa sa 98% pamuka, u slim, regular slim, relaxed, bootcut i flare kroju. Od 5.990 din, plaćanje pouzećem i besplatna dostava po Srbiji.",
     h1: "Muške farmerke",
     intro: "Farmerke od pravog teksasa, u krojevima od uskog slim do širokog flare. Domaća proizvodnja, plaćaš kad stigne.",
     match: catIs("jeans"),
@@ -70,7 +70,7 @@ export const LANDING_PAGES: LandingPage[] = [
   {
     path: "/wide-flare", label: "Široke farmerke",
     title: "Široke muške farmerke — relaxed, bootcut i flare | EXIT Denim",
-    description: "Široke muške farmerke u relaxed, bootcut i flare kroju, od teksasa sa 98% pamuka. 5.990 din, plaćanje pouzećem i besplatna dostava po Srbiji.",
+    description: "Široke muške farmerke u relaxed, bootcut i flare kroju, od teksasa sa 98% pamuka. Od 5.990 din, plaćanje pouzećem i besplatna dostava po Srbiji.",
     h1: "Široke farmerke",
     intro: "Relaxed, Bootcut i Flare: tri načina da nogavica bude šira.",
     match: fitIs("Relaxed", "Bootcut", "Flare"),
@@ -90,7 +90,7 @@ export const LANDING_PAGES: LandingPage[] = [
   ] as const).map(([slug, fit, text]): LandingPage => ({
     path: `/${slug}-farmerke`, label: `${fit} farmerke`,
     title: `Muške ${fit} farmerke — kroj i veličine | EXIT Denim`,
-    description: `${text.split(". ")[0]}. Teksas sa 98% pamuka, 5.990 din, plaćanje pouzećem i besplatna dostava po Srbiji.`.slice(0, 160),
+    description: `${text.split(". ")[0]}. Teksas sa 98% pamuka, od 5.990 din, plaćanje pouzećem i besplatna dostava po Srbiji.`.slice(0, 160),
     h1: `${fit} farmerke`,
     intro: text,
     match: fitIs(fit),

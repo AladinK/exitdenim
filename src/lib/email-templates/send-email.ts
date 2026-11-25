@@ -13,6 +13,19 @@ import { TEMPLATES } from "./registry";
 const DEFAULT_FROM = "EXIT Denim <porudzbine@exit.fashion>";
 const DEFAULT_REPLY_TO = "office@bennelijeans.com";
 
+/** "a@x.rs, b@y.com" → ["a@x.rs", "b@y.com"], bez duplikata. */
+export function splitAddresses(value: string | null | undefined): string[] {
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const part of String(value ?? "").split(/[,;\s]+/)) {
+    const address = part.trim();
+    if (!address || seen.has(address.toLowerCase())) continue;
+    seen.add(address.toLowerCase());
+    out.push(address);
+  }
+  return out;
+}
+
 export type SendTemplateEmailResult =
   { sent: true; id?: string } | { sent: false; reason: "not_configured" };
 
@@ -50,8 +63,9 @@ export async function sendTemplateEmail(
   }
 
   // Šablon sa fiksnim primaocem (obaveštenja) ima prednost nad prosleđenom adresom.
-  const recipient = template.to || to;
-  if (!recipient) throw new Error("Nedostaje adresa primaoca.");
+  // Više adresa može da se navede odvojeno zarezom (npr. ORDER_NOTIFY_EMAIL).
+  const recipients = splitAddresses(template.to || to);
+  if (!recipients.length) throw new Error("Nedostaje adresa primaoca.");
 
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
@@ -77,7 +91,7 @@ export async function sendTemplateEmail(
     },
     body: JSON.stringify({
       from: process.env.EMAIL_FROM || DEFAULT_FROM,
-      to: [recipient],
+      to: recipients,
       reply_to: options.replyTo || process.env.EMAIL_REPLY_TO || DEFAULT_REPLY_TO,
       subject,
       html,

@@ -3,6 +3,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import type { Database } from "@/integrations/supabase/types";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { publicImageUrl } from "@/lib/image-urls";
 
 type ProductRow = Database["public"]["Tables"]["products"]["Row"];
 
@@ -28,34 +29,9 @@ export type Catalog = { products: ProductWithStock[]; state: CatalogState };
 export type ProductResult = { product: ProductWithStock | null; state: CatalogState };
 
 const CATALOG_KEY = "catalog";
-const isStoragePath = (url: string | null | undefined): url is string =>
-  !!url && !/^https?:\/\//i.test(url) && !url.startsWith("/");
 
 async function serverClients() {
   return import("@/integrations/supabase/client.server");
-}
-
-/**
- * Potpisuje putanje iz privatnog skladišta jednim zahtevom. Ako potpisivanje ne uspe
- * (npr. nije podešen SUPABASE_SERVICE_ROLE_KEY), katalog se i dalje prikazuje, samo
- * bez tih fotografija; greška ostaje u logu servera.
- */
-async function signProductImages(paths: string[]): Promise<Record<string, string>> {
-  const signed: Record<string, string> = {};
-  if (!paths.length) return signed;
-  try {
-    const { supabaseAdmin } = await serverClients();
-    const { data, error } = await supabaseAdmin.storage
-      .from("product-images")
-      .createSignedUrls(paths, 60 * 60 * 24 * 7);
-    if (error) throw new Error(error.message);
-    for (const item of data ?? []) {
-      if (item.path && item.signedUrl) signed[item.path] = item.signedUrl;
-    }
-  } catch (error) {
-    console.error("[katalog] fotografije nisu potpisane:", error);
-  }
-  return signed;
 }
 
 function stockByProduct(
@@ -86,15 +62,14 @@ async function readCatalog(): Promise<ProductWithStock[]> {
 
   const list = products.data ?? [];
   const stock = stockByProduct(availability.data);
-  const signed = await signProductImages([
-    ...new Set(list.map((p) => p.image_url).filter(isStoragePath)),
-  ]);
 
+  // Galerija u katalogu ostaje kakva je u bazi (kartica proizvoda koristi samo glavnu
+  // fotografiju); stalne adrese galerije daje getProductBySlug.
   return list.map((p) => ({
     ...p,
     on_sale: Boolean((p as { on_sale?: boolean | null }).on_sale),
     gallery: p.gallery ?? [],
-    image_url: isStoragePath(p.image_url) ? (signed[p.image_url] ?? null) : (p.image_url ?? null),
+    image_url: publicImageUrl(p.image_url, "p"),
     stock: (p.id && stock[p.id]) || {},
   })) as ProductWithStock[];
 }
@@ -118,17 +93,12 @@ async function readProduct(slug: string): Promise<ProductWithStock | null> {
   const gallery = Array.isArray(product.gallery)
     ? product.gallery.filter((g): g is string => typeof g === "string")
     : [];
-  const signed = await signProductImages([
-    ...new Set([product.image_url, ...gallery].filter(isStoragePath)),
-  ]);
-  const resolve = (url: string | null) =>
-    isStoragePath(url) ? (signed[url] ?? null) : (url ?? null);
 
   return {
     ...product,
     on_sale: Boolean((product as { on_sale?: boolean | null }).on_sale),
-    image_url: resolve(product.image_url),
-    gallery: gallery.map(resolve).filter((url): url is string => !!url),
+    image_url: publicImageUrl(product.image_url, "p"),
+    gallery: gallery.map((url) => publicImageUrl(url, "p")).filter((url): url is string => !!url),
     stock,
   } as ProductWithStock;
 }

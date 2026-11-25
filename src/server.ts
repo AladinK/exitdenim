@@ -70,8 +70,32 @@ function redirectLegacyAsset(request: Request): Response | undefined {
   });
 }
 
+// Jedna javna adresa sajta. Produkcija je dostupna i na *.vercel.app adresama, na domenu
+// bez "www" i (posle preusmerenja DNS-a) na starom domenu exitdenim.shop; pretraživači bi
+// to videli kao kopije sajta. Stranice se zato trajno (301) šalju na www.exit.fashion,
+// sa istom putanjom. Pregledne verzije (preview) ostaju dostupne na svojim adresama.
+const CANONICAL_HOST = "www.exit.fashion";
+const ALIAS_HOSTS = new Set(["exit.fashion", "exitdenim.shop", "www.exitdenim.shop"]);
+function redirectToCanonicalHost(request: Request): Response | undefined {
+  if (process.env.VERCEL_ENV !== "production") return undefined;
+  if (request.method !== "GET" && request.method !== "HEAD") return undefined;
+  const url = new URL(request.url);
+  const host = (request.headers.get("x-forwarded-host") || url.host).toLowerCase().split(":")[0];
+  if (host === CANONICAL_HOST) return undefined;
+  if (!ALIAS_HOSTS.has(host) && !host.endsWith(".vercel.app")) return undefined;
+  return new Response(null, {
+    status: 301,
+    headers: {
+      location: `https://${CANONICAL_HOST}${url.pathname}${url.search}`,
+      "cache-control": "public, max-age=3600",
+    },
+  });
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    const canonical = redirectToCanonicalHost(request);
+    if (canonical) return canonical;
     const legacy = redirectLegacyAsset(request);
     if (legacy) return legacy;
     try {

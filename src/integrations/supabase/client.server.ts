@@ -8,6 +8,7 @@
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "./types";
 import {
+  SERVER_FIRST_READ_TIMEOUT_MS,
   SERVER_REQUEST_TIMEOUT_MS,
   createSupabaseFetch,
   requireAdminConfig,
@@ -23,7 +24,10 @@ const serverDb = { retry: false } as const;
 function createSupabaseAdminClient() {
   const { url, key } = requireAdminConfig();
   return createClient<Database>(url, key, {
-    global: { fetch: createSupabaseFetch(key, { timeoutMs: SERVER_REQUEST_TIMEOUT_MS }) },
+    global: { fetch: createSupabaseFetch(key, {
+      timeoutMs: SERVER_REQUEST_TIMEOUT_MS,
+      firstAttemptTimeoutMs: SERVER_FIRST_READ_TIMEOUT_MS,
+    }) },
     auth: serverAuth,
     db: serverDb,
   });
@@ -41,7 +45,10 @@ export const supabaseAdmin = new Proxy({} as ReturnType<typeof createSupabaseAdm
 export function createPublicServerClient() {
   const { url, key } = requirePublicConfig();
   return createClient<Database>(url, key, {
-    global: { fetch: createSupabaseFetch(key, { timeoutMs: SERVER_REQUEST_TIMEOUT_MS }) },
+    global: { fetch: createSupabaseFetch(key, {
+      timeoutMs: SERVER_REQUEST_TIMEOUT_MS,
+      firstAttemptTimeoutMs: SERVER_FIRST_READ_TIMEOUT_MS,
+    }) },
     auth: serverAuth,
     db: serverDb,
   });

@@ -11,9 +11,9 @@
 
 - Keep the private-label offering on a public, server-rendered content route, linked from the footer, sitemap and AI reading index so visitors and crawlers can discover the same information.
 - Use the shared EcoProduction section for company-level manufacturing claims; keep product-specific finishing claims separate to avoid implying unverified processes for every model.
-- Share dynamic site assets through the home-assets Query cache across loaders and branding so hydration does not request a second set of signed URLs.
-- Batch private image signing and keep public stock reads live; never prerender visitor-specific or inventory-dependent content for performance.
-- Dehydrate the per-request QueryClient into the router and hydrate it before rendering so initial public reads and signed image URLs are reused without duplicate requests.
+- Share dynamic site assets through the home-assets Query cache across loaders and branding so hydration does not request them a second time.
+- Serve photos from the private buckets through the stable `/img/p/...` (product-images) and `/img/s/...` (site-assets) route (`src/routes/img.$.ts`, `src/lib/image-urls.ts`) instead of signed URLs, so browsers, the CDN, search engines and shared links keep one address per photo. Keep public stock reads live; never prerender visitor-specific or inventory-dependent content for performance.
+- Dehydrate the per-request QueryClient into the router and hydrate it before rendering so initial public reads are reused without duplicate requests.
 - Keep homepage collection filtering client-side on the existing products Query cache; it must not introduce extra requests or alter checkout behavior.
 - Serve the homepage cover as optimized desktop/mobile WebP variants with matching media preloads; uploaded photography uses CDN asset pointers, while original catalog photographs remain unchanged for product inspection.
 - Keep campaign photography in an editorial component separate from live product imagery so unverified photo-to-SKU associations cannot enter checkout.
@@ -44,5 +44,8 @@
 - The database schema is `supabase/migrations/`; the Lovable-era migrations in `supabase/arhiva-lovable/` are history and are not applied.
 - Hosting target is Vercel (`fra1`, set in `vite.config.ts` via `nitro({ vercel: { functions: { regions } } })`). Supabase settings are read under both our names and the names the Supabase–Vercel integration sets (`SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `NEXT_PUBLIC_*`, legacy `SUPABASE_ANON_KEY` / `SUPABASE_SERVICE_ROLE_KEY`). The browser bundle gets the public pair at build time in the same order as the server reads it (`vite.config.ts` and `src/integrations/supabase/env.ts` must stay in sync).
 - `npm run build` runs `scripts/db-migrate.mjs` first. It applies each `supabase/migrations/*.sql` once, in a transaction, records it in `private.schema_migrations`, and runs on Vercel only for production builds. Migrations must be forward-only and safe to run against live data; never edit an applied migration, add a new file instead.
+- Server-side Supabase reads (GET/HEAD, read-only RPCs `get_*`/`has_*`/`is_*`, storage signing) are retried once when the connection stalls or breaks (`createSupabaseFetch` in `src/integrations/supabase/env.ts`); a frozen serverless instance can otherwise reuse a dead connection and time out while the database is healthy. Writes are never retried automatically.
+- Production answers only on `https://www.exit.fashion`: `src/server.ts` permanently redirects page requests from `*.vercel.app`, `exit.fashion` and `exitdenim.shop` to the same path there. Preview deployments are not redirected.
+- Owner order e-mails go to `ORDER_NOTIFY_EMAIL` (several addresses may be separated by commas), falling back to the brand e-mail.
 - Never commit database exports or customer data (the repository is public).
 

@@ -20,9 +20,13 @@ import { useAuth } from "@/hooks/useAuth";
 import { oldPrice, DISCOUNT_PCT } from "@/lib/pricing";
 import { productAlt, productKind, fitPath, categoryLink } from "@/lib/seo-labels";
 import { B2BSpecs } from "@/components/B2BSpecs";
-import { productSchema } from "@/lib/product-schema";
+import { productBreadcrumbSchema, productSchema } from "@/lib/product-schema";
+import { absoluteUrl } from "@/lib/image-urls";
+import { BRAND } from "@/lib/brand";
 import { fitGuidance } from "@/lib/fit-guidance";
 import { SIZE_EXCHANGE_TEXT } from "@/lib/brand";
+
+const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
 
 export const Route = createFileRoute("/proizvod/$slug")({
   loader: async ({ params, context }) => {
@@ -52,7 +56,8 @@ export const Route = createFileRoute("/proizvod/$slug")({
       ? `${kindCap}${fitTxt ? ` u${fitTxt} kroju` : ""}, ${String(p.color ?? "").toLowerCase()}${p.fabric ? `, ${p.fabric}` : ""}. ${Number(p.retail).toLocaleString("sr-RS")} din, besplatna dostava i plaćanje pouzećem po Srbiji.`.replace(", ,", ",").slice(0, 160)
       : `${name} — muške pantalone EXIT Denim.`;
     const url = `https://www.exit.fashion/proizvod/${params.slug}`;
-    const img = p?.image_url && /^https:\/\//.test(p.image_url) ? p.image_url : null;
+    const img = absoluteUrl(p?.image_url, BRAND.url);
+    const category = p ? categoryLink(p) : null;
     return {
       meta: [
         { title },
@@ -66,13 +71,27 @@ export const Route = createFileRoute("/proizvod/$slug")({
       ],
       links: [
         { rel: "canonical", href: url },
-        ...(img ? [{ rel: "preload", as: "image", href: img, fetchPriority: "high" } as const] : []),
+        ...(img && p?.image_url ? [{ rel: "preload", as: "image", href: p.image_url, fetchPriority: "high" } as const] : []),
       ],
       scripts: p
-        ? [{
-            type: "application/ld+json",
-            children: JSON.stringify(productSchema(p, url)),
-          }]
+        ? [
+            {
+              type: "application/ld+json",
+              children: JSON.stringify(productSchema(p, url)),
+            },
+            {
+              type: "application/ld+json",
+              children: JSON.stringify(
+                productBreadcrumbSchema([
+                  { name: "Početna", path: "/" },
+                  ...(category
+                    ? [{ name: capitalize(category.label.replace(/^Sve /, "")), path: category.to }]
+                    : []),
+                  { name: p.name, path: `/proizvod/${params.slug}` },
+                ]),
+              ),
+            },
+          ]
         : [],
     };
   },

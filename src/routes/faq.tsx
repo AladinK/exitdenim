@@ -18,12 +18,30 @@ export const Route = createFileRoute("/faq")({
       { property: "og:url", content: "https://www.exit.fashion/faq" },
     ],
     links: [{ rel: "canonical", href: "https://www.exit.fashion/faq" }],
+    // Ista pitanja i odgovori kao na stranici, u obliku koji čitaju pretraživači i AI asistenti.
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "@id": "https://www.exit.fashion/faq#pitanja",
+          url: "https://www.exit.fashion/faq",
+          inLanguage: "sr-Latn",
+          mainEntity: QA.map(([question, answer]) => ({
+            "@type": "Question",
+            name: question,
+            acceptedAnswer: { "@type": "Answer", text: answer },
+          })),
+        }),
+      },
+    ],
   }),
   component: Faq,
 });
 
 const QA: Array<[string, string]> = [
-  ["Koliko koštaju farmerke?", "Farmerke i chino pantalone koštaju 5.990 din, a cargo džeparke 7.500 din."],
+  ["Koliko koštaju farmerke?", "Većina farmerki i chino pantalona košta 5.990 din, cepani modeli 6.990 din, a cargo džeparke 7.500 din. Tačna cena piše na strani svakog modela."],
   ["Kako se plaća?", "Plaćate pouzećem, kuriru kada paket stigne. Bez kartice i bez plaćanja unapred."],
   ["Koliko košta dostava?", "Dostava je besplatna za sve porudžbine po celoj Srbiji."],
   ["Kada stiže paket?", "Porudžbinu šaljemo u roku od 1–2 radna dana, a kurir obično isporučuje dan ili dva posle slanja."],

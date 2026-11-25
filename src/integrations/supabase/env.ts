@@ -88,15 +88,50 @@ function isNewApiKey(value: string): boolean {
 }
 
 /**
+ * Da li je zahtev samo čitanje, pa sme da se ponovi bez rizika od dvostrukog upisa.
+ * Neka čitanja idu kao POST: RPC funkcije za čitanje (get_*, has_*, is_*) i
+ * potpisivanje adresa u skladištu.
+ */
+export function isRepeatableRead(method: string, url: string): boolean {
+  const m = method.toUpperCase();
+  if (m === "GET" || m === "HEAD") return true;
+  if (m !== "POST") return false;
+  let pathname: string;
+  try {
+    pathname = new URL(url).pathname;
+  } catch {
+    return false;
+  }
+  return (
+    /^\/rest\/v1\/rpc\/(get_|has_|is_)[a-z0-9_]*$/i.test(pathname) ||
+    /^\/storage\/v1\/object\/sign\//.test(pathname)
+  );
+}
+
+/** Greška koja znači da odgovor nije stigao (veza pukla ili je zaglavljena). */
+function isConnectionFailure(error: unknown): boolean {
+  if (!(error instanceof Error)) return false;
+  if (error.name === "TimeoutError") return true;
+  // undici: TypeError("fetch failed") sa uzrokom ECONNRESET, UND_ERR_SOCKET, ETIMEDOUT...
+  return error.name === "TypeError" && /fetch failed|terminated|socket/i.test(error.message);
+}
+
+/**
  * fetch koji uvek šalje `apikey`, a nove (sb_*) ključeve ne šalje kao Bearer token.
+ *
  * Sa `timeoutMs` zahtev se prekida posle zadatog roka: server tako ne čeka bazu koja
  * ne odgovara, pa prodavnica prikaže rezervni sadržaj umesto da stranica visi.
+ *
+ * Čitanja se jednom ponavljaju kada veza zakaže. Serverska funkcija se između poseta
+ * "zamrzne", pa prvi zahtev posle pauze ume da dobije staru, mrtvu vezu i zaglavi se
+ * do isteka roka, iako je baza zdrava. Prvi pokušaj zato ima kraći rok, a ponovljeni
+ * ide novom vezom. Upisi se nikad ne ponavljaju automatski (rizik od duplog upisa).
  */
 export function createSupabaseFetch(
   supabaseKey: string,
-  options: { timeoutMs?: number } = {},
+  options: { timeoutMs?: number; firstAttemptTimeoutMs?: number } = {},
 ): typeof fetch {
-  return (input, init) => {
+  return async (input, init) => {
     const headers = new Headers(
       typeof Request !== "undefined" && input instanceof Request ? input.headers : undefined,
     );
@@ -109,11 +144,41 @@ export function createSupabaseFetch(
     headers.set("apikey", supabaseKey);
 
     if (!options.timeoutMs) return fetch(input, { ...init, headers });
-    const timeout = AbortSignal.timeout(options.timeoutMs);
-    const signal = init?.signal ? AbortSignal.any([init.signal, timeout]) : timeout;
-    return fetch(input, { ...init, headers, signal });
+
+    const isRequestObject = typeof Request !== "undefined" && input instanceof Request;
+    const url = typeof input === "string" ? input : input instanceof URL ? input.href : input.url;
+    const method = init?.method ?? (isRequestObject ? (input as Request).method : "GET");
+    // Telo iz Request objekta može da se pročita samo jednom, pa se takav zahtev ne ponavlja.
+    const repeatable = !isRequestObject && isRepeatableRead(method, url);
+    const attempts = repeatable ? 2 : 1;
+
+    for (let attempt = 1; ; attempt++) {
+      const ms =
+        attempt === 1 && repeatable
+          ? Math.min(options.firstAttemptTimeoutMs ?? options.timeoutMs, options.timeoutMs)
+          : options.timeoutMs;
+      const timeout = AbortSignal.timeout(ms);
+      const signal = init?.signal ? AbortSignal.any([init.signal, timeout]) : timeout;
+      try {
+        return await fetch(input, { ...init, headers, signal });
+      } catch (error) {
+        const callerGaveUp = Boolean(init?.signal?.aborted);
+        if (attempt >= attempts || callerGaveUp || !isConnectionFailure(error)) throw error;
+        let where = url;
+        try {
+          where = new URL(url).pathname;
+        } catch {
+          /* ostaje cela adresa */
+        }
+        console.warn(
+          `[baza] ponavljam čitanje posle ${timeout.aborted ? `isteka roka (${ms} ms)` : "prekinute veze"}: ${method.toUpperCase()} ${where}`,
+        );
+      }
+    }
   };
 }
 
-/** Rok za serverske upite ka bazi. */
+/** Rok za serverske upite ka bazi (i za ponovljeni pokušaj čitanja). */
 export const SERVER_REQUEST_TIMEOUT_MS = 5_000;
+/** Rok za prvi pokušaj čitanja; normalan odgovor stiže za manje od pola sekunde. */
+export const SERVER_FIRST_READ_TIMEOUT_MS = 2_500;

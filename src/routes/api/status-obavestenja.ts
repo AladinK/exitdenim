@@ -8,19 +8,6 @@ import { createFileRoute } from "@tanstack/react-router";
 const OWNER_CHAT_ID = 1149811950;
 let lastRun = 0;
 
-function shape(value: string): string {
-  const masked = [...value].map((c) =>
-    /[0-9]/.test(c) ? "9" : /[A-Za-z]/.test(c) ? "a" : c.charCodeAt(0) > 126 ? `U+${c.charCodeAt(0).toString(16)}` : c,
-  );
-  const out: string[] = [];
-  for (let i = 0; i < masked.length; ) {
-    let j = i;
-    while (j < masked.length && masked[j] === masked[i]) j++;
-    out.push(j - i > 1 ? `${masked[i]}×${j - i}` : masked[i]);
-    i = j;
-  }
-  return out.join(" ");
-}
 let lastResult: unknown = null;
 
 async function telegramStatus() {
@@ -34,9 +21,6 @@ async function telegramStatus() {
       podesen: true,
       tokenIspravan: false,
       greska: "Vrednost TELEGRAM_BOT_TOKEN ne liči na token (broj:ključ).",
-      duzina: process.env.TELEGRAM_BOT_TOKEN.length,
-      // Samo oblik vrednosti (9 = cifra, a = slovo, ostali znakovi kakvi jesu), bez sadržaja.
-      oblik: shape(process.env.TELEGRAM_BOT_TOKEN),
     };
   }
   const chatId = process.env.TELEGRAM_CHAT_ID?.trim() || String(OWNER_CHAT_ID);
@@ -79,12 +63,18 @@ export const Route = createFileRoute("/api/status-obavestenja")({
         // Najviše jedna provera u 10 sekundi po serveru, da niko ne zatrpa Telegram.
         if (!lastResult || Date.now() - lastRun > 10_000) {
           lastRun = Date.now();
+          const [{ BRAND }, { splitAddresses }] = await Promise.all([
+            import("@/lib/brand"),
+            import("@/lib/email-templates/send-email"),
+          ]);
           lastResult = {
             vreme: new Date().toISOString(),
             telegram: await telegramStatus(),
             email: {
               podesen: Boolean(process.env.RESEND_API_KEY),
               posiljalac: process.env.EMAIL_FROM || "EXIT Denim <porudzbine@exit.fashion>",
+              // Samo broj adresa za obaveštenje vlasniku, bez samih adresa.
+              adresaVlasnika: splitAddresses(process.env.ORDER_NOTIFY_EMAIL || BRAND.email).length,
             },
           };
         }
