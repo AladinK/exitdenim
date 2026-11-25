@@ -41,7 +41,7 @@ export function Footer() {
               <li><Link to="/en/manufacturing" lang="en" hrefLang="en" className="hover:text-accent transition-colors">Manufacturing · EN</Link></li>
               <li><Link to="/en/private-label" lang="en" hrefLang="en" className="hover:text-accent transition-colors">Private label · EN</Link></li>
               <li>
-                <a href="https://www.google.com/preferences/source?q=exitdenim.shop" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 hover:text-accent transition-colors">
+                <a href="https://www.google.com/preferences/source?q=exit.fashion" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 hover:text-accent transition-colors">
                   Omiljeni izvor na Google-u
                   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-3.5 w-3.5 shrink-0">
                     <path d="M7 17 17 7M7 7h10v10" />

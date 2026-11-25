@@ -37,4 +37,4 @@ Disallow: /narudzba
 Disallow: /cekanje
 Disallow: /api/
 
-Sitemap: https://exitdenim.shop/sitemap.xml
+Sitemap: https://www.exit.fashion/sitemap.xml

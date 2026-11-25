@@ -12,9 +12,9 @@ export const Route = createFileRoute("/postani-partner")({
       { title: "Partnerski program — EXIT Denim B2B" },
       { name: "description", content: "Prijavite butik za EXIT Denim B2B partnerstvo. Odobravamo veleprodaju buticima, onlajn prodavcima i distributerima u regionu." },
       { property: "og:title", content: "Partnerski program — EXIT Denim B2B" },
-      { property: "og:url", content: "https://exitdenim.shop/postani-partner" },
+      { property: "og:url", content: "https://www.exit.fashion/postani-partner" },
     ],
-    links: [{ rel: "canonical", href: "https://exitdenim.shop/postani-partner" }],
+    links: [{ rel: "canonical", href: "https://www.exit.fashion/postani-partner" }],
   }),
   component: Partner,
 });

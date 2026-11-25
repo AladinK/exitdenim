@@ -6,11 +6,11 @@ import { TEMPLATES } from "./registry";
 // pozivom, bez dodatnog paketa, pa radi na svakom hostingu.
 //
 //   RESEND_API_KEY  — ključ iz Resend naloga (bez njega se e-mail preskače)
-//   EMAIL_FROM      — pošiljalac, npr. "EXIT Denim <porudzbine@exitdenim.shop>";
+//   EMAIL_FROM      — pošiljalac, npr. "EXIT Denim <porudzbine@exit.fashion>";
 //                     domen mora biti potvrđen u Resend-u
 //   EMAIL_REPLY_TO  — adresa na koju kupac odgovara (podrazumevano poslovni e-mail)
 
-const DEFAULT_FROM = "EXIT Denim <porudzbine@exitdenim.shop>";
+const DEFAULT_FROM = "EXIT Denim <porudzbine@exit.fashion>";
 const DEFAULT_REPLY_TO = "office@bennelijeans.com";
 
 export type SendTemplateEmailResult =

@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
 import { GUIDE, GUIDE_COUNT } from "@/lib/jeans-guide";
 
-const URL = "https://exitdenim.shop/vodic-za-farmerke";
+const URL = "https://www.exit.fashion/vodic-za-farmerke";
 const TITLE = "Vodič za muške farmerke — najčešća pitanja | EXIT Denim";
 const DESC = "Koji kroj farmerki odabrati, kako izabrati veličinu i dužinu, kako prati i održavati farmerke i kako ih kombinovati. Odgovori na preko 100 pitanja.";
 

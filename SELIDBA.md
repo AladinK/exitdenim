@@ -13,12 +13,13 @@ Urađeno:
 - Vercel projekat `exitdenim` radi na `exitdenim.vercel.app`, sa novom bazom.
 - Baza je Supabase projekat `exitdenim` (Frankfurt), napravljen u Supabase-u i povezan sa Vercel-om preko Supabase integracije (Production). Ključeve je Vercel dobio sam.
 - Podaci sa Lovable-a (izvoz od 25.11.2026) su prebačeni: nalog vlasnika, 13 proizvoda, stanje, porudžbine i statistika korpe. Svih 27 fotografija je u skladištima `product-images` i `site-assets`.
-- Prijava: dozvoljene su adrese `exitdenim.shop`, `www.exitdenim.shop` i `exitdenim.vercel.app`.
+- Prijava: dozvoljene su adrese `www.exit.fashion`, `exit.fashion`, `exitdenim.shop`, `www.exitdenim.shop` i `exitdenim.vercel.app`.
 - `TELEGRAM_BOT_TOKEN` je na Vercel-u (Production).
+- Glavna adresa je **www.exit.fashion** (domen kupljen preko Vercel-a, DNS podešava Vercel sam; `exit.fashion` vodi na `www`). Oznake za Google, mapa sajta i linkovi u mejlovima koriste tu adresu.
 
 Ostaje:
 
-- Domen (korak 7). Pre prebacivanja prenesite porudžbine koje su na stari sajt stigle posle izvoza. Posle prebacivanja u Supabase-u stavite Site URL na `https://exitdenim.shop` (korak 4.1).
+- `exitdenim.shop` je još na Lovable-u. Kada stari sajt više ne treba: Vercel → Domains → Add `exitdenim.shop` kao preusmerenje (308) na `www.exit.fashion`, pa kod name.com unesite DNS zapise koje Vercel prikaže. Pre toga prenesite porudžbine koje su na stari sajt stigle posle izvoza.
 - E-mail preko Resend-a (koraci 4.2 i 5) i Google prijava (korak 4.3).
 - Lovable isključiti sa GitHub repoa kada stari sajt više nije potreban (korak 8).
 

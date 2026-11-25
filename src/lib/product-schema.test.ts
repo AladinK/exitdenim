@@ -6,7 +6,7 @@ const product = {
   name: "EXIT test", sku: "TEST", retail: 5990, sizes: ["31", "32", "34"],
   stock: { "31": 0, "32": 1, "34": 0 }, fabric: "98% pamuk, 2% elastin", weight: "12 oz",
 };
-const url = "https://exitdenim.shop/proizvod/test";
+const url = "https://www.exit.fashion/proizvod/test";
 
 describe("public product facts", () => {
   it("uses the confirmed customer contact without the extra digit", () => {

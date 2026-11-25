@@ -15,9 +15,9 @@ export const Route = createFileRoute("/faq")({
       { name: "description", content: "Cene, plaćanje pouzećem, besplatna dostava, veličine i popust — sve što treba da znate pre kupovine." },
       { property: "og:title", content: "Česta pitanja o kupovini — EXIT Denim" },
       { property: "og:description", content: "Cene, plaćanje pouzećem, besplatna dostava, veličine i popust — sve što treba da znate pre kupovine." },
-      { property: "og:url", content: "https://exitdenim.shop/faq" },
+      { property: "og:url", content: "https://www.exit.fashion/faq" },
     ],
-    links: [{ rel: "canonical", href: "https://exitdenim.shop/faq" }],
+    links: [{ rel: "canonical", href: "https://www.exit.fashion/faq" }],
   }),
   component: Faq,
 });

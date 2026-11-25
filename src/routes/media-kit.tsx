@@ -12,9 +12,9 @@ export const Route = createFileRoute("/media-kit")({
       { title: "Medija kit — EXIT Denim za B2B partnere" },
       { name: "description", content: "Foto materijal proizvoda, Instagram story šabloni i gotovi caption-i za EXIT Denim B2B partnere. Osvežavanje svake sezone." },
       { property: "og:title", content: "Medija kit — EXIT Denim za B2B partnere" },
-      { property: "og:url", content: "https://exitdenim.shop/media-kit" },
+      { property: "og:url", content: "https://www.exit.fashion/media-kit" },
     ],
-    links: [{ rel: "canonical", href: "https://exitdenim.shop/media-kit" }],
+    links: [{ rel: "canonical", href: "https://www.exit.fashion/media-kit" }],
   }),
   component: MediaKit,
 });

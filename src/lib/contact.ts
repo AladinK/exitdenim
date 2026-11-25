@@ -38,7 +38,7 @@ export function orderMessage(
     .filter(Boolean)
     .join(", ");
   return [
-    "Zdravo, želim da poručim sa exitdenim.shop:",
+    "Zdravo, želim da poručim sa exit.fashion:",
     ...items,
     `Ukupno: ${din(total)} (plaćanje pouzećem)`,
     contact.name ? `Ime: ${contact.name}` : null,

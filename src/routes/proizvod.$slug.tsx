@@ -51,7 +51,7 @@ export const Route = createFileRoute("/proizvod/$slug")({
     const desc = p
       ? `${kindCap}${fitTxt ? ` u${fitTxt} kroju` : ""}, ${String(p.color ?? "").toLowerCase()}${p.fabric ? `, ${p.fabric}` : ""}. ${Number(p.retail).toLocaleString("sr-RS")} din, besplatna dostava i plaćanje pouzećem po Srbiji.`.replace(", ,", ",").slice(0, 160)
       : `${name} — muške pantalone EXIT Denim.`;
-    const url = `https://exitdenim.shop/proizvod/${params.slug}`;
+    const url = `https://www.exit.fashion/proizvod/${params.slug}`;
     const img = p?.image_url && /^https:\/\//.test(p.image_url) ? p.image_url : null;
     return {
       meta: [

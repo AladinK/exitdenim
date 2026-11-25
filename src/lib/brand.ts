@@ -2,7 +2,7 @@
 export const BRAND = {
   name: "EXIT Denim",
   legalName: "TRI-B DOO",
-  url: "https://exitdenim.shop",
+  url: "https://www.exit.fashion",
   phone: "+381653176716",
   phoneLabel: "+381 65 317 6716",
   whatsapp: "https://wa.me/381653176716",

@@ -7,7 +7,7 @@ import { EcoProduction } from "@/components/EcoProduction";
 import { BRAND_HISTORY_TEXT, EXPORT_TEXT, MANUFACTURING, organizationSchema } from "@/lib/brand";
 import { b2bLanguageLinks } from "@/lib/b2b-english";
 
-const URL = "https://exitdenim.shop/private-label";
+const URL = "https://www.exit.fashion/private-label";
 const TITLE = "Izrada za vaš brend · Private label — EXIT Denim";
 const DESCRIPTION = "EXIT Denim, Novi Pazar od 1991: private-label proizvodnja, oko 5.000 komada jeansa mesečno, 35 zaposlenih i izvoz u EU i zemlje bivše Jugoslavije.";
 

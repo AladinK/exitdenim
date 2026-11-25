@@ -83,7 +83,7 @@ const OrderNotification = ({
         {note ? <Text style={row}>Napomena: {note}</Text> : null}
         <Hr style={hr} />
         <Text style={muted}>
-          Porudžbina je upisana u administraciju sajta (exitdenim.shop/admin).
+          Porudžbina je upisana u administraciju sajta (www.exit.fashion/admin).
         </Text>
       </Container>
     </Body>

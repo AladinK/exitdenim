@@ -6,7 +6,7 @@ import { catalogStateQuery, productsQuery } from "@/lib/product-queries";
 import { CatalogUnavailable } from "@/components/CatalogUnavailable";
 import { LANDING_PAGES, type LandingPage } from "@/lib/landing-pages";
 
-const BASE = "https://exitdenim.shop";
+const BASE = "https://www.exit.fashion";
 
 export function landingHead(l: LandingPage) {
   return {
