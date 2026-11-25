@@ -10,14 +10,27 @@ const OWNER_CHAT_ID = 1149811950;
 
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
+/**
+ * Token iz promenljive okruženja. Vrednost nalepljena na hostingu ponekad dođe sa
+ * navodnicima, `kosim navodnicima`, prefiksom "bot" ili razmakom; uzima se samo sam
+ * token (broj:ključ).
+ */
+export function telegramToken(): string | undefined {
+  const raw = process.env.TELEGRAM_BOT_TOKEN;
+  if (!raw) return undefined;
+  return raw.match(/\d{5,}:[A-Za-z0-9_-]{30,}/)?.[0];
+}
+
 export function telegramConfigured(): boolean {
-  return Boolean(process.env.TELEGRAM_BOT_TOKEN?.trim());
+  return Boolean(telegramToken());
 }
 
 export async function sendOwnerTelegram(text: string): Promise<boolean> {
-  // trim: vrednost nalepljena na hostingu ponekad ima razmak ili novi red na kraju.
-  const token = process.env.TELEGRAM_BOT_TOKEN?.trim();
-  if (!token) return false;
+  const token = telegramToken();
+  if (!token) {
+    if (process.env.TELEGRAM_BOT_TOKEN) console.error("[telegram] TELEGRAM_BOT_TOKEN nije ispravan token.");
+    return false;
+  }
   const chatId = process.env.TELEGRAM_CHAT_ID?.trim() || OWNER_CHAT_ID;
   try {
     const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {

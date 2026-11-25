@@ -10,8 +10,19 @@ let lastRun = 0;
 let lastResult: unknown = null;
 
 async function telegramStatus() {
-  const token = process.env.TELEGRAM_BOT_TOKEN?.trim();
-  if (!token) return { podesen: false, poruka: "TELEGRAM_BOT_TOKEN nije podešen na hostingu." };
+  if (!process.env.TELEGRAM_BOT_TOKEN) {
+    return { podesen: false, poruka: "TELEGRAM_BOT_TOKEN nije podešen na hostingu." };
+  }
+  const { telegramToken } = await import("@/lib/telegram.server");
+  const token = telegramToken();
+  if (!token) {
+    return {
+      podesen: true,
+      tokenIspravan: false,
+      greska: "Vrednost TELEGRAM_BOT_TOKEN ne liči na token (broj:ključ).",
+      duzina: process.env.TELEGRAM_BOT_TOKEN.length,
+    };
+  }
   const chatId = process.env.TELEGRAM_CHAT_ID?.trim() || String(OWNER_CHAT_ID);
   const call = async (method: string, body?: Record<string, unknown>) => {
     const res = await fetch(`https://api.telegram.org/bot${token}/${method}`, {
