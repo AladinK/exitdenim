@@ -1,13 +1,24 @@
 // Supabase klijent za pregledač (i za SSR bez prijavljenog korisnika).
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "./types";
-import { createSupabaseFetch, requirePublicConfig } from "./env";
+import { createSupabaseFetch, supabasePublishableKey, supabaseUrl } from "./env";
+
+// Bez podešene baze sajt mora i dalje da radi (umesto modela prikaže obaveštenje sa
+// kontaktom). Zato se klijent tada pravi sa adresom koja ne postoji: svaki upit vrati
+// grešku koju stranica obradi, umesto da sajt padne.
+const NOT_CONFIGURED_URL = "https://baza-nije-podesena.invalid";
 
 function createSupabaseClient() {
-  const { url, key } = requirePublicConfig();
-  return createClient<Database>(url, key, {
-    global: { fetch: createSupabaseFetch(key) },
-    auth: { persistSession: true, autoRefreshToken: true },
+  const url = supabaseUrl();
+  const key = supabasePublishableKey();
+  const configured = Boolean(url && key);
+  if (!configured && typeof window !== "undefined") {
+    console.warn("[baza] Supabase nije podešen (SUPABASE_URL i SUPABASE_PUBLISHABLE_KEY).");
+  }
+  const apiKey = key ?? "nije-podesen";
+  return createClient<Database>(url ?? NOT_CONFIGURED_URL, apiKey, {
+    global: { fetch: createSupabaseFetch(apiKey) },
+    auth: { persistSession: true, autoRefreshToken: configured },
   });
 }
 
