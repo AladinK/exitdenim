@@ -6,6 +6,22 @@ Stari sajt na Lovable-u ostaje uključen do koraka 7, pa u svakom trenutku može
 
 **Zašto sajt sada pada:** kod radi, ali je baza na Lovable Cloud-u pauzirana (Lovable je pauzira kada se potroše krediti ili posle oko 7 dana bez aktivnosti). Zato se seli i baza, ne samo sajt.
 
+## Stanje 25.11.2026.
+
+Urađeno:
+
+- Vercel projekat `exitdenim` radi na `exitdenim.vercel.app`, sa novom bazom.
+- Baza je Supabase projekat `exitdenim` (Frankfurt), napravljen u Supabase-u i povezan sa Vercel-om preko Supabase integracije (Production). Ključeve je Vercel dobio sam.
+- Podaci sa Lovable-a (izvoz od 25.11.2026) su prebačeni: nalog vlasnika, 13 proizvoda, stanje, porudžbine i statistika korpe. Svih 27 fotografija je u skladištima `product-images` i `site-assets`.
+- Prijava: dozvoljene su adrese `exitdenim.shop`, `www.exitdenim.shop` i `exitdenim.vercel.app`.
+- `TELEGRAM_BOT_TOKEN` je na Vercel-u (Production).
+
+Ostaje:
+
+- Domen (korak 7). Pre prebacivanja prenesite porudžbine koje su na stari sajt stigle posle izvoza. Posle prebacivanja u Supabase-u stavite Site URL na `https://exitdenim.shop` (korak 4.1).
+- E-mail preko Resend-a (koraci 4.2 i 5) i Google prijava (korak 4.3).
+- Lovable isključiti sa GitHub repoa kada stari sajt više nije potreban (korak 8).
+
 ## 1. Vercel nalog i projekat
 
 1. [vercel.com](https://vercel.com) → **Sign Up** → **Continue with GitHub**.
