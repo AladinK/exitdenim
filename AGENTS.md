@@ -1,14 +1,3 @@
-<!-- LOVABLE:BEGIN -->
-> [!IMPORTANT]
-> This project is connected to [Lovable](https://lovable.dev). Avoid rewriting
-> published git history — force pushing, or rebasing/amending/squashing commits
-> that are already pushed — as it rewrites history on Lovable's side and the
-> user will likely lose their project history.
->
-> Commits you push to the connected branch sync back to Lovable and show up in
-> the editor, so keep the branch in a working state.
-<!-- LOVABLE:END -->
-
 - Keep the private-label offering on a public, server-rendered content route, linked from the footer, sitemap and AI reading index so visitors and crawlers can discover the same information.
 - Use the shared EcoProduction section for company-level manufacturing claims; keep product-specific finishing claims separate to avoid implying unverified processes for every model.
 - Share dynamic site assets through the home-assets Query cache across loaders and branding so hydration does not request them a second time.
@@ -31,7 +20,7 @@
 
 ## Independent hosting
 
-- The code has no Lovable packages or services (`main` and `nezavisan-hosting` carry the same code). The Lovable notice above stays relevant only while the repository is still connected to Lovable; remove it once Lovable is disconnected.
+- The Lovable project was deleted on 25 Nov 2026; nothing depends on Lovable any more. GitHub `main` deploys to Vercel production (`nezavisan-hosting` carries the same code). Never force-push or rewrite pushed history on `main`.
 - The storefront must look exactly as it did before the move. Do not restyle it, and keep the UI libraries in `package.json` (React, Tailwind, Radix, lucide, tailwind-merge) pinned to their exact versions; change them only together with a before/after visual comparison.
 - Build is plain Vite + TanStack Start + Nitro (`vite.config.ts`). The deploy target is chosen by the Nitro preset (`NITRO_PRESET`, or auto-detected on Vercel, Netlify and Cloudflare Pages). Keep `css.transformer: "lightningcss"`; the original build used it.
 - Brand photography and video are static files in `public/media/`, listed in `scripts/media.manifest.json`. The `src/assets/*.asset.json` pointers keep their shape but point to `/media/<file>`. Old `/__l5e/assets-v1/...` URLs are redirected in `src/server.ts`.
@@ -40,7 +29,7 @@
 - Wholesale prices are never part of public catalog data. Approved partners get them from `getWholesalePrices` through `useWholesalePrice`.
 - Order notifications use the Telegram Bot API and Resend directly (`TELEGRAM_BOT_TOKEN`, `RESEND_API_KEY`). Both are optional in code, so log loudly when neither is configured.
 - Secrets live only in the host's environment variables (see `.env.example`). The committed `.env` holds public values only.
-- While the repository is connected to Lovable, Lovable rewrites the committed `.env` with its own (old) database. Builds on Vercel therefore ignore every `.env*` file (`envDir: false` when `VERCEL` is set in `vite.config.ts`) and take Supabase settings only from Vercel's environment variables. Keep it that way, or the browser and the server end up on different databases.
+- Builds on Vercel ignore every `.env*` file (`envDir: false` when `VERCEL` is set in `vite.config.ts`) and take Supabase settings only from Vercel's environment variables, which the Supabase–Vercel integration keeps in sync. Keep it that way, so the browser and the server always use the same database. The committed `.env` holds only the public URL and publishable key of that same project, for local development.
 - The database schema is `supabase/migrations/`; the Lovable-era migrations in `supabase/arhiva-lovable/` are history and are not applied.
 - Hosting target is Vercel (`fra1`, set in `vite.config.ts` via `nitro({ vercel: { functions: { regions } } })`). Supabase settings are read under both our names and the names the Supabase–Vercel integration sets (`SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `NEXT_PUBLIC_*`, legacy `SUPABASE_ANON_KEY` / `SUPABASE_SERVICE_ROLE_KEY`). The browser bundle gets the public pair at build time in the same order as the server reads it (`vite.config.ts` and `src/integrations/supabase/env.ts` must stay in sync).
 - `npm run build` runs `scripts/db-migrate.mjs` first. It applies each `supabase/migrations/*.sql` once, in a transaction, records it in `private.schema_migrations`, and runs on Vercel only for production builds. Migrations must be forward-only and safe to run against live data; never edit an applied migration, add a new file instead.

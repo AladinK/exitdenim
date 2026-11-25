@@ -17,11 +17,16 @@ Urađeno:
 - `TELEGRAM_BOT_TOKEN` je na Vercel-u (Production).
 - Glavna adresa je **www.exit.fashion** (domen kupljen preko Vercel-a, DNS podešava Vercel sam; `exit.fashion` vodi na `www`). Oznake za Google, mapa sajta i linkovi u mejlovima koriste tu adresu.
 
+- Lovable projekat je obrisan (25.11.2026). Sajt više ni za šta ne zavisi od Lovable-a.
+- E-mail preko Resend-a (pošiljalac `porudzbine@exit.fashion`) i Telegram obaveštenja rade; Google prijava ide preko sopstvenog Google OAuth ključa.
+- Google Search Console: `https://www.exit.fashion/` je potvrđen (fajl `public/google78a418e8380e47d4.html`), mapa sajta je poslata i pročitana. Bing i ostali pretraživači su obavešteni preko IndexNow-a (ključ u `public/`).
+- `exitdenim.shop` i `www.exitdenim.shop` su dodati u Vercel kao trajno preusmerenje (301) na `www.exit.fashion`; svaka stara adresa vodi na istu stranicu novog sajta.
+
 Ostaje:
 
-- `exitdenim.shop` je još na Lovable-u. Kada stari sajt više ne treba: Vercel → Domains → Add `exitdenim.shop` kao preusmerenje (308) na `www.exit.fashion`, pa kod name.com unesite DNS zapise koje Vercel prikaže. Pre toga prenesite porudžbine koje su na stari sajt stigle posle izvoza.
-- E-mail preko Resend-a (koraci 4.2 i 5) i Google prijava (korak 4.3).
-- Lovable isključiti sa GitHub repoa kada stari sajt više nije potreban (korak 8).
+- DNS za `exitdenim.shop` kod name.com (sada pokazuje na obrisani Lovable): zapis `A` za `@` → `216.198.79.1`, a za `www` zapis `CNAME` → `2c491baaab4e4fcb.vercel-dns-017.com` (umesto dosadašnjih `A … 185.158.133.1`). Posle toga Vercel sam izdaje sertifikat i preusmerenje radi.
+- Porudžbine koje su možda stigle na stari sajt posle izvoza bile su u Lovable bazi i obrisane su sa projektom; proverite stare Telegram/e-mail poruke od tog dana.
+- Opciono: na GitHub-u (Settings → Applications) ukloniti Lovable aplikaciju, ako je još instalirana.
 
 ## 1. Vercel nalog i projekat
 

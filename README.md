@@ -4,7 +4,7 @@ Sajt [exitdenim.shop](https://exitdenim.shop): maloprodaja (plaćanje pouzećem)
 
 Ovo je isti sajt, istog izgleda, **bez ijedne zavisnosti od Lovable-a**: objavljuje se na Vercel-u (ili bilo kom drugom hostingu), a baza je vaš sopstveni Supabase projekat.
 
-**Selite sajt sa Lovable-a?** Pratite [SELIDBA.md](./SELIDBA.md), korak po korak.
+Selidba sa Lovable-a je završena 25.11.2026 (Lovable projekat je obrisan). Šta je urađeno i šta je ostalo opisuje [SELIDBA.md](./SELIDBA.md).
 
 ## Šta je gde
 

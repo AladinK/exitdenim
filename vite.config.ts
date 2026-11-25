@@ -21,9 +21,9 @@ const SUPABASE_PUBLISHABLE_KEY_NAMES = [
 const firstOf = (env: Record<string, string | undefined>, names: string[]) =>
   names.map((name) => env[name]).find((value) => Boolean(value));
 
-// Na Vercel-u važe samo promenljive podešene na Vercel-u. Fajl .env u repou održava
-// Lovable dok je projekat povezan sa njim (u njemu je adresa STARE baze), pa ga build na
-// Vercel-u ne čita: inače bi pregledač gađao staru bazu, a server novu.
+// Na Vercel-u važe samo promenljive podešene na Vercel-u (Supabase integracija ih drži
+// u skladu). Fajlovi .env se tamo ne čitaju, da pregledač i server nikad ne gađaju
+// različite baze; .env u repou služi samo za lokalni rad.
 const IGNORE_ENV_FILES = Boolean(process.env.VERCEL);
 
 export default defineConfig(({ mode }) => {
@@ -57,9 +57,6 @@ export default defineConfig(({ mode }) => {
         },
       }),
       nitro({
-        // Lovable builds with --mode development and deploys dist/. Production
-        // builds retain Nitro's preset-specific output for independent hosting.
-        ...(mode === "development" ? { output: { dir: "dist" } } : {}),
         // Na Vercel-u server radi u Frankfurtu: blizu kupaca u Srbiji i blizu baze
         // (Supabase, eu-central-1). Ostali hostinzi ovo zanemaruju.
         vercel: { functions: { regions: ["fra1"] } },
