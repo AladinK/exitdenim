@@ -92,7 +92,7 @@ async function readCatalog(): Promise<ProductWithStock[]> {
 
   return list.map((p) => ({
     ...p,
-    on_sale: Boolean(p.on_sale),
+    on_sale: Boolean((p as { on_sale?: boolean | null }).on_sale),
     gallery: p.gallery ?? [],
     image_url: isStoragePath(p.image_url) ? (signed[p.image_url] ?? null) : (p.image_url ?? null),
     stock: (p.id && stock[p.id]) || {},
@@ -126,7 +126,7 @@ async function readProduct(slug: string): Promise<ProductWithStock | null> {
 
   return {
     ...product,
-    on_sale: Boolean(product.on_sale),
+    on_sale: Boolean((product as { on_sale?: boolean | null }).on_sale),
     image_url: resolve(product.image_url),
     gallery: gallery.map(resolve).filter((url): url is string => !!url),
     stock,
