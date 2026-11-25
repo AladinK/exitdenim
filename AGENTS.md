@@ -39,3 +39,4 @@
 - Never commit database exports or customer data (the repository is public).
 
 - Search engines: `public/google78a418e8380e47d4.html` keeps Google Search Console ownership of `https://www.exit.fashion/` (the older `google-site-verification` meta in `src/routes/__root.tsx` belongs to an earlier property; head tags with the same name are merged, so a second meta would not work); `public/311df8d400f1cf6fbaf9926534a2db95.txt` is the IndexNow key (Bing, Yandex). Keep all three.
+- Google Merchant Center reads the product feed at `/merchant.xml` (`src/routes/merchant[.]xml.ts`): one item per size (`item_group_id` = SKU), live stock availability, the real RSD price (never the display-only "before discount" price), stable `/img/p/...` photos and free shipping in Serbia (handling 1–2, transit 1–3 business days, as the site states).

@@ -24,6 +24,7 @@ import { Route as KatalogRouteImport } from './routes/katalog'
 import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as KorpaRouteImport } from './routes/korpa'
 import { Route as MediaKitRouteImport } from './routes/media-kit'
+import { Route as MerchantDotxmlRouteImport } from './routes/merchant[.]xml'
 import { Route as PostaniPartnerRouteImport } from './routes/postani-partner'
 import { Route as PrivateLabelRouteImport } from './routes/private-label'
 import { Route as PrivatnostRouteImport } from './routes/privatnost'
@@ -120,6 +121,11 @@ const KorpaRoute = KorpaRouteImport.update({
 const MediaKitRoute = MediaKitRouteImport.update({
   id: '/media-kit',
   path: '/media-kit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MerchantDotxmlRoute = MerchantDotxmlRouteImport.update({
+  id: '/merchant.xml',
+  path: '/merchant.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PostaniPartnerRoute = PostaniPartnerRouteImport.update({
@@ -254,6 +260,7 @@ export interface FileRoutesByFullPath {
   '/kontakt': typeof KontaktRoute
   '/korpa': typeof KorpaRoute
   '/media-kit': typeof MediaKitRoute
+  '/merchant.xml': typeof MerchantDotxmlRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/private-label': typeof PrivateLabelRoute
   '/privatnost': typeof PrivatnostRoute
@@ -293,6 +300,7 @@ export interface FileRoutesByTo {
   '/kontakt': typeof KontaktRoute
   '/korpa': typeof KorpaRoute
   '/media-kit': typeof MediaKitRoute
+  '/merchant.xml': typeof MerchantDotxmlRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/private-label': typeof PrivateLabelRoute
   '/privatnost': typeof PrivatnostRoute
@@ -334,6 +342,7 @@ export interface FileRoutesById {
   '/kontakt': typeof KontaktRoute
   '/korpa': typeof KorpaRoute
   '/media-kit': typeof MediaKitRoute
+  '/merchant.xml': typeof MerchantDotxmlRoute
   '/postani-partner': typeof PostaniPartnerRoute
   '/private-label': typeof PrivateLabelRoute
   '/privatnost': typeof PrivatnostRoute
@@ -375,6 +384,7 @@ export interface FileRouteTypes {
     | '/kontakt'
     | '/korpa'
     | '/media-kit'
+    | '/merchant.xml'
     | '/postani-partner'
     | '/private-label'
     | '/privatnost'
@@ -414,6 +424,7 @@ export interface FileRouteTypes {
     | '/kontakt'
     | '/korpa'
     | '/media-kit'
+    | '/merchant.xml'
     | '/postani-partner'
     | '/private-label'
     | '/privatnost'
@@ -454,6 +465,7 @@ export interface FileRouteTypes {
     | '/kontakt'
     | '/korpa'
     | '/media-kit'
+    | '/merchant.xml'
     | '/postani-partner'
     | '/private-label'
     | '/privatnost'
@@ -495,6 +507,7 @@ export interface RootRouteChildren {
   KontaktRoute: typeof KontaktRoute
   KorpaRoute: typeof KorpaRoute
   MediaKitRoute: typeof MediaKitRoute
+  MerchantDotxmlRoute: typeof MerchantDotxmlRoute
   PostaniPartnerRoute: typeof PostaniPartnerRoute
   PrivateLabelRoute: typeof PrivateLabelRoute
   PrivatnostRoute: typeof PrivatnostRoute
@@ -621,6 +634,13 @@ declare module '@tanstack/react-router' {
       path: '/media-kit'
       fullPath: '/media-kit'
       preLoaderRoute: typeof MediaKitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/merchant.xml': {
+      id: '/merchant.xml'
+      path: '/merchant.xml'
+      fullPath: '/merchant.xml'
+      preLoaderRoute: typeof MerchantDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/postani-partner': {
@@ -820,6 +840,7 @@ const rootRouteChildren: RootRouteChildren = {
   KontaktRoute: KontaktRoute,
   KorpaRoute: KorpaRoute,
   MediaKitRoute: MediaKitRoute,
+  MerchantDotxmlRoute: MerchantDotxmlRoute,
   PostaniPartnerRoute: PostaniPartnerRoute,
   PrivateLabelRoute: PrivateLabelRoute,
   PrivatnostRoute: PrivatnostRoute,
