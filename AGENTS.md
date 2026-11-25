@@ -49,4 +49,4 @@
 - Owner order e-mails go to `ORDER_NOTIFY_EMAIL` (several addresses may be separated by commas), falling back to the brand e-mail.
 - Never commit database exports or customer data (the repository is public).
 
-- Search engines: `google-site-verification` meta in `src/routes/__root.tsx` keeps Google Search Console ownership of `https://www.exit.fashion/`; `public/311df8d400f1cf6fbaf9926534a2db95.txt` is the IndexNow key (Bing, Yandex). Keep both.
+- Search engines: `public/google78a418e8380e47d4.html` keeps Google Search Console ownership of `https://www.exit.fashion/` (the older `google-site-verification` meta in `src/routes/__root.tsx` belongs to an earlier property; head tags with the same name are merged, so a second meta would not work); `public/311df8d400f1cf6fbaf9926534a2db95.txt` is the IndexNow key (Bing, Yandex). Keep all three.

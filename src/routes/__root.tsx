@@ -88,8 +88,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "theme-color", content: "#FAF9F6" },
       { name: "format-detection", content: "telephone=no" },
-      // Potvrda vlasništva u Google Search Console (javna vrednost, nije tajna).
-      { name: "google-site-verification", content: "ATGa3oKio_vk_EN4Q0YOjSobcIbDrf2ygRP0Mdv0FJY" },
       { title: "EXIT Denim — muške farmerke, čino i kargo pantalone" },
       { name: "description", content: "Premijum muške farmerke, čino i kargo pantalone. Plaćanje pouzećem, dostava širom Srbije." },
       { property: "og:title", content: "EXIT Denim — muške farmerke, čino i kargo pantalone" },

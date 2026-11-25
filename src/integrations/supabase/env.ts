@@ -180,5 +180,8 @@ export function createSupabaseFetch(
 
 /** Rok za serverske upite ka bazi (i za ponovljeni pokušaj čitanja). */
 export const SERVER_REQUEST_TIMEOUT_MS = 5_000;
-/** Rok za prvi pokušaj čitanja; normalan odgovor stiže za manje od pola sekunde. */
-export const SERVER_FIRST_READ_TIMEOUT_MS = 2_500;
+/**
+ * Rok za prvi pokušaj čitanja. Normalan odgovor iz Frankfurta stiže za 20–150 ms, a
+ * zaglavljena veza ne odgovara uopšte, pa je kratak rok dovoljan i štedi čekanje.
+ */
+export const SERVER_FIRST_READ_TIMEOUT_MS = 1_500;

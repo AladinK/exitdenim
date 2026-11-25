@@ -42,7 +42,7 @@ async function serveImage(splat: string, method: "GET" | "HEAD"): Promise<Respon
 
   const storageFetch = createSupabaseFetch(config.key, {
     timeoutMs: SERVER_REQUEST_TIMEOUT_MS * 2,
-    firstAttemptTimeoutMs: SERVER_REQUEST_TIMEOUT_MS,
+    firstAttemptTimeoutMs: 2_000,
   });
   const objectUrl = `${config.url.replace(/\/+$/, "")}/storage/v1/object/authenticated/${parsed.bucket}/${parsed.path
     .split("/")
