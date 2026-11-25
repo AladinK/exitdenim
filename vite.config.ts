@@ -21,11 +21,16 @@ const SUPABASE_PUBLISHABLE_KEY_NAMES = [
 const firstOf = (env: Record<string, string | undefined>, names: string[]) =>
   names.map((name) => env[name]).find((value) => Boolean(value));
 
+// Na Vercel-u važe samo promenljive podešene na Vercel-u. Fajl .env u repou održava
+// Lovable dok je projekat povezan sa njim (u njemu je adresa STARE baze), pa ga build na
+// Vercel-u ne čita: inače bi pregledač gađao staru bazu, a server novu.
+const IGNORE_ENV_FILES = Boolean(process.env.VERCEL);
+
 export default defineConfig(({ mode }) => {
   // Promenljive sa hostinga imaju prednost nad fajlovima .env / .env.local.
   // Serverske (bez VITE_ prefiksa) služe lokalnom `vite dev`; u produkciji ih postavlja
   // hosting i nikada ne ulaze u klijentski paket.
-  Object.assign(process.env, loadEnv(mode, process.cwd(), ""));
+  if (!IGNORE_ENV_FILES) Object.assign(process.env, loadEnv(mode, process.cwd(), ""));
 
   // Javni par za kod u pregledaču (adresa baze i publishable ključ).
   const publicUrl = firstOf(process.env, SUPABASE_URL_NAMES);
@@ -34,6 +39,7 @@ export default defineConfig(({ mode }) => {
   if (publicKey) process.env.VITE_SUPABASE_PUBLISHABLE_KEY = publicKey;
 
   return {
+    envDir: IGNORE_ENV_FILES ? false : undefined,
     server: { port: 3000 },
     // Isti CSS procesor koji je sajt koristio i do sada, da izgled ostane isti.
     css: { transformer: "lightningcss" },
