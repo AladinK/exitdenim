@@ -45,7 +45,7 @@ const QA: Array<[string, string]> = [
   ["Kako se plaća?", "Plaćate pouzećem, kuriru kada paket stigne. Bez kartice i bez plaćanja unapred."],
   ["Koliko košta dostava?", "Dostava je besplatna za sve porudžbine po celoj Srbiji."],
   ["Kada stiže paket?", "Porudžbinu šaljemo u roku od 1–2 radna dana, a kurir obično isporučuje dan ili dva posle slanja."],
-  ["Koje veličine imate?", "31, 32, 33, 34, 36, 38 i 40. Tabela veličina je na strani svakog proizvoda."],
+  ["Koje veličine imate?", "31, 32, 33, 34, 36, 38 i 40. Brojevi prate Levi's veličine: ako nosite Levi's farmerke, uzmite isti broj. Na strani svakog modela kalkulator preporučuje broj po visini i težini."],
   ["Da li moram da napravim nalog?", "Ne. Poručujete bez registracije, samo upišete ime, adresu, telefon i e-mail."],
   ["Šta ako nisam siguran za veličinu?", "Pišite nam na WhatsApp ili Viber +381 65 317 6716 pre porudžbine i preporučićemo vam broj i kroj."],
   ["Šta ako mi veličina ne odgovara?", SIZE_EXCHANGE_TEXT],

@@ -8,16 +8,6 @@ import type { ProductWithStock } from "@/lib/products.functions";
 import { Button } from "@/components/ui/button";
 import { SizeAdvisor } from "@/components/SizeAdvisor";
 
-const SIZE_GUIDE: [string, string, string][] = [
-  ["31", "79–81", "46"],
-  ["32", "81–84", "48"],
-  ["33", "84–86", "48/50"],
-  ["34", "86–89", "50"],
-  ["36", "91–94", "52"],
-  ["38", "97–99", "54"],
-  ["40", "102–104", "56"],
-];
-
 export function AddToCart({ product }: { product: ProductWithStock }) {
   const { add, setOpen } = useCart();
   const [size, setSize] = useState<string | null>(null);
@@ -126,25 +116,6 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
         onPick={pickSize}
       />
 
-      <details className="mt-4 group text-[12px]">
-        <summary className="cursor-pointer list-none text-muted-foreground hover:text-foreground underline underline-offset-4">
-          Vodič za veličine (obim struka u cm)
-        </summary>
-        <table className="mt-3 w-full text-left tabular-nums">
-          <thead className="text-muted-foreground">
-            <tr><th className="py-1 font-medium">Broj</th><th className="py-1 font-medium">Struk (cm)</th><th className="py-1 font-medium">Pantalone (EU)</th></tr>
-          </thead>
-          <tbody>
-            {SIZE_GUIDE.map(([n, w, eu]) => (
-              <tr key={n} className="border-t border-border"><td className="py-1.5">{n}</td><td>{w}</td><td>{eu}</td></tr>
-            ))}
-          </tbody>
-        </table>
-        <p className="mt-3 text-muted-foreground">
-          Niste sigurni? Pozovite ili pišite na Viber/WhatsApp{" "}
-          <a href="tel:+381653176716" className="text-foreground underline underline-offset-4">065 317 6716</a> — pomoći ćemo da izaberete broj.
-        </p>
-      </details>
 
       <Button
         onClick={() => onAdd(true)}

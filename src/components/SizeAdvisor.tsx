@@ -17,6 +17,9 @@ export function SizeAdvisor({ sizes, onPick }: { sizes: string[]; onPick: (s: st
         Niste sigurni koji broj? Preporuka po visini i težini
       </summary>
       <div className="mt-3 text-[13px]">
+        <p className="mb-3 text-[12px] text-muted-foreground">
+          Naši brojevi prate Levi's: ako nosite Levi's farmerke, uzmite isti broj.
+        </p>
         <div className="grid grid-cols-2 gap-2">
           <input className={input} inputMode="numeric" placeholder="Visina (cm)" aria-label="Visina u cm" value={height} onChange={(e) => setHeight(e.target.value.replace(/\D/g, ""))} />
           <input className={input} inputMode="numeric" placeholder="Težina (kg)" aria-label="Težina u kg" value={weight} onChange={(e) => setWeight(e.target.value.replace(/\D/g, ""))} />
@@ -35,6 +38,10 @@ export function SizeAdvisor({ sizes, onPick }: { sizes: string[]; onPick: (s: st
             ) : <p className="text-muted-foreground">Taj broj trenutno nemamo — pozovite 065 317 6716.</p>}
           </div>
         )}
+        <p className="mt-3 text-[12px] text-muted-foreground">
+          Niste sigurni? Pišite na Viber/WhatsApp{" "}
+          <a href="tel:+381653176716" className="text-foreground underline underline-offset-4">065 317 6716</a> — pomoći ćemo da izaberete broj.
+        </p>
       </div>
     </details>
   );

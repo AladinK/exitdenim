@@ -136,7 +136,7 @@ export function QuickBuy({ product }: { product: ProductWithStock }) {
                       className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground underline underline-offset-4 hover:text-foreground"
                       onClick={closeSheet}
                     >
-                      Vodič za veličine
+                      Kalkulator veličine
                     </Link>
                   </div>
                   <div className="mt-3 grid grid-cols-6 gap-1.5">
