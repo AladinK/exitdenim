@@ -51,6 +51,7 @@ export function Footer() {
               <li><Link to="/media-kit" className="hover:text-accent transition-colors">Media kit</Link></li>
               <li><Link to="/faq" className="hover:text-accent transition-colors">Česta pitanja</Link></li>
               <li><Link to="/vodic-za-farmerke" className="hover:text-accent transition-colors">Vodič za farmerke</Link></li>
+              <li><Link to="/prodajna-mesta" className="hover:text-accent transition-colors">Prodajna mesta</Link></li>
             </ul>
           </div>
 

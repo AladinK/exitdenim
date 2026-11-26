@@ -28,6 +28,7 @@ import { Route as MerchantDotxmlRouteImport } from './routes/merchant[.]xml'
 import { Route as PostaniPartnerRouteImport } from './routes/postani-partner'
 import { Route as PrivateLabelRouteImport } from './routes/private-label'
 import { Route as PrivatnostRouteImport } from './routes/privatnost'
+import { Route as ProdajnaMestaRouteImport } from './routes/prodajna-mesta'
 import { Route as ProizvodnjaRouteImport } from './routes/proizvodnja'
 import { Route as RegularSlimFarmerkeRouteImport } from './routes/regular-slim-farmerke'
 import { Route as RelaxedFarmerkeRouteImport } from './routes/relaxed-farmerke'
@@ -141,6 +142,11 @@ const PrivateLabelRoute = PrivateLabelRouteImport.update({
 const PrivatnostRoute = PrivatnostRouteImport.update({
   id: '/privatnost',
   path: '/privatnost',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProdajnaMestaRoute = ProdajnaMestaRouteImport.update({
+  id: '/prodajna-mesta',
+  path: '/prodajna-mesta',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProizvodnjaRoute = ProizvodnjaRouteImport.update({
@@ -264,6 +270,7 @@ export interface FileRoutesByFullPath {
   '/postani-partner': typeof PostaniPartnerRoute
   '/private-label': typeof PrivateLabelRoute
   '/privatnost': typeof PrivatnostRoute
+  '/prodajna-mesta': typeof ProdajnaMestaRoute
   '/proizvodnja': typeof ProizvodnjaRoute
   '/regular-slim-farmerke': typeof RegularSlimFarmerkeRoute
   '/relaxed-farmerke': typeof RelaxedFarmerkeRoute
@@ -304,6 +311,7 @@ export interface FileRoutesByTo {
   '/postani-partner': typeof PostaniPartnerRoute
   '/private-label': typeof PrivateLabelRoute
   '/privatnost': typeof PrivatnostRoute
+  '/prodajna-mesta': typeof ProdajnaMestaRoute
   '/proizvodnja': typeof ProizvodnjaRoute
   '/regular-slim-farmerke': typeof RegularSlimFarmerkeRoute
   '/relaxed-farmerke': typeof RelaxedFarmerkeRoute
@@ -346,6 +354,7 @@ export interface FileRoutesById {
   '/postani-partner': typeof PostaniPartnerRoute
   '/private-label': typeof PrivateLabelRoute
   '/privatnost': typeof PrivatnostRoute
+  '/prodajna-mesta': typeof ProdajnaMestaRoute
   '/proizvodnja': typeof ProizvodnjaRoute
   '/regular-slim-farmerke': typeof RegularSlimFarmerkeRoute
   '/relaxed-farmerke': typeof RelaxedFarmerkeRoute
@@ -388,6 +397,7 @@ export interface FileRouteTypes {
     | '/postani-partner'
     | '/private-label'
     | '/privatnost'
+    | '/prodajna-mesta'
     | '/proizvodnja'
     | '/regular-slim-farmerke'
     | '/relaxed-farmerke'
@@ -428,6 +438,7 @@ export interface FileRouteTypes {
     | '/postani-partner'
     | '/private-label'
     | '/privatnost'
+    | '/prodajna-mesta'
     | '/proizvodnja'
     | '/regular-slim-farmerke'
     | '/relaxed-farmerke'
@@ -469,6 +480,7 @@ export interface FileRouteTypes {
     | '/postani-partner'
     | '/private-label'
     | '/privatnost'
+    | '/prodajna-mesta'
     | '/proizvodnja'
     | '/regular-slim-farmerke'
     | '/relaxed-farmerke'
@@ -511,6 +523,7 @@ export interface RootRouteChildren {
   PostaniPartnerRoute: typeof PostaniPartnerRoute
   PrivateLabelRoute: typeof PrivateLabelRoute
   PrivatnostRoute: typeof PrivatnostRoute
+  ProdajnaMestaRoute: typeof ProdajnaMestaRoute
   ProizvodnjaRoute: typeof ProizvodnjaRoute
   RegularSlimFarmerkeRoute: typeof RegularSlimFarmerkeRoute
   RelaxedFarmerkeRoute: typeof RelaxedFarmerkeRoute
@@ -662,6 +675,13 @@ declare module '@tanstack/react-router' {
       path: '/privatnost'
       fullPath: '/privatnost'
       preLoaderRoute: typeof PrivatnostRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prodajna-mesta': {
+      id: '/prodajna-mesta'
+      path: '/prodajna-mesta'
+      fullPath: '/prodajna-mesta'
+      preLoaderRoute: typeof ProdajnaMestaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/proizvodnja': {
@@ -844,6 +864,7 @@ const rootRouteChildren: RootRouteChildren = {
   PostaniPartnerRoute: PostaniPartnerRoute,
   PrivateLabelRoute: PrivateLabelRoute,
   PrivatnostRoute: PrivatnostRoute,
+  ProdajnaMestaRoute: ProdajnaMestaRoute,
   ProizvodnjaRoute: ProizvodnjaRoute,
   RegularSlimFarmerkeRoute: RegularSlimFarmerkeRoute,
   RelaxedFarmerkeRoute: RelaxedFarmerkeRoute,

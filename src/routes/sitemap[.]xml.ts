@@ -43,6 +43,7 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/media-kit", changefreq: "monthly", priority: "0.5" },
           { path: "/faq", changefreq: "monthly", priority: "0.6" },
           { path: "/vodic-za-farmerke", changefreq: "monthly", priority: "0.8" },
+          { path: "/prodajna-mesta", changefreq: "monthly", priority: "0.7" },
           { path: "/kontakt", changefreq: "monthly", priority: "0.5" },
         ];
         // Bez baze ne šaljemo krnju mapu sajta: pretraživač bi zaključio da su proizvodi
