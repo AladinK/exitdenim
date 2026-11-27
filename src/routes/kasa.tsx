@@ -347,7 +347,7 @@ function CheckoutPage() {
                 <div>
                   <div className="font-medium">Plaćanje pouzećem (COD)</div>
                   <p className="text-sm text-muted-foreground mt-1">
-                    Plaćate gotovinom kurir pri isporuci. Dostava 2–5 radnih dana{eta ? `, okvirno ${eta}` : ""}.
+                    Plaćate gotovinom kurir pri isporuci. Dostava 2–5 radnih dana{eta ? `, okvirno ${eta}` : "."}
                   </p>
                 </div>
               </label>
@@ -457,7 +457,9 @@ function CheckoutPage() {
                   <li key={t} className="flex gap-2"><span className="text-primary">✓</span>{t}</li>
                 ))}
               </ul>
-              <p className="text-[11px] text-center text-muted-foreground">Slanjem porudžbine prihvatate Uslove korišćenja.</p>
+              <p className="text-[11px] text-center text-muted-foreground">
+                Slanjem porudžbine prihvatate <Link to="/faq" className="underline underline-offset-2">uslove kupovine</Link>.
+              </p>
             </div>
           </aside>
 
