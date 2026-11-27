@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { BRAND } from "@/lib/brand";
+import { isValidPhone, samePhone } from "@/lib/cart-helpers";
 
 const itemSchema = z.object({
   productId: z.string().uuid(),
@@ -10,9 +11,21 @@ const itemSchema = z.object({
 });
 
 const contactSchema = z.object({
-  email: z.string().trim().email().max(255),
+  // Email je opcion: kupci pouzećem često ga nemaju ili ne žele da ga daju; telefon je obavezan.
+  email: z
+    .string()
+    .trim()
+    .max(255)
+    .optional()
+    .default("")
+    .refine((v) => v === "" || z.string().email().safeParse(v).success, "Email nije ispravan"),
   name: z.string().trim().min(2).max(120),
-  phone: z.string().trim().min(6).max(40),
+  phone: z
+    .string()
+    .trim()
+    .min(6)
+    .max(40)
+    .refine(isValidPhone, "Telefon nije ispravan. Upišite broj, na primer 064 123 4567."),
 });
 
 const shippingSchema = z.object({
@@ -178,22 +191,25 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
           note: data.note,
         },
         idempotencyKey: `order-notification-${order.id}`,
-        replyTo: data.contact.email,
+        replyTo: data.contact.email || undefined,
       }),
-      sendTemplateEmail("order-confirmation", data.contact.email, {
-        templateData: {
-          name: data.contact.name,
-          orderNumber: order.order_number,
-          items,
-          subtotal,
-          shipping: shipping_cost,
-          discount,
-          promoCode,
-          total,
-          address: fullAddress,
-        },
-        idempotencyKey: `order-confirmation-${order.id}`,
-      }),
+      // Potvrda kupcu ide samo ako je upisao email.
+      data.contact.email
+        ? sendTemplateEmail("order-confirmation", data.contact.email, {
+            templateData: {
+              name: data.contact.name,
+              orderNumber: order.order_number,
+              items,
+              subtotal,
+              shipping: shipping_cost,
+              discount,
+              promoCode,
+              total,
+              address: fullAddress,
+            },
+            idempotencyKey: `order-confirmation-${order.id}`,
+          })
+        : Promise.resolve({ sent: false, skipped: true }),
     ]);
     outcomes.forEach((outcome, index) => {
       if (outcome.status === "rejected") {
@@ -229,24 +245,39 @@ export const listMyCustomerOrders = createServerFn({ method: "GET" })
     return data ?? [];
   });
 
-/** Public lookup by order number + email (for guest tracking) */
+/**
+ * Javni pregled porudžbine: broj porudžbine i email ili telefon kojim je poručeno
+ * (gost bez naloga). Bez oba podatka porudžbina se ne prikazuje.
+ */
 export const lookupCustomerOrder = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) =>
     z
-      .object({ orderNumber: z.string().trim().min(4).max(40), email: z.string().trim().email() })
+      .object({
+        orderNumber: z.string().trim().min(4).max(40),
+        email: z.string().trim().email().max(255).optional(),
+        phone: z.string().trim().min(6).max(40).optional(),
+      })
+      .refine((v) => !!v.email || !!v.phone, "Potreban je email ili telefon")
       .parse(d),
   )
   .handler(async ({ data }) => {
-    // Use admin only to look up by email+number combination (safe: requires both).
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: order, error } = await supabaseAdmin
+    const { data: rows, error } = await supabaseAdmin
       .from("customer_orders")
       .select(
-        "id, order_number, status, total, subtotal, discount, promo_code, shipping_cost, shipping_address, shipping_city, shipping_postal, shipping_country, customer_name, created_at, customer_order_items(id, product_name, product_sku, size, quantity, unit_price)",
+        "id, order_number, status, total, subtotal, discount, promo_code, shipping_cost, shipping_address, shipping_city, shipping_postal, shipping_country, customer_name, customer_email, customer_phone, created_at, customer_order_items(id, product_name, product_sku, size, quantity, unit_price)",
       )
       .eq("order_number", data.orderNumber)
-      .eq("customer_email", data.email)
-      .maybeSingle();
+      .limit(5);
     if (error) throw new Error(error.message);
+    const email = data.email?.toLowerCase();
+    const match = (rows ?? []).find((o) =>
+      email
+        ? (o.customer_email ?? "").trim().toLowerCase() === email
+        : samePhone(o.customer_phone ?? "", data.phone ?? ""),
+    );
+    if (!match) return null;
+    // Email i telefon kupca se ne vraćaju u pregledač.
+    const { customer_email: _e, customer_phone: _p, ...order } = match;
     return order;
   });

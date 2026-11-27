@@ -5,7 +5,10 @@ import { CheckCircle2, Package, MapPin } from "lucide-react";
 import { z } from "zod";
 import { Layout } from "@/components/Layout";
 import { lookupCustomerOrder } from "@/lib/customer-orders.functions";
+import { BRAND, SIZE_EXCHANGE } from "@/lib/brand";
+import { phoneHref, whatsappHref } from "@/lib/contact";
 
+// Stari linkovi su nosili email u adresi; i dalje rade, ali kasa ga više tu ne stavlja.
 const search = z.object({ email: z.string().email().optional() });
 
 export const Route = createFileRoute("/porudzbina/$number")({
@@ -33,39 +36,62 @@ const STATUS_LABEL: Record<string, string> = {
   cancelled: "Otkazana",
 };
 
+type Who = { email?: string; phone?: string };
+
+/** Podaci koje je kasa ostavila u ovoj kartici odmah posle porudžbine. */
+function readHandoff(number: string): Who | null {
+  try {
+    const raw = sessionStorage.getItem("exit_last_order");
+    if (!raw) return null;
+    const h = JSON.parse(raw);
+    if (h?.number !== number) return null;
+    if (h.email) return { email: h.email };
+    if (h.phone) return { phone: h.phone };
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 function OrderPage() {
   const { number } = useParams({ from: "/porudzbina/$number" });
   const { email: searchEmail } = useSearch({ from: "/porudzbina/$number" });
   const lookup = useServerFn(lookupCustomerOrder);
 
-  const [email, setEmail] = useState(searchEmail ?? "");
+  const [contact, setContact] = useState(searchEmail ?? "");
   const [order, setOrder] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [tried, setTried] = useState(false);
 
-  const fetchOrder = async (e: string) => {
+  const fetchOrder = async (who: Who) => {
     setLoading(true); setError(null);
     try {
-      const r = await lookup({ data: { orderNumber: number, email: e } });
-      if (!r) setError("Porudžbina nije pronađena. Proverite broj i email.");
+      const r = await lookup({ data: { orderNumber: number, ...who } });
+      if (!r) setError("Porudžbina nije pronađena. Proverite broj porudžbine i email ili telefon.");
       setOrder(r);
       setTried(true);
-    } catch (err: any) {
-      setError(err?.message || "Greška pri učitavanju.");
+    } catch {
+      setError("Porudžbina trenutno ne može da se prikaže. Pokušajte ponovo za minut.");
+      setTried(true);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (searchEmail) fetchOrder(searchEmail);
+    const who = searchEmail ? { email: searchEmail } : readHandoff(number);
+    if (who) fetchOrder(who);
   }, []); // eslint-disable-line
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) fetchOrder(email);
+    const v = contact.trim();
+    if (!v) return;
+    fetchOrder(v.includes("@") ? { email: v } : { phone: v });
   };
+
+  const discount = Number(order?.discount ?? 0);
 
   return (
     <Layout>
@@ -102,7 +128,13 @@ function OrderPage() {
                 <div className="mt-4 space-y-1.5 text-sm">
                   <div className="flex justify-between"><span className="text-muted-foreground">Međuzbir</span><span className="tabular-nums">{Number(order.subtotal).toLocaleString("sr-RS")} din</span></div>
                   <div className="flex justify-between"><span className="text-muted-foreground">Dostava</span><span className="tabular-nums">{Number(order.shipping_cost) === 0 ? "Besplatna" : `${Number(order.shipping_cost).toLocaleString("sr-RS")} din`}</span></div>
-                  <div className="flex justify-between pt-2 mt-2 border-t border-border font-semibold"><span>Ukupno</span><span className="tabular-nums">{Number(order.total).toLocaleString("sr-RS")} din</span></div>
+                  {discount > 0 && (
+                    <div className="flex justify-between text-accent font-medium">
+                      <span>Popust{order.promo_code ? ` (${order.promo_code})` : ""}</span>
+                      <span className="tabular-nums">−{discount.toLocaleString("sr-RS")} din</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between pt-2 mt-2 border-t border-border font-semibold"><span>Ukupno pouzećem</span><span className="tabular-nums">{Number(order.total).toLocaleString("sr-RS")} din</span></div>
                 </div>
               </div>
             </div>
@@ -122,6 +154,24 @@ function OrderPage() {
               </ul>
             </div>
 
+            <div className="mt-6 border border-border bg-secondary/40 p-5 text-sm">
+              <div className="font-semibold">Treba da promenite veličinu ili adresu?</div>
+              <p className="mt-1 text-muted-foreground">
+                Javite se što pre, dok paket nije poslat. Zamena veličine je moguća u roku od {SIZE_EXCHANGE.days} dana, a troškove zamene snosi EXIT.
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <a className="btn-outline" href={phoneHref}>{BRAND.phoneLabel}</a>
+                <a
+                  className="btn-outline"
+                  href={whatsappHref(`Zdravo, imam pitanje u vezi porudžbine ${order.order_number}.`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  WhatsApp
+                </a>
+              </div>
+            </div>
+
             <div className="mt-8 flex gap-3">
               <Link to="/katalog" className="btn-outline">Nastavi sa kupovinom</Link>
             </div>
@@ -130,20 +180,23 @@ function OrderPage() {
           <>
             <div className="eyebrow">Praćenje porudžbine</div>
             <h1 className="mt-4 text-3xl md:text-4xl">Porudžbina {number}</h1>
-            <p className="mt-3 text-muted-foreground">Unesite email kojim ste poručili da vidite status.</p>
+            <p className="mt-3 text-muted-foreground">Unesite email ili broj telefona kojim ste poručili da vidite status.</p>
             <form onSubmit={onSubmit} className="mt-8 flex flex-col sm:flex-row gap-3 max-w-md">
               <input
-                type="email"
+                type="text"
                 required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@email.com"
+                value={contact}
+                onChange={(e) => setContact(e.target.value)}
+                placeholder="Email ili 064 123 4567"
+                autoComplete="email"
+                aria-label="Email ili telefon"
                 className="flex-1 border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground"
               />
               <button type="submit" disabled={loading} className="btn-primary">
                 {loading ? "..." : "Prikaži"}
               </button>
             </form>
+            {loading && !tried && <p className="mt-4 text-sm text-muted-foreground">Učitavam porudžbinu…</p>}
             {tried && error && <p className="mt-4 text-sm text-destructive">{error}</p>}
           </>
         )}

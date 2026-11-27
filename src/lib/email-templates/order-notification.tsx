@@ -78,7 +78,7 @@ const OrderNotification = ({
           <b>{name}</b>
         </Text>
         <Text style={row}>Telefon: {phone}</Text>
-        <Text style={row}>E-mail: {email}</Text>
+        <Text style={row}>E-mail: {email || "nije upisan"}</Text>
         <Text style={row}>Adresa: {address}</Text>
         {note ? <Text style={row}>Napomena: {note}</Text> : null}
         <Hr style={hr} />

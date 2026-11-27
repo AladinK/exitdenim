@@ -1,14 +1,19 @@
 import { Link } from "@tanstack/react-router";
-import { X, Minus, Plus, ShoppingBag } from "lucide-react";
-import { useEffect } from "react";
+import { X, ShoppingBag } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useCart, CART_CONSTANTS } from "@/hooks/useCart";
-import { ecommerce } from "@/lib/analytics";
+import { useCartCatalog } from "@/hooks/useCartCatalog";
+import { DrawerCartLine, RemovedNotice } from "@/components/CartLine";
+import { deliveryWindow, lineKey } from "@/lib/cart-helpers";
 
 export function CartDrawer() {
-  const { items, subtotal, shipping, promo, discount, total, open, setOpen, update, remove, clearPromo } = useCart();
+  const { items, subtotal, shipping, promo, discount, total, open, setOpen, clearPromo } = useCart();
+  const { info, blocking } = useCartCatalog(open);
+  const [eta, setEta] = useState<string | null>(null);
 
   useEffect(() => {
     if (!open) return;
+    setEta(deliveryWindow());
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
@@ -19,11 +24,13 @@ export function CartDrawer() {
     };
   }, [open, setOpen]);
 
+  const close = () => setOpen(false);
+
   return (
     <>
       {/* Overlay */}
       <div
-        onClick={() => setOpen(false)}
+        onClick={close}
         className={`exit-cart-overlay fixed inset-0 z-50 bg-foreground/40 backdrop-blur-sm transition-opacity duration-300 ${
           open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
@@ -44,7 +51,7 @@ export function CartDrawer() {
           <div className="flex items-center gap-2 text-sm uppercase tracking-[0.2em] font-medium">
             <ShoppingBag className="w-4 h-4" /> Korpa ({items.length})
           </div>
-          <button onClick={() => setOpen(false)} aria-label="Zatvori korpu" className="w-9 h-9 inline-flex items-center justify-center rounded-md hover:bg-secondary">
+          <button onClick={close} aria-label="Zatvori korpu" className="w-9 h-9 inline-flex items-center justify-center rounded-md hover:bg-secondary">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -52,40 +59,21 @@ export function CartDrawer() {
         <div className="flex-1 overflow-y-auto">
           {items.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center px-6 text-center gap-4">
+              <RemovedNotice className="w-full max-w-xs mb-2" />
               <ShoppingBag className="w-8 h-8 text-muted-foreground" strokeWidth={1.2} />
               <div className="serif text-2xl">Korpa je prazna</div>
               <p className="text-sm text-muted-foreground max-w-xs">Dodajte artikle iz kataloga da nastavite ka kasi.</p>
-              <Link to="/katalog" onClick={() => setOpen(false)} className="btn-primary mt-2">Otvori katalog</Link>
+              <Link to="/katalog" onClick={close} className="btn-primary mt-2">Otvori katalog</Link>
             </div>
           ) : (
-            <ul className="divide-y divide-border">
-              {items.map((it) => (
-                <li key={`${it.productId}-${it.size}`} className="p-5 flex gap-4">
-                  <div className="w-20 h-24 shrink-0 bg-secondary overflow-hidden">
-                    {it.image ? <img src={it.image} alt={it.name} className="w-full h-full object-cover" /> : null}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{it.sku} · vel. {it.size}</div>
-                    <div className="mt-1 text-sm font-medium truncate">{it.name}</div>
-                    <div className="mt-1 text-sm tabular-nums">{Number(it.unitPrice).toLocaleString("sr-RS")} din</div>
-                    <div className="mt-3 flex items-center justify-between">
-                      <div className="inline-flex items-center border border-border">
-                        <button onClick={() => update(it.productId, it.size, it.quantity - 1)} className="w-8 h-8 inline-flex items-center justify-center hover:bg-secondary" aria-label="Smanji">
-                          <Minus className="w-3.5 h-3.5" />
-                        </button>
-                        <span className="w-8 text-center text-sm tabular-nums">{it.quantity}</span>
-                        <button onClick={() => update(it.productId, it.size, it.quantity + 1)} className="w-8 h-8 inline-flex items-center justify-center hover:bg-secondary" aria-label="Povećaj">
-                          <Plus className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                      <button onClick={() => remove(it.productId, it.size)} className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground">
-                        Ukloni
-                      </button>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <>
+              <RemovedNotice className="m-5 mb-0" />
+              <ul className="divide-y divide-border">
+                {items.map((it) => (
+                  <DrawerCartLine key={lineKey(it)} item={it} info={info.get(lineKey(it)) ?? null} onNavigate={close} />
+                ))}
+              </ul>
+            </>
           )}
         </div>
 
@@ -111,21 +99,23 @@ export function CartDrawer() {
                 </div>
               )}
               <div className="flex justify-between pt-2 border-t border-border text-base font-semibold"><span>Ukupno</span><span className="tabular-nums">{total.toLocaleString("sr-RS")} din</span></div>
+              {eta && <div className="text-[11px] text-muted-foreground">Okvirna isporuka: {eta}</div>}
             </div>
-            <Link
-              to="/kasa"
-              onClick={() => {
-                ecommerce.beginCheckout(
-                  items.map((i) => ({ item_id: i.sku, item_name: i.name, item_variant: i.size, price: i.unitPrice, quantity: i.quantity })),
-                  total,
-                );
-                setOpen(false);
-              }}
-              className="btn-primary w-full justify-center"
-            >
-              Nastavi na plaćanje
-            </Link>
-            <button onClick={() => setOpen(false)} className="btn-outline w-full justify-center">
+            {blocking ? (
+              <p role="alert" className="text-[12px] font-semibold text-destructive">
+                Promenite veličinu ili uklonite označene artikle da biste nastavili.
+              </p>
+            ) : null}
+            {blocking ? (
+              <button type="button" disabled className="btn-primary w-full justify-center opacity-50 cursor-not-allowed">
+                Nastavi na plaćanje
+              </button>
+            ) : (
+              <Link to="/kasa" onClick={close} className="btn-primary w-full justify-center">
+                Nastavi na plaćanje
+              </Link>
+            )}
+            <button onClick={close} className="btn-outline w-full justify-center">
               Nastavi kupovinu
             </button>
             <p className="text-[11px] text-center text-muted-foreground">Plaćanje pouzećem pri isporuci</p>

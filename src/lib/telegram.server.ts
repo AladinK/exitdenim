@@ -84,7 +84,8 @@ export function formatOrderNotice(o: OrderNotice): string {
       ? `🎡 Točak sreće ${esc(o.promoCode || "")}: −${o.discount} din\n`
       : "") +
     `<b>Ukupno: ${o.total} din</b> (pouzećem)\n\n` +
-    `👤 ${esc(o.name)}\n📞 ${esc(o.phone)}\n✉️ ${esc(o.email)}\n` +
+    `👤 ${esc(o.name)}\n📞 ${esc(o.phone)}\n` +
+    (o.email ? `✉️ ${esc(o.email)}\n` : "✉️ bez emaila\n") +
     `📍 ${esc(o.address)}, ${esc(o.postal)} ${esc(o.city)}` +
     (o.note ? `\n📝 ${esc(o.note)}` : "")
   );
