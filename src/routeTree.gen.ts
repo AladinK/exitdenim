@@ -36,6 +36,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SlimFarmerkeRouteImport } from './routes/slim-farmerke'
+import { Route as UsloviKupovineRouteImport } from './routes/uslovi-kupovine'
 import { Route as VodicZaFarmerkeRouteImport } from './routes/vodic-za-farmerke'
 import { Route as WideFlareRouteImport } from './routes/wide-flare'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
@@ -184,6 +185,11 @@ const SlimFarmerkeRoute = SlimFarmerkeRouteImport.update({
   path: '/slim-farmerke',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UsloviKupovineRoute = UsloviKupovineRouteImport.update({
+  id: '/uslovi-kupovine',
+  path: '/uslovi-kupovine',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VodicZaFarmerkeRoute = VodicZaFarmerkeRouteImport.update({
   id: '/vodic-za-farmerke',
   path: '/vodic-za-farmerke',
@@ -278,6 +284,7 @@ export interface FileRoutesByFullPath {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/slim-farmerke': typeof SlimFarmerkeRoute
+  '/uslovi-kupovine': typeof UsloviKupovineRoute
   '/vodic-za-farmerke': typeof VodicZaFarmerkeRoute
   '/wide-flare': typeof WideFlareRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -319,6 +326,7 @@ export interface FileRoutesByTo {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/slim-farmerke': typeof SlimFarmerkeRoute
+  '/uslovi-kupovine': typeof UsloviKupovineRoute
   '/vodic-za-farmerke': typeof VodicZaFarmerkeRoute
   '/wide-flare': typeof WideFlareRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -362,6 +370,7 @@ export interface FileRoutesById {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/slim-farmerke': typeof SlimFarmerkeRoute
+  '/uslovi-kupovine': typeof UsloviKupovineRoute
   '/vodic-za-farmerke': typeof VodicZaFarmerkeRoute
   '/wide-flare': typeof WideFlareRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
@@ -405,6 +414,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/slim-farmerke'
+    | '/uslovi-kupovine'
     | '/vodic-za-farmerke'
     | '/wide-flare'
     | '/admin'
@@ -446,6 +456,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/slim-farmerke'
+    | '/uslovi-kupovine'
     | '/vodic-za-farmerke'
     | '/wide-flare'
     | '/admin'
@@ -488,6 +499,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/slim-farmerke'
+    | '/uslovi-kupovine'
     | '/vodic-za-farmerke'
     | '/wide-flare'
     | '/_authenticated/admin'
@@ -531,6 +543,7 @@ export interface RootRouteChildren {
   ShopRoute: typeof ShopRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SlimFarmerkeRoute: typeof SlimFarmerkeRoute
+  UsloviKupovineRoute: typeof UsloviKupovineRoute
   VodicZaFarmerkeRoute: typeof VodicZaFarmerkeRoute
   WideFlareRoute: typeof WideFlareRoute
   ApiGeoRoute: typeof ApiGeoRoute
@@ -733,6 +746,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SlimFarmerkeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/uslovi-kupovine': {
+      id: '/uslovi-kupovine'
+      path: '/uslovi-kupovine'
+      fullPath: '/uslovi-kupovine'
+      preLoaderRoute: typeof UsloviKupovineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/vodic-za-farmerke': {
       id: '/vodic-za-farmerke'
       path: '/vodic-za-farmerke'
@@ -872,6 +892,7 @@ const rootRouteChildren: RootRouteChildren = {
   ShopRoute: ShopRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SlimFarmerkeRoute: SlimFarmerkeRoute,
+  UsloviKupovineRoute: UsloviKupovineRoute,
   VodicZaFarmerkeRoute: VodicZaFarmerkeRoute,
   WideFlareRoute: WideFlareRoute,
   ApiGeoRoute: ApiGeoRoute,

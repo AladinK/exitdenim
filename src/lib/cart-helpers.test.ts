@@ -8,6 +8,7 @@ import {
   isValidPhone,
   lineInfo,
   nationalPhone,
+  pickUpsell,
   samePhone,
 } from "./cart-helpers";
 
@@ -74,5 +75,31 @@ describe("rok isporuke", () => {
   it("od ponedeljka do sledećeg ponedeljka", () => {
     const mon = new Date(2026, 10, 30, 9);
     expect(deliveryWindow(mon)).toBe("sre 2.12. – pon 7.12.");
+  });
+});
+
+describe("pickUpsell", () => {
+  const products: CatalogProduct[] = [
+    { id: "j1", slug: "j1", category: "farmerke", retail: 5990, sizes: ["32", "34"], stock: { "32": 1, "34": 1 } },
+    { id: "j2", slug: "j2", category: "farmerke", retail: 5990, sizes: ["32", "34"], stock: { "32": 0, "34": 1 } },
+    { id: "c1", slug: "c1", category: "chino", retail: 5990, sizes: ["32"], stock: { "32": 1 } },
+    { id: "k1", slug: "k1", category: "cargo", retail: 7500, sizes: ["34"], stock: { "34": 1 } },
+    { id: "x1", slug: "x1", category: "chino", retail: 5990, sizes: ["32"], stock: { "32": 0 } },
+  ];
+  it("bez onoga što je već u korpi i bez rasprodatih modela", () => {
+    const picks = pickUpsell(products, [{ productId: "j1", size: "32", quantity: 1 }], 10);
+    const ids = picks.map((p) => p.product.id);
+    expect(ids).not.toContain("j1");
+    expect(ids).not.toContain("x1");
+  });
+  it("prvo modeli sa istom veličinom iz druge kategorije", () => {
+    const picks = pickUpsell(products, [{ productId: "j1", size: "32", quantity: 1 }], 10);
+    expect(picks[0].product.id).toBe("c1");
+    expect(picks[0].size).toBe("32");
+    const j2 = picks.find((p) => p.product.id === "j2");
+    expect(j2?.size).toBeNull();
+  });
+  it("vraća najviše n preporuka", () => {
+    expect(pickUpsell(products, [{ productId: "j1", size: "32" }], 2)).toHaveLength(2);
   });
 });

@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import { useCart, CART_CONSTANTS } from "@/hooks/useCart";
 import { useCartCatalog } from "@/hooks/useCartCatalog";
 import { DrawerCartLine, RemovedNotice } from "@/components/CartLine";
+import { CartUpsell } from "@/components/CartUpsell";
+import { BundleNudge, CartBenefits, DiscountRow } from "@/components/CartPerks";
 import { deliveryWindow, lineKey } from "@/lib/cart-helpers";
 
 export function CartDrawer() {
-  const { items, subtotal, shipping, promo, discount, total, open, setOpen, clearPromo } = useCart();
+  const { items, subtotal, shipping, total, open, setOpen } = useCart();
   const { info, blocking } = useCartCatalog(open);
   const [eta, setEta] = useState<string | null>(null);
 
@@ -73,6 +75,8 @@ export function CartDrawer() {
                   <DrawerCartLine key={lineKey(it)} item={it} info={info.get(lineKey(it)) ?? null} onNavigate={close} />
                 ))}
               </ul>
+              <CartUpsell variant="drawer" enabled={open} onNavigate={close} />
+              <CartBenefits className="px-5 py-4 border-t border-border" />
             </>
           )}
         </div>
@@ -82,17 +86,7 @@ export function CartDrawer() {
             <div className="space-y-1.5 text-sm">
               <div className="flex justify-between"><span className="text-muted-foreground">Međuzbir</span><span className="tabular-nums">{subtotal.toLocaleString("sr-RS")} din</span></div>
               <div className="flex justify-between"><span className="text-muted-foreground">Dostava</span><span className="tabular-nums">{shipping === 0 ? "Besplatna" : `${shipping.toLocaleString("sr-RS")} din`}</span></div>
-              {promo && discount > 0 && (
-                <div className="flex justify-between items-center text-accent font-medium">
-                  <span>Točak sreće −{promo.pct}% ({promo.code})</span>
-                  <span className="flex items-center gap-2">
-                    <span className="tabular-nums">−{discount.toLocaleString("sr-RS")} din</span>
-                    <button onClick={clearPromo} className="text-muted-foreground hover:text-foreground" aria-label="Ukloni popust">
-                      <X className="w-3.5 h-3.5" />
-                    </button>
-                  </span>
-                </div>
-              )}
+              <DiscountRow removable />
               {subtotal < CART_CONSTANTS.FREE_SHIPPING_OVER && (
                 <div className="text-[11px] text-muted-foreground">
                   Još {(CART_CONSTANTS.FREE_SHIPPING_OVER - subtotal).toLocaleString("sr-RS")} din do besplatne dostave.
@@ -101,6 +95,7 @@ export function CartDrawer() {
               <div className="flex justify-between pt-2 border-t border-border text-base font-semibold"><span>Ukupno</span><span className="tabular-nums">{total.toLocaleString("sr-RS")} din</span></div>
               {eta && <div className="text-[11px] text-muted-foreground">Okvirna isporuka: {eta}</div>}
             </div>
+            <BundleNudge />
             {blocking ? (
               <p role="alert" className="text-[12px] font-semibold text-destructive">
                 Promenite veličinu ili uklonite označene artikle da biste nastavili.
@@ -118,7 +113,6 @@ export function CartDrawer() {
             <button onClick={close} className="btn-outline w-full justify-center">
               Nastavi kupovinu
             </button>
-            <p className="text-[11px] text-center text-muted-foreground">Plaćanje pouzećem pri isporuci</p>
           </div>
         )}
       </div>

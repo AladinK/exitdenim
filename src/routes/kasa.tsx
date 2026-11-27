@@ -13,6 +13,8 @@ import { Button } from "@/components/ui/button";
 import { orderMessage, phoneHref, whatsappHref } from "@/lib/contact";
 import { BRAND, SIZE_EXCHANGE } from "@/lib/brand";
 import { deliveryWindow, isValidPhone, lineKey } from "@/lib/cart-helpers";
+import { DiscountRow } from "@/components/CartPerks";
+import { BUNDLE } from "@/lib/discounts";
 
 export const Route = createFileRoute("/kasa")({
   head: () => ({
@@ -96,7 +98,7 @@ function postalFor(city: string): string | undefined {
 }
 
 function CheckoutPage() {
-  const { items, ready, subtotal, shipping, promo, discount, total, clear, clearPromo } = useCart();
+  const { items, ready, subtotal, shipping, promo, total, clear, clearPromo } = useCart();
   const { info, blocking } = useCartCatalog(true);
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -239,7 +241,8 @@ function CheckoutPage() {
           contact: { email, name: parsed.data.name, phone: parsed.data.phone },
           shipping: { address: parsed.data.address, city: parsed.data.city, postal: parsed.data.postal, country: parsed.data.country },
           note: parsed.data.note || null,
-          promo: promo && discount > 0 ? { code: promo.code, pct: promo.pct } : null,
+          // Server bira veći popust (2+ komada ili točak sreće), isto kao korpa.
+          promo: promo ? { code: promo.code, pct: promo.pct } : null,
         },
       });
       ecommerce.purchase(res.orderNumber, gaItems(), res.total ?? total, shipping);
@@ -430,12 +433,7 @@ function CheckoutPage() {
               <div className="pt-4 border-t border-border space-y-2 text-sm">
                 <div className="flex justify-between"><span className="text-muted-foreground">Međuzbir</span><span className="tabular-nums">{subtotal.toLocaleString("sr-RS")} din</span></div>
                 <div className="flex justify-between"><span className="text-muted-foreground">Dostava</span><span className="tabular-nums">{shipping === 0 ? "Besplatna" : `${shipping.toLocaleString("sr-RS")} din`}</span></div>
-                {promo && discount > 0 && (
-                  <div className="flex justify-between text-accent font-medium">
-                    <span>Točak sreće −{promo.pct}%</span>
-                    <span className="tabular-nums">−{discount.toLocaleString("sr-RS")} din</span>
-                  </div>
-                )}
+                <DiscountRow showCode={false} />
                 {subtotal < CART_CONSTANTS.FREE_SHIPPING_OVER && (
                   <div className="text-[11px] text-muted-foreground">Do besplatne dostave: {(CART_CONSTANTS.FREE_SHIPPING_OVER - subtotal).toLocaleString("sr-RS")} din</div>
                 )}
@@ -449,6 +447,7 @@ function CheckoutPage() {
                   "Besplatna dostava na sve porudžbine",
                   "Plaćate tek kad preuzmete paket — bez kartice",
                   `Besplatna zamena veličine u roku od ${SIZE_EXCHANGE.days} dana`,
+                  `${BUNDLE.pct}% popusta za ${BUNDLE.minQty} ili više komada (ne sabira se sa točkom sreće)`,
                   "Dostava kurirskom službom za 2–5 radnih dana",
                   "Potvrdu porudžbine dobijate na email, ako ga upišete",
                   "98% pamuk, 2% elastin — proizvedeno u Srbiji",
@@ -458,7 +457,7 @@ function CheckoutPage() {
                 ))}
               </ul>
               <p className="text-[11px] text-center text-muted-foreground">
-                Slanjem porudžbine prihvatate <Link to="/faq" className="underline underline-offset-2">uslove kupovine</Link>.
+                Slanjem porudžbine prihvatate <Link to="/uslovi-kupovine" className="underline underline-offset-2">uslove kupovine</Link>.
               </p>
             </div>
           </aside>

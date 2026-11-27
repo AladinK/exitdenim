@@ -5,9 +5,12 @@ import { Layout } from "@/components/Layout";
 import { useCart, CART_CONSTANTS } from "@/hooks/useCart";
 import { useCartCatalog } from "@/hooks/useCartCatalog";
 import { PageCartLine, RemovedNotice } from "@/components/CartLine";
+import { CartUpsell } from "@/components/CartUpsell";
+import { BundleNudge, DiscountRow } from "@/components/CartPerks";
 import { deliveryWindow, lineKey } from "@/lib/cart-helpers";
 import { ecommerce } from "@/lib/analytics";
-import { BRAND } from "@/lib/brand";
+import { BRAND, SIZE_EXCHANGE } from "@/lib/brand";
+import { BUNDLE } from "@/lib/discounts";
 
 export const Route = createFileRoute("/korpa")({
   head: () => ({
@@ -26,7 +29,7 @@ export const Route = createFileRoute("/korpa")({
 });
 
 function CartPage() {
-  const { items, subtotal, shipping, promo, discount, total } = useCart();
+  const { items, subtotal, shipping, total } = useCart();
   const { info, blocking } = useCartCatalog(true);
   const [eta, setEta] = useState<string | null>(null);
 
@@ -83,6 +86,8 @@ function CartPage() {
                   <PageCartLine key={lineKey(it)} item={it} info={info.get(lineKey(it)) ?? null} />
                 ))}
               </ul>
+              <BundleNudge className="mt-6" />
+              <CartUpsell variant="page" />
             </div>
 
             <aside className="lg:col-span-4">
@@ -91,12 +96,7 @@ function CartPage() {
                 <div className="mt-5 space-y-2 text-sm">
                   <div className="flex justify-between"><span className="text-muted-foreground">Međuzbir</span><span className="tabular-nums">{subtotal.toLocaleString("sr-RS")} din</span></div>
                   <div className="flex justify-between"><span className="text-muted-foreground">Dostava</span><span className="tabular-nums">{shipping === 0 ? "Besplatna" : `${shipping.toLocaleString("sr-RS")} din`}</span></div>
-                  {promo && discount > 0 && (
-                    <div className="flex justify-between text-accent font-medium">
-                      <span>Točak sreće −{promo.pct}% ({promo.code})</span>
-                      <span className="tabular-nums">−{discount.toLocaleString("sr-RS")} din</span>
-                    </div>
-                  )}
+                  <DiscountRow removable />
                   {subtotal < CART_CONSTANTS.FREE_SHIPPING_OVER && (
                     <div className="text-[11px] text-muted-foreground">Još {(CART_CONSTANTS.FREE_SHIPPING_OVER - subtotal).toLocaleString("sr-RS")} din do besplatne dostave.</div>
                   )}
@@ -115,6 +115,8 @@ function CartPage() {
                   {[
                     "Plaćate tek kad preuzmete paket, bez kartice",
                     "Besplatna dostava na sve porudžbine",
+                    `Besplatna zamena veličine u roku od ${SIZE_EXCHANGE.days} dana`,
+                    `${BUNDLE.pct}% popusta kad uzmete ${BUNDLE.minQty} ili više komada`,
                     `Pomoć oko broja: ${BRAND.phoneLabel} (poziv, Viber, WhatsApp)`,
                   ].map((t) => (
                     <li key={t} className="flex gap-2"><span className="text-primary">✓</span>{t}</li>

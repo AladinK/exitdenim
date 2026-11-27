@@ -46,10 +46,12 @@ const QA: Array<[string, string]> = [
   ["Koliko košta dostava?", "Dostava je besplatna za sve porudžbine po celoj Srbiji."],
   ["Kada stiže paket?", "Porudžbinu šaljemo u roku od 1–2 radna dana, a kurir obično isporučuje dan ili dva posle slanja."],
   ["Koje veličine imate?", "31, 32, 33, 34, 36, 38 i 40. Brojevi prate Levi's veličine: ako nosite Levi's farmerke, uzmite isti broj. Na strani svakog modela kalkulator preporučuje broj po visini i težini."],
-  ["Da li moram da napravim nalog?", "Ne. Poručujete bez registracije, samo upišete ime, adresu, telefon i e-mail."],
+  ["Da li postoji popust kad uzmem više komada?", "Da. Kad u korpi imate 2 ili više komada, dobijate 10% popusta na celu porudžbinu. Popust se ne sabira sa točkom sreće: važi veći."],
+  ["Da li moram da napravim nalog?", "Ne. Poručujete bez registracije, samo upišete ime, telefon i adresu. E-mail nije obavezan; ako ga upišete, na njega stiže potvrda porudžbine."],
   ["Šta ako nisam siguran za veličinu?", "Pišite nam na WhatsApp ili Viber +381 65 317 6716 pre porudžbine i preporučićemo vam broj i kroj."],
   ["Šta ako mi veličina ne odgovara?", SIZE_EXCHANGE_TEXT],
   ["Kako da iskoristim popust?", "Za prijavljene kupce u meniju je dostupna opcija „Osvojite popust“. Točak se otvara samo kada je sami izaberete, a osvojeni popust se primenjuje u korpi."],
+  ["Mogu li da odustanem od kupovine?", "Da, u roku od 14 dana od prijema robe, bez navođenja razloga. Postupak, rokovi i obrazac za odustanak su na strani Uslovi kupovine."],
   ["Da li prodajete i na veliko?", "Da. Butici i prodavnice mogu da se prijave na strani „Postani partner“. Uslovi veleprodaje razlikuju se od kupovine na sajtu."],
 ];
 

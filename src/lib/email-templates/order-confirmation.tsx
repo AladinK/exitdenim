@@ -1,6 +1,7 @@
 import React from 'react'
 import { Body, Container, Head, Heading, Hr, Html, Preview, Section, Text } from '@react-email/components'
 import type { TemplateEntry } from './registry'
+import { discountLabel } from "@/lib/discounts";
 
 interface Item { product_name: string; size: string; quantity: number; unit_price: number }
 interface Props {
@@ -35,7 +36,7 @@ const OrderConfirmation = ({ name, orderNumber, items = [], subtotal = 0, shippi
         <Hr style={hr} />
         <Text style={row}>Međuzbir: {fmt(subtotal)}</Text>
         <Text style={row}>Dostava: {shipping === 0 ? 'Besplatna' : fmt(shipping)}</Text>
-        {discount > 0 ? <Text style={row}>Točak sreće{promoCode ? ` (${promoCode})` : ''}: −{fmt(discount)}</Text> : null}
+        {discount > 0 ? <Text style={row}>{discountLabel(promoCode)}: −{fmt(discount)}</Text> : null}
         <Text style={total_}>Ukupno: {fmt(total)}</Text>
         {address ? <Text style={muted}>Adresa dostave: {address}</Text> : null}
         <Hr style={hr} />

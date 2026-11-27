@@ -11,6 +11,7 @@ import {
   Text,
 } from "@react-email/components";
 import type { TemplateEntry } from "./registry";
+import { discountLabel } from "@/lib/discounts";
 
 // Obaveštenje vlasniku o novoj porudžbini. Rezerva uz Telegram: ako jedan kanal
 // zakaže, porudžbina i dalje stigne drugim.
@@ -69,7 +70,7 @@ const OrderNotification = ({
         </Section>
         {discount > 0 ? (
           <Text style={row}>
-            Točak sreće{promoCode ? ` (${promoCode})` : ""}: −{fmt(discount)}
+            {discountLabel(promoCode)}: −{fmt(discount)}
           </Text>
         ) : null}
         <Text style={total_}>Ukupno pouzećem: {fmt(total)}</Text>

@@ -4,6 +4,7 @@
 //   TELEGRAM_CHAT_ID   — opciono; podrazumevano privatni razgovor vlasnika sa botom
 //
 // Bez tokena se obaveštenje preskače; porudžbina se uvek upisuje u bazu.
+import { discountLabel } from "@/lib/discounts";
 
 // Privatni razgovor vlasnika sa @exitdenimbot.
 const OWNER_CHAT_ID = 1149811950;
@@ -81,7 +82,7 @@ export function formatOrderNotice(o: OrderNotice): string {
     `🛒 <b>Nova porudžbina #${esc(String(o.orderNumber))}</b>\n\n${lines}\n\n` +
     `Dostava: ${o.shipping} din\n` +
     (o.discount && o.discount > 0
-      ? `🎡 Točak sreće ${esc(o.promoCode || "")}: −${o.discount} din\n`
+      ? `${o.promoCode?.startsWith("TOCAK-") ? "🎡" : "🏷️"} ${esc(discountLabel(o.promoCode))}: −${o.discount} din\n`
       : "") +
     `<b>Ukupno: ${o.total} din</b> (pouzećem)\n\n` +
     `👤 ${esc(o.name)}\n📞 ${esc(o.phone)}\n` +

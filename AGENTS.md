@@ -50,3 +50,6 @@
 - Checkout keeps the customer's details only on their device (`exit_checkout_v1`; `exit_checkout_nosave` when they opt out).
 - `begin_checkout` is recorded once, on `/kasa`. `/korpa` and `/kasa` are `noindex`.
 - The free size exchange shown in cart and checkout comes from `SIZE_EXCHANGE` in `src/lib/brand.ts` (owner-confirmed); do not add other return or exchange terms without the owner.
+- Discounts (`src/lib/discounts.ts`): 10% on the whole order from 2 pieces (owner-approved 27 Nov 2026) and the spin-wheel code (5/10/15%) never add up; the larger one applies (the 2+ discount on a tie). The cart shows it and the server recomputes it in `createCustomerOrder`; a 2+ order stores `promo_code = '2+ KOMADA'`. Notifications and confirmations name the discount with `discountLabel`.
+- Upsell (`src/components/CartUpsell.tsx`, `pickUpsell` in `src/lib/cart-helpers.ts`) reads the same catalog cache: models not in the cart with stock, preferring the size the customer already chose (one-tap add) and another category.
+- `/uslovi-kupovine` holds the terms of sale (seller identity from `BRAND`, statutory 14-day withdrawal with the customer paying direct return costs as the owner chose, complaints 8/15 days, out-of-court dispute resolution, withdrawal form). Change it only with the owner; the footer, checkout, sitemap and llms.txt link to it.

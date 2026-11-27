@@ -5,6 +5,7 @@ import { Check, ArrowRight, X, ShoppingBag } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
 import { useIsMobile } from "@/hooks/use-mobile";
 import type { ProductWithStock } from "@/lib/products.functions";
+import { BUNDLE } from "@/lib/discounts";
 
 /**
  * Premium minimalist quick-buy for listing cards.
@@ -197,6 +198,9 @@ export function QuickBuy({ product }: { product: ProductWithStock }) {
 
                 <p className="mt-4 text-center text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
                   Plaćanje pouzećem · Besplatna dostava na sve porudžbine
+                </p>
+                <p className="mt-1.5 text-center text-[10px] uppercase tracking-[0.22em] font-semibold text-accent">
+                  −{BUNDLE.pct}% kad uzmete {BUNDLE.minQty} ili više komada
                 </p>
               </div>
             </div>

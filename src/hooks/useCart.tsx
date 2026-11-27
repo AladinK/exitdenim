@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { readPromo, clearStoredPromo, discountFor, type Promo } from "@/lib/promo";
+import { readPromo, clearStoredPromo, type Promo } from "@/lib/promo";
+import { bestDiscount, type DiscountSource } from "@/lib/discounts";
 import { clampQty, type CatalogProduct } from "@/lib/cart-helpers";
 import { track } from "@/lib/analytics";
 
@@ -24,7 +25,10 @@ type CartCtx = {
   subtotal: number;
   shipping: number;
   promo: Promo | null;
+  /** Iznos popusta: veći od količinskog (2+ komada) i točka sreće; ne sabiraju se. */
   discount: number;
+  discountPct: number;
+  discountSource: DiscountSource | null;
   total: number;
   open: boolean;
   setOpen: (v: boolean) => void;
@@ -97,18 +101,21 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<CartCtx>(() => {
     const subtotal = items.reduce((s, i) => s + i.unitPrice * i.quantity, 0);
+    const count = items.reduce((s, i) => s + i.quantity, 0);
     const shipping = subtotal === 0 || subtotal >= FREE_SHIPPING_OVER ? 0 : SHIPPING_FLAT;
-    const discount = promo ? discountFor(subtotal, promo.pct) : 0;
+    const d = bestDiscount(subtotal, count, promo?.pct ?? 0);
     const same = (x: CartItem, productId: string, size: string) => x.productId === productId && x.size === size;
     return {
       items,
       ready: hydrated,
-      count: items.reduce((s, i) => s + i.quantity, 0),
+      count,
       subtotal,
       shipping,
       promo,
-      discount,
-      total: subtotal - discount + shipping,
+      discount: d.amount,
+      discountPct: d.pct,
+      discountSource: d.source,
+      total: subtotal - d.amount + shipping,
       open,
       setOpen,
       add: (item, qty = 1) => {

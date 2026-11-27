@@ -7,6 +7,7 @@ import { Layout } from "@/components/Layout";
 import { lookupCustomerOrder } from "@/lib/customer-orders.functions";
 import { BRAND, SIZE_EXCHANGE } from "@/lib/brand";
 import { phoneHref, whatsappHref } from "@/lib/contact";
+import { discountLabel } from "@/lib/discounts";
 
 // Stari linkovi su nosili email u adresi; i dalje rade, ali kasa ga više tu ne stavlja.
 const search = z.object({ email: z.string().email().optional() });
@@ -130,7 +131,7 @@ function OrderPage() {
                   <div className="flex justify-between"><span className="text-muted-foreground">Dostava</span><span className="tabular-nums">{Number(order.shipping_cost) === 0 ? "Besplatna" : `${Number(order.shipping_cost).toLocaleString("sr-RS")} din`}</span></div>
                   {discount > 0 && (
                     <div className="flex justify-between text-accent font-medium">
-                      <span>Popust{order.promo_code ? ` (${order.promo_code})` : ""}</span>
+                      <span>{discountLabel(order.promo_code)}</span>
                       <span className="tabular-nums">−{discount.toLocaleString("sr-RS")} din</span>
                     </div>
                   )}

@@ -14,8 +14,10 @@ export const lineKey = (i: { productId: string; size: string }) => `${i.productI
 /** Deo proizvoda iz kataloga koji korpi treba. */
 export type CatalogProduct = {
   id: string | null;
+  sku?: string | null;
   slug?: string | null;
   name?: string | null;
+  category?: string | null;
   retail?: number | string | null;
   sizes?: string[] | null;
   active?: boolean | null;
@@ -92,4 +94,51 @@ export function addBusinessDays(from: Date, n: number): Date {
 export function deliveryWindow(now: Date = new Date()): string {
   const fmt = (d: Date) => `${DAY[d.getDay()]} ${d.getDate()}.${d.getMonth() + 1}.`;
   return `${fmt(addBusinessDays(now, 2))} – ${fmt(addBusinessDays(now, 5))}`;
+}
+
+export type UpsellPick = {
+  product: CatalogProduct;
+  /** Veličina koju kupac već nosi, ako je ima na stanju u ovom modelu (jedan dodir za dodavanje). */
+  size: string | null;
+  sizes: { size: string; inStock: boolean | null }[];
+};
+
+/**
+ * Preporuke za korpu: modeli koji nisu u korpi i imaju bar jednu veličinu na stanju.
+ * Prednost imaju modeli sa veličinom koju kupac već uzima, pa modeli iz druge kategorije
+ * (uz farmerke chino ili džeparke); inače ostaje redosled iz kataloga.
+ */
+export function pickUpsell(
+  products: CatalogProduct[],
+  items: { productId: string; size: string; quantity?: number }[],
+  n: number,
+): UpsellPick[] {
+  const inCart = new Set(items.map((i) => i.productId));
+  const sizeWeight = new Map<string, number>();
+  for (const i of items) sizeWeight.set(i.size, (sizeWeight.get(i.size) ?? 0) + (i.quantity ?? 1));
+  const preferred = [...sizeWeight.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null;
+  const cartCategories = new Set(
+    products.filter((p) => p.id && inCart.has(p.id)).map((p) => p.category ?? ""),
+  );
+  const scored: (UpsellPick & { score: number; order: number })[] = [];
+  products.forEach((p, order) => {
+    if (!p.id || inCart.has(p.id) || p.active === false || !(Number(p.retail) > 0) || !p.slug) return;
+    const stockKnown = !!p.stock && Object.keys(p.stock).length > 0;
+    const sizes = (p.sizes ?? []).map((size) => ({
+      size,
+      inStock: stockKnown ? (p.stock?.[size] ?? 0) > 0 : null,
+    }));
+    if (!sizes.some((s) => s.inStock !== false)) return;
+    const sameSize = !!preferred && sizes.some((s) => s.size === preferred && s.inStock !== false);
+    const otherCategory = !cartCategories.has(p.category ?? "");
+    scored.push({
+      product: p,
+      size: sameSize ? preferred : null,
+      sizes,
+      score: (sameSize ? 2 : 0) + (otherCategory ? 1 : 0),
+      order,
+    });
+  });
+  scored.sort((a, b) => b.score - a.score || a.order - b.order);
+  return scored.slice(0, n).map(({ product, size, sizes }) => ({ product, size, sizes }));
 }

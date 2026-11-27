@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate } from "@tanstack/react-router";
-import { ShoppingBag, Check, Truck, BadgeCheck } from "lucide-react";
+import { ShoppingBag, Check, Truck, BadgeCheck, Percent, RefreshCcw } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
 import { ecommerce, itemFromProduct } from "@/lib/analytics";
 import type { ProductWithStock } from "@/lib/products.functions";
 import { Button } from "@/components/ui/button";
 import { SizeAdvisor } from "@/components/SizeAdvisor";
+import { BUNDLE } from "@/lib/discounts";
+import { SIZE_EXCHANGE } from "@/lib/brand";
 
 export function AddToCart({ product }: { product: ProductWithStock }) {
   const { add, setOpen } = useCart();
@@ -141,11 +143,17 @@ export function AddToCart({ product }: { product: ProductWithStock }) {
       </Button>
 
       <ul className="mt-5 space-y-2 text-[12px] text-muted-foreground">
+        <li className="flex items-center gap-2 font-semibold text-foreground">
+          <Percent className="w-3.5 h-3.5 shrink-0 text-accent" /> {BUNDLE.pct}% popusta na celu porudžbinu kad uzmete {BUNDLE.minQty} ili više komada
+        </li>
         <li className="flex items-center gap-2">
           <BadgeCheck className="w-3.5 h-3.5 shrink-0" /> Plaćanje pouzećem — plaćate tek kad preuzmete paket
         </li>
         <li className="flex items-center gap-2">
           <Truck className="w-3.5 h-3.5 shrink-0" /> Besplatna dostava · 2–5 radnih dana
+        </li>
+        <li className="flex items-center gap-2">
+          <RefreshCcw className="w-3.5 h-3.5 shrink-0" /> Besplatna zamena veličine u roku od {SIZE_EXCHANGE.days} dana
         </li>
         <li className="flex items-center gap-2">
           <Check className="w-3.5 h-3.5 shrink-0" /> Proizvedeno u Srbiji, u našoj radionici

@@ -3,6 +3,7 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { BRAND } from "@/lib/brand";
 import { isValidPhone, samePhone } from "@/lib/cart-helpers";
+import { BUNDLE, bestDiscount } from "@/lib/discounts";
 
 const itemSchema = z.object({
   productId: z.string().uuid(),
@@ -112,9 +113,14 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
     });
 
     const shipping_cost = subtotal >= FREE_SHIPPING_OVER ? 0 : SHIPPING_FLAT;
-    // Spin-wheel discount: re-validated server-side, only 5/10/15% allowed.
-    const pct = data.promo && [5, 10, 15].includes(data.promo.pct) ? data.promo.pct : 0;
-    const discount = pct > 0 ? Math.round((subtotal * pct) / 100 / 10) * 10 : 0;
+    // Popust se računa ovde, ne veruje se korpi: veći od količinskog (2+ komada) i
+    // točka sreće (samo 5/10/15%); ne sabiraju se.
+    const pieces = items.reduce((s, it) => s + it.quantity, 0);
+    const best = bestDiscount(subtotal, pieces, data.promo?.pct ?? 0);
+    const pct = best.pct;
+    const discount = best.amount;
+    const promoCode =
+      best.source === "wheel" ? data.promo!.code : best.source === "bundle" ? BUNDLE.code : null;
     const total = subtotal - discount + shipping_cost;
 
     // Use admin client for the write path: everything is validated & priced server-side.
@@ -136,7 +142,7 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
         shipping_cost,
         subtotal,
         discount,
-        promo_code: pct > 0 ? data.promo!.code : null,
+        promo_code: promoCode,
         promo_pct: pct,
         total,
         payment_method: "cod",
@@ -155,7 +161,6 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
     // Obaveštenja idu paralelno i nikad ne obaraju porudžbinu: ona je već upisana.
     // Vlasnik dobija Telegram poruku i e-mail (dva kanala, da nijedna ne promakne),
     // kupac potvrdu na e-mail.
-    const promoCode = pct > 0 ? data.promo!.code : null;
     const fullAddress = `${data.shipping.address}, ${data.shipping.postal} ${data.shipping.city}`;
     const [{ notifyOrderTelegram }, { sendTemplateEmail }] = await Promise.all([
       import("./telegram.server"),

@@ -74,7 +74,7 @@ export function Footer() {
         <div className="border-t border-border mt-14 pt-6 flex flex-col md:flex-row justify-between gap-3 text-xs text-muted-foreground">
           <div>© {new Date().getFullYear()} EXIT Denim · Proizvedeno u Srbiji</div>
           <div className="flex gap-6">
-            <Link to="/faq" className="hover:text-foreground">Uslovi kupovine</Link>
+            <Link to="/uslovi-kupovine" className="hover:text-foreground">Uslovi kupovine</Link>
             <Link to="/privatnost" className="hover:text-foreground">Politika privatnosti</Link>
           </div>
         </div>
