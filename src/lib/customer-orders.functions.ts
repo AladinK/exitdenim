@@ -74,10 +74,26 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
     } catch {}
 
     const ids = Array.from(new Set(data.items.map((i) => i.productId)));
-    const [{ data: products, error: pErr }, { data: availability, error: sErr }] =
+    // Katalog za preporuke u potvrdi kupcu čita se uporedo sa proverom, da porudžbina
+    // ne čeka duže; potreban je samo kad kupac ima e-mail.
+    const { EMAIL_PRODUCT_FIELDS } = await import("@/lib/email-templates/format");
+    const [{ data: products, error: pErr }, { data: availability, error: sErr }, catalogRead] =
       await Promise.all([
-        sb.from("products_public").select("id, sku, name, retail, sizes, active").in("id", ids),
+        sb
+          .from("products_public")
+          .select("id, sku, name, retail, sizes, active, slug, image_url, category")
+          .in("id", ids),
         sb.rpc("get_stock_availability"),
+        // Greška ovde nikad ne obara porudžbinu: potvrda tada ide bez preporuka.
+        data.contact.email
+          ? Promise.resolve(
+              sb
+                .from("products_public")
+                .select(EMAIL_PRODUCT_FIELDS)
+                .eq("active", true)
+                .order("sort_order", { ascending: true }),
+            ).catch((error: unknown) => ({ data: null, error: { message: String(error) } }))
+          : Promise.resolve(null),
       ]);
     if (pErr) throw new Error(pErr.message);
     // Stanje se proverava i na serveru: korpa na telefonu kupca može biti stara danima.
@@ -162,10 +178,31 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
     // Vlasnik dobija Telegram poruku i e-mail (dva kanala, da nijedna ne promakne),
     // kupac potvrdu na e-mail.
     const fullAddress = `${data.shipping.address}, ${data.shipping.postal} ${data.shipping.city}`;
-    const [{ notifyOrderTelegram }, { sendTemplateEmail }] = await Promise.all([
+    const [{ notifyOrderTelegram }, { sendTemplateEmail }, mail] = await Promise.all([
       import("./telegram.server"),
       import("@/lib/email-templates/send-email"),
+      import("@/lib/email-templates/format"),
     ]);
+    // Slike i linkovi modela za e-mailove; preporuke samo u potvrdi kupcu. Porudžbina
+    // je već upisana, pa greška u pripremi e-maila samo vraća obične stavke.
+    const CAMPAIGN = "potvrda-porudzbine";
+    let ownerItems: unknown[] = items;
+    let customerItems: unknown[] = items;
+    let recommendations: unknown[] = [];
+    try {
+      if (catalogRead?.error) {
+        console.error("[porudžbina] katalog za preporuke nije učitan:", catalogRead.error.message);
+      }
+      const catalog =
+        catalogRead && !catalogRead.error
+          ? mail.withStock(catalogRead.data, sErr ? null : availability)
+          : [];
+      ownerItems = mail.emailItems(items, products ?? []);
+      customerItems = mail.emailItems(items, [...(products ?? []), ...catalog], CAMPAIGN);
+      recommendations = mail.emailRecommendations(catalog, items, CAMPAIGN);
+    } catch (error) {
+      console.error("[porudžbina] podaci za e-mail nisu pripremljeni:", error);
+    }
     const outcomes = await Promise.allSettled([
       notifyOrderTelegram({
         orderNumber: order.order_number,
@@ -189,11 +226,14 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
           phone: data.contact.phone,
           email: data.contact.email,
           address: fullAddress,
-          items,
+          items: ownerItems,
+          subtotal,
+          shipping: shipping_cost,
           discount,
           promoCode,
           total,
           note: data.note,
+          createdAt: new Date().toISOString(),
         },
         idempotencyKey: `order-notification-${order.id}`,
         replyTo: data.contact.email || undefined,
@@ -204,13 +244,15 @@ export const createCustomerOrder = createServerFn({ method: "POST" })
             templateData: {
               name: data.contact.name,
               orderNumber: order.order_number,
-              items,
+              items: customerItems,
+              recommendations,
               subtotal,
               shipping: shipping_cost,
               discount,
               promoCode,
               total,
               address: fullAddress,
+              phone: data.contact.phone,
             },
             idempotencyKey: `order-confirmation-${order.id}`,
           })

@@ -90,10 +90,13 @@ export function addBusinessDays(from: Date, n: number): Date {
   return d;
 }
 
-/** Okvirni rok isporuke, 2 do 5 radnih dana od danas, npr. "pon 1.12. – čet 4.12.". */
-export function deliveryWindow(now: Date = new Date()): string {
+/**
+ * Okvirni rok isporuke, podrazumevano 2 do 5 radnih dana od danas (slanje 1–2 + kurir
+ * 1–3), npr. "pon 1.12. – čet 4.12.". Paket koji je već kod kurira: 1 do 3 radna dana.
+ */
+export function deliveryWindow(now: Date = new Date(), fromDays = 2, toDays = 5): string {
   const fmt = (d: Date) => `${DAY[d.getDay()]} ${d.getDate()}.${d.getMonth() + 1}.`;
-  return `${fmt(addBusinessDays(now, 2))} – ${fmt(addBusinessDays(now, 5))}`;
+  return `${fmt(addBusinessDays(now, fromDays))} – ${fmt(addBusinessDays(now, toDays))}`;
 }
 
 export type UpsellPick = {

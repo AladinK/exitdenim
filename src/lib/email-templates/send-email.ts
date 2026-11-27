@@ -1,6 +1,6 @@
 import * as React from "react";
-import { render } from "@react-email/render";
 import { TEMPLATES } from "./registry";
+import { renderEmail } from "./render";
 
 // Samo za server. E-mail se šalje preko Resend-a (https://resend.com) običnim HTTP
 // pozivom, bez dodatnog paketa, pa radi na svakom hostingu.
@@ -75,7 +75,7 @@ export async function sendTemplateEmail(
 
   const templateData = options.templateData ?? {};
   const element = React.createElement(template.component, templateData);
-  const [html, text] = await Promise.all([render(element), render(element, { plainText: true })]);
+  const { html, text } = await renderEmail(element);
   const subject =
     typeof template.subject === "function" ? template.subject(templateData) : template.subject;
 

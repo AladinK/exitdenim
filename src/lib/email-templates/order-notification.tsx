@@ -1,135 +1,147 @@
-import React from "react";
-import {
-  Body,
-  Container,
-  Head,
-  Heading,
-  Hr,
-  Html,
-  Preview,
-  Section,
-  Text,
-} from "@react-email/components";
+import * as React from "react";
 import type { TemplateEntry } from "./registry";
-import { discountLabel } from "@/lib/discounts";
+import { dateTime, din, mapsUrl, siteUrl, telHref, waPhone, type EmailItem } from "./format";
+import { PREVIEW_ORDER } from "./preview-data";
+import {
+  Button,
+  C,
+  Footer,
+  gutter,
+  Header,
+  Hero,
+  Info,
+  Items,
+  OrderNo,
+  Section,
+  Shell,
+  Totals,
+} from "./ui";
 
 // Obaveštenje vlasniku o novoj porudžbini. Rezerva uz Telegram: ako jedan kanal
-// zakaže, porudžbina i dalje stigne drugim.
+// zakaže, porudžbina i dalje stigne drugim. Odgovor na ovaj e-mail ide kupcu.
 
-interface Item {
-  product_name: string;
-  product_sku?: string;
-  size: string;
-  quantity: number;
-  unit_price: number;
-}
 interface Props {
   orderNumber?: string | number;
   name?: string;
   phone?: string;
   email?: string;
   address?: string;
-  items?: Item[];
+  items?: EmailItem[];
+  subtotal?: number;
+  shipping?: number;
   discount?: number;
   promoCode?: string | null;
   total?: number;
   note?: string | null;
+  /** Kada je porudžbina primljena (ISO); podrazumevano trenutak slanja. */
+  createdAt?: string;
 }
 
-const fmt = (n: number) => `${Number(n).toLocaleString("sr-RS")} din`;
+const linkStyle = { color: C.ink, textDecoration: "underline" } as const;
 
-const OrderNotification = ({
+function OrderNotification({
   orderNumber,
   name,
   phone,
   email,
   address,
   items = [],
+  subtotal,
+  shipping = 0,
   discount = 0,
   promoCode,
   total = 0,
   note,
-}: Props) => (
-  <Html lang="sr" dir="ltr">
-    <Head />
-    <Preview>{`Nova porudžbina #${String(orderNumber ?? "")} — ${fmt(total)}`}</Preview>
-    <Body style={main}>
-      <Container style={container}>
-        <Text style={brand}>EXIT DENIM · NOVA PORUDŽBINA</Text>
-        <Heading style={h1}>
-          #{orderNumber} — {fmt(total)}
-        </Heading>
-        <Section>
-          {items.map((i, idx) => (
-            <Text key={idx} style={row}>
-              {i.product_name}
-              {i.product_sku ? ` (${i.product_sku})` : ""} · vel. {i.size} × {i.quantity} —{" "}
-              {fmt(i.unit_price * i.quantity)}
-            </Text>
-          ))}
-        </Section>
-        {discount > 0 ? (
-          <Text style={row}>
-            {discountLabel(promoCode)}: −{fmt(discount)}
-          </Text>
-        ) : null}
-        <Text style={total_}>Ukupno pouzećem: {fmt(total)}</Text>
-        <Hr style={hr} />
-        <Text style={row}>
-          <b>{name}</b>
-        </Text>
-        <Text style={row}>Telefon: {phone}</Text>
-        <Text style={row}>E-mail: {email || "nije upisan"}</Text>
-        <Text style={row}>Adresa: {address}</Text>
-        {note ? <Text style={row}>Napomena: {note}</Text> : null}
-        <Hr style={hr} />
-        <Text style={muted}>
-          Porudžbina je upisana u administraciju sajta (www.exit.fashion/admin).
-        </Text>
-      </Container>
-    </Body>
-  </Html>
-);
+  createdAt,
+}: Props) {
+  const pieces = items.reduce((s, i) => s + Number(i.quantity || 0), 0);
+  const wa = waPhone(phone);
+  const actions = [
+    phone ? { label: "Pozovi", href: telHref(phone) } : null,
+    wa ? { label: "WhatsApp", href: `https://wa.me/${wa}` } : null,
+    { label: "Admin", href: siteUrl("/admin") },
+  ].filter((a): a is { label: string; href: string } => !!a);
+
+  return (
+    <Shell
+      preview={`${name ?? "Kupac"} · ${pieces} kom · ${din(total)}${note ? " · ima napomenu" : ""}`}
+    >
+      <Header />
+      <Hero
+        eyebrow="Nova porudžbina · plaćanje pouzećem"
+        title={din(total)}
+        big
+        meta={
+          <>
+            <OrderNo value={orderNumber} /> · {pieces} kom · {dateTime(createdAt)}
+          </>
+        }
+      />
+      <Section pad="24px 32px 0">
+        <table role="presentation" cellPadding={0} cellSpacing={0} border={0} width="100%">
+          <tbody>
+            <tr>
+              {actions.map((a, i) => (
+                <td
+                  key={a.label}
+                  width={`${Math.floor(100 / actions.length)}%`}
+                  valign="top"
+                  style={gutter(i, actions.length, 8)}
+                >
+                  <Button href={a.href} variant="outline">
+                    {a.label}
+                  </Button>
+                </td>
+              ))}
+            </tr>
+          </tbody>
+        </table>
+      </Section>
+      <Info
+        title="Kupac"
+        lines={[
+          name ? <strong key="n">{name}</strong> : null,
+          phone ? (
+            <a key="p" href={telHref(phone)} className="x-ink" style={linkStyle}>
+              {phone}
+            </a>
+          ) : null,
+          email ? (
+            <a key="e" href={`mailto:${email}`} className="x-ink" style={linkStyle}>
+              {email}
+            </a>
+          ) : (
+            <span key="e" className="x-mute" style={{ color: C.mute }}>
+              bez e-maila
+            </span>
+          ),
+          address ? (
+            <a key="a" href={mapsUrl(address)} className="x-ink" style={linkStyle}>
+              {address}
+            </a>
+          ) : null,
+        ]}
+      />
+      {note ? <Info title="Napomena kupca" lines={[note]} /> : null}
+      <Items items={items} title="Artikli" showSku />
+      <Totals
+        subtotal={subtotal ?? items.reduce((s, i) => s + i.unit_price * i.quantity, 0)}
+        discount={discount}
+        promoCode={promoCode}
+        shipping={shipping}
+        total={total}
+        totalLabel="Za naplatu pouzećem"
+        note="Porudžbina je upisana u administraciju sajta, kartica Kupci (retail)."
+      />
+      <Footer audience="owner" />
+    </Shell>
+  );
+}
 
 export const template = {
   component: OrderNotification,
   subject: (d: Record<string, any>) =>
-    `Nova porudžbina #${d.orderNumber ?? ""} — ${fmt(Number(d.total ?? 0))}`,
+    `Nova porudžbina #${d.orderNumber ?? ""} — ${din(Number(d.total ?? 0))}`,
   displayName: "Obaveštenje vlasniku o porudžbini",
-  previewData: {
-    orderNumber: "EXR-261125-0042",
-    name: "Marko Marković",
-    phone: "+381 64 000 0000",
-    email: "marko@example.com",
-    address: "Knez Mihailova 1, 11000 Beograd",
-    items: [
-      {
-        product_name: "E-5012 Slim",
-        product_sku: "E-5012",
-        size: "32",
-        quantity: 1,
-        unit_price: 6990,
-      },
-    ],
-    total: 6990,
-  },
+  previewData: { ...PREVIEW_ORDER, note: "Molim vas pozovite pre dostave, radim do 16h." },
 } satisfies TemplateEntry;
-
-const main = {
-  backgroundColor: "#ffffff",
-  fontFamily: "Arial, Helvetica, sans-serif",
-  color: "#0F1B33",
-};
-const container = { padding: "32px 24px", maxWidth: "560px" };
-const brand = {
-  fontSize: "12px",
-  letterSpacing: "0.2em",
-  fontWeight: 700,
-  color: "#1A2A48",
-  margin: "0 0 20px",
-};
-const h1 = { fontSize: "24px", margin: "0 0 16px", color: "#0F1B33" };
-const row = { fontSize: "14px", margin: "4px 0", color: "#333" };
-const total_ = { fontSize: "17px", fontWeight: 700, margin: "10px 0", color: "#0F1B33" };
-const muted = { fontSize: "13px", color: "#777" };
-const hr = { borderColor: "#E2DED5", margin: "18px 0" };

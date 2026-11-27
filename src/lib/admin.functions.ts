@@ -252,13 +252,43 @@ export const updateCustomerOrderStatus = createServerFn({ method: "POST" })
       try {
         const { data: o } = await context.supabase
           .from("customer_orders")
-          .select("order_number, customer_email, customer_name")
+          .select(
+            "order_number, customer_email, customer_name, customer_phone, shipping_address, shipping_city, shipping_postal, subtotal, discount, promo_code, shipping_cost, total, created_at, customer_order_items(product_id, product_name, product_sku, size, quantity, unit_price)",
+          )
           .eq("id", data.orderId)
           .single();
         if (o?.customer_email) {
-          const { sendTemplateEmail } = await import("@/lib/email-templates/send-email");
+          const [{ sendTemplateEmail }, { orderEmailExtras }] = await Promise.all([
+            import("@/lib/email-templates/send-email"),
+            import("@/lib/email-templates/catalog.server"),
+          ]);
+          // Artikli sa slikama, iznosi i preporuke, kao u potvrdi porudžbine.
+          const { items, recommendations } = await orderEmailExtras(
+            context.supabase,
+            o.customer_order_items ?? [],
+            `status-${data.status}`,
+          );
           await sendTemplateEmail("order-status", o.customer_email, {
-            templateData: { name: o.customer_name, orderNumber: o.order_number, status: data.status },
+            templateData: {
+              name: o.customer_name,
+              orderNumber: o.order_number,
+              status: data.status,
+              items,
+              recommendations,
+              subtotal: Number(o.subtotal),
+              discount: Number(o.discount),
+              promoCode: o.promo_code,
+              shipping: Number(o.shipping_cost),
+              total: Number(o.total),
+              address: [
+                o.shipping_address,
+                [o.shipping_postal, o.shipping_city].filter(Boolean).join(" "),
+              ]
+                .filter(Boolean)
+                .join(", "),
+              phone: o.customer_phone,
+              orderedAt: o.created_at,
+            },
             idempotencyKey: `order-status-${data.orderId}-${data.status}`,
           });
         }
